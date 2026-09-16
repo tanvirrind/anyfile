@@ -1,0 +1,180 @@
+[
+  {
+    "slug": "jpg",
+    "extension": "JPG",
+    "title": ".JPG File Extension - How to Open, Convert & Repair JPG Files",
+    "description": "Complete reference for .JPG (JPEG) image files. Discover how to open JPGs on Windows, macOS, Android, and iOS, convert JPG to PDF/PNG/WEBP, and repair corrupted headers.",
+    "category": "Images",
+    "mime": "image/jpeg",
+    "developer": "Joint Photographic Experts Group",
+    "software": ["Adobe Photoshop", "GIMP", "Windows Photos", "Apple Photos", "IrfanView"],
+    "related_extensions": ["JPEG", "PNG", "WEBP", "AVIF", "HEIC", "RAW"],
+    "related_guides": ["how-to-open-unknown-files", "heic-vs-jpg-guide"],
+    "related_converters": ["heic-to-jpg", "jpg-to-png", "jpg-to-pdf", "webp-to-jpg"],
+    "security": {
+      "dangerRating": "Low Risk",
+      "canContainMalware": false,
+      "tips": [
+        "Verify extension isn't double-extended like photo.jpg.exe",
+        "Inspect magic byte header (FF D8 FF E0) if image refuses to load",
+        "Scan files downloaded from unverified websites"
+      ]
+    },
+    "keywords": ["jpg file", "open jpg", "convert jpg", "jpeg image", "jpg viewer", "repair jpg"]
+  },
+  {
+    "slug": "png",
+    "extension": "PNG",
+    "title": ".PNG File Extension - Portable Network Graphics Specs & Software",
+    "description": "Learn about .PNG image files featuring alpha transparency. Discover compatible PNG viewers, online PNG to JPG/WEBP converters, and file header validation.",
+    "category": "Images",
+    "mime": "image/png",
+    "developer": "PNG Development Group",
+    "software": ["Adobe Photoshop", "GIMP", "Figma", "Paint.NET", "Windows Photos"],
+    "related_extensions": ["JPG", "WEBP", "SVG", "GIF", "AVIF"],
+    "related_guides": ["how-to-open-unknown-files"],
+    "related_converters": ["png-to-jpg", "png-to-webp", "png-to-svg"],
+    "security": {
+      "dangerRating": "Low Risk",
+      "canContainMalware": false,
+      "tips": [
+        "Ensure PNG header magic bytes (89 50 4E 47 0D 0A 1A 0A) are intact",
+        "Check transparency alpha channel encoding if background renders black"
+      ]
+    },
+    "keywords": ["png file", "png viewer", "png to jpg", "transparent image", "png format"]
+  },
+  {
+    "slug": "pdf",
+    "extension": "PDF",
+    "title": ".PDF File Extension - Universal Document Format Guide",
+    "description": "Complete specification for Portable Document Format (.PDF). Learn how to open, merge, compress, convert, and repair PDF documents across all operating systems.",
+    "category": "Documents",
+    "mime": "application/pdf",
+    "developer": "Adobe Systems",
+    "software": ["Adobe Acrobat Reader", "Foxit PDF Reader", "Google Chrome", "Preview"],
+    "related_extensions": ["DOCX", "XLSX", "PPTX", "EPUB", "TXT"],
+    "related_guides": ["how-to-open-unknown-files", "pdf-vs-docx-guide"],
+    "related_converters": ["pdf-to-word", "word-to-pdf", "pdf-to-jpg"],
+    "security": {
+      "dangerRating": "Medium Risk",
+      "canContainMalware": true,
+      "tips": [
+        "Disable automatic JavaScript execution in PDF reader settings",
+        "Do not click untrusted external URLs embedded inside PDF files",
+        "Verify PDF digital signatures before accepting official contracts"
+      ]
+    },
+    "keywords": ["pdf file", "open pdf", "pdf reader", "convert pdf to word", "adobe pdf"]
+  },
+  {
+    "slug": "heic",
+    "extension": "HEIC",
+    "title": ".HEIC File Extension - High Efficiency Image Format Reference",
+    "description": "Master Apple's High Efficiency Image Container (.HEIC). Discover how to open HEIC files on Windows PC, convert HEIC to JPG online, and adjust camera settings.",
+    "category": "Images",
+    "mime": "image/heic",
+    "developer": "Moving Picture Experts Group (MPEG)",
+    "software": ["Apple Photos", "CopyTrans HEIC for Windows", "GIMP", "Adobe Lightroom"],
+    "related_extensions": ["JPG", "PNG", "AVIF", "HEIF"],
+    "related_guides": ["heic-vs-jpg-guide"],
+    "related_converters": ["heic-to-jpg", "heic-to-png"],
+    "security": {
+      "dangerRating": "Low Risk",
+      "canContainMalware": false,
+      "tips": [
+        "Install Windows HEVC Video Extensions codec if image preview is black",
+        "Convert HEIC to JPG for sharing with legacy non-Apple devices"
+      ]
+    },
+    "keywords": ["heic file", "open heic on windows", "heic to jpg", "iphone photo format"]
+  },
+  {
+    "slug": "docx",
+    "extension": "DOCX",
+    "title": ".DOCX File Extension - Microsoft Word Document Specification",
+    "description": "Complete guide to .DOCX XML documents. Discover how to open DOCX files without Microsoft Office, convert DOCX to PDF, and repair damaged Word files.",
+    "category": "Documents",
+    "mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "developer": "Microsoft Corporation",
+    "software": ["Microsoft Word", "LibreOffice Writer", "Google Docs", "WPS Office"],
+    "related_extensions": ["DOC", "PDF", "ODT", "RTF", "TXT"],
+    "related_guides": ["how-to-open-unknown-files"],
+    "related_converters": ["word-to-pdf", "docx-to-txt"],
+    "security": {
+      "dangerRating": "Medium Risk",
+      "canContainMalware": true,
+      "tips": [
+        "Beware of macro-enabled documents (DOCM) disguised as DOCX",
+        "Always open untrusted word documents in Protected View mode"
+      ]
+    },
+    "keywords": ["docx file", "open docx", "microsoft word format", "docx to pdf", "word document"]
+  },
+  {
+    "slug": "zip",
+    "extension": "ZIP",
+    "title": ".ZIP File Extension - Compressed Archive Format Reference",
+    "description": "Learn how to extract, compress, and password-protect .ZIP archives. Explore top unzippers including 7-Zip, WinRAR, and native OS utilities.",
+    "category": "Archives",
+    "mime": "application/zip",
+    "developer": "PKWARE (Phil Katz)",
+    "software": ["7-Zip", "WinRAR", "Windows Explorer", "macOS Archive Utility"],
+    "related_extensions": ["RAR", "7Z", "TAR", "GZ", "ISO"],
+    "related_guides": ["how-to-open-unknown-files"],
+    "related_converters": ["zip-to-rar", "7z-to-zip"],
+    "security": {
+      "dangerRating": "Medium Risk",
+      "canContainMalware": true,
+      "tips": [
+        "Scan archive contents with an antivirus before extracting executable files",
+        "Watch out for zip-bomb compression exploits in untrusted files"
+      ]
+    },
+    "keywords": ["zip file", "unzip file", "extract zip", "zip archiver", "7zip"]
+  },
+  {
+    "slug": "mp4",
+    "extension": "MP4",
+    "title": ".MP4 File Extension - MPEG-4 Video Container Specifications",
+    "description": "Comprehensive reference for .MP4 video files. Learn about H.264/HEVC codecs, compatible media players like VLC, and video conversion tools.",
+    "category": "Audio & Video",
+    "mime": "video/mp4",
+    "developer": "Moving Picture Experts Group (MPEG)",
+    "software": ["VLC Media Player", "QuickTime Player", "Windows Media Player", "HandBrake"],
+    "related_extensions": ["MKV", "MOV", "AVI", "WEBM", "MP3"],
+    "related_guides": ["how-to-open-unknown-files"],
+    "related_converters": ["mov-to-mp4", "mp4-to-mp3", "mkv-to-mp4"],
+    "security": {
+      "dangerRating": "Low Risk",
+      "canContainMalware": false,
+      "tips": [
+        "Ensure media player codecs are updated to prevent buffer overflow vulnerabilities",
+        "Check that .mp4 file doesn't conceal double extensions like video.mp4.exe"
+      ]
+    },
+    "keywords": ["mp4 file", "open mp4", "vlc mp4 player", "convert mp4", "mpeg4 video"]
+  },
+  {
+    "slug": "svg",
+    "extension": "SVG",
+    "title": ".SVG File Extension - Scalable Vector Graphics Format",
+    "description": "Complete guide to XML-based .SVG vector graphics. Learn how to open, edit, optimize, and safely render SVG vector graphics for web development.",
+    "category": "Images",
+    "mime": "image/svg+xml",
+    "developer": "World Wide Web Consortium (W3C)",
+    "software": ["Inkscape", "Adobe Illustrator", "Figma", "Google Chrome", "VS Code"],
+    "related_extensions": ["PNG", "EPS", "AI", "PDF", "DXF"],
+    "related_guides": ["how-to-open-unknown-files"],
+    "related_converters": ["svg-to-png", "svg-to-pdf"],
+    "security": {
+      "dangerRating": "Medium Risk",
+      "canContainMalware": true,
+      "tips": [
+        "Sanitize SVG files to remove embedded <script> tags before rendering in web applications",
+        "Use SVGO optimization tools to strip unnecessary script payloads"
+      ]
+    },
+    "keywords": ["svg file", "vector graphics", "open svg", "svg to png", "xml svg"]
+  }
+]
