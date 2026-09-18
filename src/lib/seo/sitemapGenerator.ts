@@ -12,7 +12,7 @@ import { TOOLS_REGISTRY } from '../tools/toolsRegistry';
 import { getPrioritizedFormatList } from '../guides/formatGuideEngine';
 import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine';
 
-const BASE_URL = 'https://anyfilex.com';
+const BASE_URL = 'https://www.anyfilex.com';
 
 export interface SitemapItem {
   url: string;
@@ -85,13 +85,14 @@ export function generateSitemapIndexXml(sitemaps: { loc: string; lastmod: string
 }
 
 export function getSegmentedSitemapXml(segment: string): string {
-  const today = new Date().toISOString().split('T')[0];
+  // Stable, deterministic platform content release date to prevent Googlebot spam penalties
+  const PLATFORM_RELEASE_DATE = '2026-09-18';
   const allExts = getAllFileTypeInfos();
 
   if (segment === 'index') {
     const sitemaps = SITEMAP_SEGMENTS.filter((s) => s.id !== 'index').map((s) => ({
       loc: `${BASE_URL}/${s.filename}`,
-      lastmod: today,
+      lastmod: PLATFORM_RELEASE_DATE,
     }));
     return generateSitemapIndexXml(sitemaps);
   }
@@ -102,26 +103,16 @@ export function getSegmentedSitemapXml(segment: string): string {
     case 'main':
     case 'core':
       items = [
-        { url: BASE_URL, lastmod: today, changefreq: 'daily', priority: 1.0 },
-        { url: `${BASE_URL}/file-extensions`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/how-to-open`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/compare`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/converters`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/troubleshoot`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/security`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/tools`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/software`, lastmod: today, changefreq: 'weekly', priority: 0.8 },
-        { url: `${BASE_URL}/guides`, lastmod: today, changefreq: 'weekly', priority: 0.8 },
-        { url: `${BASE_URL}/blog`, lastmod: today, changefreq: 'weekly', priority: 0.8 },
-        { url: `${BASE_URL}/mime-types`, lastmod: today, changefreq: 'weekly', priority: 0.8 },
-        { url: `${BASE_URL}/workflows`, lastmod: today, changefreq: 'weekly', priority: 0.8 },
-        { url: `${BASE_URL}/assistant`, lastmod: today, changefreq: 'monthly', priority: 0.7 },
-        { url: `${BASE_URL}/sitemaps`, lastmod: today, changefreq: 'weekly', priority: 0.7 },
-        { url: `${BASE_URL}/about`, lastmod: today, changefreq: 'monthly', priority: 0.5 },
-        { url: `${BASE_URL}/contact`, lastmod: today, changefreq: 'monthly', priority: 0.5 },
+        { url: `${BASE_URL}/`, lastmod: PLATFORM_RELEASE_DATE, changefreq: 'daily', priority: 1.0 },
+        { url: `${BASE_URL}/file-extensions`, lastmod: PLATFORM_RELEASE_DATE, changefreq: 'daily', priority: 0.9 },
+        { url: `${BASE_URL}/workflows`, lastmod: PLATFORM_RELEASE_DATE, changefreq: 'weekly', priority: 0.8 },
+        { url: `${BASE_URL}/assistant`, lastmod: PLATFORM_RELEASE_DATE, changefreq: 'monthly', priority: 0.7 },
+        { url: `${BASE_URL}/sitemaps`, lastmod: PLATFORM_RELEASE_DATE, changefreq: 'weekly', priority: 0.7 },
+        { url: `${BASE_URL}/about`, lastmod: PLATFORM_RELEASE_DATE, changefreq: 'monthly', priority: 0.5 },
+        { url: `${BASE_URL}/contact`, lastmod: PLATFORM_RELEASE_DATE, changefreq: 'monthly', priority: 0.5 },
         ...CATEGORIES_LIST.map((cat) => ({
           url: `${BASE_URL}/category/${cat.id}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly' as const,
           priority: 0.85,
         })),
@@ -132,13 +123,13 @@ export function getSegmentedSitemapXml(segment: string): string {
       items = [
         {
           url: `${BASE_URL}/how-to-open`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'daily',
           priority: 0.9,
         },
         ...allExts.map((e) => ({
           url: `${BASE_URL}/how-to-open/${e.extension.toLowerCase()}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly' as const,
           priority: 0.9,
         })),
@@ -150,13 +141,13 @@ export function getSegmentedSitemapXml(segment: string): string {
       items = [
         {
           url: `${BASE_URL}/compare`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'daily',
           priority: 0.9,
         },
         ...CURATED_COMPARISONS.map((comp) => ({
           url: `${BASE_URL}/compare/${comp.slug.toLowerCase()}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly' as const,
           priority: 0.85,
         })),
@@ -168,7 +159,7 @@ export function getSegmentedSitemapXml(segment: string): string {
         .filter((e) => e.category === 'Images')
         .map((e) => ({
           url: `${BASE_URL}/file-extensions/${e.extension.toLowerCase()}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly',
           priority: 0.9,
         }));
@@ -179,7 +170,7 @@ export function getSegmentedSitemapXml(segment: string): string {
         .filter((e) => e.category === 'Documents')
         .map((e) => ({
           url: `${BASE_URL}/file-extensions/${e.extension.toLowerCase()}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly',
           priority: 0.9,
         }));
@@ -190,7 +181,7 @@ export function getSegmentedSitemapXml(segment: string): string {
         .filter((e) => e.category === 'Archives' || e.category === 'System & Executables')
         .map((e) => ({
           url: `${BASE_URL}/file-extensions/${e.extension.toLowerCase()}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly',
           priority: 0.8,
         }));
@@ -201,7 +192,7 @@ export function getSegmentedSitemapXml(segment: string): string {
         .filter((e) => e.category === 'CAD & 3D')
         .map((e) => ({
           url: `${BASE_URL}/file-extensions/${e.extension.toLowerCase()}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly',
           priority: 0.9,
         }));
@@ -210,10 +201,10 @@ export function getSegmentedSitemapXml(segment: string): string {
     case 'programming':
     case 'code':
       items = allExts
-        .filter((e) => e.category === 'Code & Data' || e.category === 'System & Executables')
+        .filter((e) => e.category === 'Code & Data')
         .map((e) => ({
           url: `${BASE_URL}/file-extensions/${e.extension.toLowerCase()}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly',
           priority: 0.8,
         }));
@@ -225,7 +216,7 @@ export function getSegmentedSitemapXml(segment: string): string {
         .filter((e) => e.category === 'Medical & Science')
         .map((e) => ({
           url: `${BASE_URL}/file-extensions/${e.extension.toLowerCase()}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly',
           priority: 0.9,
         }));
@@ -234,10 +225,10 @@ export function getSegmentedSitemapXml(segment: string): string {
     case 'video': {
       const videoExts = new Set(['mp4', 'mkv', 'avi', 'mov', 'webm', 'flv', 'wmv', 'm4v', 'ts', '3gp', 'ogv', 'vob', 'mts', 'm2ts']);
       items = allExts
-        .filter((e) => e.category === 'Audio & Video' && (videoExts.has(e.extension.toLowerCase()) || !['mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a', 'midi', 'aiff', 'wma', 'alac', 'opus'].includes(e.extension.toLowerCase())))
+        .filter((e) => e.category === 'Audio & Video' && videoExts.has(e.extension.toLowerCase()))
         .map((e) => ({
           url: `${BASE_URL}/file-extensions/${e.extension.toLowerCase()}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly',
           priority: 0.85,
         }));
@@ -250,7 +241,7 @@ export function getSegmentedSitemapXml(segment: string): string {
         .filter((e) => e.category === 'Audio & Video' && audioExts.has(e.extension.toLowerCase()))
         .map((e) => ({
           url: `${BASE_URL}/file-extensions/${e.extension.toLowerCase()}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly',
           priority: 0.85,
         }));
@@ -264,19 +255,19 @@ export function getSegmentedSitemapXml(segment: string): string {
       items = [
         {
           url: `${BASE_URL}/converters`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'daily',
           priority: 0.95,
         },
         ...supportedSlugs.map((slug) => ({
           url: `${BASE_URL}/converters/${slug}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly' as const,
           priority: 0.9,
         })),
         ...CONVERTERS_LIST.filter((c) => !slugSet.has(c.id)).map((c) => ({
           url: `${BASE_URL}/converters/${c.id}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly' as const,
           priority: 0.85,
         })),
@@ -288,13 +279,13 @@ export function getSegmentedSitemapXml(segment: string): string {
       items = [
         {
           url: `${BASE_URL}/software`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'daily',
           priority: 0.8,
         },
         ...SOFTWARE_LIST.map((s) => ({
           url: `${BASE_URL}/software/${s.id}`,
-          lastmod: today,
+          lastmod: (s as any).lastUpdated || PLATFORM_RELEASE_DATE,
           changefreq: 'weekly' as const,
           priority: 0.75,
         })),
@@ -310,7 +301,7 @@ export function getSegmentedSitemapXml(segment: string): string {
         seenIds.add(tg.id);
         guideItems.push({
           url: `${BASE_URL}/troubleshoot/${tg.id}`,
-          lastmod: today,
+          lastmod: (tg as any).updatedDate || PLATFORM_RELEASE_DATE,
           changefreq: 'weekly',
           priority: 0.9,
         });
@@ -321,7 +312,7 @@ export function getSegmentedSitemapXml(segment: string): string {
           seenIds.add(rg.id);
           guideItems.push({
             url: `${BASE_URL}/troubleshoot/${rg.id}`,
-            lastmod: today,
+            lastmod: (rg as any).updatedDate || PLATFORM_RELEASE_DATE,
             changefreq: 'weekly',
             priority: 0.85,
           });
@@ -331,7 +322,7 @@ export function getSegmentedSitemapXml(segment: string): string {
       items = [
         {
           url: `${BASE_URL}/troubleshoot`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'daily',
           priority: 0.95,
         },
@@ -345,13 +336,13 @@ export function getSegmentedSitemapXml(segment: string): string {
       items = [
         {
           url: `${BASE_URL}/security`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'daily',
           priority: 0.95,
         },
         ...TECHNICAL_AUTHORITY_GUIDES.map((guide) => ({
           url: `${BASE_URL}/security/${guide.slug}`,
-          lastmod: today,
+          lastmod: guide.lastUpdated || PLATFORM_RELEASE_DATE,
           changefreq: 'weekly' as const,
           priority: 0.9,
         })),
@@ -359,29 +350,20 @@ export function getSegmentedSitemapXml(segment: string): string {
       break;
 
     case 'tools': {
-      const toolSlugs = Object.keys(TOOLS_REGISTRY);
+      const toolSlugs = Object.keys(TOOLS_REGISTRY).filter((slug) => slug !== 'file-analyzer');
       items = [
         {
           url: `${BASE_URL}/tools`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'daily',
           priority: 0.95,
         },
         ...toolSlugs.map((slug) => ({
           url: `${BASE_URL}/tools/${slug}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly' as const,
           priority: 0.9,
         })),
-        { url: `${BASE_URL}/tools/file-identifier`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/tools/metadata-viewer`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/tools/remove-metadata`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/tools/checksum-verifier`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/tools/hash-generator`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/tools/magic-byte-detector`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/tools/mime-checker`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/tools/zip-creator`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/tools/zip-extractor`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
       ];
       // Deduplicate by URL
       const uniqueUrlMap = new Map<string, SitemapItem>();
@@ -393,22 +375,16 @@ export function getSegmentedSitemapXml(segment: string): string {
     case 'mime-types':
     case 'mime': {
       const seenMimes = new Set<string>();
-      const mimeItems: SitemapItem[] = [
-        {
-          url: `${BASE_URL}/mime-types`,
-          lastmod: today,
-          changefreq: 'daily',
-          priority: 0.9,
-        }
-      ];
+      const mimeItems: SitemapItem[] = [];
 
       EXPANDED_MIME_DATABASE.forEach((record) => {
         const slug = record.mimeType.replace('/', '-').toLowerCase();
+        const encodedSlug = encodeURIComponent(slug);
         if (!seenMimes.has(slug)) {
           seenMimes.add(slug);
           mimeItems.push({
-            url: `${BASE_URL}/mime-type/${slug}`,
-            lastmod: today,
+            url: `${BASE_URL}/mime-type/${encodedSlug}`,
+            lastmod: PLATFORM_RELEASE_DATE,
             changefreq: 'weekly',
             priority: 0.85,
           });
@@ -424,31 +400,25 @@ export function getSegmentedSitemapXml(segment: string): string {
       items = [
         {
           url: `${BASE_URL}/guides`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'daily',
           priority: 0.9,
         },
         {
           url: `${BASE_URL}/blog`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'daily',
           priority: 0.9,
         },
-        ...getPrioritizedFormatList().map((fmt) => ({
-          url: `${BASE_URL}/file-extensions/${fmt}`,
-          lastmod: today,
-          changefreq: 'weekly' as const,
-          priority: 0.9,
-        })),
         ...GUIDES_LIST.map((g) => ({
           url: `${BASE_URL}/guides/${g.id}`,
-          lastmod: today,
+          lastmod: (g as any).updatedDate || (g as any).publishedDate || PLATFORM_RELEASE_DATE,
           changefreq: 'monthly' as const,
           priority: 0.75,
         })),
         ...BLOG_POSTS.map((b) => ({
           url: `${BASE_URL}/blog/${b.id}`,
-          lastmod: today,
+          lastmod: (b as any).lastModified || (b as any).updatedDate || b.date || PLATFORM_RELEASE_DATE,
           changefreq: 'monthly' as const,
           priority: 0.75,
         })),
@@ -457,21 +427,11 @@ export function getSegmentedSitemapXml(segment: string): string {
 
     default:
       items = [
-        { url: BASE_URL, lastmod: today, changefreq: 'daily', priority: 1.0 },
-        { url: `${BASE_URL}/file-extensions`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/how-to-open`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/compare`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/converters`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/troubleshoot`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/security`, lastmod: today, changefreq: 'weekly', priority: 0.9 },
-        { url: `${BASE_URL}/tools`, lastmod: today, changefreq: 'daily', priority: 0.9 },
-        { url: `${BASE_URL}/software`, lastmod: today, changefreq: 'daily', priority: 0.8 },
-        { url: `${BASE_URL}/guides`, lastmod: today, changefreq: 'weekly', priority: 0.8 },
-        { url: `${BASE_URL}/blog`, lastmod: today, changefreq: 'weekly', priority: 0.8 },
-        { url: `${BASE_URL}/mime-types`, lastmod: today, changefreq: 'weekly', priority: 0.8 },
+        { url: `${BASE_URL}/`, lastmod: PLATFORM_RELEASE_DATE, changefreq: 'daily', priority: 1.0 },
+        { url: `${BASE_URL}/file-extensions`, lastmod: PLATFORM_RELEASE_DATE, changefreq: 'daily', priority: 0.9 },
         ...CATEGORIES_LIST.map((cat) => ({
           url: `${BASE_URL}/category/${cat.id}`,
-          lastmod: today,
+          lastmod: PLATFORM_RELEASE_DATE,
           changefreq: 'weekly' as const,
           priority: 0.8,
         })),

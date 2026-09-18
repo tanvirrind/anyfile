@@ -700,7 +700,7 @@ export function getOrGenerateFormatGuide(formatInput: string): FormatGuideData {
     seoMeta: {
       title: `What Is a ${upper} File? ${info.name}, Specs & How to Open | AnyFileX`,
       description: `Complete guide to .${upper} files (${info.name}). Learn MIME type ${info.mimeType}, magic bytes, compatibility on Windows/Mac, free converters, and software.`,
-      canonical: `https://anyfilex.com/format/${clean}`,
+      canonical: `https://www.anyfilex.com/file-extensions/${clean}`,
       h1: `What Is a ${upper} File? Architecture, Specifications & How to Open`,
       keywords: [`what is a ${clean} file`, `${clean} file format`, `how to open ${clean}`, `${clean} specs`, `${clean} converter`]
     }

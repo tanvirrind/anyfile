@@ -1,11 +1,12 @@
 import { ConversionHistoryItem } from './types';
 
-const HISTORY_STORAGE_KEY = 'openanyfile_conversion_history';
+const HISTORY_STORAGE_KEY = 'anyfilex_conversion_history';
+const LEGACY_STORAGE_KEY = 'openanyfile_conversion_history';
 const MAX_HISTORY_ITEMS = 15;
 
 export function getConversionHistory(): ConversionHistoryItem[] {
   try {
-    const raw = localStorage.getItem(HISTORY_STORAGE_KEY);
+    const raw = localStorage.getItem(HISTORY_STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
     if (!raw) return [];
     return JSON.parse(raw) as ConversionHistoryItem[];
   } catch {

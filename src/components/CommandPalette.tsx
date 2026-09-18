@@ -210,7 +210,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
                   </div>
                   <div>
                     <div className="text-sm font-bold text-blue-950 dark:text-blue-100 group-hover:text-blue-600 flex items-center gap-2">
-                      <span>Ask OpenAnyFile AI Assistant</span>
+                      <span>Ask AnyFileX AI Assistant</span>
                       <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-blue-200 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-md">
                         AI Powered
                       </span>
@@ -365,7 +365,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
 
         {/* Footer info */}
         <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-400">
-          <span>Search 50,000+ extensions, software, tools, converters & AI Assistant</span>
+          <span>Search 10,000+ extensions, software, tools, converters & AI Assistant</span>
           <div className="flex items-center gap-3">
             <span>
               Press <kbd className="px-1.5 py-0.5 font-mono bg-white dark:bg-slate-800 border rounded">↵</kbd> to select

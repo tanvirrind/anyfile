@@ -37,7 +37,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onNaviga
     },
     {
       question: `How do I open ${category.name} files?`,
-      answer: `To open ${category.name} files, use compatible applications like ${category.topSoftware.join(', ')} or OpenAnyFile's free file identifier tool.`,
+      answer: `To open ${category.name} files, use compatible applications like ${category.topSoftware.join(', ')} or AnyFileX's free file identifier tool.`,
     },
   ];
 
@@ -46,8 +46,8 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onNaviga
     '@graph': [
       {
         '@type': 'CollectionPage',
-        '@id': `https://anyfilex.com${canonicalPath}#collection`,
-        url: `https://anyfilex.com${canonicalPath}`,
+        '@id': `https://www.anyfilex.com${canonicalPath}#collection`,
+        url: `https://www.anyfilex.com${canonicalPath}`,
         name: `${category.name} File Extensions & Software Specifications`,
         description: category.description,
       },

@@ -40,6 +40,10 @@ export interface ContentAuthor {
   role: string;
   avatar: string;
   bio?: string;
+  credentials?: string;
+  qualifications?: string[];
+  education?: string;
+  id?: string;
 }
 
 export interface InternalLinkItem {
@@ -75,12 +79,25 @@ export interface ContentEntity {
   faq: Array<{ question: string; answer: string }>;
   schemaType: SchemaType;
   
-  // Editorial Lifecycle
+  // Editorial Lifecycle & Verification Gate
   status: ContentStatus;
   publishedDate?: string;
   updatedDate: string;
+  lastAuditedDate?: string;
   createdAt: string;
   knowledgeGraphVersion: string;
+  reviewedBy?: {
+    name: string;
+    role: string;
+    credentials?: string;
+  };
+  verifiedPlatforms?: string[];
+  citations?: Array<{
+    title: string;
+    source: string;
+    url?: string;
+    standardId?: string;
+  }>;
 
   // SEO & OpenGraph
   seoMeta: {

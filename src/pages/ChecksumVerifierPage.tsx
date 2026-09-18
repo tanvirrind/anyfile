@@ -167,7 +167,7 @@ export const ChecksumVerifierPage: React.FC<ChecksumVerifierPageProps> = ({ onNa
   const schemaJson = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'OpenAnyFile Download Checksum Verifier',
+    name: 'AnyFileX Download Checksum Verifier',
     applicationCategory: 'SecurityApplication',
     operatingSystem: 'All',
     description: 'Verify downloaded file integrity by comparing MD5, SHA1, SHA256, and SHA512 checksums against publisher signatures.'

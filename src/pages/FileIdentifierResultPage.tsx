@@ -163,7 +163,7 @@ export const FileIdentifierResultPage: React.FC<FileIdentifierResultPageProps> =
 
   const faqs = [
     {
-      question: `How did OpenAnyFile identify ${report.filename}?`,
+      question: `How did AnyFileX identify ${report.filename}?`,
       answer: `Our identification engine inspected the raw binary magic header bytes at byte offset 0x00000000 and matched the hex signature against the global file_signatures database.`
     },
     {

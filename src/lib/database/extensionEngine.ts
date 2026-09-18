@@ -222,7 +222,7 @@ export function generateDynamicExtensionSchema(extRaw: string): ExtensionSchema 
     category,
     mime: `application/x-${rawLower}`,
     developer: `${category} Standard Committee`,
-    software: ['Universal File Inspector', `Native ${category} Viewer`, 'OpenAnyFile Browser Viewer'],
+    software: ['Universal File Inspector', `Native ${category} Viewer`, 'AnyFileX Browser Viewer'],
     related_extensions: [
       category === 'Images' ? 'JPG' : category === 'Documents' ? 'PDF' : 'ZIP',
       'PNG', 'DOCX', 'MP4'

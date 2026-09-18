@@ -97,7 +97,7 @@ export const MetadataViewerResultPage: React.FC<MetadataViewerResultPageProps> =
         recommendations: [
           'Scrub EXIF GPS coordinates before publishing photos online.',
           'Remove device serial numbers to prevent hardware tracking.',
-          'Use OpenAnyFile Remove Metadata tool to strip EXIF data.'
+          'Use AnyFileX Remove Metadata tool to strip EXIF data.'
         ],
         rawKeyValuePairs: [
           { key: 'Camera Make', value: 'Apple', category: 'Camera' },

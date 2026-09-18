@@ -232,7 +232,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
 
         {/* Modal Footer */}
         <div className="p-3 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-400">
-          <span>Search OpenAnyFile global database</span>
+          <span>Search AnyFileX global database</span>
           <div className="flex items-center gap-3">
             <span>Press <kbd className="font-mono bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700">↵</kbd> to select</span>
             <kbd className="font-mono bg-white dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700">ESC to close</kbd>

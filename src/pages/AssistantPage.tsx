@@ -250,7 +250,7 @@ How can I assist you with digital file formats today?`,
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-                  OpenAnyFile AI Assistant
+                  AnyFileX AI Assistant
                 </h1>
                 <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded-full border border-blue-200 dark:border-blue-800">
                   Gemini 3.6 Flash
@@ -503,7 +503,7 @@ How can I assist you with digital file formats today?`,
           <div className="p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xs space-y-3">
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
               <Wrench className="w-3.5 h-3.5 text-indigo-600" />
-              <span>Related OpenAnyFile Tools</span>
+              <span>Related AnyFileX Tools</span>
             </h2>
             <div className="space-y-2 text-xs">
               <button

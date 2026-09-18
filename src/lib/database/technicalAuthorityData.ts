@@ -1,3 +1,4 @@
+import { AUTHOR_AVATARS } from '../content/editorialTeam';
 export interface TechnicalAuthorityGuide {
   id: string;
   slug: string;
@@ -8,10 +9,19 @@ export interface TechnicalAuthorityGuide {
   readTime: string;
   lastUpdated: string;
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
+  lastAuditedDate?: string;
+  reviewedBy?: {
+    name: string;
+    role: string;
+    credentials?: string;
+  };
   author: {
+    id?: string;
     name: string;
     role: string;
     avatar: string;
+    credentials?: string;
+    bio?: string;
   };
   standardsAndRFCs: {
     standard: string;
@@ -90,10 +100,18 @@ export const TECHNICAL_AUTHORITY_GUIDES: TechnicalAuthorityGuide[] = [
     readTime: '7 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'David Chen',
+      role: 'Systems Security Architect',
+      credentials: 'CISSP, GCIH'
+    },
     author: {
+      id: 'dr-alistair-vance',
       name: 'Dr. Alistair Vance',
       role: 'Principal File Systems Architect & Format Standards Committee Member',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'
+      credentials: 'Ph.D., CompEng',
+      avatar: AUTHOR_AVATARS.alistairVance
     },
     standardsAndRFCs: [
       { standard: 'POSIX.1-2017', title: 'Standard File Format Specification and Magic Utility Syntax' },
@@ -317,10 +335,18 @@ export const TECHNICAL_AUTHORITY_GUIDES: TechnicalAuthorityGuide[] = [
     readTime: '8 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
     author: {
+      id: 'elena-rostova',
       name: 'Elena Rostova',
       role: 'Lead Digital Media Engineer & Forensic Integrity Lead',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150'
+      credentials: 'M.Sc., Signal Processing',
+      avatar: AUTHOR_AVATARS.elenaRostova
     },
     standardsAndRFCs: [
       { standard: 'ISO/IEC 23000', title: 'Information Technology — Multimedia Application Format' },
@@ -489,10 +515,18 @@ export const TECHNICAL_AUTHORITY_GUIDES: TechnicalAuthorityGuide[] = [
     readTime: '6 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Beginner',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
     author: {
+      id: 'marcus-vance',
       name: 'Marcus Vance',
       role: 'Senior Web Protocols Architect',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150'
+      credentials: 'B.Arch, P.E.',
+      avatar: AUTHOR_AVATARS.marcusVance
     },
     standardsAndRFCs: [
       { standard: 'RFC 2045 & RFC 2046', title: 'Multipurpose Internet Mail Extensions (MIME) Format & Media Types' },
@@ -654,10 +688,18 @@ Broad Category                     Exact Format             Encoding / Boundary
     readTime: '6 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
     author: {
+      id: 'marcus-vance',
       name: 'Marcus Vance',
       role: 'Senior Web Protocols Architect',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150'
+      credentials: 'B.Arch, P.E.',
+      avatar: AUTHOR_AVATARS.marcusVance
     },
     standardsAndRFCs: [
       { standard: 'WHATWG MIME Sniffing Standard', title: 'Algorithm for Determining Computed MIME Types' },
@@ -783,10 +825,18 @@ Broad Category                     Exact Format             Encoding / Boundary
     readTime: '8 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
     author: {
+      id: 'david-chen',
       name: 'David Chen',
       role: 'Principal Systems Security Architect',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150'
+      credentials: 'CISSP, GCIH',
+      avatar: AUTHOR_AVATARS.davidChen
     },
     standardsAndRFCs: [
       { standard: 'POSIX libmagic Specification', title: 'File Architecture Recognition Heuristics' },
@@ -921,10 +971,18 @@ Broad Category                     Exact Format             Encoding / Boundary
     readTime: '9 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Advanced',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'David Chen',
+      role: 'Systems Security Architect',
+      credentials: 'CISSP, GCIH'
+    },
     author: {
+      id: 'dr-alistair-vance',
       name: 'Dr. Alistair Vance',
       role: 'Principal File Systems Architect',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'
+      credentials: 'Ph.D., CompEng',
+      avatar: AUTHOR_AVATARS.alistairVance
     },
     standardsAndRFCs: [
       { standard: 'Shannon (1948)', title: 'A Mathematical Theory of Communication (Bell System Technical Journal)' },
@@ -1085,10 +1143,18 @@ Broad Category                     Exact Format             Encoding / Boundary
     readTime: '7 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
     author: {
+      id: 'david-chen',
       name: 'David Chen',
       role: 'Principal Systems Security Architect',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150'
+      credentials: 'CISSP, GCIH',
+      avatar: AUTHOR_AVATARS.davidChen
     },
     standardsAndRFCs: [
       { standard: 'NIST FIPS 180-4', title: 'Secure Hash Standard (SHS) — Specifications for SHA-1, SHA-2, SHA-3' },
@@ -1225,10 +1291,18 @@ Broad Category                     Exact Format             Encoding / Boundary
     readTime: '6 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Beginner',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
     author: {
+      id: 'david-chen',
       name: 'David Chen',
       role: 'Principal Systems Security Architect',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150'
+      credentials: 'CISSP, GCIH',
+      avatar: AUTHOR_AVATARS.davidChen
     },
     standardsAndRFCs: [
       { standard: 'NIST FIPS 180-4', title: 'Cryptographic Checksum Verification Standards' },
@@ -1355,10 +1429,18 @@ Broad Category                     Exact Format             Encoding / Boundary
     readTime: '8 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Advanced',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
     author: {
+      id: 'david-chen',
       name: 'David Chen',
       role: 'Principal Systems Security Architect',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150'
+      credentials: 'CISSP, GCIH',
+      avatar: AUTHOR_AVATARS.davidChen
     },
     standardsAndRFCs: [
       { standard: 'PKWARE APPNOTE', title: '.ZIP File Format Specification — Deflate and Directory Layout' },
@@ -1490,10 +1572,18 @@ Broad Category                     Exact Format             Encoding / Boundary
     readTime: '7 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
     author: {
+      id: 'elena-rostova',
       name: 'Elena Rostova',
       role: 'Forensic Integrity Lead',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150'
+      credentials: 'M.Sc., Signal Processing',
+      avatar: AUTHOR_AVATARS.elenaRostova
     },
     standardsAndRFCs: [
       { standard: 'WinZip AES Specification', title: 'AE-1 and AE-2 Encryption Specification for ZIP' },
@@ -1618,10 +1708,18 @@ Broad Category                     Exact Format             Encoding / Boundary
     readTime: '8 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
     author: {
+      id: 'david-chen',
       name: 'David Chen',
       role: 'Principal Systems Security Architect',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150'
+      credentials: 'CISSP, GCIH',
+      avatar: AUTHOR_AVATARS.davidChen
     },
     standardsAndRFCs: [
       { standard: 'ISO/IEC 29500', title: 'Information Technology — Document Description and Processing Languages (Office Open XML)' },
@@ -1751,10 +1849,18 @@ Broad Category                     Exact Format             Encoding / Boundary
     readTime: '7 min read',
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
+    lastAuditedDate: 'September 2026',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
     author: {
+      id: 'david-chen',
       name: 'David Chen',
       role: 'Principal Systems Security Architect',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150'
+      credentials: 'CISSP, GCIH',
+      avatar: AUTHOR_AVATARS.davidChen
     },
     standardsAndRFCs: [
       { standard: 'Unicode Standard Annex #9', title: 'The Unicode Bidirectional Algorithm (UBA) & RTLO Character U+202E' },

@@ -30,9 +30,9 @@ export const REPAIR_GUIDES: RepairGuide[] = [
         difficulty: 'Intermediate'
       },
       {
-        title: 'OpenAnyFile Central Header Reconstruction',
-        desc: 'Drop corrupted ZIP file into OpenAnyFile Repair Tool to scan raw local file headers and regenerate missing Central Directory table.',
-        toolName: 'OpenAnyFile ZIP Repair',
+        title: 'AnyFileX Central Header Reconstruction',
+        desc: 'Drop corrupted ZIP file into AnyFileX Repair Tool to scan raw local file headers and regenerate missing Central Directory table.',
+        toolName: 'AnyFileX ZIP Repair',
         difficulty: 'Easy'
       }
     ],
@@ -75,8 +75,8 @@ export const REPAIR_GUIDES: RepairGuide[] = [
       },
       {
         title: 'HEIF Atom Signature Patching',
-        desc: 'Use OpenAnyFile Repair Tool to verify if 00 00 00 18 66 74 79 70 68 65 69 63 magic byte string was truncated.',
-        toolName: 'OpenAnyFile HEIC Repair',
+        desc: 'Use AnyFileX Repair Tool to verify if 00 00 00 18 66 74 79 70 68 65 69 63 magic byte string was truncated.',
+        toolName: 'AnyFileX HEIC Repair',
         difficulty: 'Easy'
       }
     ],

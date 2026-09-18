@@ -141,12 +141,28 @@ export interface GuideInfo {
   category: string;
   readTime: string;
   date: string;
+  lastAuditedDate?: string;
   difficulty?: 'Beginner' | 'Intermediate' | 'Advanced';
   author: {
     name: string;
     role: string;
     avatar: string;
+    credentials?: string;
+    bio?: string;
+    qualifications?: string[];
   };
+  reviewedBy?: {
+    name: string;
+    role: string;
+    credentials?: string;
+  };
+  verifiedPlatforms?: string[];
+  citations?: Array<{
+    standard: string;
+    title: string;
+    issuingBody?: string;
+    url?: string;
+  }>;
   relatedExtensions: string[];
   contentSections: {
     heading: string;
@@ -163,12 +179,25 @@ export interface BlogPost {
   summary: string;
   category: 'News' | 'Tips' | 'Tutorials' | 'Comparisons' | 'Announcements';
   date: string;
+  lastAuditedDate?: string;
   readTime: string;
   author: {
     name: string;
     role: string;
     avatar: string;
+    credentials?: string;
+    bio?: string;
   };
+  reviewedBy?: {
+    name: string;
+    role: string;
+    credentials?: string;
+  };
+  citations?: Array<{
+    standard: string;
+    title: string;
+    url?: string;
+  }>;
   content: string;
   tags: string[];
   relatedExtensions: string[];
@@ -271,6 +300,8 @@ export type AppRoute =
   | { view: 'seo-audit' }
   | { view: 'sitemaps' }
   | { view: 'about' }
+  | { view: 'editorial-standards' }
+  | { view: 'authors'; authorId?: string }
   | { view: 'contact' }
   | { view: 'workflows'; workflowId?: string }
   | { view: 'format-guide'; format: string }

@@ -6,6 +6,8 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Badge } from '../Badge';
 import { TOCSidebar } from '../TOCSidebar';
 import { SEOHead } from '../SEOHead';
+import { AuthorBadge } from '../AuthorBadge';
+import { EditorialStandardsModal } from '../EditorialStandardsModal';
 import {
   Clock,
   User,
@@ -33,6 +35,7 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
   const [activeToc, setActiveToc] = useState('art-sec-0');
   const [copiedLink, setCopiedLink] = useState(false);
   const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(0);
+  const [editorialModalOpen, setEditorialModalOpen] = useState(false);
 
   const linkingMatrix = computeInternalLinksForEntity(entity);
 
@@ -92,7 +95,7 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
     },
     datePublished: entity.publishedDate || entity.createdAt,
     dateModified: entity.updatedDate,
-    mainEntityOfPage: `https://anyfilex.com/guides/${entity.slug}`
+    mainEntityOfPage: `https://www.anyfilex.com/guides/${entity.slug}`
   };
 
   if (entity.schemaType === 'HowTo') {
@@ -143,19 +146,43 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
           {entity.summary}
         </p>
 
-        <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
-          <div className="flex items-center gap-3">
-            <img src={entity.author.avatar} alt={entity.author.name} className="w-11 h-11 rounded-full object-cover border border-slate-200 dark:border-slate-700" />
-            <div>
-              <div className="font-bold text-sm text-slate-900 dark:text-white">{entity.author.name}</div>
-              <div className="text-xs text-slate-500">{entity.author.role}</div>
-            </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800 gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <AuthorBadge
+              authorName={entity.author.name}
+              authorRole={entity.author.role}
+              authorAvatar={entity.author.avatar}
+              credentials={entity.author.credentials}
+              date={entity.updatedDate}
+              lastAuditedDate={entity.lastAuditedDate}
+              showAuditDate={true}
+              onNavigate={onNavigate}
+              size="md"
+            />
+
+            {entity.reviewedBy && (
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/60 text-xs text-emerald-800 dark:text-emerald-300">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>
+                  Peer-Reviewed by <strong className="font-semibold">{entity.reviewedBy.name}</strong>
+                  {entity.reviewedBy.credentials && ` (${entity.reviewedBy.credentials})`}
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
             <button
+              onClick={() => setEditorialModalOpen(true)}
+              className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
+              <span>Editorial Policy</span>
+            </button>
+
+            <button
               onClick={handleCopyShare}
-              className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center gap-1.5"
+              className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Share2 className="w-3.5 h-3.5" />}
               {copiedLink ? 'Copied' : 'Share'}
@@ -274,6 +301,77 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
                 </div>
               </div>
             )}
+
+            {/* Verified Platforms & Test Environments */}
+            {entity.verifiedPlatforms && entity.verifiedPlatforms.length > 0 && (
+              <div className="p-6 rounded-3xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-800/60 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    Tested & Verified Environments
+                  </span>
+                  <span className="text-[11px] font-mono text-emerald-700 dark:text-emerald-400">
+                    Audited: {entity.lastAuditedDate || 'Current'}
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {entity.verifiedPlatforms.map((plat, pIdx) => (
+                    <span
+                      key={pIdx}
+                      className="inline-flex items-center gap-1 px-3 py-1 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-800/80 text-xs font-mono font-medium text-slate-700 dark:text-slate-300"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                      {plat}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Official Technical Standards & Citations */}
+            {entity.citations && entity.citations.length > 0 && (
+              <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-blue-500" />
+                    Official Standards Citations & Specifications
+                  </h3>
+                  <button
+                    onClick={() => setEditorialModalOpen(true)}
+                    className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    <span>Editorial Policy</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {entity.citations.map((c, cIdx) => (
+                    <div
+                      key={cIdx}
+                      className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between gap-2"
+                    >
+                      <div>
+                        <div className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">{c.title}</div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                          Issuing Body: <span className="font-semibold text-slate-700 dark:text-slate-300">{c.source}</span>
+                        </div>
+                      </div>
+                      {c.url && (
+                        <a
+                          href={c.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[11px] font-mono text-blue-600 dark:text-blue-400 hover:underline mt-1"
+                        >
+                          <span>{c.standardId || 'Specification Document'}</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Contextual Internal Links Section */}
@@ -318,6 +416,12 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
           </div>
         </div>
       </div>
+
+      <EditorialStandardsModal
+        isOpen={editorialModalOpen}
+        onClose={() => setEditorialModalOpen(false)}
+        onNavigate={onNavigate}
+      />
     </div>
   );
 };

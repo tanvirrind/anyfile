@@ -106,7 +106,7 @@ export const TroubleshootHubPage: React.FC<TroubleshootHubPageProps> = ({
           '@type': 'WebPage',
           name: 'AnyFileX File Troubleshooting Hub',
           description: 'Topical troubleshooting authority for diagnosing and fixing file errors, extension mismatches, and container corruption.',
-          url: 'https://anyfilex.com/troubleshoot'
+          url: 'https://www.anyfilex.com/troubleshoot'
         }}
       />
 

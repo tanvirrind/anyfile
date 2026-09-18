@@ -298,7 +298,7 @@ export function getHowToOpenGuide(extInput: string): HowToOpenGuideData {
         canEdit: !app.isFree,
         canConvert: true,
         routeId: 'software',
-        websiteUrl: 'https://anyfilex.com/software',
+        websiteUrl: 'https://www.anyfilex.com/software',
       });
     });
   }
@@ -503,25 +503,25 @@ export function getHowToOpenGuide(extInput: string): HowToOpenGuideData {
           '@type': 'HowToStep',
           name: `Open .${upperExt} on Windows`,
           text: osGuides.windows.steps.map(s => `${s.stepNumber}. ${s.title}: ${s.detail}`).join(' '),
-          url: `https://anyfilex.com/how-to-open/${cleanExt}#windows`,
+          url: `https://www.anyfilex.com/how-to-open/${cleanExt}#windows`,
         },
         {
           '@type': 'HowToStep',
           name: `Open .${upperExt} on macOS`,
           text: osGuides.mac.steps.map(s => `${s.stepNumber}. ${s.title}: ${s.detail}`).join(' '),
-          url: `https://anyfilex.com/how-to-open/${cleanExt}#mac`,
+          url: `https://www.anyfilex.com/how-to-open/${cleanExt}#mac`,
         },
         {
           '@type': 'HowToStep',
           name: `Open .${upperExt} on Linux`,
           text: osGuides.linux.steps.map(s => `${s.stepNumber}. ${s.title}: ${s.detail}`).join(' '),
-          url: `https://anyfilex.com/how-to-open/${cleanExt}#linux`,
+          url: `https://www.anyfilex.com/how-to-open/${cleanExt}#linux`,
         },
         {
           '@type': 'HowToStep',
           name: `Open .${upperExt} on Mobile (iPhone & Android)`,
           text: `Use native Apple Photos or Files on iOS, or Google Photos / Files by Google on Android. For unsupported formats, convert online via AnyFileX.`,
-          url: `https://anyfilex.com/how-to-open/${cleanExt}#mobile`,
+          url: `https://www.anyfilex.com/how-to-open/${cleanExt}#mobile`,
         },
       ]
     },

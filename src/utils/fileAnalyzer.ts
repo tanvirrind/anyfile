@@ -33,7 +33,7 @@ export function getReportById(id: string): AnalysisReport | null {
   }
   // Fallback try restoring from sessionStorage
   try {
-    const saved = sessionStorage.getItem(`openanyfile_report_${id}`);
+    const saved = sessionStorage.getItem(`anyfilex_report_${id}`) || sessionStorage.getItem(`openanyfile_report_${id}`);
     if (saved) {
       const parsed = JSON.parse(saved);
       reportsStore.set(id, parsed);
@@ -48,7 +48,7 @@ export function getReportById(id: string): AnalysisReport | null {
 export function saveReport(report: AnalysisReport): void {
   reportsStore.set(report.id, report);
   try {
-    sessionStorage.setItem(`openanyfile_report_${report.id}`, JSON.stringify(report));
+    sessionStorage.setItem(`anyfilex_report_${report.id}`, JSON.stringify(report));
   } catch (err) {
     console.error('Failed to save report to storage', err);
   }

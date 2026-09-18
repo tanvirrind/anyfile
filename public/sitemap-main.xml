@@ -1,158 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://anyfilex.com</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/how-to-open</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/compare</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/converters</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/troubleshoot</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/security</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/tools</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/software</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/workflows</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/guides</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/blog</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/mime-types</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/workflows</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/assistant</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/assistant</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/sitemaps</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/sitemaps</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/about</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/about</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/contact</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/contact</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/category/images</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/category/images</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/category/cad-3d</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/category/cad-3d</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/category/documents</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/category/documents</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/category/archives</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/category/archives</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/category/audio-video</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/category/audio-video</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/category/code-data</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/category/code-data</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/category/email-comm</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/category/email-comm</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/category/system-executables</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/category/system-executables</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/category/medical-science</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/category/medical-science</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

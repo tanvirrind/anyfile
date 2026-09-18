@@ -46,6 +46,8 @@ const ComparisonPage = lazy(() => import('./pages/ComparisonPage').then(m => ({ 
 const AdminCMSPage = lazy(() => import('./pages/AdminCMSPage').then(m => ({ default: m.AdminCMSPage })));
 const AssistantPage = lazy(() => import('./pages/AssistantPage').then(m => ({ default: m.AssistantPage })));
 const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
+const EditorialStandardsPage = lazy(() => import('./pages/EditorialStandardsPage').then(m => ({ default: m.EditorialStandardsPage })));
+const AuthorsPage = lazy(() => import('./pages/AuthorsPage').then(m => ({ default: m.AuthorsPage })));
 const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
 const SeoAuditPage = lazy(() => import('./pages/SeoAuditPage').then(m => ({ default: m.SeoAuditPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
@@ -148,15 +150,15 @@ export default function App({ initialRoute }: AppProps = {}) {
           {currentRoute.view === 'home' && (
             <>
               <SEOHead
-                title="AnyFileX – Open Any File in Seconds with AnyFileX.com"
-                description="Open Any File in Seconds with AnyFileX.com. Convert, repair, identify, and understand thousands of file formats including HEIC, PDF, DOCX, ZIP, PSD, DWG, and more."
+                title="AnyFileX – Open Any File in Seconds"
+                description="Open Any File in Seconds with AnyFileX. Convert, repair, identify, and understand thousands of file formats including HEIC, PDF, DOCX, ZIP, PSD, DWG, and more."
                 canonicalPath="/"
                 schemaData={{
                   '@context': 'https://schema.org',
                   '@type': 'WebApplication',
                   name: 'AnyFileX',
-                  url: 'https://anyfilex.com',
-                  description: 'Open Any File in Seconds with AnyFileX.com. Convert, repair, identify, and understand any digital file format.',
+                  url: 'https://www.anyfilex.com/',
+                  description: 'Open Any File in Seconds with AnyFileX. Convert, repair, identify, and understand any digital file format.',
                   applicationCategory: 'UtilitiesApplication',
                   operatingSystem: 'Windows, macOS, Linux, Android, iOS'
                 }}
@@ -336,6 +338,14 @@ export default function App({ initialRoute }: AppProps = {}) {
 
           {currentRoute.view === 'about' && (
             <AboutPage onNavigate={handleNavigate} />
+          )}
+
+          {currentRoute.view === 'editorial-standards' && (
+            <EditorialStandardsPage onNavigate={handleNavigate} />
+          )}
+
+          {currentRoute.view === 'authors' && (
+            <AuthorsPage onNavigate={handleNavigate} selectedAuthorId={currentRoute.authorId} />
           )}
 
           {currentRoute.view === 'contact' && (

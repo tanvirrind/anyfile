@@ -42,9 +42,9 @@ export function buildDatabaseContext(): string {
   ).join('\n');
 
   return `
-You are the OpenAnyFile AI Assistant — a specialized, highly knowledgeable SaaS assistant for digital file formats, software recommendations, file conversion pipelines, corrupted file repair, and file security analysis.
+You are the AnyFileX AI Assistant — a specialized, highly knowledgeable SaaS assistant for digital file formats, software recommendations, file conversion pipelines, corrupted file repair, and file security analysis.
 
-OPENANYFILE DATABASE CONTEXT:
+ANYFILEX DATABASE CONTEXT:
 
 FILE EXTENSIONS IN DATABASE:
 ${extensionsSummary}
@@ -58,7 +58,7 @@ ${convertersSummary}
 REPAIR GUIDES AVAILABLE IN DATABASE:
 ${repairSummary}
 
-AVAILABLE INTERNAL TOOLS ON OPENANYFILE:
+AVAILABLE INTERNAL TOOLS ON ANYFILEX:
 - File Identifier (/tools/file-identifier): Identifies unknown files using magic bytes, headers, and signatures.
 - Metadata Inspector (/tools/metadata-viewer): Inspects EXIF, ID3, PDF, video metadata.
 - Metadata Cleaner (/tools/remove-metadata): Strips GPS, author, camera serial numbers for privacy.
@@ -73,7 +73,7 @@ INSTRUCTIONS:
 1. Provide concise, clear, accurate, and helpful answers.
 2. Structure your response using clean Markdown with bolding, bullet points, and steps where appropriate.
 3. Explicitly mention file extensions (e.g. .DWG, .HEIC, .PSD, .PDF, .ZIP), software (e.g. AutoCAD, Photoshop, GIMP, VLC), converters (e.g. HEIC to JPG), or tools (e.g. File Identifier) so the UI can automatically generate quick interactive action cards for the user!
-4. If a user asks whether a file is safe, evaluate risks (e.g. executable vs container vs macro-enabled), mention magic bytes, and suggest using OpenAnyFile File Identifier or Magic Byte Detector.
+4. If a user asks whether a file is safe, evaluate risks (e.g. executable vs container vs macro-enabled), mention magic bytes, and suggest using AnyFileX File Identifier or Magic Byte Detector.
 5. Keep your tone professional, friendly, and expert.
 `;
 }
@@ -221,12 +221,12 @@ You can convert DWG drawings to PDF or DXF for easy viewing on any device withou
 **HEIC (High Efficiency Image Container)** is Apple's high-efficiency photo format used on iPhones and iPads.
 
 #### How to Convert HEIC to JPG:
-1. Go to our **HEIC → JPG Converter** on OpenAnyFile.
+1. Go to our **HEIC → JPG Converter** on AnyFileX.
 2. Drag and drop your \`.heic\` photos directly into the browser converter box.
 3. Your photos are converted **100% locally in your browser** with zero quality loss and instant batch downloading!
 
 #### Native Support:
-- **Windows 11/10**: Install the free *HEIF Image Extensions* from Microsoft Store, or use OpenAnyFile Web Converter.
+- **Windows 11/10**: Install the free *HEIF Image Extensions* from Microsoft Store, or use AnyFileX Web Converter.
 - **Mac / iOS**: Double-click to view natively in Preview or Photos.`;
     return {
       text,
@@ -284,7 +284,7 @@ If a file refuses to open or displays a "Format Not Supported / Corrupted Header
    - For **ZIP/RAR**: Use WinRAR's *Repair Archive* tool.
    - For **PDF**: Use Ghostscript or PDF repair commands.
    - For **Media files**: Use VLC Media Player's automatic AVI/MP4 index repair.
-3. **Explore OpenAnyFile Repair Guides:** We feature detailed, step-by-step repair manuals for ZIP, PDF, JPEG, MP4, and DWG files!`;
+3. **Explore AnyFileX Repair Guides:** We feature detailed, step-by-step repair manuals for ZIP, PDF, JPEG, MP4, and DWG files!`;
     return {
       text,
       suggestedActions: extractSuggestedActions(prompt, text),
@@ -315,7 +315,7 @@ ${ext.conversions.map((c) => `- Convert .${ext.extension} to **.${c.targetExtens
     };
   }
 
-  const defaultText = `### OpenAnyFile AI File Assistant
+  const defaultText = `### AnyFileX AI File Assistant
 I can help you analyze, open, convert, and secure any digital file format!
 
 **Here is how I can assist you:**

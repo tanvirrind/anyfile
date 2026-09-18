@@ -22,15 +22,15 @@ export const NewsletterSection: React.FC = () => {
           </div>
 
           <span className="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-            OpenAnyFile Newsletter
+            AnyFileX Newsletter
           </span>
 
           <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white mt-1">
-            Stay Updated
+            Stay Updated with AnyFileX
           </h2>
 
           <p className="mt-3 text-base text-slate-600 dark:text-slate-300 max-w-xl mx-auto">
-            Get new file guides, software updates, and diagnostic tools delivered monthly. Zero spam.
+            Get new AnyFileX file guides, software updates, and diagnostic tools delivered monthly. Zero spam.
           </p>
 
           {!subscribed ? (
@@ -56,12 +56,12 @@ export const NewsletterSection: React.FC = () => {
           ) : (
             <div className="mt-6 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 text-sm font-semibold flex items-center justify-center gap-2 animate-in fade-in">
               <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-              <span>Thank you! You have been subscribed to OpenAnyFile updates.</span>
+              <span>Thank you! You have been subscribed to the AnyFileX newsletter.</span>
             </div>
           )}
 
           <p className="mt-4 text-xs text-slate-600 dark:text-slate-400">
-            Join 25,000+ developers, designers, and power users. Unsubscribe at any time with 1 click.
+            Join developers, system administrators, and digital archivists receiving the AnyFileX monthly bulletin. Unsubscribe at any time with 1 click.
           </p>
         </div>
       </div>

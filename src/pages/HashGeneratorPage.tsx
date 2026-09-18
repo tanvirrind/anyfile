@@ -110,7 +110,7 @@ export const HashGeneratorPage: React.FC<HashGeneratorPageProps> = ({ onNavigate
 
   const handleDownloadReport = () => {
     if (!fileHashes) return;
-    const reportText = `OpenAnyFile.net Security Utility - File Hash Report
+    const reportText = `AnyFileX Security Utility - File Hash Report
 ==================================================
 File Name:      ${fileHashes.fileName}
 File Size:      ${fileHashes.formattedSize} (${fileHashes.fileSize} bytes)
@@ -196,7 +196,7 @@ Zero file payload transmitted to external servers.
   const schemaJson = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'OpenAnyFile Online File Hash Generator & SHA256 Checker',
+    name: 'AnyFileX Online File Hash Generator & SHA256 Checker',
     applicationCategory: 'SecurityApplication',
     operatingSystem: 'All',
     description: 'Calculate MD5, SHA-1, SHA-256, and SHA-512 cryptographic hashes locally in your browser. Verify file integrity and compare checksums instantly.'

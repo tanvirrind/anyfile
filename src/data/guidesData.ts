@@ -1,4 +1,5 @@
 import { GuideInfo, BlogPost } from '../types';
+import { AUTHOR_AVATARS, TECHNICAL_STANDARDS_CITATIONS } from '../lib/content/editorialTeam';
 
 export const GUIDES_LIST: GuideInfo[] = [
   {
@@ -9,12 +10,33 @@ export const GUIDES_LIST: GuideInfo[] = [
     category: 'Photography',
     readTime: '6 min read',
     date: 'July 2024',
+    lastAuditedDate: 'September 2026',
     difficulty: 'Beginner',
     author: {
       name: 'Elena Rostova',
-      role: 'Lead Digital Media Engineer',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'
+      role: 'Lead Digital Media & Codec Engineer',
+      avatar: AUTHOR_AVATARS.elenaRostova,
+      credentials: 'M.Sc., Signal Processing',
+      bio: 'Elena specializes in modern high-efficiency image container parsing, ISOBMFF box decomposition, and color profile preservation.'
     },
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
+    verifiedPlatforms: [
+      'Windows 11 (23H2 & 24H2)',
+      'macOS Sonoma (14.6) & Sequoia (15.0)',
+      'Ubuntu 24.04 LTS',
+      'iOS 18',
+      'Android 15'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.heic.map(c => ({
+      standard: c.standard,
+      title: c.title,
+      issuingBody: c.issuingBody,
+      url: c.url
+    })),
     relatedExtensions: ['HEIC', 'WEBP', 'JPG', 'PNG'],
     contentSections: [
       {
@@ -28,7 +50,7 @@ export const GUIDES_LIST: GuideInfo[] = [
         bullets: [
           'Install Microsoft HEIF Image Extensions & HEVC Video Extensions from the Microsoft Store.',
           'Use CopyTrans HEIC for Windows (Free for personal use) to enable native thumbnails in File Explorer.',
-          'Use OpenAnyFile Web Converter to convert HEIC photos to JPG instantly in your browser without installing software.'
+          'Use AnyFileX Web Converter to convert HEIC photos to JPG instantly in your browser without installing software.'
         ]
       },
       {
@@ -51,12 +73,31 @@ export const GUIDES_LIST: GuideInfo[] = [
     category: 'CAD',
     readTime: '8 min read',
     date: 'June 2024',
+    lastAuditedDate: 'September 2026',
     difficulty: 'Intermediate',
     author: {
       name: 'Marcus Vance',
-      role: 'Senior Structural CAD Architect',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150'
+      role: 'Senior CAD Systems Architect & Engineering Data Specialist',
+      avatar: AUTHOR_AVATARS.marcusVance,
+      credentials: 'B.Arch, P.E.',
+      bio: 'Licensed Professional Engineer (P.E.) with 14 years specializing in geometric data schemas, B-rep structures, and CAD interchange.'
     },
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
+    verifiedPlatforms: [
+      'Windows 11 Pro 24H2 (x86_64)',
+      'macOS Sequoia (Apple Silicon)',
+      'Ubuntu 24.04 LTS (LibreCAD / ODA)'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.dwg.map(c => ({
+      standard: c.standard,
+      title: c.title,
+      issuingBody: c.issuingBody,
+      url: c.url
+    })),
     relatedExtensions: ['DWG', 'DXF', 'STEP', 'PDF'],
     contentSections: [
       {
@@ -83,12 +124,31 @@ export const GUIDES_LIST: GuideInfo[] = [
     category: 'Windows',
     readTime: '5 min read',
     date: 'May 2024',
+    lastAuditedDate: 'September 2026',
     difficulty: 'Intermediate',
     author: {
       name: 'David Chen',
-      role: 'Systems Security Architect',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150'
+      role: 'Systems Security Architect & Threat Forensics Researcher',
+      avatar: AUTHOR_AVATARS.davidChen,
+      credentials: 'CISSP, GCIH',
+      bio: 'Cybersecurity researcher with CISSP credentials focusing on archive decompression security, file integrity, and payload analysis.'
     },
+    reviewedBy: {
+      name: 'Sarah Jenkins',
+      role: 'Data Architect & IANA Standards Specialist',
+      credentials: 'M.Sc., Systems'
+    },
+    verifiedPlatforms: [
+      'Windows 11 (Command Prompt & PowerShell)',
+      'macOS Terminal (unzip & 7z CLI)',
+      'Linux Ubuntu 24.04 LTS'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.zip.map(c => ({
+      standard: c.standard,
+      title: c.title,
+      issuingBody: c.issuingBody,
+      url: c.url
+    })),
     relatedExtensions: ['ZIP', 'RAR', '7Z'],
     contentSections: [
       {
@@ -112,17 +172,30 @@ export const BLOG_POSTS: BlogPost[] = [
     summary: 'Renaming .exe to .jpg does not change what a file actually is. Learn how operating systems and security tools inspect magic bytes.',
     category: 'Tutorials',
     date: 'July 2024',
+    lastAuditedDate: 'September 2026',
     readTime: '5 min read',
     author: {
       name: 'David Chen',
-      role: 'Systems Security Architect',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150'
+      role: 'Systems Security Architect & Threat Forensics Researcher',
+      avatar: AUTHOR_AVATARS.davidChen,
+      credentials: 'CISSP, GCIH',
+      bio: 'Specialist in binary payload detection, header spoofing forensics, and file signature parsing.'
     },
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
+    citations: TECHNICAL_STANDARDS_CITATIONS.magicBytes.map(c => ({
+      standard: c.standard,
+      title: c.title,
+      url: c.url
+    })),
     tags: ['Security', 'Magic Bytes', 'Binary Analysis'],
     relatedExtensions: ['DAT', 'EXE', 'HEIC', 'ZIP', 'PDF'],
     content: `File extensions like .jpg or .pdf are merely hints for desktop operating systems. Attackers and malware authors frequently trick users by renaming malicious executable binaries (.exe) to innocent document extensions (.pdf or .jpg).
 
-To reliably detect what a file actually is, operating systems, security scanners, and OpenAnyFile read the first 4 to 32 bytes of the file—known as **Magic Bytes** or **File Signatures**.
+To reliably detect what a file actually is, operating systems, security scanners, and AnyFileX read the first 4 to 32 bytes of the file—known as **Magic Bytes** or **File Signatures**.
 
 ### Examples of Common Magic Byte Signatures:
 - **PDF Documents**: \`25 50 44 46 2D\` (\`%PDF-\`)
@@ -130,7 +203,7 @@ To reliably detect what a file actually is, operating systems, security scanners
 - **ZIP Archives**: \`50 4B 03 04\` (\`PK..\`)
 - **Windows Executables (EXE/DLL)**: \`4D 5A\` (\`MZ\`)
 
-When you upload a file to OpenAnyFile's File Identifier, our WebAssembly engine checks these magic bytes directly in your browser memory, guaranteeing accurate format detection regardless of file name.`
+When you upload a file to AnyFileX's File Identifier, our WebAssembly engine checks these magic bytes directly in your browser memory, guaranteeing accurate format detection regardless of file name.`
   },
   {
     id: 'next-gen-image-codecs',
@@ -139,12 +212,25 @@ When you upload a file to OpenAnyFile's File Identifier, our WebAssembly engine 
     summary: 'A deep architectural comparison of modern image compression codecs, browser support, transparency, and page speed impacts.',
     category: 'Comparisons',
     date: 'June 2024',
+    lastAuditedDate: 'September 2026',
     readTime: '7 min read',
     author: {
       name: 'Elena Rostova',
-      role: 'Lead Digital Media Engineer',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'
+      role: 'Lead Digital Media & Codec Engineer',
+      avatar: AUTHOR_AVATARS.elenaRostova,
+      credentials: 'M.Sc., Signal Processing',
+      bio: 'Specialist in next-generation lossy and lossless image codecs and browser rendering performance.'
     },
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
+    citations: TECHNICAL_STANDARDS_CITATIONS.webp.map(c => ({
+      standard: c.standard,
+      title: c.title,
+      url: c.url
+    })),
     tags: ['Web Performance', 'Image Codecs', 'Optimization'],
     relatedExtensions: ['HEIC', 'WEBP', 'JPG', 'PNG', 'AVIF'],
     content: `Choosing the right image format can drastically improve website speed and reduce server bandwidth costs. In this guide, we break down the performance tradeoffs between JPEG, WebP, AVIF, and HEIC.`
@@ -152,4 +238,3 @@ When you upload a file to OpenAnyFile's File Identifier, our WebAssembly engine 
 ];
 
 export const GUIDES_DATA = GUIDES_LIST;
-

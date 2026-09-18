@@ -18,6 +18,8 @@ interface SEOHeadProps {
   ogType?: 'website' | 'article';
 }
 
+const BASE_URL = 'https://www.anyfilex.com';
+
 export const SEOHead: React.FC<SEOHeadProps> = ({
   title,
   description,
@@ -26,13 +28,13 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   breadcrumbs,
   category,
   robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-  image = 'https://anyfilex.com/og-image.png',
+  image = 'https://www.anyfilex.com/og-image.png',
   imageAlt = 'AnyFileX - Universal File Format Platform',
   ogType = 'website',
 }) => {
-  const fullTitle = title.includes('AnyFileX') ? title : `${title} | AnyFileX.com`;
+  const fullTitle = title.includes('AnyFileX') ? title : `${title} | AnyFileX`;
   const cleanCanonicalPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
-  const fullCanonicalUrl = `https://anyfilex.com${cleanCanonicalPath === '/' ? '' : cleanCanonicalPath}`;
+  const fullCanonicalUrl = `${BASE_URL}${cleanCanonicalPath === '/' ? '/' : cleanCanonicalPath}`;
 
   // Generate Breadcrumbs structured data
   const generatedBreadcrumbList = useMemo(() => {
@@ -102,12 +104,12 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       itemListElement: items.map((item, index) => {
         const itemUrl = item.path.startsWith('http')
           ? item.path
-          : `https://anyfilex.com${item.path === '/' ? '' : item.path.startsWith('/') ? item.path : `/${item.path}`}`;
+          : `${BASE_URL}${item.path === '/' ? '/' : item.path.startsWith('/') ? item.path : `/${item.path}`}`;
         return {
           '@type': 'ListItem',
           position: index + 1,
           name: item.name,
-          item: itemUrl || 'https://anyfilex.com',
+          item: itemUrl || `${BASE_URL}/`,
         };
       }),
     };
@@ -117,18 +119,18 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   const completeSchemaGraph = useMemo(() => {
     const orgSchema = {
       '@type': 'Organization',
-      '@id': 'https://anyfilex.com/#organization',
+      '@id': `${BASE_URL}/#organization`,
       name: 'AnyFileX',
-      url: 'https://anyfilex.com',
+      url: `${BASE_URL}/`,
       logo: {
         '@type': 'ImageObject',
-        '@id': 'https://anyfilex.com/#logo',
-        url: 'https://anyfilex.com/favicon.svg',
+        '@id': `${BASE_URL}/#logo`,
+        url: `${BASE_URL}/favicon.svg`,
         caption: 'AnyFileX - Universal File Format Platform',
         width: 512,
         height: 512,
       },
-      image: 'https://anyfilex.com/favicon.svg',
+      image: `${BASE_URL}/favicon.svg`,
       sameAs: [
         'https://twitter.com/anyfilex',
         'https://github.com/anyfilex',
@@ -136,18 +138,19 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'technical support',
-        url: 'https://anyfilex.com/contact',
+        url: `${BASE_URL}/contact`,
       },
     };
 
     const webSiteSchema = {
       '@type': 'WebSite',
-      '@id': 'https://anyfilex.com/#website',
-      url: 'https://anyfilex.com',
+      '@id': `${BASE_URL}/#website`,
       name: 'AnyFileX',
-      description: 'Open Any File in Seconds with AnyFileX.com. Universal file extension intelligence, magic bytes inspection, converters, and repair tools.',
+      alternateName: ['anyfilex.com'],
+      url: `${BASE_URL}/`,
+      description: 'Open Any File in Seconds with AnyFileX. Universal file extension intelligence, magic bytes inspection, converters, and repair tools.',
       publisher: {
-        '@id': 'https://anyfilex.com/#organization',
+        '@id': `${BASE_URL}/#organization`,
       },
       inLanguage: 'en-US',
       potentialAction: [
@@ -155,7 +158,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
           '@type': 'SearchAction',
           target: {
             '@type': 'EntryPoint',
-            urlTemplate: 'https://anyfilex.com/extensions?q={search_term_string}',
+            urlTemplate: `${BASE_URL}/file-extensions?q={search_term_string}`,
           },
           'query-input': 'required name=search_term_string',
         },
@@ -169,7 +172,10 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       name: fullTitle,
       description: description,
       isPartOf: {
-        '@id': 'https://anyfilex.com/#website',
+        '@type': 'WebSite',
+        '@id': `${BASE_URL}/#website`,
+        name: 'AnyFileX',
+        url: `${BASE_URL}/`,
       },
       breadcrumb: {
         '@id': `${fullCanonicalUrl}#breadcrumb`,
@@ -189,17 +195,18 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       }
     }
 
+    const isHomePage = cleanCanonicalPath === '/';
+    const graph: any[] = [orgSchema];
+    if (isHomePage) {
+      graph.push(webSiteSchema);
+    }
+    graph.push(webPageSchema, generatedBreadcrumbList, ...pageEntities);
+
     return {
       '@context': 'https://schema.org',
-      '@graph': [
-        orgSchema,
-        webSiteSchema,
-        webPageSchema,
-        generatedBreadcrumbList,
-        ...pageEntities,
-      ],
+      '@graph': graph,
     };
-  }, [fullCanonicalUrl, fullTitle, description, generatedBreadcrumbList, schemaData]);
+  }, [cleanCanonicalPath, fullCanonicalUrl, fullTitle, description, generatedBreadcrumbList, schemaData]);
 
   const schemaString = useMemo(() => JSON.stringify(completeSchemaGraph), [completeSchemaGraph]);
 
@@ -218,19 +225,21 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       meta.setAttribute('content', contentVal);
     };
 
-    // 2. Standard Meta Description
+    // 2. Application and Brand Identity Signals
+    setMetaTag('name', 'application-name', 'AnyFileX');
+    setMetaTag('name', 'apple-mobile-web-app-title', 'AnyFileX');
+    setMetaTag('name', 'publisher', 'AnyFileX');
+    setMetaTag('name', 'author', 'AnyFileX');
+    setMetaTag('property', 'article:publisher', `${BASE_URL}/`);
+
+    // 3. Standard Meta Description
     setMetaTag('name', 'description', description);
 
-    // 3. Robots & Crawler Directives
+    // 4. Robots & Crawler Directives
     setMetaTag('name', 'robots', robots);
     setMetaTag('name', 'googlebot', robots);
     setMetaTag('name', 'bingbot', robots);
     setMetaTag('http-equiv', 'X-Robots-Tag', robots.includes('noindex') ? 'noindex, nofollow' : 'index, follow, max-image-preview:large');
-
-    // 4. Publisher and Author Attributes
-    setMetaTag('name', 'publisher', 'AnyFileX');
-    setMetaTag('name', 'author', 'AnyFileX');
-    setMetaTag('property', 'article:publisher', 'https://anyfilex.com');
 
     // Link Publisher
     let publisherLink = document.querySelector('link[rel="publisher"]');
@@ -239,13 +248,13 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       publisherLink.setAttribute('rel', 'publisher');
       document.head.appendChild(publisherLink);
     }
-    publisherLink.setAttribute('href', 'https://anyfilex.com');
+    publisherLink.setAttribute('href', `${BASE_URL}/`);
 
     // 5. Open Graph Meta Tags
+    setMetaTag('property', 'og:site_name', 'AnyFileX');
     setMetaTag('property', 'og:title', fullTitle);
     setMetaTag('property', 'og:description', description);
     setMetaTag('property', 'og:url', fullCanonicalUrl);
-    setMetaTag('property', 'og:site_name', 'AnyFileX');
     setMetaTag('property', 'og:type', ogType);
     setMetaTag('property', 'og:locale', 'en_US');
     setMetaTag('property', 'og:image', image);
@@ -288,7 +297,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
         scriptTag.textContent = '';
       }
     };
-  }, [fullTitle, description, fullCanonicalUrl, schemaString, robots]);
+  }, [fullTitle, description, fullCanonicalUrl, schemaString, robots, image, imageAlt, ogType]);
 
   return null;
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Clock, BookOpen, ArrowLeft, Tag } from 'lucide-react';
+import { X, Clock, BookOpen, ArrowLeft, Tag, ShieldCheck, CheckCircle2, ExternalLink } from 'lucide-react';
 import { GuideInfo } from '../types';
 
 interface GuideDetailModalProps {
@@ -40,12 +40,33 @@ export const GuideDetailModal: React.FC<GuideDetailModalProps> = ({ guide, onClo
               {guide.title}
             </h1>
 
-            <div className="mt-4 flex items-center gap-3 text-xs text-slate-600 dark:text-slate-400 pb-4 border-b border-slate-100 dark:border-slate-800">
-              <img src={guide.author.avatar} alt={guide.author.name} className="w-8 h-8 rounded-full object-cover border" />
-              <div>
-                <span className="font-semibold text-slate-900 dark:text-white">{guide.author.name}</span> · {guide.author.role}
-                <div className="flex items-center gap-2 text-[10px] text-slate-600 dark:text-slate-400">
-                  <span>Published {guide.date}</span>
+            {/* Author Attribution & Peer Review Info */}
+            <div className="mt-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <img src={guide.author.avatar} alt={guide.author.name} className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0" />
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-bold text-sm text-slate-900 dark:text-white">{guide.author.name}</span>
+                    {guide.author.credentials && (
+                      <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">
+                        {guide.author.credentials}
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400">{guide.author.role}</div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:items-end text-xs text-slate-500 dark:text-slate-400 gap-1 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200 dark:border-slate-700">
+                {guide.reviewedBy && (
+                  <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    <span>Peer-Reviewed by {guide.reviewedBy.name}</span>
+                  </div>
+                )}
+                <div className="flex items-center gap-2 text-[11px]">
+                  <span>Updated {guide.date}</span>
+                  {guide.lastAuditedDate && <span>• Audited {guide.lastAuditedDate}</span>}
                   <span>•</span>
                   <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {guide.readTime}</span>
                 </div>
@@ -80,6 +101,32 @@ export const GuideDetailModal: React.FC<GuideDetailModalProps> = ({ guide, onClo
               </div>
             ))}
           </div>
+
+          {/* Authoritative Citations & RFCs */}
+          {guide.citations && guide.citations.length > 0 && (
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 space-y-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />
+                Technical Standards Citations & Specifications
+              </span>
+              <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
+                {guide.citations.map((c, i) => (
+                  <li key={i} className="flex items-center justify-between gap-2 p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                    <div>
+                      <span className="font-semibold text-slate-800 dark:text-slate-200">{c.title}</span>
+                      {c.issuingBody && <span className="text-slate-400 ml-1.5 font-mono">[{c.issuingBody}]</span>}
+                    </div>
+                    {c.url && (
+                      <a href={c.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600 flex items-center gap-1 font-mono text-[11px] shrink-0">
+                        <span>{c.standard || 'Specs'}</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Related Extensions */}
           <div className="pt-4 border-t border-slate-100 dark:border-slate-800">

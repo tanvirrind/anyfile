@@ -212,7 +212,7 @@ export const POPULAR_CONVERTER_PAIRS: ConverterPair[] = [
       },
       {
         question: 'Are my iPhone photos uploaded to any server?',
-        answer: 'No! OpenAnyFile converts your HEIC files 100% locally inside your web browser memory. Your personal photos are never transferred over the network.'
+        answer: 'No! AnyFileX converts your HEIC files 100% locally inside your web browser memory. Your personal photos are never transferred over the network.'
       },
       {
         question: 'Does converting HEIC to JPG reduce photo quality?',
@@ -545,7 +545,7 @@ export const POPULAR_CONVERTER_PAIRS: ConverterPair[] = [
       { title: 'Extract Files', desc: 'Download individual files or all extracted items.' }
     ],
     faqs: [
-      { question: 'Do I need WinZip or 7-Zip installed?', answer: 'No! OpenAnyFile inspects and extracts ZIP files directly inside your browser.' }
+      { question: 'Do I need WinZip or 7-Zip installed?', answer: 'No! AnyFileX inspects and extracts ZIP files directly inside your browser.' }
     ]
   },
   {
@@ -566,7 +566,7 @@ export const POPULAR_CONVERTER_PAIRS: ConverterPair[] = [
       { title: 'Extract Files', desc: 'Download extracted files.' }
     ],
     faqs: [
-      { question: 'Can I extract RAR files on Mac or iPhone without WinRAR?', answer: 'Yes! OpenAnyFile unpacks RAR files in browser memory on Mac, iOS, Android, and Windows.' }
+      { question: 'Can I extract RAR files on Mac or iPhone without WinRAR?', answer: 'Yes! AnyFileX unpacks RAR files in browser memory on Mac, iOS, Android, and Windows.' }
     ]
   }
 ];

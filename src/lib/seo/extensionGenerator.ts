@@ -252,7 +252,7 @@ export function getOrGenerateExtensionInfo(extRaw: string): FileTypeInfo {
   const dangerRating = kb?.dangerRating || inferDangerRating(extClean);
   const dangerExplanation =
     kb?.dangerExplanation ||
-    `Files with extension .${extUpper} have a ${dangerRating} safety profile. Always verify file signatures using OpenAnyFile's Magic Byte Detector before opening untrusted attachments.`;
+    `Files with extension .${extUpper} have a ${dangerRating} safety profile. Always verify file signatures using AnyFileX's Magic Byte Detector before opening untrusted attachments.`;
 
   // Find related apps from software DB
   const popularApps: SoftwareApp[] = findAppsForExtension(extClean, category);
@@ -271,13 +271,13 @@ export function getOrGenerateExtensionInfo(extRaw: string): FileTypeInfo {
       desc: `If no application opens .${extUpper}, install a free software suite like ${popularApps.map((a) => a.name).slice(0, 2).join(' or ')}.`,
     },
     {
-      title: `Step 3: Convert or view online with OpenAnyFile`,
-      desc: `Use OpenAnyFile's 100% private in-browser converters or File Identifier to inspect raw file contents instantly without installing software.`,
+      title: `Step 3: Convert or view online with AnyFileX`,
+      desc: `Use AnyFileX's 100% private in-browser converters or File Identifier to inspect raw file contents instantly without installing software.`,
     },
   ];
 
   const repairTips = [
-    `Verify header integrity: Use OpenAnyFile Magic Byte Detector to check if the .${extUpper} file signature is corrupted.`,
+    `Verify header integrity: Use AnyFileX Magic Byte Detector to check if the .${extUpper} file signature is corrupted.`,
     `Check file download completion: Interrupted downloads often cause broken .${extUpper} file headers. Re-download if needed.`,
     `Try universal media / document viewers: VLC for video/audio, LibreOffice for documents, or GIMP for graphics.`,
   ];
@@ -287,7 +287,7 @@ export function getOrGenerateExtensionInfo(extRaw: string): FileTypeInfo {
     name,
     category,
     description,
-    detailedOverview: `${description} OpenAnyFile provides full specifications, software listings, in-browser converters, and safety verification for .${extUpper} files.`,
+    detailedOverview: `${description} AnyFileX provides full specifications, software listings, in-browser converters, and safety verification for .${extUpper} files.`,
     mimeType,
     magicBytesHex,
     typicalSize,

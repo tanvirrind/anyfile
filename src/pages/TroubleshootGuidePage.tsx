@@ -60,10 +60,10 @@ export const TroubleshootGuidePage: React.FC<TroubleshootGuidePageProps> = ({
           '@type': 'TechArticle',
           headline: guide.title,
           description: guide.subtitle,
-          url: `https://anyfilex.com/troubleshoot/${guide.id}`,
+          url: `https://www.anyfilex.com/troubleshoot/${guide.id}`,
           mainEntityOfPage: {
             '@type': 'WebPage',
-            '@id': `https://anyfilex.com/troubleshoot/${guide.id}`
+            '@id': `https://www.anyfilex.com/troubleshoot/${guide.id}`
           },
           author: {
             '@type': 'Organization',

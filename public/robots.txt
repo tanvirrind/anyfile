@@ -4,25 +4,25 @@ Disallow: /admin-cms
 Disallow: /seo-audit
 
 # Sitemap Declarations
-Sitemap: https://anyfilex.com/sitemap.xml
-Sitemap: https://anyfilex.com/sitemap-main.xml
-Sitemap: https://anyfilex.com/sitemap-images.xml
-Sitemap: https://anyfilex.com/sitemap-documents.xml
-Sitemap: https://anyfilex.com/sitemap-archives.xml
-Sitemap: https://anyfilex.com/sitemap-cad.xml
-Sitemap: https://anyfilex.com/sitemap-programming.xml
-Sitemap: https://anyfilex.com/sitemap-medical.xml
-Sitemap: https://anyfilex.com/sitemap-video.xml
-Sitemap: https://anyfilex.com/sitemap-audio.xml
-Sitemap: https://anyfilex.com/sitemap-how-to-open.xml
-Sitemap: https://anyfilex.com/sitemap-comparisons.xml
-Sitemap: https://anyfilex.com/sitemap-converters.xml
-Sitemap: https://anyfilex.com/sitemap-troubleshoot.xml
-Sitemap: https://anyfilex.com/sitemap-security.xml
-Sitemap: https://anyfilex.com/sitemap-tools.xml
-Sitemap: https://anyfilex.com/sitemap-mime-types.xml
-Sitemap: https://anyfilex.com/sitemap-software.xml
-Sitemap: https://anyfilex.com/sitemap-guides.xml
+Sitemap: https://www.anyfilex.com/sitemap.xml
+Sitemap: https://www.anyfilex.com/sitemap-main.xml
+Sitemap: https://www.anyfilex.com/sitemap-images.xml
+Sitemap: https://www.anyfilex.com/sitemap-documents.xml
+Sitemap: https://www.anyfilex.com/sitemap-archives.xml
+Sitemap: https://www.anyfilex.com/sitemap-cad.xml
+Sitemap: https://www.anyfilex.com/sitemap-programming.xml
+Sitemap: https://www.anyfilex.com/sitemap-medical.xml
+Sitemap: https://www.anyfilex.com/sitemap-video.xml
+Sitemap: https://www.anyfilex.com/sitemap-audio.xml
+Sitemap: https://www.anyfilex.com/sitemap-how-to-open.xml
+Sitemap: https://www.anyfilex.com/sitemap-comparisons.xml
+Sitemap: https://www.anyfilex.com/sitemap-converters.xml
+Sitemap: https://www.anyfilex.com/sitemap-troubleshoot.xml
+Sitemap: https://www.anyfilex.com/sitemap-security.xml
+Sitemap: https://www.anyfilex.com/sitemap-tools.xml
+Sitemap: https://www.anyfilex.com/sitemap-mime-types.xml
+Sitemap: https://www.anyfilex.com/sitemap-software.xml
+Sitemap: https://www.anyfilex.com/sitemap-guides.xml
 
 # LLM Web Agents & AI Answer Engines Directives
 User-agent: GPTBot

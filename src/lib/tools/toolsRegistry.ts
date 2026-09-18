@@ -705,8 +705,44 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
     howToOpenSlugs: ['zip', 'rar']
   },
 
+  'file-identifier': {
+    slug: 'file-identifier',
+    name: 'File Intelligence Engine & Deep Diagnostic',
+    category: 'developer',
+    categoryLabel: 'Developer & Security Tools',
+    tagline: 'Inspect binary headers, detect extension mismatches, calculate entropy, and extract deep metadata',
+    description: 'Advanced file diagnostic tool analyzing magic bytes, true binary signatures, container markers, Shannon entropy, SHA-256 hashes, and embedded metadata in browser memory.',
+    processingType: 'local',
+    supportedInputFormats: ['*'],
+    supportedOutputFormats: ['json', 'txt'],
+    isPopular: true,
+    badge: 'Core Intelligence Engine',
+    features: [
+      'Multi-stage magic byte signature detection (200+ signatures)',
+      'Extension spoof and mismatch detection',
+      'Shannon entropy scoring and macro security auditing',
+      'Raw hexadecimal dump inspector with ASCII gutter mapping'
+    ],
+    steps: [
+      { title: 'Drop Any File', desc: 'Select or drag any digital file of any format or size.' },
+      { title: 'Binary Diagnostics', desc: 'Engine inspects magic bytes, MIME types, entropy, and metadata.' },
+      { title: 'Explore Intelligence Report', desc: 'View complete OS compatibility matrix, hex viewer, and repair advice.' }
+    ],
+    technicalDetails: 'Performs non-destructive ArrayBuffer slicing, byte offset matching, container parsing (PKZIP, ISOBMFF, RIFF), and crypto hash calculation in Web Workers and RAM.',
+    faqs: [
+      {
+        question: 'What is extension mismatch detection?',
+        answer: 'It verifies whether a file’s real internal binary format matches its filename extension, flagging disguised executables or misnamed documents.'
+      }
+    ],
+    relatedToolSlugs: ['magic-byte-detector', 'metadata-viewer', 'hash-generator', 'checksum-verifier'],
+    relatedExtensionSlugs: ['exe', 'zip', 'pdf', 'heic'],
+    comparisonSlugs: ['jpg-vs-jpeg', 'zip-vs-rar'],
+    howToOpenSlugs: ['dat', 'bin']
+  },
+
   'file-analyzer': {
-    slug: 'file-analyzer',
+    slug: 'file-identifier',
     name: 'File Intelligence Engine & Deep Diagnostic',
     category: 'developer',
     categoryLabel: 'Developer & Security Tools',

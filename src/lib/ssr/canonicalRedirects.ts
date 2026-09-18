@@ -47,6 +47,8 @@ export function getCanonicalRedirect(pathname: string, search: string = ''): str
     }
   } else if (section === 'extension' || section === 'extensions' || section === 'file-extension') {
     targetPath = param ? `/file-extensions/${param}` : '/file-extensions';
+  } else if (section === 'converter') {
+    targetPath = param ? `/converters/${param}` : '/converters';
   } else if (section === 'repair' || section === 'troubleshooting') {
     targetPath = param ? `/troubleshoot/${param}` : '/troubleshoot';
   } else if (section === 'resources' || section === 'resource') {
@@ -61,6 +63,8 @@ export function getCanonicalRedirect(pathname: string, search: string = ''): str
     targetPath = `/tools/${param}`;
   } else if (section === 'categories') {
     targetPath = param ? `/category/${param}` : '/file-extensions';
+  } else if (section === 'mime-types' || section === 'mime') {
+    targetPath = param ? `/mime-type/${param}` : '/tools/mime-checker';
   } else if (section === 'analyzer' || section === 'file-analyzer') {
     targetPath = param ? `/tools/file-identifier/result/${param}` : '/tools/file-identifier';
   } else if (section === 'tools' && (param === 'file-analyzer' || param === 'analyzer')) {
@@ -86,8 +90,13 @@ export function getCanonicalRedirect(pathname: string, search: string = ''): str
   }
 
   // Casing normalization (e.g. /FILE-EXTENSIONS -> /file-extensions)
-  if (/[A-Z]/.test(pathname)) {
-    const lower = pathname.toLowerCase();
+  // RFC 3986 specifies uppercase percent-encoded triplets (%2B); do not flag percent triplets as casing issues
+  const pathWithoutPercent = pathname.replace(/%[0-9A-Fa-f]{2}/g, '');
+  if (/[A-Z]/.test(pathWithoutPercent)) {
+    const lower = pathname.replace(/%[0-9A-Fa-f]{2}|[A-Z]/g, (match) => {
+      if (match.startsWith('%')) return match.toUpperCase();
+      return match.toLowerCase();
+    });
     if (lower !== pathname) {
       return lower + search;
     }

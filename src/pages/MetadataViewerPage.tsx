@@ -49,7 +49,7 @@ export const MetadataViewerPage: React.FC<MetadataViewerPageProps> = ({ onNaviga
   const schemaJson = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'OpenAnyFile File Metadata Viewer',
+    name: 'AnyFileX File Metadata Viewer',
     applicationCategory: 'UtilityApplication',
     operatingSystem: 'All',
     description: 'Inspect hidden EXIF, GPS, camera specs, and author metadata inside image and document files directly in your web browser.'
@@ -109,7 +109,7 @@ export const MetadataViewerPage: React.FC<MetadataViewerPageProps> = ({ onNaviga
             Supported File Types & Extracted Properties
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
-            OpenAnyFile extracts detailed binary headers across popular image and document formats.
+            AnyFileX extracts detailed binary headers across popular image and document formats.
           </p>
         </div>
 

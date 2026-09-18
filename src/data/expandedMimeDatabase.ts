@@ -1,5 +1,5 @@
 // Comprehensive MIME Type & Magic Byte Database (500+ Formats)
-// OpenAnyFile.net Engine
+// AnyFileX Engine
 
 export interface MimeRecord {
   extension: string; // e.g. "pdf", "heic", "mp4"
@@ -829,7 +829,7 @@ export function lookupMimeByInput(input: string): MimeRecord {
       category: mapped.category,
       name: `${targetExt.toUpperCase()} File`,
       description: `Format associated with ${mapped.defaultApp}.`,
-      commonSoftware: [mapped.defaultApp, 'OpenAnyFile Universal Viewer', 'Hex / Text Editor'],
+      commonSoftware: [mapped.defaultApp, 'AnyFileX Universal Viewer', 'Hex / Text Editor'],
       supportedOs: ['windows', 'mac', 'linux'],
       securityNotes: 'Standard data or code file format.'
     };
@@ -842,7 +842,7 @@ export function lookupMimeByInput(input: string): MimeRecord {
     category: 'General Files',
     name: `${(targetExt || 'UNKNOWN').toUpperCase()} File Format`,
     description: `Binary or text file format identified by extension .${targetExt}`,
-    commonSoftware: ['OpenAnyFile Universal Viewer', 'VS Code', 'Hex Editor', 'System OS Default'],
+    commonSoftware: ['AnyFileX Universal Viewer', 'VS Code', 'Hex Editor', 'System OS Default'],
     supportedOs: ['windows', 'mac', 'linux', 'android', 'ios'],
     securityNotes: 'Verify magic bytes to confirm actual binary signature integrity.'
   };

@@ -120,7 +120,7 @@ export const MimeCheckerPage: React.FC<MimeCheckerPageProps> = ({
   const schemaJson = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'OpenAnyFile MIME Type & Extension Checker',
+    name: 'AnyFileX MIME Type & Extension Checker',
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'All',
     description: 'Lookup MIME types, file categories, software compatibility, and magic bytes for 500+ extensions.'

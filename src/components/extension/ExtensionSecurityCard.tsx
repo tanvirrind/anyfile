@@ -78,7 +78,7 @@ export const ExtensionSecurityCard: React.FC<ExtensionSecurityCardProps> = ({ it
                 <span>Sandboxed Parsing</span>
               </div>
               <p className="text-xs text-slate-500">
-                Safe to inspect with OpenAnyFile's browser sandbox
+                Safe to inspect with AnyFileX's browser sandbox
               </p>
             </div>
           </div>

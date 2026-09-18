@@ -37,7 +37,7 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
   const [hexInput, setHexInput] = useState('89 50 4E 47');
 
   // Hash Generator State
-  const [hashText, setHashText] = useState('OpenAnyFile Universal Utility Platform');
+  const [hashText, setHashText] = useState('AnyFileX Universal Utility Platform');
   const [hashes, setHashes] = useState<{ md5: string; sha1: string; sha256: string }>({
     md5: 'e3b0c44298fc1c149afbf4c8996fb924',
     sha1: 'da39a3ee5e6b4b0d3255bfef95601890afd80709',

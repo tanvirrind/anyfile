@@ -38,8 +38,9 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
   // Track recently viewed extensions in localStorage
   useEffect(() => {
     try {
-      const key = 'openanyfile_recently_viewed';
-      const stored: string[] = JSON.parse(localStorage.getItem(key) || '[]');
+      const key = 'anyfilex_recently_viewed';
+      const rawStored = localStorage.getItem(key) || localStorage.getItem('openanyfile_recently_viewed');
+      const stored: string[] = JSON.parse(rawStored || '[]');
       const filtered = stored.filter((x) => x.toUpperCase() !== extUpper);
       setRecentlyViewed(filtered);
 
@@ -112,7 +113,7 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
     },
     {
       q: `How do I open .${extUpper} files without paid software?`,
-      a: `You can view .${extUpper} files using free software such as ${currentExt.popularApps.map((a) => a.name).join(', ') || 'open source readers'}, or inspect its raw header with OpenAnyFile's browser-based File Identifier.`
+      a: `You can view .${extUpper} files using free software such as ${currentExt.popularApps.map((a) => a.name).join(', ') || 'open source readers'}, or inspect its raw header with AnyFileX's browser-based File Identifier.`
     },
     {
       q: `Can a .${extUpper} file contain viruses or malware?`,
@@ -122,7 +123,7 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
       q: `How can I convert .${extUpper} to other formats?`,
       a: currentExt.conversions.length > 0
         ? `.${extUpper} files can be converted to ${currentExt.conversions.map((c) => '.' + c.targetExtension).join(', ')} using our free online converter.`
-        : `You can convert .${extUpper} files using OpenAnyFile's client-side conversion engine directly in your browser.`
+        : `You can convert .${extUpper} files using AnyFileX's client-side conversion engine directly in your browser.`
     }
   ];
 
@@ -154,7 +155,7 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
           className="px-4 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-colors cursor-pointer flex items-center gap-1.5 shrink-0 self-start sm:self-auto"
           id="seo-browse-all-ext-btn"
         >
-          <span>Browse 50,000+ Extensions</span>
+          <span>Browse 10,000+ Extensions</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>

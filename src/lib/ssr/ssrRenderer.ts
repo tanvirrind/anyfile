@@ -96,7 +96,8 @@ export function renderSsrPageHtml(
     );
   }
 
-  // 5. Update Open Graph Meta Tags
+  // 5. Update Open Graph Meta Tags & Site Identity Signals
+  output = replaceOrInsertMeta(output, 'property', 'og:site_name', 'AnyFileX');
   output = replaceOrInsertMeta(output, 'property', 'og:title', meta.title);
   output = replaceOrInsertMeta(output, 'property', 'og:description', meta.description);
   output = replaceOrInsertMeta(output, 'property', 'og:url', meta.canonicalUrl);
@@ -104,7 +105,13 @@ export function renderSsrPageHtml(
   output = replaceOrInsertMeta(output, 'property', 'og:image', meta.ogImage);
   output = replaceOrInsertMeta(output, 'property', 'og:image:alt', meta.ogImageAlt);
 
-  // 6. Update Twitter Card Tags
+  // 6. Update Web Application & Brand Identity Meta Tags
+  output = replaceOrInsertMeta(output, 'name', 'application-name', 'AnyFileX');
+  output = replaceOrInsertMeta(output, 'name', 'apple-mobile-web-app-title', 'AnyFileX');
+  output = replaceOrInsertMeta(output, 'name', 'publisher', 'AnyFileX');
+  output = replaceOrInsertMeta(output, 'name', 'author', 'AnyFileX');
+
+  // 7. Update Twitter Card Tags
   output = replaceOrInsertMeta(output, 'name', 'twitter:title', meta.title);
   output = replaceOrInsertMeta(output, 'name', 'twitter:description', meta.description);
   output = replaceOrInsertMeta(output, 'name', 'twitter:image', meta.ogImage);

@@ -124,7 +124,7 @@ export const RemoveMetadataPage: React.FC<RemoveMetadataPageProps> = ({ onNaviga
       {
         '@type': 'HowToStep',
         name: 'Select File',
-        text: 'Upload or drop your JPG, PNG, HEIC, or PDF file into OpenAnyFile Metadata Stripper.'
+        text: 'Upload or drop your JPG, PNG, HEIC, or PDF file into AnyFileX Metadata Stripper.'
       },
       {
         '@type': 'HowToStep',
@@ -142,7 +142,7 @@ export const RemoveMetadataPage: React.FC<RemoveMetadataPageProps> = ({ onNaviga
   const schemaTool = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'OpenAnyFile Metadata Stripper',
+    name: 'AnyFileX Metadata Stripper',
     applicationCategory: 'UtilityApplication',
     operatingSystem: 'All',
     description: 'Free client-side browser utility to erase EXIF, GPS coordinates, author names, and revision history from images and documents.'
@@ -330,7 +330,7 @@ export const RemoveMetadataPage: React.FC<RemoveMetadataPageProps> = ({ onNaviga
               <li>Open the image in <strong>Preview</strong>.</li>
               <li>Select <strong>Tools &gt; Show Inspector</strong> (Cmd + I) and click the <strong>EXIF / GPS</strong> tab.</li>
               <li>Click <strong>Remove Location Info</strong> at the bottom of the inspector window.</li>
-              <li>For complete EXIF stripping, export via <strong>ImageOptim</strong> or OpenAnyFile browser scrubber.</li>
+              <li>For complete EXIF stripping, export via <strong>ImageOptim</strong> or AnyFileX browser scrubber.</li>
             </ol>
           </div>
 
@@ -390,7 +390,7 @@ export const RemoveMetadataPage: React.FC<RemoveMetadataPageProps> = ({ onNaviga
           </li>
           <li className="flex items-start gap-2">
             <span className="text-emerald-400 font-bold">•</span>
-            <span>Use OpenAnyFile Metadata Viewer to verify that EXIF tags have been removed successfully.</span>
+            <span>Use AnyFileX Metadata Viewer to verify that EXIF tags have been removed successfully.</span>
           </li>
         </ul>
       </div>

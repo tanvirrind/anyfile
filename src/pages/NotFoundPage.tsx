@@ -126,7 +126,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate, requeste
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold text-sm transition-colors border border-slate-200 dark:border-slate-700"
             >
               <FileCode2 className="w-4 h-4 text-blue-500" />
-              Browse 50,000+ Extensions
+              Browse 10,000+ Extensions
             </button>
             <button
               onClick={() => {

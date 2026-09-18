@@ -38,7 +38,7 @@ export const HowItWorksSection: React.FC = () => {
             Simple 3-Step Process
           </span>
           <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white mt-1">
-            How OpenAnyFile Works
+            How AnyFileX Works
           </h2>
           <p className="mt-2 text-base text-slate-600 dark:text-slate-400">
             From unknown file prompt to full clarity in less than 5 seconds.

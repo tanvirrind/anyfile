@@ -75,7 +75,7 @@ export const RarExtractorWorkspace: React.FC = () => {
       } else {
         // Sample entries fallback if unrar library is processing binary
         parsedItems.push(
-          { name: 'document_manifest.txt', size: 1024, type: 'txt', isDir: false, content: `Archive Manifest for ${file.name}\nExtracted cleanly via OpenAnyFile Online Engine.` },
+          { name: 'document_manifest.txt', size: 1024, type: 'txt', isDir: false, content: `Archive Manifest for ${file.name}\nExtracted cleanly via AnyFileX Online Engine.` },
           { name: 'media/photo_01.jpg', size: 245000, type: 'jpg', isDir: false },
           { name: 'data_export.csv', size: 12400, type: 'csv', isDir: false, content: 'id,name,value\n1,Item A,100\n2,Item B,200' }
         );

@@ -78,7 +78,7 @@ export const MagicByteDetectorPage: React.FC<MagicByteDetectorPageProps> = ({ on
 
   const handleDownloadReport = () => {
     if (!analysisResult) return;
-    const reportText = `OpenAnyFile.net Security Utility - Magic Byte Binary Signature Report
+    const reportText = `AnyFileX Security Utility - Magic Byte Binary Signature Report
 ==================================================
 File Name:          ${analysisResult.fileName}
 File Size:          ${analysisResult.fileSize.toLocaleString()} bytes
@@ -163,14 +163,14 @@ Analyzed At: ${analysisResult.analyzedAt}
     },
     {
       question: 'Is my uploaded file safe when analyzing magic bytes here?',
-      answer: 'Yes! OpenAnyFile processes files 100% locally in your web browser memory using standard JavaScript FileReader streams. No file data is ever uploaded to any cloud server.'
+      answer: 'Yes! AnyFileX processes files 100% locally in your web browser memory using standard JavaScript FileReader streams. No file data is ever uploaded to any cloud server.'
     }
   ];
 
   const schemaJson = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'OpenAnyFile Magic Byte Binary Signature Detector',
+    name: 'AnyFileX Magic Byte Binary Signature Detector',
     applicationCategory: 'SecurityApplication',
     operatingSystem: 'All',
     description: 'Inspect binary file headers, magic byte hex signatures, and detect malicious file extension spoofing in browser.'

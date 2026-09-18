@@ -102,6 +102,10 @@ export function routeToPath(route: AppRoute): string {
       return '/sitemaps';
     case 'about':
       return '/about';
+    case 'editorial-standards':
+      return '/editorial-standards';
+    case 'authors':
+      return route.authorId ? `/authors/${encodeURIComponent(route.authorId)}` : '/authors';
     case 'contact':
       return '/contact';
     case 'workflows':
@@ -283,12 +287,6 @@ export function parsePathToRoute(pathname: string, search: string = ''): AppRout
     case 'guide':
     case 'guides': {
       if (param) {
-        if (param.startsWith('what-is-a-') || param.startsWith('what-is-')) {
-          const match = param.match(/^what-is-(?:a-)?([a-z0-9_-]+?)(?:-file)?$/i);
-          if (match && match[1]) {
-            return { view: 'extension-detail', ext: match[1].toLowerCase() };
-          }
-        }
         return { view: 'guide-detail', id: param };
       }
       return { view: 'guides' };
@@ -317,6 +315,15 @@ export function parsePathToRoute(pathname: string, search: string = ''): AppRout
     }
     case 'about':
       return { view: 'about' };
+    case 'editorial':
+    case 'editorial-standards':
+    case 'editorial-policy':
+    case 'standards':
+      return { view: 'editorial-standards' };
+    case 'authors':
+    case 'author':
+    case 'review-board':
+      return { view: 'authors', authorId: param };
     case 'admin':
     case 'cms': {
       if (param === 'content' || param === 'authority') {

@@ -168,15 +168,15 @@ export const FormatGuidePage: React.FC<FormatGuidePageProps> = ({ format, onNavi
       author: {
         '@type': 'Organization',
         name: 'AnyFileX Technical Research Team',
-        url: 'https://anyfilex.com'
+        url: 'https://www.anyfilex.com/'
       },
       publisher: {
         '@type': 'Organization',
         name: 'AnyFileX',
-        url: 'https://anyfilex.com',
+        url: 'https://www.anyfilex.com/',
         logo: {
           '@type': 'ImageObject',
-          url: 'https://anyfilex.com/favicon.svg'
+          url: 'https://www.anyfilex.com/favicon.svg'
         }
       },
       about: {

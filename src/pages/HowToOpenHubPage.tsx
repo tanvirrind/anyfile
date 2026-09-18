@@ -64,7 +64,7 @@ export const HowToOpenHubPage: React.FC<HowToOpenHubPageProps> = ({ onNavigate, 
     <div className="py-8 md:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 animate-in fade-in duration-200">
       <SEOHead
         title="How to Open Any File – Complete Directory & Guides for Windows, Mac & Mobile"
-        description="Search and browse step-by-step guides on how to open, view, and troubleshoot 50,000+ file formats across Windows 11/10, macOS, Linux, iPhone, and Android."
+        description="Search and browse step-by-step guides on how to open, view, and troubleshoot 10,000+ file formats across Windows 11/10, macOS, Linux, iPhone, and Android."
         canonicalPath="/how-to-open"
         breadcrumbs={[
           { name: 'Home', path: '/' },

@@ -34,7 +34,7 @@ export function generateExtensionFAQs(extInfo: FileTypeInfo): FAQItem[] {
     },
     {
       question: `How do I open a .${ext} file on Windows or Mac?`,
-      answer: `You can open .${ext} files using ${apps}. If you do not have native software installed, you can use OpenAnyFile's free File Identifier or convert .${ext} to a standard format in your browser.`,
+      answer: `You can open .${ext} files using ${apps}. If you do not have native software installed, you can use AnyFileX's free File Identifier or convert .${ext} to a standard format in your browser.`,
     },
     {
       question: `Is a .${ext} file safe to open?`,
@@ -44,11 +44,11 @@ export function generateExtensionFAQs(extInfo: FileTypeInfo): FAQItem[] {
       question: `Can I convert a .${ext} file to other formats?`,
       answer: extInfo.conversions.length > 0
         ? `Yes! .${ext} can be converted to formats such as ${extInfo.conversions.map((c) => '.' + c.targetExtension).join(', ')} directly in your web browser.`
-        : `Yes, you can convert .${ext} using OpenAnyFile's online file converter or standalone desktop suites.`,
+        : `Yes, you can convert .${ext} using AnyFileX's online file converter or standalone desktop suites.`,
     },
     {
       question: `What should I do if a .${ext} file is corrupted or won't open?`,
-      answer: `If your .${ext} file displays an invalid header or signature error, check its magic bytes hex header (${extInfo.magicBytesHex}) using OpenAnyFile's Magic Byte Detector or follow our step-by-step file repair guide.`,
+      answer: `If your .${ext} file displays an invalid header or signature error, check its magic bytes hex header (${extInfo.magicBytesHex}) using AnyFileX's Magic Byte Detector or follow our step-by-step file repair guide.`,
     },
   ];
 

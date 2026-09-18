@@ -19,7 +19,7 @@ export interface RouteMetadata {
   route: AppRoute;
 }
 
-const BASE_URL = 'https://anyfilex.com';
+const BASE_URL = 'https://www.anyfilex.com';
 
 /**
  * High-performance route metadata resolver.
@@ -29,14 +29,15 @@ const BASE_URL = 'https://anyfilex.com';
 export function resolveRouteMetadata(pathname: string, search: string = ''): RouteMetadata {
   const route = parsePathToRoute(pathname, search);
   const cleanPath = routeToPath(route);
-  const canonicalUrl = `${BASE_URL}${cleanPath === '/' ? '' : cleanPath}`;
+  const isHome = cleanPath === '/' || route.view === 'home';
+  const canonicalUrl = `${BASE_URL}${isHome ? '/' : cleanPath}`;
 
   // Base Organization & WebSite Schemas
   const baseOrgSchema = {
     '@type': 'Organization',
     '@id': `${BASE_URL}/#organization`,
     name: 'AnyFileX',
-    url: BASE_URL,
+    url: `${BASE_URL}/`,
     logo: {
       '@type': 'ImageObject',
       '@id': `${BASE_URL}/#logo`,
@@ -57,9 +58,10 @@ export function resolveRouteMetadata(pathname: string, search: string = ''): Rou
   const baseWebSiteSchema = {
     '@type': 'WebSite',
     '@id': `${BASE_URL}/#website`,
-    url: BASE_URL,
     name: 'AnyFileX',
-    description: 'Open Any File in Seconds with AnyFileX.com. Convert, repair, inspect, and identify digital file formats.',
+    alternateName: ['anyfilex.com'],
+    url: `${BASE_URL}/`,
+    description: 'Open Any File in Seconds with AnyFileX. Convert, repair, inspect, and identify digital file formats.',
     publisher: {
       '@id': `${BASE_URL}/#organization`,
     },
@@ -78,12 +80,12 @@ export function resolveRouteMetadata(pathname: string, search: string = ''): Rou
 
   const buildBreadcrumbSchema = (crumbs: BreadcrumbItemSchema[]) => ({
     '@type': 'BreadcrumbList',
-    '@id': `${canonicalUrl}/#breadcrumb`,
+    '@id': `${canonicalUrl}#breadcrumb`,
     itemListElement: crumbs.map((crumb, idx) => ({
       '@type': 'ListItem',
       position: idx + 1,
       name: crumb.name,
-      item: crumb.path.startsWith('http') ? crumb.path : `${BASE_URL}${crumb.path === '/' ? '' : crumb.path}`,
+      item: crumb.path.startsWith('http') ? crumb.path : `${BASE_URL}${crumb.path === '/' ? '/' : crumb.path}`,
     })),
   });
 
@@ -101,7 +103,14 @@ export function resolveRouteMetadata(pathname: string, search: string = ''): Rou
   const prerenderedHtml = dynamicMeta.prerenderedHtml || '';
 
   const breadcrumbSchema = buildBreadcrumbSchema(breadcrumbs);
-  const schemaGraph = [baseOrgSchema, baseWebSiteSchema, breadcrumbSchema, ...(dynamicMeta.specificSchemas || [])];
+  const schemaGraph: any[] = [baseOrgSchema];
+  if (isHome) {
+    schemaGraph.push(baseWebSiteSchema);
+  }
+  schemaGraph.push(breadcrumbSchema);
+  if (dynamicMeta.specificSchemas && dynamicMeta.specificSchemas.length > 0) {
+    schemaGraph.push(...dynamicMeta.specificSchemas);
+  }
 
   return {
     statusCode,

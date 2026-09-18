@@ -44,8 +44,8 @@ export const FileIdentifierPage: React.FC<FileIdentifierPageProps> = ({ onNaviga
 
   const faqs = [
     {
-      question: 'How does the OpenAnyFile Magic Byte Identifier engine work?',
-      answer: 'Every file format begins with a unique hexadecimal signature sequence in its header known as magic bytes. OpenAnyFile reads the first 64 bytes of your uploaded file directly in your browser RAM and checks it against our global database of 26+ binary signatures.'
+      question: 'How does the AnyFileX Magic Byte Identifier engine work?',
+      answer: 'Every file format begins with a unique hexadecimal signature sequence in its header known as magic bytes. AnyFileX reads the first 64 bytes of your uploaded file directly in your browser RAM and checks it against our global database of 26+ binary signatures.'
     },
     {
       question: 'Are my private uploaded files sent to an external server?',
@@ -64,7 +64,7 @@ export const FileIdentifierPage: React.FC<FileIdentifierPageProps> = ({ onNaviga
   const schemaJson = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'OpenAnyFile File Identifier Engine',
+    name: 'AnyFileX File Identifier Engine',
     applicationCategory: 'UtilityApplication',
     operatingSystem: 'All',
     description: 'Inspect raw binary file headers and identify unknown file formats using magic byte signature matching directly in your web browser.'

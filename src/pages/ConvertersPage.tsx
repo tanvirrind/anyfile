@@ -66,12 +66,12 @@ export const ConvertersPage: React.FC<ConvertersPageProps> = ({
 
   const directoryFaqs = [
     {
-      question: 'How do OpenAnyFile online file converters work?',
+      question: 'How do AnyFileX online file converters work?',
       answer: 'Our converters leverage client-side HTML5 Canvas, WebAssembly, and modern Web APIs to decode input file byte streams and re-encode them into target formats directly inside your browser RAM. Your original files are never uploaded to any remote server.'
     },
     {
       question: 'Which file formats are supported for conversion?',
-      answer: 'OpenAnyFile supports standard image formats (HEIC, JPG, PNG, WEBP, SVG, GIF, BMP, TIFF, AVIF), documents (PDF, DOCX, TXT), audio (MP3, WAV), and compressed archives. You can generate any custom format conversion pair dynamically.'
+      answer: 'AnyFileX supports standard image formats (HEIC, JPG, PNG, WEBP, SVG, GIF, BMP, TIFF, AVIF), documents (PDF, DOCX, TXT), audio (MP3, WAV), and compressed archives. You can generate any custom format conversion pair dynamically.'
     },
     {
       question: 'Is there a file size limit or file count restriction?',

@@ -27,6 +27,8 @@ import {
   Database
 } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
+import { AuthorBadge } from '../components/AuthorBadge';
+import { EditorialStandardsModal } from '../components/EditorialStandardsModal';
 import {
   getTechnicalGuide,
   TECHNICAL_AUTHORITY_GUIDES,
@@ -46,6 +48,7 @@ export const TechnicalGuidePage: React.FC<TechnicalGuidePageProps> = ({
   const guide: TechnicalAuthorityGuide = getTechnicalGuide(slug);
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'engine' | 'deepdive' | 'standards'>('overview');
+  const [editorialModalOpen, setEditorialModalOpen] = useState(false);
 
   // Interactive Live Tester State
   const [testInput, setTestInput] = useState<string>('');
@@ -104,10 +107,10 @@ export const TechnicalGuidePage: React.FC<TechnicalGuidePageProps> = ({
           '@type': 'TechArticle',
           headline: guide.title,
           description: guide.subtitle,
-          url: `https://anyfilex.com/security/${guide.slug}`,
+          url: `https://www.anyfilex.com/security/${guide.slug}`,
           mainEntityOfPage: {
             '@type': 'WebPage',
-            '@id': `https://anyfilex.com/security/${guide.slug}`
+            '@id': `https://www.anyfilex.com/security/${guide.slug}`
           },
           author: {
             '@type': 'Person',
@@ -169,20 +172,38 @@ export const TechnicalGuidePage: React.FC<TechnicalGuidePageProps> = ({
           </p>
 
           {/* Author Attribution & Peer-Review Credential */}
-          <div className="flex items-center gap-3 pt-2 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
-            <img
-              src={guide.author.avatar}
-              alt={guide.author.name}
-              className="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700"
-            />
-            <div>
-              <div className="font-semibold text-slate-900 dark:text-slate-200">
-                {guide.author.name}
-              </div>
-              <div className="text-[11px] text-slate-400">
-                {guide.author.role}
-              </div>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-slate-200 dark:border-slate-800 text-xs">
+            <div className="flex flex-wrap items-center gap-4">
+              <AuthorBadge
+                authorName={guide.author.name}
+                authorRole={guide.author.role}
+                authorAvatar={guide.author.avatar}
+                credentials={guide.author.credentials}
+                date={guide.lastUpdated}
+                lastAuditedDate={guide.lastAuditedDate}
+                showAuditDate={true}
+                onNavigate={onNavigate}
+                size="md"
+              />
+
+              {guide.reviewedBy && (
+                <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/60 text-xs text-emerald-800 dark:text-emerald-300">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>
+                    Peer-Reviewed by <strong className="font-semibold">{guide.reviewedBy.name}</strong>
+                    {guide.reviewedBy.credentials && ` (${guide.reviewedBy.credentials})`}
+                  </span>
+                </div>
+              )}
             </div>
+
+            <button
+              onClick={() => setEditorialModalOpen(true)}
+              className="self-start sm:self-auto px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
+              <span>Editorial Policy</span>
+            </button>
           </div>
         </div>
 
@@ -587,6 +608,12 @@ export const TechnicalGuidePage: React.FC<TechnicalGuidePageProps> = ({
           </section>
         )}
       </div>
+
+      <EditorialStandardsModal
+        isOpen={editorialModalOpen}
+        onClose={() => setEditorialModalOpen(false)}
+        onNavigate={onNavigate}
+      />
     </div>
   );
 };

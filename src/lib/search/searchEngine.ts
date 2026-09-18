@@ -94,7 +94,7 @@ class SearchEngine {
       const rec: SearchRecord = {
         id: `sw-${s.id}`,
         slug: `software/${s.id}`,
-        url: `https://anyfilex.com/software/${s.id}`,
+        url: `https://www.anyfilex.com/software/${s.id}`,
         route: { view: 'software-detail', id: s.id },
         title: `${s.name} (${s.developer})`,
         description: s.description,
@@ -125,8 +125,8 @@ class SearchEngine {
     CONVERTERS_LIST.forEach((c) => {
       const rec: SearchRecord = {
         id: `conv-${c.id}`,
-        slug: `converter/${c.id}`,
-        url: `https://anyfilex.com/converter/${c.id}`,
+        slug: `converters/${c.id}`,
+        url: `https://www.anyfilex.com/converters/${c.id}`,
         route: { view: 'converter-detail', id: c.id },
         title: c.name,
         description: c.description,
@@ -164,7 +164,7 @@ class SearchEngine {
       const rec: SearchRecord = {
         id: `repair-${r.id}`,
         slug: `troubleshoot/${r.id}`,
-        url: `https://anyfilex.com/troubleshoot/${r.id}`,
+        url: `https://www.anyfilex.com/troubleshoot/${r.id}`,
         route: { view: 'repair-detail', id: r.id },
         title: r.title,
         description: r.symptoms.join(' • '),
@@ -201,7 +201,7 @@ class SearchEngine {
       const rec: SearchRecord = {
         id: `troubleshoot-${tg.id}`,
         slug: `troubleshoot/${tg.id}`,
-        url: `https://anyfilex.com/troubleshoot/${tg.id}`,
+        url: `https://www.anyfilex.com/troubleshoot/${tg.id}`,
         route: { view: 'repair-detail', id: tg.id },
         title: tg.title,
         description: tg.problemSummary,
@@ -241,7 +241,7 @@ class SearchEngine {
       const rec: SearchRecord = {
         id: `tech-auth-${tag.id}`,
         slug: `security/${tag.slug}`,
-        url: `https://anyfilex.com/security/${tag.slug}`,
+        url: `https://www.anyfilex.com/security/${tag.slug}`,
         route: { view: 'technical-guide', slug: tag.slug } as any,
         title: tag.title,
         description: tag.executiveSummary,
@@ -283,7 +283,7 @@ class SearchEngine {
     this.indexMap.set('hub-file-security', {
       id: 'hub-file-security',
       slug: 'security',
-      url: 'https://anyfilex.com/security',
+      url: 'https://www.anyfilex.com/security',
       route: { view: 'security-hub' } as any,
       title: 'File Security & Technical Authority Center',
       description: 'Comprehensive engineering references on binary signatures, magic bytes, MIME types, Shannon entropy, and cryptographic integrity.',
@@ -305,8 +305,8 @@ class SearchEngine {
       const ext = g.relatedExtensions && g.relatedExtensions.length > 0 ? g.relatedExtensions[0] : '';
       const rec: SearchRecord = {
         id: `guide-${g.id}`,
-        slug: `guide/${g.id}`,
-        url: `https://anyfilex.com/guide/${g.id}`,
+        slug: `guides/${g.id}`,
+        url: `https://www.anyfilex.com/guides/${g.id}`,
         route: { view: 'guide-detail', id: g.id },
         title: g.title,
         description: g.summary,
@@ -329,7 +329,7 @@ class SearchEngine {
       const rec: SearchRecord = {
         id: `blog-${b.id}`,
         slug: `blog/${b.id}`,
-        url: `https://anyfilex.com/blog/${b.id}`,
+        url: `https://www.anyfilex.com/blog/${b.id}`,
         route: { view: 'blog-detail', id: b.id },
         title: b.title,
         description: b.summary,
@@ -353,7 +353,7 @@ class SearchEngine {
       const rec: SearchRecord = {
         id: `content-${ce.id}`,
         slug: `guides/${ce.slug}`,
-        url: `https://anyfilex.com/guides/${ce.slug}`,
+        url: `https://www.anyfilex.com/guides/${ce.slug}`,
         route: { view: 'guide-detail', id: ce.slug },
         title: ce.title,
         description: ce.summary,
@@ -378,8 +378,8 @@ class SearchEngine {
         if (!this.indexMap.has(hubId)) {
           this.indexMap.set(hubId, {
             id: hubId,
-            slug: `hub/${ext}`,
-            url: `https://anyfilex.com/hub/${ext}`,
+            slug: `file-extensions/${ext}`,
+            url: `https://www.anyfilex.com/file-extensions/${ext}`,
             route: { view: 'content-hub' as any, topic: ext },
             title: `${ext.toUpperCase()} Topic Authority Hub`,
             description: `Complete technical hub for ${ext.toUpperCase()} files: tools, conversion guides, magic bytes, and OS instructions.`,
@@ -406,8 +406,8 @@ class SearchEngine {
       const guideId = `format-guide-${fmt}`;
       const rec: SearchRecord = {
         id: guideId,
-        slug: `format/${fmt}`,
-        url: `https://anyfilex.com/format/${fmt}`,
+        slug: `file-extensions/${fmt}`,
+        url: `https://www.anyfilex.com/file-extensions/${fmt}`,
         route: { view: 'format-guide', format: fmt },
         title: `What Is a ${guide.format} File? (${guide.fullName})`,
         description: guide.summary,
@@ -448,7 +448,7 @@ class SearchEngine {
       const rec: SearchRecord = {
         id: `cat-${cat.id}`,
         slug: `category/${cat.id}`,
-        url: `https://anyfilex.com/category/${cat.id}`,
+        url: `https://www.anyfilex.com/category/${cat.id}`,
         route: { view: 'extensions' },
         title: `${cat.name} File Extensions Directory`,
         description: cat.description,
@@ -609,14 +609,14 @@ class SearchEngine {
       {
         id: 'all-tools',
         title: 'All File Utilities Hub',
-        desc: 'Complete directory of 10+ free browser-based file analysis and conversion utilities',
+        desc: 'Complete directory of 35+ free browser-based file analysis and conversion utilities',
         route: { view: 'tools' },
         keywords: ['file utilities', 'all tools', 'online file tools', 'anyfilex tools']
       },
       {
         id: 'seo-audit',
         title: 'SEO Audit & XML Sitemaps Hub',
-        desc: 'Diagnostic verification and segmented XML sitemaps for 50,000+ file extensions',
+        desc: 'Diagnostic verification and segmented XML sitemaps for 10,000+ file extensions',
         route: { view: 'seo-audit' },
         keywords: ['seo audit', 'sitemap generator', 'xml sitemaps', 'schema markup', 'core web vitals']
       }
@@ -626,7 +626,7 @@ class SearchEngine {
       const rec: SearchRecord = {
         id: `tool-${t.id}`,
         slug: `tools/${t.id}`,
-        url: `https://anyfilex.com/tools/${t.id}`,
+        url: `https://www.anyfilex.com/tools/${t.id}`,
         route: t.route,
         title: t.title,
         description: t.desc,
@@ -660,8 +660,8 @@ class SearchEngine {
     comparisonsList.forEach((comp) => {
       const rec: SearchRecord = {
         id: `comp-${comp.slug}`,
-        slug: `comparison/${comp.slug}`,
-        url: `https://anyfilex.com/comparison/${comp.slug}`,
+        slug: `compare/${comp.slug}`,
+        url: `https://www.anyfilex.com/compare/${comp.slug}`,
         route: { view: 'comparison-detail', slug: comp.slug },
         title: comp.title,
         description: `In-depth technical breakdown, file size benchmarks, quality analysis, and software compatibility between .${comp.ext1} and .${comp.ext2}.`,
@@ -696,8 +696,8 @@ class SearchEngine {
     mimeTypesList.forEach((m) => {
       const rec: SearchRecord = {
         id: `mime-${m.ext.toLowerCase()}`,
-        slug: `mime/${m.mime}`,
-        url: `https://anyfilex.com/mime-checker`,
+        slug: `tools/mime-checker`,
+        url: `https://www.anyfilex.com/tools/mime-checker`,
         route: { view: 'mime-checker' },
         title: `MIME Type: ${m.mime} (.${m.ext})`,
         description: m.desc,
@@ -729,7 +729,7 @@ class SearchEngine {
       const rec: SearchRecord = {
         id: `sec-${sec.ext.toLowerCase()}`,
         slug: `security/${sec.ext.toLowerCase()}`,
-        url: `https://anyfilex.com/extension/${sec.ext.toLowerCase()}`,
+        url: `https://www.anyfilex.com/file-extensions/${sec.ext.toLowerCase()}`,
         route: { view: 'extension-detail', ext: sec.ext.toLowerCase() },
         title: `Security Risk Rating: .${sec.ext} (${sec.risk} Risk)`,
         description: sec.desc,
@@ -758,8 +758,8 @@ class SearchEngine {
   public registerExtensionRecord(e: FileTypeInfo): SearchRecord {
     const rec: SearchRecord = {
       id: `ext-${e.extension.toLowerCase()}`,
-      slug: `extension/${e.extension.toLowerCase()}`,
-      url: `https://anyfilex.com/extension/${e.extension.toLowerCase()}`,
+      slug: `file-extensions/${e.extension.toLowerCase()}`,
+      url: `https://www.anyfilex.com/file-extensions/${e.extension.toLowerCase()}`,
       route: { view: 'extension-detail', ext: e.extension.toLowerCase() },
       title: `.${e.extension.toUpperCase()} File Extension - ${e.name}`,
       description: e.description,

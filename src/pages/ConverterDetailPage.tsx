@@ -108,9 +108,9 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
           '@graph': [
             {
               '@type': 'WebApplication',
-              '@id': `https://anyfilex.com/converters/${pair.id}#app`,
+              '@id': `https://www.anyfilex.com/converters/${pair.id}#app`,
               name: pair.name,
-              url: `https://anyfilex.com/converters/${pair.id}`,
+              url: `https://www.anyfilex.com/converters/${pair.id}`,
               description: pair.description,
               applicationCategory: 'UtilitiesApplication',
               operatingSystem: 'Windows, macOS, Linux, iOS, Android',
@@ -119,7 +119,7 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
             ...(guide ? [
               {
                 '@type': 'HowTo',
-                '@id': `https://anyfilex.com/converters/${pair.id}#howto`,
+                '@id': `https://www.anyfilex.com/converters/${pair.id}#howto`,
                 name: `How to Convert ${fromUpper} to ${toUpper}`,
                 description: guide.metaDescription,
                 step: guide.steps.map((s) => ({
@@ -131,7 +131,7 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
               },
               {
                 '@type': 'FAQPage',
-                '@id': `https://anyfilex.com/converters/${pair.id}#faq`,
+                '@id': `https://www.anyfilex.com/converters/${pair.id}#faq`,
                 mainEntity: guide.faqs.map((f) => ({
                   '@type': 'Question',
                   name: f.question,

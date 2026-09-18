@@ -23,7 +23,7 @@ import { getConversionAuthorityGuide } from '../guides/conversionGuideEngine';
 import { BreadcrumbItemSchema } from '../../components/SEOHead';
 import { getTechnicalGuide, getAllTechnicalGuides } from '../database/technicalAuthorityData';
 
-const BASE_URL = 'https://anyfilex.com';
+const BASE_URL = 'https://www.anyfilex.com';
 
 export interface DynamicPageMeta {
   title: string;
@@ -97,7 +97,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
       return {
         statusCode: 200,
         title: 'AnyFileX – Universal File Format Intelligence & Tools',
-        description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 50,000+ file extensions.',
+        description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 10,000+ file extensions.',
         breadcrumbs: [{ name: 'Home', path: '/' }],
         ogType: 'website',
         specificSchemas: [],
@@ -108,7 +108,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
                 Open, Convert & Inspect <span class="text-blue-600">Any File</span>
               </h1>
               <p class="text-lg text-slate-600 dark:text-slate-300">
-                Universal file format intelligence, privacy-first in-memory converters, magic byte forensics, and technical specifications for 50,000+ digital file extensions.
+                Universal file format intelligence, privacy-first in-memory converters, magic byte forensics, and technical specifications for 10,000+ digital file extensions.
               </p>
 
               <!-- Popular Extension Badges -->
@@ -125,8 +125,8 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
             <!-- Feature Value Pillars -->
             <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
               <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
-                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2">50,000+ Extensions</h2>
-                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Deep technical specifications, MIME types, magic byte signatures, and compatible software.</p>
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2">10,000+ File Formats</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">250+ curated specifications, IANA MIME mappings, magic byte signatures, and compatible software.</p>
                 <a href="/file-extensions" class="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline">Explore Extensions &rarr;</a>
               </div>
               <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
@@ -263,12 +263,18 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
       const specificSchemas: any[] = [
         {
           '@type': 'TechArticle',
-          '@id': `${canonicalUrl}/#article`,
+          '@id': `${canonicalUrl}#article`,
           headline: `How to Open and Convert .${extUpper} (${extInfo.name}) Files`,
           description: extInfo.description,
           mainEntityOfPage: canonicalUrl,
           author: { '@id': `${BASE_URL}/#organization` },
           publisher: { '@id': `${BASE_URL}/#organization` },
+          isPartOf: {
+            '@type': 'WebSite',
+            '@id': `${BASE_URL}/#website`,
+            name: 'AnyFileX',
+            url: `${BASE_URL}/`,
+          },
           inLanguage: 'en-US',
           about: {
             '@type': 'ComputerLanguage',
@@ -1132,7 +1138,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
 
       return {
         title: `File Extensions Directory${suffix} | AnyFileX`,
-        description: `Browse 50,000+ file extensions${suffix}. Filter by category, alphabetical index, MIME types, and software compatibility.`.slice(0, 155),
+        description: `Browse 10,000+ file extensions${suffix}. Filter by category, alphabetical index, MIME types, and software compatibility.`.slice(0, 155),
         breadcrumbs: [
           { name: 'Home', path: '/' },
           { name: 'Extensions', path: '/file-extensions' },
@@ -1358,23 +1364,29 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
       const specificSchemas: any[] = [
         {
           '@type': 'TechArticle',
-          '@id': `${canonicalUrl}/#article`,
+          '@id': `${canonicalUrl}#article`,
           headline: guide.seoMeta.h1,
           description: guide.seoMeta.description,
           inLanguage: 'en-US',
           mainEntityOfPage: canonicalUrl,
+          isPartOf: {
+            '@type': 'WebSite',
+            '@id': `${BASE_URL}/#website`,
+            name: 'AnyFileX',
+            url: `${BASE_URL}/`,
+          },
           author: {
             '@type': 'Organization',
             name: 'AnyFileX Technical Research Team',
-            url: 'https://anyfilex.com',
+            url: `${BASE_URL}/`,
           },
           publisher: {
             '@type': 'Organization',
             name: 'AnyFileX',
-            url: 'https://anyfilex.com',
+            url: `${BASE_URL}/`,
             logo: {
               '@type': 'ImageObject',
-              url: 'https://anyfilex.com/favicon.svg',
+              url: `${BASE_URL}/favicon.svg`,
             },
           },
           about: {

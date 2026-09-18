@@ -81,7 +81,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onNavigate, selectedPostId }
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <Badge variant="emerald" size="md">Engineering & Security Blog</Badge>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-          OpenAnyFile Product Engineering
+          AnyFileX Product Engineering
         </h1>
         <p className="text-base text-slate-600 dark:text-slate-300">
           Insights on WebAssembly binary parsing, image compression codecs, security sandboxing, and performance.

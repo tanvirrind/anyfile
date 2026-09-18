@@ -23,10 +23,10 @@ export interface CMSAnalytics {
   searchQueriesCount: number;
 }
 
-const CMS_STORAGE_KEY = 'openanyfile_cms_extensions_v1';
-const CMS_AUDIT_LOG_KEY = 'openanyfile_cms_audit_v1';
+const CMS_STORAGE_KEY = 'anyfilex_cms_extensions_v1';
+const CMS_AUDIT_LOG_KEY = 'anyfilex_cms_audit_v1';
 
-// Seed list of prefix patterns and domain suffixes to construct 50,000+ searchable file extensions algorithmically
+// Seed list of prefix patterns and domain suffixes to construct 10,000+ searchable file extensions algorithmically
 const CATEGORY_PREFIXES: Record<CategoryType, string[]> = {
   'Images': ['img', 'pic', 'raw', 'pix', 'tex', 'vtf', 'hdr', 'map', 'gfx', 'bmp', 'ico', 'art', 'drw'],
   'CAD & 3D': ['cad', 'dwg', '3d', 'mesh', 'obj', 'stl', 'step', 'iges', 'blend', 'fbx', 'gltf', 'dae', 'part'],
@@ -41,7 +41,7 @@ const CATEGORY_PREFIXES: Record<CategoryType, string[]> = {
 };
 
 /**
- * Generate a synthetic full format profile for any unknown extension string up to 50,000+
+ * Generate a synthetic full format profile for any unknown extension string up to 10,000+
  */
 export function generateSyntheticExtension(extRaw: string): FileTypeInfo {
   const ext = extRaw.toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'dat';
@@ -74,7 +74,7 @@ export function generateSyntheticExtension(extRaw: string): FileTypeInfo {
   }
 
   const defaultApps: SoftwareApp[] = [
-    { name: 'Universal File Viewer', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'OpenAnyFile Community' },
+    { name: 'Universal File Viewer', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'AnyFileX Community' },
     { name: `Native ${category} Reader`, os: ['windows', 'mac'], isFree: true, developer: 'System Default' }
   ];
 
@@ -100,7 +100,7 @@ export function generateSyntheticExtension(extRaw: string): FileTypeInfo {
       { targetExtension: 'ZIP', description: `Compress .${uppercaseExt} into a ZIP archive for transport.`, difficulty: 'Easy', onlinePossible: true }
     ],
     repairTips: [
-      'Verify header magic bytes using OpenAnyFile Hex Inspector.',
+      'Verify header magic bytes using AnyFileX Hex Inspector.',
       'Check file integrity and checksum using SHA-256 or MD5 tools.',
       'Restore from backup if file header structure is damaged.'
     ],
@@ -136,13 +136,14 @@ export function generateSyntheticExtension(extRaw: string): FileTypeInfo {
 class FileFormatDatabaseStore {
   private customExtensions: Map<string, FileTypeInfo> = new Map();
   private auditLogs: CMSAuditLog[] = [];
-  private totalIndexedCount: number = 52480; // 50,000+ extensions scale representation
+  private totalIndexedCount: number = 10480; // 10,000+ extensions scale representation
 
   constructor() {
     this.loadFromStorage();
   }
 
   private loadFromStorage() {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
     try {
       const stored = localStorage.getItem(CMS_STORAGE_KEY);
       if (stored) {
@@ -159,9 +160,9 @@ class FileFormatDatabaseStore {
             id: 'log_01',
             timestamp: new Date().toISOString(),
             action: 'IMPORT',
-            extension: 'SYSTEM_BULK_50K',
+            extension: 'SYSTEM_BULK_10K',
             author: 'Principal Data Engineer',
-            details: 'Initial indexing of 50,000+ searchable file extensions completed successfully.'
+            details: 'Initial indexing of 10,000+ searchable file extensions completed successfully.'
           }
         ];
       }
@@ -171,6 +172,7 @@ class FileFormatDatabaseStore {
   }
 
   private saveToStorage() {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
     try {
       const array = Array.from(this.customExtensions.values());
       localStorage.setItem(CMS_STORAGE_KEY, JSON.stringify(array));
@@ -181,7 +183,7 @@ class FileFormatDatabaseStore {
   }
 
   /**
-   * Search across 50,000+ file extensions with instant prefix, suffix, and category filters
+   * Search across 10,000+ file extensions with instant prefix, suffix, and category filters
    */
   public searchExtensions(
     query: string = '',

@@ -27,7 +27,7 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
       { name: 'Google Photos', os: ['windows', 'mac', 'android', 'ios'], isFree: true, developer: 'Google LLC', link: 'https://photos.google.com', slug: 'google-photos' },
     ],
     openingSteps: [
-      { title: 'Windows 11 Setup', desc: 'Install free HEIF Image Extensions from Microsoft Store or use OpenAnyFile Web Converter.' },
+      { title: 'Windows 11 Setup', desc: 'Install free HEIF Image Extensions from Microsoft Store or use AnyFileX Web Converter.' },
       { title: 'Mac / iOS Native', desc: 'Double click to open directly in macOS Preview or iOS Photos app without additional tools.' },
       { title: 'Linux Desktop', desc: 'Install libheif-examples and view in GIMP or ImageMagick.' }
     ],
@@ -93,7 +93,7 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
     repairTips: [
       'Check for 8BPS header at byte offset 0. Corrupted PSDs often wipe this 4-byte signature.',
       'Use Photoshop built-in autosave recover directory: %AppData%/Adobe/Adobe Photoshop/AutoRecover',
-      'Use OpenAnyFile PSD Header Recovery tool to strip broken layer adjustment tags.'
+      'Use AnyFileX PSD Header Recovery tool to strip broken layer adjustment tags.'
     ],
     faqs: [
       { question: 'Can I open PSD files without buying Photoshop?', answer: 'Yes! Photopea (web browser), GIMP, Krita, and Paint.NET can open and export PSD files for free.' },
@@ -126,7 +126,7 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
     openingSteps: [
       { title: 'Browser View', desc: 'Drag and drop any .webp file directly into Chrome, Safari, Edge, or Firefox.' },
       { title: 'Windows Photos', desc: 'Windows 11 supports WebP natively in the default Photos app.' },
-      { title: 'Batch Conversion', desc: 'Use OpenAnyFile WebP Converter to convert WebP images back to JPG or PNG in bulk.' }
+      { title: 'Batch Conversion', desc: 'Use AnyFileX WebP Converter to convert WebP images back to JPG or PNG in bulk.' }
     ],
     conversions: [
       { targetExtension: 'JPG', description: 'Convert WebP to JPEG for desktop printing or older legacy photo editors.', difficulty: 'Easy', onlinePossible: true, converterSlug: 'webp-to-jpg' },
@@ -171,7 +171,7 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
     ],
     repairTips: [
       'Open SVG file in text editor to check for missing closing </svg> tag or XML syntax errors.',
-      'Strip malicious <script> tags using OpenAnyFile Sanitizer Tool.'
+      'Strip malicious <script> tags using AnyFileX Sanitizer Tool.'
     ]
   },
   {
@@ -260,7 +260,7 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
     ],
     openingSteps: [
       { title: 'Download DWG TrueView', desc: 'Download official free DWG TrueView standalone viewer from Autodesk.' },
-      { title: 'View Online in Browser', desc: 'Use Autodesk Web Viewer or OpenAnyFile DWG Inspector tool.' },
+      { title: 'View Online in Browser', desc: 'Use Autodesk Web Viewer or AnyFileX DWG Inspector tool.' },
       { title: 'Open in AutoCAD', desc: 'Use File > Open command inside AutoCAD or DraftSight.' }
     ],
     conversions: [
@@ -702,7 +702,7 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
       { targetExtension: 'CSV', description: 'Convert JSON array objects into tabular CSV spreadsheet format.', difficulty: 'Easy', onlinePossible: true, converterSlug: 'json-to-csv' },
       { targetExtension: 'YAML', description: 'Convert JSON key-value tree to human-readable YAML file.', difficulty: 'Easy', onlinePossible: true, converterSlug: 'json-to-yaml' }
     ],
-    repairTips: ['Validate bracket matching ({}) and quotation marks using JSONLint or OpenAnyFile JSON Validator.']
+    repairTips: ['Validate bracket matching ({}) and quotation marks using JSONLint or AnyFileX JSON Validator.']
   },
   {
     extension: 'CSV',
@@ -752,7 +752,7 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
     ],
     openingSteps: [
       { title: 'Open in Thunderbird', desc: 'Drag .eml file into Mozilla Thunderbird or Apple Mail.' },
-      { title: 'View in OpenAnyFile EML Viewer', desc: 'Drop .eml into OpenAnyFile online tool to inspect email headers and extract attachments.' }
+      { title: 'View in AnyFileX EML Viewer', desc: 'Drop .eml into AnyFileX online tool to inspect email headers and extract attachments.' }
     ],
     conversions: [
       { targetExtension: 'PDF', description: 'Convert email text and headers into printable PDF record.', difficulty: 'Easy', onlinePossible: true, converterSlug: 'eml-to-pdf' },
@@ -778,14 +778,14 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
     popularityScore: 93,
     osSupport: { windows: true, mac: true, linux: true, android: true, ios: true },
     popularApps: [
-      { name: 'Winmail.dat Reader', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'OpenAnyFile Tools', slug: 'winmail-reader' },
+      { name: 'Winmail.dat Reader', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'AnyFileX Tools', slug: 'winmail-reader' },
       { name: 'Notepad++ / HxD Hex Editor', os: ['windows'], isFree: true, developer: 'Don Ho / Maël Hörz', slug: 'hxd' }
     ],
     openingSteps: [
-      { title: 'Inspect with Magic Byte Detector', desc: 'Drop .dat file into OpenAnyFile File Identifier tool to detect true file format.' },
+      { title: 'Inspect with Magic Byte Detector', desc: 'Drop .dat file into AnyFileX File Identifier tool to detect true file format.' },
       { title: 'Open in Text Editor', desc: 'Right click > Open with > Notepad to check if text strings exist.' }
     ],
     conversions: [{ targetExtension: 'TXT', description: 'Extract printable text strings from raw DAT file.', difficulty: 'Easy', onlinePossible: true, converterSlug: 'dat-to-txt' }],
-    repairTips: ['If winmail.dat from Outlook, use OpenAnyFile Winmail Extractor to retrieve embedded attachments.']
+    repairTips: ['If winmail.dat from Outlook, use AnyFileX Winmail Extractor to retrieve embedded attachments.']
   }
 ];

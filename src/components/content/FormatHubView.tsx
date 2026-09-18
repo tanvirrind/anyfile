@@ -94,7 +94,7 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
           '@type': 'TechArticle',
           headline: `${extUpper} File Format Master Knowledge Hub`,
           description: formatInfo.description,
-          mainEntityOfPage: `https://anyfilex.com/hub/${extLower}`
+          mainEntityOfPage: `https://www.anyfilex.com/hub/${extLower}`
         }}
       />
 

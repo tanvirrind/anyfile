@@ -52,7 +52,7 @@ export const ExtensionHowToOpenSection: React.FC<ExtensionHowToOpenSectionProps>
           {
             step: '3',
             title: `Inspect Hex Header / Magic Bytes`,
-            desc: `If Windows displays an "Invalid File Format" error, inspect magic bytes (${item.magicBytesHex}) using OpenAnyFile's free Header Verifier.`,
+            desc: `If Windows displays an "Invalid File Format" error, inspect magic bytes (${item.magicBytesHex}) using AnyFileX's free Header Verifier.`,
           },
         ];
 
@@ -123,7 +123,7 @@ export const ExtensionHowToOpenSection: React.FC<ExtensionHowToOpenSectionProps>
           {
             step: '1',
             title: `Instant In-Browser Viewer & Converter`,
-            desc: `No installation required! Drag and drop your .${ext} file directly into OpenAnyFile's online viewer and converter.`,
+            desc: `No installation required! Drag and drop your .${ext} file directly into AnyFileX's online viewer and converter.`,
           },
           {
             step: '2',
@@ -212,7 +212,7 @@ export const ExtensionHowToOpenSection: React.FC<ExtensionHowToOpenSectionProps>
             Need to open .{item.extension} without downloading software?
           </p>
           <p className="text-xs text-blue-700 dark:text-blue-300">
-            Use OpenAnyFile's free browser inspector to verify header integrity and convert instantly.
+            Use AnyFileX's free browser inspector to verify header integrity and convert instantly.
           </p>
         </div>
 

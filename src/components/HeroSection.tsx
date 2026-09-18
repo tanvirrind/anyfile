@@ -134,7 +134,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         {/* Hero Headline */}
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-4 font-heading">
-          Open Any File in Seconds <span className="text-blue-600 dark:text-blue-400">with AnyFileX.com</span>
+          Open Any File in Seconds <span className="text-blue-600 dark:text-blue-400">with AnyFileX</span>
         </h1>
 
         {/* Subtitle */}

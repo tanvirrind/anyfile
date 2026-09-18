@@ -8,7 +8,7 @@ interface ShareButtonsProps {
 
 export const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url }) => {
   const [copied, setCopied] = useState(false);
-  const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : 'https://anyfilex.com');
+  const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : 'https://www.anyfilex.com');
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shareUrl);

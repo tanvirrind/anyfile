@@ -21,7 +21,7 @@ export const LatestGuidesSection: React.FC<LatestGuidesSectionProps> = ({ onSele
               Latest Technical Guides
             </h2>
             <p className="mt-2 text-base text-slate-600 dark:text-slate-400 max-w-xl">
-              Comprehensive step-by-step walkthroughs written by systems architects and software engineers.
+              Comprehensive step-by-step walkthroughs authored by credentialed systems architects and digital media engineers, peer-reviewed for technical accuracy.
             </p>
           </div>
         </div>
@@ -60,10 +60,17 @@ export const LatestGuidesSection: React.FC<LatestGuidesSectionProps> = ({ onSele
                   <img
                     src={guide.author.avatar}
                     alt={guide.author.name}
-                    className="w-7 h-7 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+                    className="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0"
                   />
                   <div>
-                    <div className="text-xs font-semibold text-slate-800 dark:text-slate-200">{guide.author.name}</div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">{guide.author.name}</span>
+                      {guide.author.credentials && (
+                        <span className="text-[9px] px-1.5 py-0.2 rounded bg-blue-100/70 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 font-mono font-medium">
+                          {guide.author.credentials}
+                        </span>
+                      )}
+                    </div>
                     <div className="text-[10px] text-slate-600 dark:text-slate-400">{guide.date}</div>
                   </div>
                 </div>

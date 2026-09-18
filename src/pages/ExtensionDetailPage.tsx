@@ -56,7 +56,7 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
   const [shared, setShared] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Dynamic extension lookup supporting 50,000+ extension pages
+  // Dynamic extension lookup supporting 10,000+ extension pages
   const item: FileTypeInfo = getOrGenerateExtensionInfo(ext);
 
   // Calculate popularity score (1 to 100) deterministically
@@ -159,8 +159,8 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
   }, []);
 
   // Schema.org JSON-LD structured data for SEO
-  const canonicalPath = `/extension/${item.extension.toLowerCase()}`;
-  const canonicalUrl = `https://anyfilex.com${canonicalPath}`;
+  const canonicalPath = `/file-extensions/${item.extension.toLowerCase()}`;
+  const canonicalUrl = `https://www.anyfilex.com${canonicalPath}`;
   const faqs = generateExtensionFAQs(item);
 
   // Complete Schema Graph combining BreadcrumbList, TechArticle, SoftwareApplication, FAQPage, WebPage
@@ -180,13 +180,13 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
               '@type': 'ListItem',
               position: 1,
               name: 'Home',
-              item: 'https://anyfilex.com',
+              item: 'https://www.anyfilex.com/',
             },
             {
               '@type': 'ListItem',
               position: 2,
               name: 'Extensions',
-              item: 'https://anyfilex.com/extensions',
+              item: 'https://www.anyfilex.com/file-extensions',
             },
             {
               '@type': 'ListItem',

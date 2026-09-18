@@ -82,7 +82,7 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
           '@context': 'https://schema.org',
           '@type': 'WebApplication',
           name: effectiveName,
-          url: `https://anyfilex.com/tools/${toolSlug}`,
+          url: `https://www.anyfilex.com/tools/${toolSlug}`,
           description: effectiveDesc,
           applicationCategory: 'UtilitiesApplication',
           operatingSystem: 'Windows, macOS, Linux, iOS, Android'

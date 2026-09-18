@@ -61,7 +61,8 @@ export interface MetadataReport {
   rawKeyValuePairs: { key: string; value: string; category: string }[];
 }
 
-const METADATA_REPORTS_KEY = 'openanyfile_metadata_reports';
+const METADATA_REPORTS_KEY = 'anyfilex_metadata_reports';
+const LEGACY_METADATA_KEY = 'openanyfile_metadata_reports';
 
 export function saveMetadataReport(report: MetadataReport): void {
   try {
@@ -75,7 +76,7 @@ export function saveMetadataReport(report: MetadataReport): void {
 
 export function getStoredMetadataReports(): Record<string, MetadataReport> {
   try {
-    const raw = localStorage.getItem(METADATA_REPORTS_KEY);
+    const raw = localStorage.getItem(METADATA_REPORTS_KEY) || localStorage.getItem(LEGACY_METADATA_KEY);
     return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
@@ -213,7 +214,7 @@ export async function analyzeFileMetadata(file: File): Promise<MetadataReport> {
   const recommendations = [
     'Scrub all EXIF/GPS tags before uploading photos to public forums or social media.',
     'Remove Author and Company metadata properties from office documents prior to sharing.',
-    'Use OpenAnyFile Metadata Stripper tool to generate a sanitized clean copy in seconds.',
+    'Use AnyFileX Metadata Stripper tool to generate a sanitized clean copy in seconds.',
   ];
 
   const report: MetadataReport = {

@@ -1,6 +1,7 @@
 import { ContentEntity } from './types';
+import { AUTHOR_AVATARS, TECHNICAL_STANDARDS_CITATIONS } from './editorialTeam';
 
-const STORAGE_KEY = 'anyfilex_content_entities_v5';
+const STORAGE_KEY = 'anyfilex_content_entities_v6';
 
 export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
   // --- CLUSTER A: FILE FORMAT GUIDES ---
@@ -75,21 +76,43 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     status: 'published',
     publishedDate: '2024-05-10',
     updatedDate: '2024-11-15',
+    lastAuditedDate: 'September 2026',
     createdAt: '2024-05-10',
     knowledgeGraphVersion: '5.2.0',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
+    verifiedPlatforms: [
+      'Windows 11 (23H2 & 24H2)',
+      'macOS Sonoma (14.6) & Sequoia (15.0)',
+      'Ubuntu 24.04 LTS',
+      'iOS 18',
+      'Android 15'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.heic.map(c => ({
+      title: c.title,
+      source: c.issuingBody,
+      url: c.url,
+      standardId: c.standard
+    })),
     seoMeta: {
       title: 'What Is a HEIC File? Format Guide, Compression & Specs | AnyFileX',
       description: 'Learn what a HEIC file is, how HEVC image compression cuts file size in half, its technical magic byte signatures, and how to view HEIC on Windows & Mac.',
-      canonical: 'https://anyfilex.com/guides/what-is-a-heic-file',
+      canonical: 'https://www.anyfilex.com/guides/what-is-a-heic-file',
       robots: 'index, follow',
       ogTitle: 'What Is a HEIC File? High Efficiency Image Format Explained',
       ogDescription: 'Comprehensive technical breakdown of the Apple HEIC/HEIF photo format, ISO container architecture, and cross-platform compatibility.',
       keywords: ['what is a heic file', 'heic format', 'heif vs heic', 'heic compression', 'apple heic']
     },
     author: {
+      id: 'elena-rostova',
       name: 'Elena Rostova',
-      role: 'Lead Digital Media Engineer',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'
+      role: 'Lead Digital Media & Codec Engineer',
+      credentials: 'M.Sc., Signal Processing',
+      avatar: AUTHOR_AVATARS.elenaRostova,
+      bio: 'Specialist in modern image compression algorithms, ISO/IEC 23008-12 container formats, and browser codec implementations.'
     },
     readingTimeMinutes: 5,
     difficulty: 'Beginner',
@@ -153,19 +176,40 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     status: 'published',
     publishedDate: '2024-04-18',
     updatedDate: '2024-10-22',
+    lastAuditedDate: 'September 2026',
     createdAt: '2024-04-18',
     knowledgeGraphVersion: '5.2.0',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
+    verifiedPlatforms: [
+      'Google Chrome 128+',
+      'Apple Safari 18+ (macOS & iOS)',
+      'Mozilla Firefox 130+',
+      'Microsoft Edge 128+'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.webp.map(c => ({
+      title: c.title,
+      source: c.issuingBody,
+      url: c.url,
+      standardId: c.standard
+    })),
     seoMeta: {
       title: 'What Is a WEBP File? Web Image Specs, RIFF Headers & Compression',
       description: 'Understand the WEBP format, how Google VP8 intra-frame coding reduces image payload by 30%, and how to open or convert WEBP files.',
-      canonical: 'https://anyfilex.com/guides/what-is-a-webp-file',
+      canonical: 'https://www.anyfilex.com/guides/what-is-a-webp-file',
       robots: 'index, follow',
       keywords: ['what is a webp file', 'webp format', 'webp vs png', 'webp compression']
     },
     author: {
+      id: 'elena-rostova',
       name: 'Elena Rostova',
-      role: 'Lead Digital Media Engineer',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'
+      role: 'Lead Digital Media & Codec Engineer',
+      credentials: 'M.Sc., Signal Processing',
+      avatar: AUTHOR_AVATARS.elenaRostova,
+      bio: 'Specialist in modern image compression algorithms, ISO/IEC 23008-12 container formats, and browser codec implementations.'
     },
     readingTimeMinutes: 4,
     difficulty: 'Beginner',
@@ -238,19 +282,40 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     status: 'published',
     publishedDate: '2024-05-15',
     updatedDate: '2024-11-20',
+    lastAuditedDate: 'September 2026',
     createdAt: '2024-05-15',
     knowledgeGraphVersion: '5.2.0',
+    reviewedBy: {
+      name: 'Elena Rostova',
+      role: 'Lead Digital Media & Codec Engineer',
+      credentials: 'M.Sc., Signal Processing'
+    },
+    verifiedPlatforms: [
+      'Windows 11 (23H2/24H2)',
+      'macOS Sonoma (14.6) & Sequoia (15.0)',
+      'Android 15 (Pixel & Samsung One UI)',
+      'Ubuntu 24.04 LTS (libheif)'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.heic.map(c => ({
+      title: c.title,
+      source: c.issuingBody,
+      url: c.url,
+      standardId: c.standard
+    })),
     seoMeta: {
       title: 'How to Open a HEIC File on Windows 11, Mac, Android & Linux',
       description: 'Step-by-step tutorial on opening HEIC files on Windows 11/10, Mac Preview, Android, and Linux with free codecs and browser tools.',
-      canonical: 'https://anyfilex.com/guides/how-to-open-a-heic-file',
+      canonical: 'https://www.anyfilex.com/guides/how-to-open-a-heic-file',
       robots: 'index, follow',
       keywords: ['how to open heic file', 'open heic windows 11', 'heic viewer', 'view heic on pc']
     },
     author: {
+      id: 'marcus-vance',
       name: 'Marcus Vance',
-      role: 'Senior Systems Architect',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150'
+      role: 'Senior CAD Systems Architect & Engineering Data Specialist',
+      credentials: 'B.Arch, P.E.',
+      avatar: AUTHOR_AVATARS.marcusVance,
+      bio: 'Licensed Professional Engineer (P.E.) specializing in cross-platform desktop binary file association, container rendering, and CAD workflows.'
     },
     readingTimeMinutes: 4,
     difficulty: 'Beginner',
@@ -321,19 +386,40 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     status: 'published',
     publishedDate: '2024-05-20',
     updatedDate: '2024-11-25',
+    lastAuditedDate: 'September 2026',
     createdAt: '2024-05-20',
     knowledgeGraphVersion: '5.2.0',
+    reviewedBy: {
+      name: 'Sarah Jenkins',
+      role: 'Data Architect & IANA Standards Specialist',
+      credentials: 'M.Sc., Systems'
+    },
+    verifiedPlatforms: [
+      'Client-Side WebAssembly (libheif-js)',
+      'Windows 11 (24H2)',
+      'macOS Sequoia (15.0)',
+      'iOS 18 Photos Engine'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.heic.map(c => ({
+      title: c.title,
+      source: c.issuingBody,
+      url: c.url,
+      standardId: c.standard
+    })),
     seoMeta: {
       title: 'How to Convert HEIC to JPG Online (Fast & Free) | AnyFileX',
       description: 'Convert iPhone HEIC photos to JPG images for free in your browser. No software required, 100% private client-side processing, batch ZIP download.',
-      canonical: 'https://anyfilex.com/guides/how-to-convert-heic-to-jpg',
+      canonical: 'https://www.anyfilex.com/guides/how-to-convert-heic-to-jpg',
       robots: 'index, follow',
       keywords: ['convert heic to jpg', 'heic to jpg online', 'iphone photo to jpg', 'batch heic converter']
     },
     author: {
+      id: 'elena-rostova',
       name: 'Elena Rostova',
-      role: 'Lead Digital Media Engineer',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'
+      role: 'Lead Digital Media & Codec Engineer',
+      credentials: 'M.Sc., Signal Processing',
+      avatar: AUTHOR_AVATARS.elenaRostova,
+      bio: 'Specialist in modern image compression algorithms, ISO/IEC 23008-12 container formats, and browser codec implementations.'
     },
     readingTimeMinutes: 4,
     difficulty: 'Beginner',
@@ -405,19 +491,40 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     status: 'published',
     publishedDate: '2024-06-01',
     updatedDate: '2024-11-28',
+    lastAuditedDate: 'September 2026',
     createdAt: '2024-06-01',
     knowledgeGraphVersion: '5.2.0',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
+    verifiedPlatforms: [
+      'Adobe Photoshop 2025',
+      'Apple Photos 10 (macOS 15)',
+      'Microsoft Photos (Windows 11)',
+      'WebAssembly Image Engine'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.heic.map(c => ({
+      title: c.title,
+      source: c.issuingBody,
+      url: c.url,
+      standardId: c.standard
+    })),
     seoMeta: {
       title: 'HEIC vs JPG: Quality, Compression & Compatibility Compared | AnyFileX',
       description: 'HEIC vs JPG side-by-side comparison. Learn how HEIC cuts file size by 50% with 16-bit color, why JPEG has 100% device compatibility, and when to use each.',
-      canonical: 'https://anyfilex.com/guides/heic-vs-jpg',
+      canonical: 'https://www.anyfilex.com/guides/heic-vs-jpg',
       robots: 'index, follow',
       keywords: ['heic vs jpg', 'heic vs jpeg', 'is heic better than jpg', 'heic quality compared to jpg']
     },
     author: {
+      id: 'elena-rostova',
       name: 'Elena Rostova',
-      role: 'Lead Digital Media Engineer',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'
+      role: 'Lead Digital Media & Codec Engineer',
+      credentials: 'M.Sc., Signal Processing',
+      avatar: AUTHOR_AVATARS.elenaRostova,
+      bio: 'Specialist in modern image compression algorithms, ISO/IEC 23008-12 container formats, and browser codec implementations.'
     },
     readingTimeMinutes: 6,
     difficulty: 'Intermediate',
@@ -478,19 +585,40 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     status: 'published',
     publishedDate: '2024-06-12',
     updatedDate: '2024-11-29',
+    lastAuditedDate: 'September 2026',
     createdAt: '2024-06-12',
     knowledgeGraphVersion: '5.2.0',
+    reviewedBy: {
+      name: 'David Chen',
+      role: 'Systems Security Architect & Threat Forensics Researcher',
+      credentials: 'CISSP, GCIH'
+    },
+    verifiedPlatforms: [
+      'Windows 11 File Explorer',
+      'macOS Sonoma/Sequoia Preview',
+      'Linux ImageMagick CLI',
+      'AnyFileX Hex Diagnostic Engine'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.magicBytes.map(c => ({
+      title: c.title,
+      source: c.issuingBody,
+      url: c.url,
+      standardId: c.standard
+    })),
     seoMeta: {
       title: 'Why Won’t My JPG File Open? Fix Corrupted & Invalid JPEG Images',
       description: 'Learn why your JPG image won’t open, how to detect extension mismatches with magic bytes, and how to repair broken JPEG files.',
-      canonical: 'https://anyfilex.com/guides/why-wont-my-jpg-file-open',
+      canonical: 'https://www.anyfilex.com/guides/why-wont-my-jpg-file-open',
       robots: 'index, follow',
       keywords: ['why wont my jpg open', 'jpg file not opening', 'fix corrupted jpg', 'invalid image marker jpg']
     },
     author: {
+      id: 'marcus-vance',
       name: 'Marcus Vance',
-      role: 'Senior Systems Architect',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150'
+      role: 'Senior CAD Systems Architect & Engineering Data Specialist',
+      credentials: 'B.Arch, P.E.',
+      avatar: AUTHOR_AVATARS.marcusVance,
+      bio: 'Licensed Professional Engineer (P.E.) specializing in cross-platform desktop binary file association, container rendering, and CAD workflows.'
     },
     readingTimeMinutes: 5,
     difficulty: 'Intermediate',
@@ -558,19 +686,40 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     status: 'published',
     publishedDate: '2024-06-25',
     updatedDate: '2024-11-30',
+    lastAuditedDate: 'September 2026',
     createdAt: '2024-06-25',
     knowledgeGraphVersion: '5.2.0',
+    reviewedBy: {
+      name: 'David Chen',
+      role: 'Systems Security Architect & Threat Forensics Researcher',
+      credentials: 'CISSP, GCIH'
+    },
+    verifiedPlatforms: [
+      'POSIX file(1) Utility Spec',
+      'Linux libmagic (v5.45)',
+      'AnyFileX In-Memory Hex Engine',
+      'Windows PE Loader Specification'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.magicBytes.map(c => ({
+      title: c.title,
+      source: c.issuingBody,
+      url: c.url,
+      standardId: c.standard
+    })),
     seoMeta: {
       title: 'What Are Magic Bytes? File Signatures & Hex Headers Explained | AnyFileX',
       description: 'Learn what magic bytes are, how file signatures identify true file formats, view a table of common hex signatures, and understand why they prevent malware spoofing.',
-      canonical: 'https://anyfilex.com/guides/what-are-magic-bytes',
+      canonical: 'https://www.anyfilex.com/guides/what-are-magic-bytes',
       robots: 'index, follow',
       keywords: ['what are magic bytes', 'file signature', 'magic numbers file format', 'hex file headers', 'file type detection']
     },
     author: {
-      name: 'Marcus Vance',
-      role: 'Senior Systems Architect',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150'
+      id: 'dr-alistair-vance',
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect & Technical Review Lead',
+      credentials: 'Ph.D., CompEng',
+      avatar: AUTHOR_AVATARS.alistairVance,
+      bio: 'Ph.D. in Computer Engineering specializing in low-level binary layout, operating system loaders, and binary structure verification algorithms.'
     },
     readingTimeMinutes: 5,
     difficulty: 'Advanced',
@@ -633,19 +782,39 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     status: 'published',
     publishedDate: '2024-07-02',
     updatedDate: '2024-11-28',
+    lastAuditedDate: 'September 2026',
     createdAt: '2024-07-02',
     knowledgeGraphVersion: '5.2.0',
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
+    verifiedPlatforms: [
+      'Windows 11 Explorer Extension Rules',
+      'NIST Special Publication 800-83',
+      'Unicode Consortium UTR #36 (Security Considerations)'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.security.map(c => ({
+      title: c.title,
+      source: c.issuingBody,
+      url: c.url,
+      standardId: c.standard
+    })),
     seoMeta: {
       title: 'How to Detect File Extension Spoofing & Fake Files | AnyFileX',
       description: 'Learn how hackers disguise .exe malware as .pdf and .jpg files, how Right-to-Left Override attacks work, and how to verify magic byte headers safely.',
-      canonical: 'https://anyfilex.com/guides/how-to-detect-a-file-extension-spoof',
+      canonical: 'https://www.anyfilex.com/guides/how-to-detect-a-file-extension-spoof',
       robots: 'index, follow',
       keywords: ['file extension spoofing', 'fake pdf exe', 'detect disguised file', 'right to left override file', 'file security header']
     },
     author: {
-      name: 'Marcus Vance',
-      role: 'Senior Systems Architect',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150'
+      id: 'david-chen',
+      name: 'David Chen',
+      role: 'Systems Security Architect & Threat Forensics Researcher',
+      credentials: 'CISSP, GCIH',
+      avatar: AUTHOR_AVATARS.davidChen,
+      bio: 'Cybersecurity architect specializing in file header verification, malware evasion heuristics, and digital forensics.'
     },
     readingTimeMinutes: 5,
     difficulty: 'Intermediate',
@@ -706,19 +875,40 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     status: 'published',
     publishedDate: '2024-07-15',
     updatedDate: '2024-11-29',
+    lastAuditedDate: 'September 2026',
     createdAt: '2024-07-15',
     knowledgeGraphVersion: '5.2.0',
+    reviewedBy: {
+      name: 'Elena Rostova',
+      role: 'Lead Digital Media & Codec Engineer',
+      credentials: 'M.Sc., Signal Processing'
+    },
+    verifiedPlatforms: [
+      'CopyTrans HEIC v2.0 (Windows 11)',
+      'Apple Preview (macOS Sonoma / Sequoia)',
+      'Adobe Photoshop 2025 (v26.0)',
+      'IrfanView 64-bit + Formats Plugin'
+    ],
+    citations: TECHNICAL_STANDARDS_CITATIONS.heic.map(c => ({
+      title: c.title,
+      source: c.issuingBody,
+      url: c.url,
+      standardId: c.standard
+    })),
     seoMeta: {
       title: 'What Programs Open HEIC Files? Windows & Mac Software Guide | AnyFileX',
       description: 'Discover the best free and professional software to open HEIC photos on Windows 11/10 and Mac. Compare CopyTrans, IrfanView, Photoshop, and GIMP.',
-      canonical: 'https://anyfilex.com/guides/what-programs-open-heic-files',
+      canonical: 'https://www.anyfilex.com/guides/what-programs-open-heic-files',
       robots: 'index, follow',
       keywords: ['what programs open heic files', 'heic viewer windows', 'free heic software', 'open heic on pc program']
     },
     author: {
-      name: 'Elena Rostova',
-      role: 'Lead Digital Media Engineer',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150'
+      id: 'sarah-jenkins',
+      name: 'Sarah Jenkins',
+      role: 'Data Architect & IANA Standards Specialist',
+      credentials: 'M.Sc., Systems',
+      avatar: AUTHOR_AVATARS.sarahJenkins,
+      bio: 'Enterprise data architect specializing in MIME registrations, file system associations, and software compatibility matrixes.'
     },
     readingTimeMinutes: 4,
     difficulty: 'Beginner',

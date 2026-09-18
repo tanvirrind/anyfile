@@ -197,7 +197,7 @@ export const CONVERTERS_LIST: ConverterInfo[] = [
       { title: 'Configure PDF Layout', desc: 'Choose whether to include full raw SMTP headers.' },
       { title: 'Download PDF Document', desc: 'Save formatted email PDF with embedded media.' }
     ],
-    recommendedApps: ['Mozilla Thunderbird', 'Outlook', 'OpenAnyFile EML Viewer'],
+    recommendedApps: ['Mozilla Thunderbird', 'Outlook', 'AnyFileX EML Viewer'],
     commonIssues: ['Remote tracking pixel images blocked in exported PDF.'],
     faqs: [{ question: 'Can I convert EML to PDF for legal compliance?', answer: 'Yes, PDF archives preserve exact timestamp headers, sender details, and message text for legal records.' }]
   }

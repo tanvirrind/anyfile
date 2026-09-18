@@ -202,6 +202,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 {renderAnchor({ view: 'content-hub', topic: 'heic' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'HEIC Topic Authority Hub')}
               </li>
               <li className="text-left">
+                {renderAnchor({ view: 'editorial-standards' } as any, 'text-left block w-full hover:text-blue-400 font-medium text-emerald-400 transition-colors cursor-pointer leading-snug', '📋 Editorial Standards & Policy')}
+              </li>
+              <li className="text-left">
+                {renderAnchor({ view: 'authors' } as any, 'text-left block w-full hover:text-blue-400 font-medium text-blue-300 transition-colors cursor-pointer leading-snug', '👥 Author Profiles & Reviewers')}
+              </li>
+              <li className="text-left">
                 {renderAnchor({ view: 'content-dashboard' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Content Authority Studio (CMS)')}
               </li>
               <li className="text-left">
@@ -219,7 +225,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
         {/* Bottom Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
-          <div>© {new Date().getFullYear()} AnyFileX.com. Open Any File in Seconds with AnyFileX.com. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} AnyFileX. Open Any File in Seconds with AnyFileX. All rights reserved.</div>
           <div className="flex items-center gap-1 text-slate-400">
             <span>Built with precision for web power users</span>
           </div>

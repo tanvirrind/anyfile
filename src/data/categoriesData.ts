@@ -90,7 +90,7 @@ export const CATEGORIES_LIST: CategoryInfo[] = [
     popularTools: ['MIME Checker', 'File Identifier'],
     topSoftware: ['Mozilla Thunderbird', 'Microsoft Outlook', 'Apple Mail'],
     faqs: [
-      { question: 'How do I open .eml files on Windows 11?', answer: 'Open in Mail app, Thunderbird, or use OpenAnyFile online EML viewer.' }
+      { question: 'How do I open .eml files on Windows 11?', answer: 'Open in Mail app, Thunderbird, or use AnyFileX online EML viewer.' }
     ]
   },
   {
@@ -103,7 +103,7 @@ export const CATEGORIES_LIST: CategoryInfo[] = [
     popularTools: ['Magic Byte Detector', 'Hex Viewer', 'Binary Viewer'],
     topSoftware: ['HxD Hex Editor', 'Winmail Reader'],
     faqs: [
-      { question: 'What is inside a .dat file?', answer: 'DAT files store application settings or raw binary records. Use OpenAnyFile File Identifier to inspect its magic byte signature.' }
+      { question: 'What is inside a .dat file?', answer: 'DAT files store application settings or raw binary records. Use AnyFileX File Identifier to inspect its magic byte signature.' }
     ]
   },
   {

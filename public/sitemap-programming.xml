@@ -1,260 +1,254 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://anyfilex.com/file-extensions/json</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/json</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/csv</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/csv</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/dat</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/xml</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/xml</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/jsonc</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/jsonc</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/json5</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/json5</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/yaml</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/yaml</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/yml</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/yml</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/toml</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/toml</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/ini</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/ini</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/env</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/env</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/conf</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/conf</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/sql</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/sql</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/db</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/db</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/sqlite</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/sqlite</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/sqlite3</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/sqlite3</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/accdb</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/accdb</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/mdb</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/mdb</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/bat</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/bat</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/cmd</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/cmd</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/sh</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/sh</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/ps1</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/ps1</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/vbs</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/vbs</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/js</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/js</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/jsx</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/jsx</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/tsx</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/tsx</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/html</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/html</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/css</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/css</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/scss</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/scss</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/php</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/php</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/py</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/py</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/java</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/java</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/class</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/class</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/jar</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/jar</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/cpp</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/cpp</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/c</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/c</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/h</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/h</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/cs</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/cs</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/go</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/go</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/rs</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/rs</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/rb</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/rb</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/swift</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://anyfilex.com/file-extensions/swift</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://anyfilex.com/file-extensions/kt</loc>
-    <lastmod>2026-09-16</lastmod>
+    <loc>https://www.anyfilex.com/file-extensions/kt</loc>
+    <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
