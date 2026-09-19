@@ -4,7 +4,13 @@ import { CONVERTERS_LIST } from '../../data/convertersData';
 import { REPAIR_GUIDES } from '../../data/repairData';
 import { FileTypeInfo, CategoryType, SoftwareApp, ConversionPath } from '../../types';
 import { generateExtensionFAQs } from './faqGenerator';
-import { getExtensionAsFileTypeInfo } from '../database/extensionEngine';
+import { getExtensionAsFileTypeInfo, isVerifiedExtension } from '../database/extensionEngine';
+
+export interface ExtensionInfoResult extends FileTypeInfo {
+  statusCode: number;
+  robots: string;
+  isVerified: boolean;
+}
 
 // Dynamic extension lookup dictionary for extensions outside the top static set
 const EXTENSION_KNOWLEDGE_BASE: Record<string, Partial<FileTypeInfo>> = {
@@ -205,16 +211,66 @@ const EXTENSION_KNOWLEDGE_BASE: Record<string, Partial<FileTypeInfo>> = {
 };
 
 /**
- * Get or dynamically generate a complete FileTypeInfo record for ANY extension string.
+ * Get extension metadata for verified extensions, or return a 404 response
+ * with robots: 'noindex, nofollow' if the extension is unverified/unknown.
  */
-export function getOrGenerateExtensionInfo(extRaw: string): FileTypeInfo {
-  const extClean = extRaw.toLowerCase().replace(/^\./, '').trim();
+export function getOrGenerateExtensionInfo(extRaw: string): ExtensionInfoResult {
+  const extClean = (extRaw || '').toLowerCase().replace(/^\./, '').trim();
+  const extUpper = extClean.toUpperCase();
 
-  // 1. First check static popular file types array
+  // 1. Validation check against the verified extension catalog
+  const isVerified = Boolean(
+    extClean &&
+    (isVerifiedExtension(extClean) ||
+      Boolean(EXTENSION_KNOWLEDGE_BASE[extClean]) ||
+      POPULAR_FILE_TYPES.some((f) => f.extension.toLowerCase() === extClean))
+  );
+
+  if (!isVerified) {
+    return {
+      statusCode: 404,
+      robots: 'noindex, nofollow',
+      isVerified: false,
+      extension: extUpper || 'UNKNOWN',
+      name: `Unknown .${extUpper || 'UNKNOWN'} Format`,
+      category: 'Documents',
+      description: `The file extension .${extUpper || 'UNKNOWN'} is not a recognized digital format in the AnyFileX verified catalog.`,
+      detailedOverview: `No verified technical specification, MIME type, or software associations exist for the file format .${extUpper || 'UNKNOWN'}. AnyFileX only indexes standardized and documented file extensions.`,
+      mimeType: 'application/octet-stream',
+      magicBytesHex: 'Unknown',
+      typicalSize: 'Unknown',
+      dangerRating: 'Medium Risk',
+      dangerExplanation: `Unrecognized file formats should be handled with caution as their internal binary structures cannot be verified against known specifications.`,
+      popularApps: [],
+      openingSteps: [
+        {
+          title: 'Verify File Extension Spelling',
+          desc: `Check that .${extUpper || 'UNKNOWN'} is spelled correctly and not mistyped.`,
+        },
+        {
+          title: 'Detect Binary Signature',
+          desc: `Inspect the file using the AnyFileX Magic Byte Detector to see if it is a standard file disguised with an incorrect extension.`,
+        },
+      ],
+      conversions: [],
+      exampleUse: 'Unknown or unverified digital file format.',
+      repairTips: [
+        'Verify the file extension spelling to ensure it was not mistyped.',
+        'Inspect raw binary signatures with AnyFileX Magic Byte Detector to discover the real format.',
+      ],
+      osSupport: { windows: false, mac: false, linux: false, android: false, ios: false },
+      faqs: [],
+    };
+  }
+
+  // 2. Check static popular file types array
   const existing = POPULAR_FILE_TYPES.find((f) => f.extension.toLowerCase() === extClean);
   if (existing) {
     return {
       ...existing,
+      statusCode: 200,
+      robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+      isVerified: true,
       faqs: generateExtensionFAQs(existing),
       osSupport: existing.osSupport || {
         windows: true,
@@ -226,25 +282,25 @@ export function getOrGenerateExtensionInfo(extRaw: string): FileTypeInfo {
     };
   }
 
-  // 2. Check indexed engine schema (includes 100+ image formats and extensions dataset)
+  // 3. Check indexed engine schema (includes verified format datasets)
   const engineResult = getExtensionAsFileTypeInfo(extClean);
   if (engineResult) {
     return {
       ...engineResult,
+      statusCode: 200,
+      robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+      isVerified: true,
       faqs: generateExtensionFAQs(engineResult),
     };
   }
 
-  // 3. Check knowledge base map
+  // 4. Knowledge base map & verified format synthesis
   const kb = EXTENSION_KNOWLEDGE_BASE[extClean];
-
-  // 3. Fallback Heuristics Generator for any arbitrary extension
-  const extUpper = extClean.toUpperCase();
   const category: CategoryType = kb?.category || inferCategory(extClean);
   const name = kb?.name || `${extUpper} Digital Format File`;
   const description =
     kb?.description ||
-    `.${extUpper} is a digital file extension categorized under ${category}. It requires compatible software or converters to view, edit, or process its contents safely.`;
+    `.${extUpper} is a verified digital file extension categorized under ${category}. It requires compatible software or converters to view, edit, or process its contents safely.`;
 
   const mimeType = kb?.mimeType || inferMimeType(extClean, category);
   const magicBytesHex = kb?.magicBytesHex || inferMagicBytes(extClean);
@@ -308,7 +364,13 @@ export function getOrGenerateExtensionInfo(extRaw: string): FileTypeInfo {
   };
 
   generated.faqs = generateExtensionFAQs(generated);
-  return generated;
+
+  return {
+    ...generated,
+    statusCode: 200,
+    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    isVerified: true,
+  };
 }
 
 /**

@@ -88,12 +88,17 @@ export function renderSsrPageHtml(
     output = output.replace('</head>', `    ${canonicalTag}\n  </head>`);
   }
 
-  // 4. Update Robots Directive
-  if (output.includes('<meta name="robots"')) {
-    output = output.replace(
-      /<meta\s+name="robots"\s+content="[^"]*"/i,
-      `<meta name="robots" content="${escapeAttr(meta.robots)}"`
-    );
+  // 4. Update Robots Directives across all crawlers (general robots, googlebot, bingbot, and http-equiv X-Robots-Tag)
+  output = replaceOrInsertMeta(output, 'name', 'robots', meta.robots);
+  output = replaceOrInsertMeta(output, 'name', 'googlebot', meta.robots);
+  output = replaceOrInsertMeta(output, 'name', 'bingbot', meta.robots);
+
+  const xRobotsRegex = /<meta\s+http-equiv=["']?X-Robots-Tag["']?\s+content="[^"]*"\s*\/?>/i;
+  const xRobotsTag = `<meta http-equiv="X-Robots-Tag" content="${escapeAttr(meta.robots)}" />`;
+  if (xRobotsRegex.test(output)) {
+    output = output.replace(xRobotsRegex, xRobotsTag);
+  } else {
+    output = output.replace('</head>', `    ${xRobotsTag}\n  </head>`);
   }
 
   // 5. Update Open Graph Meta Tags & Site Identity Signals

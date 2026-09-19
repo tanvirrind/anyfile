@@ -92,7 +92,8 @@ export const AdminCMSPage: React.FC<AdminCMSPageProps> = ({ onNavigate }) => {
       <SEOHead
         title="File Format Database Admin CMS & Catalog Engine"
         description="Administrative control center for managing the 10,000+ file extensions catalog, review pipelines, audit trails, and security moderation."
-        canonicalPath="/admin-cms"
+        canonicalPath="/admin"
+        robots="noindex, nofollow, noarchive, nosnippet"
       />
       {/* CMS Header Banner */}
       <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden">

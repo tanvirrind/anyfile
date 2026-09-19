@@ -32,8 +32,35 @@ async function startServer() {
 
   // Global HTTP Headers for SEO, Crawlers, and Security
   app.use((req, res, next) => {
-    res.setHeader('X-Robots-Tag', 'index, follow, max-image-preview:large');
+    const isAdminOrRestricted =
+      req.path.startsWith('/admin') ||
+      req.path.startsWith('/admin-cms') ||
+      req.path.startsWith('/seo-audit');
+
     res.setHeader('X-Powered-By', 'AnyFileX-Engine');
+
+    if (isAdminOrRestricted) {
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+      res.setHeader('Pragma', 'no-cache');
+    }
+
+    // Response header interception: Ensure non-200 responses send noindex, nofollow regardless of path
+    const originalWriteHead = res.writeHead.bind(res);
+    res.writeHead = function (statusCode: any, ...args: any[]) {
+      const code = (typeof statusCode === 'number' ? statusCode : res.statusCode) || 200;
+      if (isAdminOrRestricted) {
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        res.setHeader('Pragma', 'no-cache');
+      } else if (code !== 200) {
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+      } else {
+        res.setHeader('X-Robots-Tag', 'index, follow, max-image-preview:large');
+      }
+      return (originalWriteHead as any)(statusCode, ...args);
+    };
+
     next();
   });
 
@@ -180,6 +207,9 @@ ${prompt}`;
     }
   });
 
+  // Serve static assets from public directory
+  app.use(express.static(path.resolve(process.cwd(), 'public')));
+
   // Vite middleware in development vs Static serving in production with SSR
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
@@ -203,10 +233,16 @@ ${prompt}`;
         res.status(statusCode);
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.setHeader('X-Rendered-By', 'AnyFileX-SSR-Engine-Dev');
-        if (statusCode === 200) {
-          res.setHeader('Cache-Control', 'no-cache');
-        } else {
+        const isAdmin = req.path.startsWith('/admin') || req.path.startsWith('/admin-cms') || req.path.startsWith('/seo-audit');
+        if (isAdmin) {
+          res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+          res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+          res.setHeader('Pragma', 'no-cache');
+        } else if (statusCode !== 200) {
+          res.setHeader('X-Robots-Tag', 'noindex, nofollow');
           res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        } else {
+          res.setHeader('Cache-Control', 'no-cache');
         }
         return res.send(html);
       } catch (err: any) {
@@ -258,10 +294,16 @@ ${prompt}`;
         res.status(statusCode);
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.setHeader('X-Rendered-By', 'AnyFileX-SSR-Engine-Prod');
-        if (statusCode === 200) {
-          res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
-        } else {
+        const isAdmin = req.path.startsWith('/admin') || req.path.startsWith('/admin-cms') || req.path.startsWith('/seo-audit');
+        if (isAdmin) {
+          res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+          res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+          res.setHeader('Pragma', 'no-cache');
+        } else if (statusCode !== 200) {
+          res.setHeader('X-Robots-Tag', 'noindex, nofollow');
           res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        } else {
+          res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
         }
         if (isBot || req.headers['x-prerender-token'] || req.headers['x-prerendered']) {
           res.setHeader('X-Prerendered', '1');

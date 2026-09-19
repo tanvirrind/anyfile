@@ -78,6 +78,21 @@ export const ALIAS_MAP: Record<string, string> = {
 // Fast O(1) memory cache index for pre-built and dynamically hydrated records
 const EXTENSION_INDEX = new Map<string, ExtensionSchema>();
 const KNOWN_SLUGS = new Set<string>();
+const VERIFIED_EXTENSIONS_CATALOG = new Set<string>();
+
+/**
+ * Validates whether an extension string exists within the verified database catalog
+ */
+export function isVerifiedExtension(extRaw: string): boolean {
+  if (!extRaw || typeof extRaw !== 'string') return false;
+  initializeExtensionDatabase();
+  const clean = extRaw.trim().toLowerCase().replace(/^\./, '').replace(/[^a-z0-9_-]/g, '');
+  if (!clean) return false;
+  if (VERIFIED_EXTENSIONS_CATALOG.has(clean)) return true;
+  const alias = ALIAS_MAP[clean];
+  if (alias && VERIFIED_EXTENSIONS_CATALOG.has(alias)) return true;
+  return false;
+}
 
 /**
  * Normalizes extension strings: strips leading dot, converts to lowercase trimmed string
@@ -156,10 +171,24 @@ function initializeExtensionDatabase() {
   rawDataset.forEach((item) => {
     const { normalized } = validateExtensionRecord(item);
     const key = normalized.extension.toLowerCase();
+    VERIFIED_EXTENSIONS_CATALOG.add(key);
     if (!EXTENSION_INDEX.has(key)) {
       EXTENSION_INDEX.set(key, normalized);
       KNOWN_SLUGS.add(normalized.slug.toLowerCase());
     }
+  });
+
+  POPULAR_FILE_TYPES.forEach((f) => {
+    if (f.extension) VERIFIED_EXTENSIONS_CATALOG.add(f.extension.toLowerCase());
+  });
+  COMPREHENSIVE_SIGNATURES.forEach((s) => {
+    if (s.extension) VERIFIED_EXTENSIONS_CATALOG.add(s.extension.toLowerCase());
+  });
+  EXPANDED_MIME_DATABASE.forEach((m) => {
+    if (m.extension) VERIFIED_EXTENSIONS_CATALOG.add(m.extension.toLowerCase());
+  });
+  FILE_SIGNATURES.forEach((f) => {
+    if (f.extension) VERIFIED_EXTENSIONS_CATALOG.add(f.extension.toLowerCase());
   });
 }
 
@@ -247,8 +276,10 @@ export function generateDynamicExtensionSchema(extRaw: string): ExtensionSchema 
     ]
   };
 
-  EXTENSION_INDEX.set(rawLower, schema);
-  KNOWN_SLUGS.add(slug.toLowerCase());
+  if (isVerifiedExtension(rawLower)) {
+    EXTENSION_INDEX.set(rawLower, schema);
+    KNOWN_SLUGS.add(slug.toLowerCase());
+  }
 
   return schema;
 }
@@ -370,7 +401,10 @@ function resolveFormatIntelligence(cleanExt: string, category: CategoryType): {
 /**
  * Adapter to convert ExtensionSchema into FileTypeInfo for compatibility across all UI views
  */
-export function getExtensionAsFileTypeInfo(extRaw: string): FileTypeInfo {
+export function getExtensionAsFileTypeInfo(extRaw: string): FileTypeInfo | null {
+  if (!isVerifiedExtension(extRaw)) {
+    return null;
+  }
   const schema = generateDynamicExtensionSchema(extRaw);
   const cleanExt = extRaw.trim().toUpperCase().replace(/^\./, '') || schema.extension;
   const resolved = resolveFormatIntelligence(cleanExt, schema.category);
@@ -488,7 +522,9 @@ export function getAllFileTypeInfos(): FileTypeInfo[] {
     const key = schema.extension.trim().toUpperCase();
     if (!map.has(key)) {
       const info = getExtensionAsFileTypeInfo(key);
-      map.set(key, { ...info, extension: key });
+      if (info) {
+        map.set(key, { ...info, extension: key });
+      }
     }
   });
 

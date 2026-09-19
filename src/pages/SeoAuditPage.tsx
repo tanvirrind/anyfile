@@ -79,6 +79,7 @@ export const SeoAuditPage: React.FC<SeoAuditPageProps> = ({ onNavigate }) => {
         title="SEO Audit & Segmented XML Sitemaps"
         description="Comprehensive technical SEO inspection, Schema.org graph audits, meta tags analysis, and XML sitemap generator."
         canonicalPath="/seo-audit"
+        robots="noindex, nofollow, noarchive, nosnippet"
       />
       {/* Top Banner Header */}
       <div className="bg-slate-900 border-b border-slate-800 py-10 px-4 sm:px-8">

@@ -149,7 +149,7 @@ export const ContentDashboardPage: React.FC<ContentDashboardPageProps> = ({ onNa
         title="Topical Authority Expansion & Content Scaling Center | AnyFileX"
         description="Controlled content scaling system: 8-pillar topical coverage map, multi-factor prioritization scoring, content quality auditing (CQS), update monitoring, and programmatic SEO safety gating."
         canonicalPath="/admin/content"
-        robots="noindex, nofollow"
+        robots="noindex, nofollow, noarchive, nosnippet"
       />
 
       <Breadcrumb

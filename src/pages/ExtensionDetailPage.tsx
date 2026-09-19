@@ -40,7 +40,7 @@ import { ExtensionSoftwareGrid } from '../components/extension/ExtensionSoftware
 import { ExtensionSecurityCard } from '../components/extension/ExtensionSecurityCard';
 import { ExtensionLiveViewer } from '../components/extension/ExtensionLiveViewer';
 import { ExtensionTopicalAuthority } from '../components/extension/ExtensionTopicalAuthority';
-import { getOrGenerateExtensionInfo } from '../lib/seo/extensionGenerator';
+import { getOrGenerateExtensionInfo, ExtensionInfoResult } from '../lib/seo/extensionGenerator';
 import { generateExtensionSchema, generateExtensionFAQs } from '../lib/seo/faqGenerator';
 import { POPULAR_FILE_TYPES } from '../data/fileTypesData';
 import { getBestComparisonForExtension } from '../lib/database/knowledgeGraph';
@@ -56,8 +56,8 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
   const [shared, setShared] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Dynamic extension lookup supporting 10,000+ extension pages
-  const item: FileTypeInfo = getOrGenerateExtensionInfo(ext);
+  // Dynamic extension lookup supporting verified catalog format pages
+  const item: ExtensionInfoResult = getOrGenerateExtensionInfo(ext);
 
   // Calculate popularity score (1 to 100) deterministically
   const getPopularityScore = (extName: string) => {
@@ -212,11 +212,41 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
       <ReadingProgressBar />
 
       <SEOHead
-        title={`.${item.extension} File Extension - How to Open, Convert & Repair (${item.name})`}
+        title={item.statusCode === 404 ? `.${item.extension} File Extension Not Found (404)` : `.${item.extension} File Extension - How to Open, Convert & Repair (${item.name})`}
         description={item.description}
         canonicalPath={canonicalPath}
-        schemaData={fullSchemaGraph}
+        schemaData={item.statusCode === 404 ? undefined : fullSchemaGraph}
+        robots={item.statusCode === 404 ? 'noindex, nofollow' : undefined}
       />
+
+      {/* Unverified / 404 Extension Banner */}
+      {item.statusCode === 404 && (
+        <div className="bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-3xl p-8 sm:p-12 text-center space-y-4">
+          <div className="w-16 h-16 bg-amber-100 dark:bg-amber-900/60 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-center mx-auto text-2xl font-bold">
+            404
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+            Unrecognized File Extension: .{item.extension}
+          </h1>
+          <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+            The extension <strong>.{item.extension}</strong> is not listed in our verified format database. It may be mistyped, proprietary, or not a standardized format.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 pt-2">
+            <button
+              onClick={() => onNavigate({ view: 'extensions' })}
+              className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 transition"
+            >
+              Browse Verified Formats
+            </button>
+            <button
+              onClick={() => onNavigate({ view: 'file-identifier' })}
+              className="px-5 py-2.5 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-xl font-semibold text-sm hover:bg-slate-300 dark:hover:bg-slate-700 transition"
+            >
+              Inspect Raw File (Magic Bytes)
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Inline Toast Notification */}
       {toastMessage && (

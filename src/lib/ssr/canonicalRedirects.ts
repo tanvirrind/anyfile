@@ -83,9 +83,24 @@ export function getCanonicalRedirect(pathname: string, search: string = ''): str
   // Only redirect if targetPath is genuinely different from the current request
   if (targetPath) {
     const targetClean = targetPath.replace(/\/+$/, '');
-    const currentClean = pathname.replace(/\/+$/, '');
-    if (targetClean !== currentClean) {
-      return targetPath + search;
+    if (targetClean !== pathname) {
+      return targetClean + search;
+    }
+  }
+
+  // Trailing slash normalization for non-root paths (e.g. /file-extensions/heic/ -> /file-extensions/heic)
+  if (pathname.length > 1 && pathname.endsWith('/')) {
+    const stripped = pathname.replace(/\/+$/, '') || '/';
+    if (stripped !== '/') {
+      const pathWithoutPercent = stripped.replace(/%[0-9A-Fa-f]{2}/g, '');
+      if (/[A-Z]/.test(pathWithoutPercent)) {
+        const lower = stripped.replace(/%[0-9A-Fa-f]{2}|[A-Z]/g, (match) => {
+          if (match.startsWith('%')) return match.toUpperCase();
+          return match.toLowerCase();
+        });
+        return lower + search;
+      }
+      return stripped + search;
     }
   }
 

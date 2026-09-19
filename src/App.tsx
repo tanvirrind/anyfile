@@ -55,6 +55,7 @@ const WorkflowPage = lazy(() => import('./pages/WorkflowPage').then(m => ({ defa
 const FormatHubView = lazy(() => import('./components/content/FormatHubView').then(m => ({ default: m.FormatHubView })));
 const ContentDashboardPage = lazy(() => import('./pages/ContentDashboardPage').then(m => ({ default: m.ContentDashboardPage })));
 const FormatGuidePage = lazy(() => import('./pages/FormatGuidePage').then(m => ({ default: m.FormatGuidePage })));
+const AdminAuthGuard = lazy(() => import('./components/admin/AdminAuthGuard').then(m => ({ default: m.AdminAuthGuard })));
 
 import { AppRoute } from './types';
 import { parsePathToRoute, routeToPath } from './utils/router';
@@ -329,7 +330,9 @@ export default function App({ initialRoute }: AppProps = {}) {
           )}
 
           {currentRoute.view === 'admin' && (
-            <AdminCMSPage onNavigate={handleNavigate} />
+            <AdminAuthGuard onNavigate={handleNavigate} currentRoute={currentRoute}>
+              <AdminCMSPage onNavigate={handleNavigate} />
+            </AdminAuthGuard>
           )}
 
           {currentRoute.view === 'assistant' && (
@@ -365,7 +368,9 @@ export default function App({ initialRoute }: AppProps = {}) {
           )}
 
           {currentRoute.view === 'content-dashboard' && (
-            <ContentDashboardPage onNavigate={handleNavigate} />
+            <AdminAuthGuard onNavigate={handleNavigate} currentRoute={currentRoute}>
+              <ContentDashboardPage onNavigate={handleNavigate} />
+            </AdminAuthGuard>
           )}
 
           {(currentRoute.view === 'seo-audit' || currentRoute.view === 'sitemaps') && (

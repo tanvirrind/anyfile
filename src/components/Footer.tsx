@@ -208,9 +208,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 {renderAnchor({ view: 'authors' } as any, 'text-left block w-full hover:text-blue-400 font-medium text-blue-300 transition-colors cursor-pointer leading-snug', '👥 Author Profiles & Reviewers')}
               </li>
               <li className="text-left">
-                {renderAnchor({ view: 'content-dashboard' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Content Authority Studio (CMS)')}
-              </li>
-              <li className="text-left">
                 {renderAnchor({ view: 'blog' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Engineering Blog')}
               </li>
               <li className="text-left">

@@ -251,6 +251,35 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
       const extUpper = extRaw.toUpperCase();
       const extInfo = getExtensionInfo(extRaw);
 
+      // Handle unverified or non-existent extension: return HTTP 404 with noindex, nofollow
+      if (!extInfo || extInfo.statusCode === 404 || extInfo.isVerified === false) {
+        return {
+          statusCode: 404,
+          title: `404 – .${extUpper || 'UNKNOWN'} File Extension Not Found | AnyFileX`,
+          description: `The file extension .${extUpper || 'UNKNOWN'} was not found in the AnyFileX verified catalog of standardized formats.`,
+          robots: 'noindex, nofollow',
+          breadcrumbs: [
+            { name: 'Home', path: '/' },
+            { name: 'Extensions', path: '/file-extensions' },
+            { name: `.${extUpper || 'Unknown'} (Not Found)`, path: `/file-extensions/${extRaw}` },
+          ],
+          ogType: 'website',
+          specificSchemas: [],
+          prerenderedHtml: `
+            <div class="anyfilex-ssr-container max-w-3xl mx-auto px-4 py-16 text-center">
+              <h1 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-4">404 – Unknown File Extension .${extUpper}</h1>
+              <p class="text-slate-600 dark:text-slate-400 mb-8">
+                The file extension <strong>.${extUpper}</strong> is not recognized in our verified format database. It may be mistyped, proprietary, or not a standardized format.
+              </p>
+              <div class="flex justify-center gap-4">
+                <a href="/file-extensions" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-semibold inline-block">Browse Known Formats</a>
+                <a href="/file-identifier" class="px-5 py-2.5 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-lg font-semibold inline-block">Inspect Raw File</a>
+              </div>
+            </div>
+          `,
+        };
+      }
+
       const title = `.${extUpper} File Extension – How to Open & Convert | AnyFileX`;
       const description = `What is a .${extUpper} file? Discover compatible software for Windows and Mac, MIME type ${extInfo.mimeType}, magic bytes, and free in-browser converters.`.slice(0, 155);
 
@@ -1743,6 +1772,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
         statusCode: 200,
         title: 'Technical SEO Audit & Indexation Status | AnyFileX',
         description: 'Real-time technical SEO inspection, schema graphs, meta tags validation, and indexation status for AnyFileX.'.slice(0, 155),
+        robots: 'noindex, nofollow, noarchive, nosnippet',
         breadcrumbs: [
           { name: 'Home', path: '/' },
           { name: 'SEO Audit', path: '/seo-audit' },
@@ -1782,16 +1812,21 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
     case 'content-dashboard': {
       return {
         statusCode: 200,
-        title: 'Content Dashboard & Operations | AnyFileX',
-        description: 'Administrative content and topical authority dashboard.',
-        robots: 'noindex, nofollow',
+        title: 'Restricted Administration Portal | AnyFileX',
+        description: 'Administrative control center. Authorized personnel only.',
+        robots: 'noindex, nofollow, noarchive, nosnippet',
         breadcrumbs: [
           { name: 'Home', path: '/' },
-          { name: 'Dashboard', path: '/admin' },
+          { name: 'Admin Portal', path: '/admin' },
         ],
         ogType: 'website',
         specificSchemas: [],
-        prerenderedHtml: `<div>Content Dashboard</div>`,
+        prerenderedHtml: `
+          <div class="anyfilex-ssr-container max-w-xl mx-auto px-4 py-20 text-center">
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Restricted Administration Portal</h1>
+            <p class="text-slate-600 dark:text-slate-400 mb-6">Authentication credentials required to access administrative controls.</p>
+          </div>
+        `,
       };
     }
 
