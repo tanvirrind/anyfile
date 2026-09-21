@@ -8,7 +8,6 @@ import { Breadcrumb } from '../components/Breadcrumb';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { generateFAQSchema } from '../lib/seo/faqGenerator';
 
 interface CategoryPageProps {
@@ -184,8 +183,6 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onNaviga
         </div>
       </div>
 
-      {/* Schema Markup View */}
-      <SchemaMarkupView schemaData={categorySchema} title="Category CollectionPage & FAQ JSON-LD Schema" />
     </div>
   );
 };

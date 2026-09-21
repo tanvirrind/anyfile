@@ -60,7 +60,7 @@ export const GuidesPage: React.FC<GuidesPageProps> = ({ onNavigate, selectedGuid
         summary: legacyGuide.summary,
         contentSections: legacyGuide.contentSections.map(s => ({
           heading: s.heading,
-          body: s.body,
+          body: s.body ?? '',
           bullets: s.bullets,
           callout: s.callout
         })),

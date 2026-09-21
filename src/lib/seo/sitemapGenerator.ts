@@ -14,6 +14,35 @@ import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine'
 
 const BASE_URL = 'https://www.anyfilex.com';
 
+// Stable, deterministic platform content release date (avoids build-to-build lastmod churn).
+const PLATFORM_RELEASE_DATE = '2026-09-18';
+
+const MONTH_NUMBERS: Record<string, string> = {
+  january: '01', february: '02', march: '03', april: '04', may: '05', june: '06',
+  july: '07', august: '08', september: '09', october: '10', november: '11', december: '12',
+};
+
+/**
+ * Normalises a lastmod value to W3C Datetime (YYYY-MM-DD), which the sitemap protocol
+ * requires. Curated content stores human-readable dates ("August 2024") for display,
+ * so they are converted here; anything unparseable safely falls back to the platform
+ * release date instead of emitting invalid XML.
+ */
+export function normalizeLastmod(value: string | undefined): string {
+  if (!value) return PLATFORM_RELEASE_DATE;
+  const v = value.trim();
+  const iso = v.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (iso) return iso[1];
+  const monthYear = v.match(/^([A-Za-z]+)\s+(\d{4})$/);
+  if (monthYear) {
+    const m = MONTH_NUMBERS[monthYear[1].toLowerCase()];
+    if (m) return `${monthYear[2]}-${m}-01`;
+  }
+  const yearOnly = v.match(/^(\d{4})$/);
+  if (yearOnly) return `${yearOnly[1]}-01-01`;
+  return PLATFORM_RELEASE_DATE;
+}
+
 export interface SitemapItem {
   url: string;
   lastmod: string;
@@ -29,7 +58,7 @@ export interface SitemapSegmentInfo {
 }
 
 export const SITEMAP_SEGMENTS: SitemapSegmentInfo[] = [
-  { id: 'index', name: 'Master Sitemap Index', filename: 'sitemap.xml', desc: 'Master XML index pointing to all 17 domain sub-sitemaps' },
+  { id: 'index', name: 'Master Sitemap Index', filename: 'sitemap.xml', desc: 'Master XML index pointing to all 18 domain sub-sitemaps' },
   { id: 'main', name: 'Core Hubs & Utilities', filename: 'sitemap-main.xml', desc: 'Main landing, category hubs, tools directory, AI assistant, and legal pages' },
   { id: 'images', name: 'Images & Photos', filename: 'sitemap-images.xml', desc: 'JPG, PNG, WEBP, HEIC, TIFF, AVIF, GIF, SVG, RAW, CR2, NEF, ARW, DNG' },
   { id: 'documents', name: 'Documents & Layout', filename: 'sitemap-documents.xml', desc: 'PDF, DOCX, XLSX, PPTX, EPUB, RTF, ODT, ODS, TXT, CSV, MD' },
@@ -53,11 +82,18 @@ export const SITEMAP_SEGMENTS: SitemapSegmentInfo[] = [
 export function generateSitemapXml(items: SitemapItem[]): string {
   const xmlHeader = '<?xml version="1.0" encoding="UTF-8"?>\n';
   const urlsetOpen = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n';
-  const urlsetContent = items
+  // A given <loc> may appear at most once per sitemap document, so dedupe before serializing.
+  const seenUrls = new Set<string>();
+  const uniqueItems = items.filter((item) => {
+    if (seenUrls.has(item.url)) return false;
+    seenUrls.add(item.url);
+    return true;
+  });
+  const urlsetContent = uniqueItems
     .map(
       (item) => `  <url>
     <loc>${item.url}</loc>
-    <lastmod>${item.lastmod}</lastmod>
+    <lastmod>${normalizeLastmod(item.lastmod)}</lastmod>
     <changefreq>${item.changefreq}</changefreq>
     <priority>${item.priority.toFixed(1)}</priority>
   </url>`
@@ -75,7 +111,7 @@ export function generateSitemapIndexXml(sitemaps: { loc: string; lastmod: string
     .map(
       (s) => `  <sitemap>
     <loc>${s.loc}</loc>
-    <lastmod>${s.lastmod}</lastmod>
+    <lastmod>${normalizeLastmod(s.lastmod)}</lastmod>
   </sitemap>`
     )
     .join('\n');
@@ -84,9 +120,19 @@ export function generateSitemapIndexXml(sitemaps: { loc: string; lastmod: string
   return `${xmlHeader}${indexOpen}${indexContent}${indexClose}`;
 }
 
+// Sitemap XML derives purely from static content, so generate each segment once and
+// reuse it for the life of the process (segment ids are a fixed, bounded set).
+const sitemapXmlCache = new Map<string, string>();
+
 export function getSegmentedSitemapXml(segment: string): string {
-  // Stable, deterministic platform content release date to prevent Googlebot spam penalties
-  const PLATFORM_RELEASE_DATE = '2026-09-18';
+  const cached = sitemapXmlCache.get(segment);
+  if (cached !== undefined) return cached;
+  const xml = buildSegmentedSitemapXml(segment);
+  sitemapXmlCache.set(segment, xml);
+  return xml;
+}
+
+function buildSegmentedSitemapXml(segment: string): string {
   const allExts = getAllFileTypeInfos();
 
   if (segment === 'index') {

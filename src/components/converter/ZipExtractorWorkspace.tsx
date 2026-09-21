@@ -29,6 +29,7 @@ export const ZipExtractorWorkspace: React.FC = () => {
   const [previewContent, setPreviewContent] = useState<{ name: string; text?: string; url?: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -38,6 +39,7 @@ export const ZipExtractorWorkspace: React.FC = () => {
     setIsLoading(true);
     setZipFileName(file.name);
     setPreviewContent(null);
+    setError(null);
 
     try {
       const { default: JSZip } = await import('jszip');
@@ -60,6 +62,7 @@ export const ZipExtractorWorkspace: React.FC = () => {
       setEntries(parsed);
     } catch (err) {
       console.error('Failed to parse ZIP archive:', err);
+      setError(err instanceof Error && err.message ? `Could not read this ZIP archive: ${err.message}` : 'Could not read this ZIP archive \u2014 it may be corrupt or password-protected.');
     } finally {
       setIsLoading(false);
     }
@@ -79,6 +82,7 @@ export const ZipExtractorWorkspace: React.FC = () => {
       URL.revokeObjectURL(url);
     } catch (err) {
       console.error('Error extracting file:', err);
+      setError(`Could not extract "${entry.name}" from the archive.`);
     }
   };
 
@@ -97,6 +101,7 @@ export const ZipExtractorWorkspace: React.FC = () => {
       }
     } catch (err) {
       console.error('Error previewing file:', err);
+      setError(`Could not preview "${entry.name}".`);
     }
   };
 
@@ -121,6 +126,11 @@ export const ZipExtractorWorkspace: React.FC = () => {
 
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+      {error && (
+        <div role="alert" className="rounded-xl border border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/30 p-3 text-sm font-medium text-rose-700 dark:text-rose-300">
+          {error}
+        </div>
+      )}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
         <div className="space-y-1">
           <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">

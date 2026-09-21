@@ -1,6 +1,8 @@
 import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import fs from 'fs';
+import crypto from 'crypto';
 import dotenv from 'dotenv';
 import { createServer as createViteServer } from 'vite';
 import { GoogleGenAI } from '@google/genai';
@@ -10,11 +12,55 @@ import { renderSsrPageHtml, isSearchEngineBot } from './src/lib/ssr/ssrRenderer'
 import { getStaticRoutePaths } from './src/lib/ssr/staticGenerator';
 import { resolveRouteMetadata } from './src/lib/ssr/routeMetadataResolver';
 import { getCanonicalRedirect } from './src/lib/ssr/canonicalRedirects';
+import compression from 'compression';
 
 dotenv.config();
 
+// Content-Security-Policy, grounded against the actual SSR output (inspected 2026-09-20):
+// inline gtag bootstrap + __INITIAL_ROUTE__ hydration script + JSON-LD, plus Google
+// Fonts / Tag Manager / GA4 are the only external origins. No external images are
+// hot-linked (all https:// URLs in src are anchor hrefs or JSON-LD, not subresources).
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com",
+  "img-src 'self' data: blob:",
+  "media-src 'self' data: blob:",
+  "connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+  "worker-src 'self' blob:",
+].join('; ');
+
+// Simple in-memory per-IP rate limiter (no external dependency).
+// Keys on the client IP; returns 429 once `max` requests hit within `windowMs`.
+function apiRateLimiter(max: number, windowMs: number) {
+  const hits = new Map<string, { count: number; resetAt: number }>();
+  return (req: Request, res: Response, next: NextFunction) => {
+    const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
+      .toString().split(',')[0].trim();
+    const now = Date.now();
+    const entry = hits.get(ip);
+    if (entry && now < entry.resetAt && entry.count >= max) {
+      return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    }
+    if (!entry || now >= entry.resetAt) {
+      hits.set(ip, { count: 0, resetAt: now + windowMs });
+    }
+    hits.get(ip)!.count += 1;
+    next();
+  };
+}
+
 async function startServer() {
   const app = express();
+  app.disable('x-powered-by');
+
+  // gzip/brotli compression for all compressible text responses (HTML, XML, JSON, JS, CSS).
+  app.use(compression());
   const PORT = 3000;
 
   app.use(express.json({ limit: '10mb' }));
@@ -37,7 +83,14 @@ async function startServer() {
       req.path.startsWith('/admin-cms') ||
       req.path.startsWith('/seo-audit');
 
-    res.setHeader('X-Powered-By', 'AnyFileX-Engine');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=()');
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    if (process.env.NODE_ENV === 'production') {
+      res.setHeader('Content-Security-Policy', CSP);
+    }
 
     if (isAdminOrRestricted) {
       res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
@@ -148,18 +201,43 @@ async function startServer() {
     res.send(getSegmentedSitemapXml(segment));
   });
 
-  // AI Assistant Endpoint
-  app.post('/api/assistant', async (req, res) => {
-    const { message, fileContext } = req.body || {};
+  // AI Assistant Endpoint (rate-limited + input-capped)
+  const assistantLimiter = apiRateLimiter(30, 15 * 60 * 1000); // 30 req / 15 min / IP
+
+  const sanitizePromptField = (value: unknown, maxLen: number): string => {
+    if (value === null || value === undefined) return '';
+    // Strip control characters (incl. newlines) to shrink the prompt-injection surface.
+    return String(value).replace(/[\u0000-\u001f\u007f]/g, ' ').slice(0, maxLen);
+  };
+
+  app.post('/api/assistant', assistantLimiter, async (req, res) => {
+    const body = req.body || {};
+    const rawMessage: unknown = body.message;
+    const message =
+      typeof rawMessage === 'string'
+        ? rawMessage.trim()
+        : rawMessage === null || rawMessage === undefined
+          ? ''
+          : String(rawMessage);
+
+    if (message.length > 4000) {
+      return res.status(400).json({ error: 'Message too long (max 4000 characters).' });
+    }
+
     const prompt = message || 'Hello';
 
     let promptContent = prompt;
-    if (fileContext) {
+    const fileContext = body.fileContext;
+    if (fileContext && typeof fileContext === 'object') {
+      const name = sanitizePromptField(fileContext.name, 200);
+      const size = sanitizePromptField(fileContext.size, 20);
+      const mimeType = sanitizePromptField(fileContext.mimeType, 120);
+      const magicBytes = sanitizePromptField(fileContext.magicBytes, 200);
       promptContent = `[ATTACHED FILE FOR ANALYSIS]:
-FileName: ${fileContext.name}
-FileSize: ${fileContext.size} bytes
-MIME Type: ${fileContext.mimeType}
-Magic Bytes Hex: ${fileContext.magicBytes || 'N/A'}
+FileName: ${name}
+FileSize: ${size} bytes
+MIME Type: ${mimeType}
+Magic Bytes Hex: ${magicBytes || 'N/A'}
 
 USER QUESTION:
 ${prompt}`;
@@ -205,6 +283,36 @@ ${prompt}`;
         error: error.message || 'Gemini API call error',
       });
     }
+  });
+  // Admin login — server-side passphrase validation. The passphrase lives in
+  // ADMIN_PASSPHRASE on the server and is never shipped to the client bundle.
+  const adminAttempts = new Map<string, { count: number; resetAt: number }>();
+  app.post('/api/admin/login', (req, res) => {
+    const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
+      .toString().split(',')[0].trim();
+    const now = Date.now();
+    const entry = adminAttempts.get(ip);
+    if (entry && now < entry.resetAt && entry.count >= 5) {
+      return res.status(429).json({ ok: false, error: 'Too many attempts. Try again later.' });
+    }
+    if (!entry || now >= entry.resetAt) {
+      adminAttempts.set(ip, { count: 0, resetAt: now + 15 * 60 * 1000 });
+    }
+    const passkey = (req.body?.passkey || '').toString();
+    const expected = process.env.ADMIN_PASSPHRASE;
+    if (!expected) {
+      return res.status(503).json({ ok: false, error: 'Admin access is not configured on this server.' });
+    }
+    const a = Buffer.from(passkey);
+    const b = Buffer.from(expected);
+    const ok = a.length === b.length && crypto.timingSafeEqual(a, b);
+    if (ok) {
+      adminAttempts.delete(ip);
+      return res.json({ ok: true });
+    }
+    const e = adminAttempts.get(ip)!;
+    e.count += 1;
+    return res.status(401).json({ ok: false, error: 'Invalid passphrase.' });
   });
 
   // Serve static assets from public directory
@@ -311,7 +419,20 @@ ${prompt}`;
         return res.send(html);
       } catch (err: any) {
         console.error('SSR Prod Error:', err);
-        return res.sendFile(indexPath);
+        // Surface a real 500 instead of silently serving the blank SPA shell with a 200
+        // (which hid errors from monitoring and let crawlers index empty pages).
+        res.status(500);
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Cache-Control', 'no-store');
+        return res.send(
+          '<!doctype html><html lang="en"><head><meta charset="utf-8">' +
+          '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+          '<meta name="robots" content="noindex, nofollow"><title>500 — Server Error</title></head>' +
+          '<body style="font-family:system-ui,sans-serif;max-width:40rem;margin:4rem auto;padding:0 1rem;color:#0f172a">' +
+          '<h1>500 — Internal Server Error</h1>' +
+          '<p>Something went wrong while rendering this page. Please try again shortly.</p>' +
+          '</body></html>'
+        );
       }
     });
   }

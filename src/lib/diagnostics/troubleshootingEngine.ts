@@ -1,4 +1,5 @@
 import { detectFileFormat, buildHexOffsetRows } from '../analyzer/detectionEngine';
+import { sha256Hex } from '../../utils/hashUtils';
 
 export interface DiagnosticFinding {
   severity: 'critical' | 'warning' | 'info' | 'success';
@@ -55,19 +56,6 @@ export function formatBytes(bytes: number): string {
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-}
-
-/**
- * Computes browser-native SHA-256 cryptographic hash
- */
-async function computeSha256(buffer: ArrayBuffer): Promise<string> {
-  try {
-    const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-  } catch (err) {
-    return 'Unavailable (Security Context)';
-  }
 }
 
 /**
@@ -128,17 +116,16 @@ export async function diagnoseFile(file: File): Promise<DiagnosticReport> {
     };
   }
 
-  // Read first 64KB for deep analysis
+  // Read the full file once: used for the SHA-256 hash and the 64KB analysis slice.
+  const fullBuffer = await file.arrayBuffer();
   const sliceSize = Math.min(fileSize, 65536);
-  const buffer = await file.slice(0, sliceSize).arrayBuffer();
-  const bytes = new Uint8Array(buffer);
+  const bytes = new Uint8Array(fullBuffer.slice(0, sliceSize));
 
-  // Read full buffer (or up to 10MB) for SHA-256
-  const hashBuffer = fileSize <= 10 * 1024 * 1024 ? await file.arrayBuffer() : buffer;
-  const sha256Hash = await computeSha256(hashBuffer);
+  // Full-file SHA-256 (never a partial/fabricated hash)
+  const sha256Hash = (await sha256Hex(fullBuffer)) ?? 'Unavailable (Security Context)';
 
   // Run File Intelligence Detection Engine
-  const detection = detectFileFormat(bytes, fileName, file.type || '');
+  const detection = detectFileFormat(new Uint8Array(fullBuffer), fileName, file.type || '');
   const detectedExt = (detection.detectedExtension || '').toLowerCase();
   const detectedFormatName = detection.detectedFormat || 'Unknown Binary File';
 

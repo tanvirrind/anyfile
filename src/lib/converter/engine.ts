@@ -580,32 +580,11 @@ export async function convertFileInBrowser(
       }
     }
 
-    // 7. Generic Fallback
-    checkAborted();
-    onProgress?.(50);
-    const fileBuffer = await file.arrayBuffer();
-    checkAborted();
-    onProgress?.(85);
-
-    const mimeMap: Record<string, string> = {
-      pdf: 'application/pdf',
-      txt: 'text/plain',
-      png: 'image/png',
-      jpg: 'image/jpeg',
-      jpeg: 'image/jpeg',
-      webp: 'image/webp',
-      zip: 'application/zip',
-    };
-
-    const outMime = mimeMap[normTo] || 'application/octet-stream';
-    const outputBlob = new Blob([fileBuffer], { type: outMime });
-
-    onProgress?.(100);
-    return {
-      resultBlobUrl: URL.createObjectURL(outputBlob),
-      resultFileName,
-      resultSize: outputBlob.size,
-    };
+    // 7. Unsupported conversion — fail loudly instead of silently renaming the file
+    // (the old behaviour returned the same bytes with a fake extension and MIME type).
+    throw new Error(
+      `Conversion from ${normFrom.toUpperCase()} to ${normTo.toUpperCase()} is not supported in-browser.`
+    );
   } catch (err: any) {
     throw new Error(err.message || 'Error occurred during in-memory file conversion.');
   }

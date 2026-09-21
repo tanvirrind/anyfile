@@ -360,8 +360,8 @@ class SearchEngine {
         type: 'guide',
         category: ce.primaryTopic,
         keywords: [ce.title, ce.primaryTopic, ...(ce.relatedExtensions || []), ...(ce.seoMeta?.keywords || [])],
-        aliases: [ce.h1, ce.title, `how to open ${ce.relatedExtensions[0] || ''}`],
-        extension: ce.relatedExtensions[0],
+        aliases: [ce.h1 || '', ce.title, `how to open ${ce.relatedExtensions[0] || ''}`],
+        extension: ce.relatedExtensions[0] || '',
         popularity: 88,
         searchWeight: 85,
         lastUpdated: ce.updatedDate,
@@ -616,7 +616,7 @@ class SearchEngine {
       {
         id: 'seo-audit',
         title: 'SEO Audit & XML Sitemaps Hub',
-        desc: 'Diagnostic verification and segmented XML sitemaps for 10,000+ file extensions',
+        desc: 'Diagnostic verification and segmented XML sitemaps for 250+ file extensions',
         route: { view: 'seo-audit' },
         keywords: ['seo audit', 'sitemap generator', 'xml sitemaps', 'schema markup', 'core web vitals']
       }

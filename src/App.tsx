@@ -152,7 +152,7 @@ export default function App({ initialRoute }: AppProps = {}) {
             <>
               <SEOHead
                 title="AnyFileX – Open Any File in Seconds"
-                description="Open Any File in Seconds with AnyFileX. Convert, repair, identify, and understand thousands of file formats including HEIC, PDF, DOCX, ZIP, PSD, DWG, and more."
+                description="Open Any File in Seconds with AnyFileX. Convert, repair, identify, and understand hundreds of file formats including HEIC, PDF, DOCX, ZIP, PSD, DWG, and more."
                 canonicalPath="/"
                 schemaData={{
                   '@context': 'https://schema.org',
@@ -186,6 +186,7 @@ export default function App({ initialRoute }: AppProps = {}) {
               onNavigate={handleNavigate}
               initialCategory={currentRoute.categoryFilter}
               initialLetter={currentRoute.letterFilter}
+              initialSearch={currentRoute.query}
             />
           )}
 

@@ -22,8 +22,59 @@ import { getHowToOpenGuide } from '../guides/howToOpenEngine';
 import { getConversionAuthorityGuide } from '../guides/conversionGuideEngine';
 import { BreadcrumbItemSchema } from '../../components/SEOHead';
 import { getTechnicalGuide, getAllTechnicalGuides } from '../database/technicalAuthorityData';
+import { getAllFileTypeInfos } from '../database/extensionEngine';
+import { CURATED_COMPARISONS } from '../database/knowledgeGraph';
+import { TROUBLESHOOTING_GUIDES } from '../database/troubleshootingData';
+import { TOOLS_REGISTRY } from '../tools/toolsRegistry';
+import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine';
+import { EXPANDED_MIME_DATABASE } from '../../data/expandedMimeDatabase';
 
 const BASE_URL = 'https://www.anyfilex.com';
+
+/**
+ * CATEGORIES_LIST uses presentational names ("Images & Raster Graphics") while
+ * extension records carry short labels ("Images"). Map category id -> extension
+ * label so a category page's SSR directory can actually enumerate its formats.
+ */
+const CATEGORY_EXTENSION_LABEL: Record<string, string> = {
+  images: 'Images',
+  'cad-3d': 'CAD & 3D',
+  documents: 'Documents',
+  archives: 'Archives',
+  'audio-video': 'Audio & Video',
+  'code-data': 'Code & Data',
+  'email-comm': 'Email & Comm',
+  'system-executables': 'System & Executables',
+  'medical-science': 'Medical & Science',
+};
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+/**
+ * Renders a crawlable, linked directory section for SSR hub pages.
+ * Hub templates otherwise expose only a handful of children, which leaves most
+ * deep pages unreachable by crawlers (orphans) and keeps the server-rendered
+ * HTML very thin. Every entry is a plain <a href> so it is always indexable.
+ */
+function ssrDirectory(heading: string, items: { href: string; label: string; note?: string }[]): string {
+  if (!items.length) return '';
+  const links = items
+    .map((i) => `<li><a href="${i.href}">${escapeHtml(i.label)}</a>${i.note ? ` <span class="opacity-60 text-xs">${escapeHtml(i.note)}</span>` : ''}</li>`)
+    .join('');
+  return `
+        <section class="anyfilex-ssr-directory mt-12">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">${escapeHtml(heading)}</h2>
+          <ul class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-1.5 text-sm text-blue-600 dark:text-blue-400">${links}</ul>
+        </section>
+      `;
+}
 
 export interface DynamicPageMeta {
   title: string;
@@ -73,7 +124,7 @@ const TOOL_CONFIG: Record<string, { title: string; name: string; desc: string; k
   'mime-checker': {
     name: 'MIME Type Checker & Validator',
     title: 'MIME Type Checker & Content-Type Validator',
-    desc: 'Lookup and validate IANA standard MIME content-types, file extensions, and server HTTP headers across 2,500+ media formats.',
+    desc: 'Lookup and validate IANA standard MIME content-types, file extensions, and server HTTP headers across 50+ MIME types.',
     keywords: 'mime type checker, content-type lookup, iana mime types, http header validator',
   },
   'magic-byte-detector': {
@@ -97,7 +148,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
       return {
         statusCode: 200,
         title: 'AnyFileX – Universal File Format Intelligence & Tools',
-        description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 10,000+ file extensions.',
+        description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 250+ file extensions.',
         breadcrumbs: [{ name: 'Home', path: '/' }],
         ogType: 'website',
         specificSchemas: [],
@@ -108,7 +159,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
                 Open, Convert & Inspect <span class="text-blue-600">Any File</span>
               </h1>
               <p class="text-lg text-slate-600 dark:text-slate-300">
-                Universal file format intelligence, privacy-first in-memory converters, magic byte forensics, and technical specifications for 10,000+ digital file extensions.
+                Universal file format intelligence, privacy-first in-memory converters, magic byte forensics, and technical specifications for 250+ digital file extensions.
               </p>
 
               <!-- Popular Extension Badges -->
@@ -125,7 +176,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
             <!-- Feature Value Pillars -->
             <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
               <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
-                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2">10,000+ File Formats</h2>
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2">250+ File Formats</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">250+ curated specifications, IANA MIME mappings, magic byte signatures, and compatible software.</p>
                 <a href="/file-extensions" class="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline">Explore Extensions &rarr;</a>
               </div>
@@ -238,6 +289,24 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
                 `).join('')}
               </div>
             </section>
+
+            ${ssrDirectory('Explore the Full Directory', [
+              { href: '/file-extensions', label: 'File Extensions' },
+              { href: '/how-to-open', label: 'How to Open Files' },
+              { href: '/converters', label: 'File Converters' },
+              { href: '/compare', label: 'Format Comparisons' },
+              { href: '/software', label: 'Software Directory' },
+              { href: '/tools', label: 'Inspection Tools' },
+              { href: '/guides', label: 'Guides & Tutorials' },
+              { href: '/blog', label: 'Engineering Blog' },
+              { href: '/troubleshoot', label: 'Repair Guides' },
+              { href: '/security', label: 'Security & RFC Specs' },
+              { href: '/workflows', label: 'Workflows' },
+              { href: '/assistant', label: 'AI Assistant' },
+              { href: '/about', label: 'About AnyFileX' },
+              { href: '/contact', label: 'Contact' },
+              ...CATEGORIES_LIST.map((c) => ({ href: `/category/${c.id}`, label: c.name })),
+            ])}
           </div>
         `,
       };
@@ -267,9 +336,9 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
           specificSchemas: [],
           prerenderedHtml: `
             <div class="anyfilex-ssr-container max-w-3xl mx-auto px-4 py-16 text-center">
-              <h1 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-4">404 – Unknown File Extension .${extUpper}</h1>
+              <h1 class="text-4xl font-extrabold text-slate-900 dark:text-white mb-4">404 – Unknown File Extension .${escapeHtml(extUpper)}</h1>
               <p class="text-slate-600 dark:text-slate-400 mb-8">
-                The file extension <strong>.${extUpper}</strong> is not recognized in our verified format database. It may be mistyped, proprietary, or not a standardized format.
+                The file extension <strong>.${escapeHtml(extUpper)}</strong> is not recognized in our verified format database. It may be mistyped, proprietary, or not a standardized format.
               </p>
               <div class="flex justify-center gap-4">
                 <a href="/file-extensions" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-semibold inline-block">Browse Known Formats</a>
@@ -333,14 +402,14 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
           <nav aria-label="Breadcrumb" class="mb-6 text-sm text-slate-500 flex gap-2">
             <a href="/" class="hover:underline">Home</a> &rsaquo;
             <a href="/file-extensions" class="hover:underline">Extensions</a> &rsaquo;
-            <span class="text-slate-900 dark:text-white font-semibold">.${extUpper}</span>
+            <span class="text-slate-900 dark:text-white font-semibold">.${escapeHtml(extUpper)}</span>
           </nav>
           <header class="mb-8">
             <div class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded-md font-mono text-xs font-bold mb-3">
               ${extInfo.category} &bull; MIME: ${extInfo.mimeType}
             </div>
             <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-              .${extUpper} File Extension
+              .${escapeHtml(extUpper)} File Extension
             </h1>
             <p class="text-base text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
               ${extInfo.description}
@@ -355,7 +424,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
             </div>
             <div>
               <span class="uppercase text-slate-400 font-semibold block text-[10px]">MIME Type</span>
-              <code class="font-mono text-blue-600 dark:text-blue-400">${extInfo.mimeType}</code>
+              <a href="/mime-type/${encodeURIComponent(String(extInfo.mimeType).replace('/', '-').toLowerCase())}" class="font-mono text-blue-600 dark:text-blue-400 hover:underline">${extInfo.mimeType}</a>
             </div>
             <div>
               <span class="uppercase text-slate-400 font-semibold block text-[10px]">Magic Bytes</span>
@@ -385,7 +454,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
 
           <!-- OS Step-by-Step Instructions -->
           <section class="mb-8">
-            <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">How to Open .${extUpper} Files</h2>
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">How to Open .${escapeHtml(extUpper)} Files</h2>
             <div class="space-y-3">
               ${(extInfo.openingSteps || []).map((step, idx) => `
                 <div class="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
@@ -682,6 +751,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
               ${config.desc}
             </p>
           </header>
+          ${toolKey === 'mime-checker' ? ssrDirectory('MIME Type Directory', EXPANDED_MIME_DATABASE.map((m) => ({ href: `/mime-type/${encodeURIComponent(m.mimeType.replace('/', '-').toLowerCase())}`, label: m.mimeType, note: m.extension }))) : ''}
         </div>
       `;
 
@@ -909,6 +979,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
             <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">${catName} File Formats</h1>
             <p class="text-slate-600 dark:text-slate-300">${catDesc}</p>
           </header>
+          ${ssrDirectory(`${catName} File Extensions`, getAllFileTypeInfos().filter((e) => e.category.toLowerCase() === (CATEGORY_EXTENSION_LABEL[catId] || catName).toLowerCase()).map((e) => ({ href: `/file-extensions/${e.extension.toLowerCase()}`, label: `.${e.extension}`, note: e.name })))}
         </div>
       `;
 
@@ -1026,6 +1097,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
                 </a>
               `).join('')}
             </div>
+            ${ssrDirectory('All How-to-Open Guides', getAllFileTypeInfos().map((e) => ({ href: `/how-to-open/${e.extension.toLowerCase()}`, label: `How to open .${e.extension}`, note: e.category })))}
           </div>
         `,
       };
@@ -1067,6 +1139,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
                 </a>
               `).join('')}
             </div>
+            ${ssrDirectory('All Format Comparisons', CURATED_COMPARISONS.map((cp) => ({ href: `/compare/${cp.slug.toLowerCase()}`, label: cp.title, note: cp.category })))}
           </div>
         `,
       };
@@ -1140,8 +1213,8 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
 
       const prerenderedHtml = `
         <div class="anyfilex-ssr-container max-w-4xl mx-auto px-4 py-8">
-          <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-3">${mimeFormatted} MIME Type</h1>
-          <p class="text-slate-600 dark:text-slate-300">Technical specification and associated format standards for ${mimeFormatted}.</p>
+          <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-3">${escapeHtml(mimeFormatted)} MIME Type</h1>
+          <p class="text-slate-600 dark:text-slate-300">Technical specification and associated format standards for ${escapeHtml(mimeFormatted)}.</p>
         </div>
       `;
 
@@ -1167,7 +1240,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
 
       return {
         title: `File Extensions Directory${suffix} | AnyFileX`,
-        description: `Browse 10,000+ file extensions${suffix}. Filter by category, alphabetical index, MIME types, and software compatibility.`.slice(0, 155),
+        description: `Browse 250+ file extensions${suffix}. Filter by category, alphabetical index, MIME types, and software compatibility.`.slice(0, 155),
         breadcrumbs: [
           { name: 'Home', path: '/' },
           { name: 'Extensions', path: '/file-extensions' },
@@ -1177,7 +1250,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
         prerenderedHtml: `
           <div class="anyfilex-ssr-container max-w-6xl mx-auto px-4 py-8">
             <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-4">Complete File Extension Database${suffix}</h1>
-            <p class="text-slate-600 dark:text-slate-300 mb-6">Search, browse, and inspect technical specifications for thousands of file extensions.</p>
+            <p class="text-slate-600 dark:text-slate-300 mb-6">Search, browse, and inspect technical specifications for hundreds of file extensions.</p>
 
             <div class="flex flex-wrap gap-2 mb-8">
               <a href="/file-extensions" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold">All Formats</a>
@@ -1200,6 +1273,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
                 </a>
               `).join('')}
             </div>
+            ${ssrDirectory('All File Extensions A-Z', getAllFileTypeInfos().map((e) => ({ href: `/file-extensions/${e.extension.toLowerCase()}`, label: `.${e.extension}`, note: e.category })))}
           </div>
         `,
       };
@@ -1228,6 +1302,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
                 </a>
               `).join('')}
             </div>
+            ${ssrDirectory('All Conversion Routes', Array.from(new Set([...getAllSupportedConversionSlugs(), ...CONVERTERS_LIST.map((c) => c.id)])).sort().map((slug) => ({ href: `/converters/${slug}`, label: slug.replace(/-/g, ' ') })))}
           </div>
         `,
       };
@@ -1287,6 +1362,10 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
                 </a>
               `).join('')}
             </div>
+            ${ssrDirectory('All Repair & Troubleshooting Guides', [
+              ...TROUBLESHOOTING_GUIDES.map((g) => ({ href: `/troubleshoot/${g.id}`, label: g.title, note: String(g.category) })),
+              ...REPAIR_GUIDES.map((r) => ({ href: `/troubleshoot/${r.id}`, label: r.title, note: `.${r.extension}` })),
+            ])}
           </div>
         `,
       };
@@ -1375,6 +1454,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
                 `;
               }).join('')}
             </div>
+            ${ssrDirectory('All Tools & Utilities', Object.values(TOOLS_REGISTRY).map((t) => ({ href: `/tools/${t.slug}`, label: t.name, note: t.categoryLabel })))}
           </div>
         `,
       };
@@ -1598,7 +1678,7 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
         specificSchemas: [],
         prerenderedHtml: `
           <div class="anyfilex-ssr-container max-w-5xl mx-auto px-4 py-8">
-            <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-3">${topic} Format Hub</h1>
+            <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-3">${escapeHtml(topic)} Format Hub</h1>
           </div>
         `,
       };

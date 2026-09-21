@@ -3,7 +3,7 @@
 > LLM Context File: /llms.txt
 
 ## Overview
-AnyFileX is an authoritative, client-side digital file intelligence platform and knowledge engine. It provides technical specifications, binary magic byte signatures, privacy-safe metadata inspection, in-browser file converters, checksum verifiers, and recovery guides for over 50,000 file extensions.
+AnyFileX is an authoritative, client-side digital file intelligence platform and knowledge engine. It provides technical specifications, binary magic byte signatures, privacy-safe metadata inspection, in-browser file converters, checksum verifiers, and recovery guides for 250+ file extensions.
 
 All diagnostic operations (hash computation, magic byte extraction, EXIF metadata extraction/stripping) execute 100% locally inside the client's browser using WebAssembly and Web Crypto API. No user files are ever transmitted to external servers.
 
@@ -122,7 +122,6 @@ AnyFileX computes file integrity checksums using browser-native `crypto.subtle.d
 
 - **Zero-Cloud File Transmission**: AnyFileX executes all binary parsing and conversion algorithms strictly on the client machine using WebAssembly (Wasm) and HTML5 Web Workers.
 - **No Telemetry on Uploaded Content**: Filenames, byte content, and metadata fields never leave the user's browser sandbox.
-- **Offline Capable**: Standard web assets are cached for offline inspection workflows.
 
 ---
 

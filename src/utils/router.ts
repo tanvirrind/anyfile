@@ -1,5 +1,18 @@
 import { AppRoute, ToolTab } from '../types';
 
+function sanitizePathSegment(raw: string): string {
+  // Strip characters never valid in a slug/path segment, neutralizing reflected XSS.
+  return raw.replace(/[^a-zA-Z0-9._+#-]/g, '');
+}
+
+function safeDecodeComponent(s: string): string {
+  try {
+    return sanitizePathSegment(decodeURIComponent(s));
+  } catch {
+    return sanitizePathSegment(s);
+  }
+}
+
 export function routeToPath(route: AppRoute): string {
   switch (route.view) {
     case 'home':
@@ -8,6 +21,7 @@ export function routeToPath(route: AppRoute): string {
       const params = new URLSearchParams();
       if (route.categoryFilter) params.set('category', route.categoryFilter);
       if (route.letterFilter) params.set('letter', route.letterFilter);
+      if (route.query) params.set('q', route.query);
       const q = params.toString().replace(/\+/g, '%20');
       return `/file-extensions${q ? '?' + q : ''}`;
     }
@@ -134,7 +148,7 @@ export function parsePathToRoute(pathname: string, search: string = ''): AppRout
   const searchParams = new URLSearchParams(search);
 
   const section = parts[0].toLowerCase();
-  const param = parts[1] ? decodeURIComponent(parts[1]) : undefined;
+  const param = parts[1] ? safeDecodeComponent(parts[1]) : undefined;
 
   switch (section) {
     case '404':
@@ -150,7 +164,8 @@ export function parsePathToRoute(pathname: string, search: string = ''): AppRout
       }
       const categoryFilter = searchParams.get('category') || undefined;
       const letterFilter = searchParams.get('letter') || undefined;
-      return { view: 'extensions', categoryFilter, letterFilter };
+      const query = (searchParams.get('q') || '').trim().slice(0, 100) || undefined;
+      return { view: 'extensions', categoryFilter, letterFilter, query };
     }
 
     case 'how-to-open': {
@@ -220,16 +235,16 @@ export function parsePathToRoute(pathname: string, search: string = ''): AppRout
     case 'tool': {
       if (parts[1] === 'analyzer' || parts[1] === 'file-analyzer' || parts[1] === 'file-identifier' || parts[1] === 'identifier') {
         if (parts[2] === 'result' && parts[3]) {
-          return { view: 'file-identifier-result', id: decodeURIComponent(parts[3]) };
+          return { view: 'file-identifier-result', id: safeDecodeComponent(parts[3]) };
         }
         if (parts[2] && parts[2] !== 'result') {
-          return { view: 'file-identifier-result', id: decodeURIComponent(parts[2]) };
+          return { view: 'file-identifier-result', id: safeDecodeComponent(parts[2]) };
         }
         return { view: 'file-identifier' };
       }
       if (parts[1] === 'metadata-viewer' || parts[1] === 'metadata') {
         if (parts[2] === 'result' && parts[3]) {
-          return { view: 'metadata-result', id: decodeURIComponent(parts[3]) };
+          return { view: 'metadata-result', id: safeDecodeComponent(parts[3]) };
         }
         return { view: 'metadata-viewer' };
       }

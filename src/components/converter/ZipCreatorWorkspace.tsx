@@ -26,6 +26,7 @@ export const ZipCreatorWorkspace: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
   const [dragActive, setDragActive] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const folderInputRef = useRef<HTMLInputElement>(null);
@@ -72,6 +73,7 @@ export const ZipCreatorWorkspace: React.FC = () => {
     if (files.length === 0) return;
 
     setIsGenerating(true);
+      setError(null);
     setProgress(10);
 
     try {
@@ -111,6 +113,7 @@ export const ZipCreatorWorkspace: React.FC = () => {
       URL.revokeObjectURL(url);
     } catch (err) {
       console.error('ZIP creation error:', err);
+      setError(err instanceof Error && err.message ? `Could not create the ZIP archive: ${err.message}` : 'Could not create the ZIP archive.');
     } finally {
       setIsGenerating(false);
       setTimeout(() => setProgress(0), 1000);
@@ -127,6 +130,11 @@ export const ZipCreatorWorkspace: React.FC = () => {
 
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+      {error && (
+        <div role="alert" className="rounded-xl border border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/30 p-3 text-sm font-medium text-rose-700 dark:text-rose-300">
+          {error}
+        </div>
+      )}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
         <div className="space-y-1">
           <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">

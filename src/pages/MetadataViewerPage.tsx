@@ -19,7 +19,6 @@ import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { MetadataUploader } from '../components/MetadataUploader';
 import { FAQAccordion } from '../components/FAQAccordion';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { SEOHead } from '../components/SEOHead';
 
 interface MetadataViewerPageProps {
@@ -202,10 +201,6 @@ export const MetadataViewerPage: React.FC<MetadataViewerPageProps> = ({ onNaviga
         <FAQAccordion faqs={faqs} />
       </div>
 
-      {/* Schema.org JSON-LD */}
-      <div className="max-w-4xl mx-auto">
-        <SchemaMarkupView schemaData={schemaJson} />
-      </div>
     </div>
   );
 };

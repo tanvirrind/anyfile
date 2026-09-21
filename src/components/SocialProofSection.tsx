@@ -6,9 +6,9 @@ export const SocialProofSection: React.FC = () => {
 
   const stats = [
     {
-      value: '10,480',
+      value: '250+',
       label: 'Searchable Formats',
-      subtext: '254 deep curated • 10,480 indexed',
+      subtext: '43 byte-signature profiles • 250+ indexed',
       id: 'stat-formats',
     },
     {
@@ -110,13 +110,13 @@ export const SocialProofSection: React.FC = () => {
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-600 dark:text-slate-400">
                   <tr>
                     <td className="p-3 font-semibold text-slate-900 dark:text-white whitespace-nowrap">
-                      "10,000+ file types" vs "50,000+ extensions"
+                      "250+ file types" vs "50,000+ extensions"
                     </td>
                     <td className="p-3 font-mono font-medium text-emerald-600 dark:text-emerald-400 whitespace-nowrap">
-                      10,480 cataloged (254 curated)
+                      250+ cataloged (43 byte-signature profiles)
                     </td>
                     <td className="p-3 text-[11px] leading-relaxed">
-                      Third-party search indexes claiming "50,000+ extensions" scrape non-standard random character sequences, typo extensions, and temporary file artifacts. AnyFileX indexes strictly legitimate digital extensions across 10,480 searchable records (derived from IANA, ISO, RFC, and software standards registries), anchored by 254 deep, manually authored profiles with verified magic bytes and offset signatures.
+                      Third-party search indexes claiming "50,000+ extensions" scrape non-standard random character sequences, typo extensions, and temporary file artifacts. AnyFileX indexes strictly legitimate digital extensions across 250+ searchable records (derived from IANA, ISO, RFC, and software standards registries), anchored by 43 deep, manually authored profiles with verified magic bytes and offset signatures.
                     </td>
                   </tr>
                   <tr>

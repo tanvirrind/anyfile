@@ -316,8 +316,8 @@ function resolveFormatIntelligence(cleanExt: string, category: CategoryType): {
   );
   if (mimeMatch) {
     return {
-      magicBytesHex: mimeMatch.magicBytesHex,
-      magicBytesAscii: mimeMatch.magicBytesAscii,
+      magicBytesHex: mimeMatch.magicBytesHex ?? '',
+      magicBytesAscii: mimeMatch.magicBytesAscii ?? '',
       mimeType: mimeMatch.mimeType,
       typicalSize: category === 'Images' ? '1 MB - 20 MB' : '500 KB - 25 MB',
       detailedOverview: mimeMatch.description,

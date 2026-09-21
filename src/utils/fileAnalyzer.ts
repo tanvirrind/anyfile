@@ -1,5 +1,6 @@
 import { FILE_SIGNATURES } from '../data/fileSignaturesData';
 import { FileSignatureRecord } from '../types';
+import { sha256Hex } from './hashUtils';
 
 export interface AnalysisReport {
   id: string;
@@ -101,15 +102,8 @@ export async function analyzeUploadedFile(file: File): Promise<AnalysisReport> {
     hexOffsetRows.push({ offsetHex, hexBytes: rowBytes, asciiChars: rowAscii });
   }
 
-  // 2. Compute real SHA-256 Hash using Web Crypto API
-  let sha256Hash = '';
-  try {
-    const hashBuffer = await crypto.subtle.digest('SHA-256', sliceBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    sha256Hash = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-  } catch {
-    sha256Hash = Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
-  }
+  // 2. Compute real SHA-256 Hash over the FULL file (never a partial/random value)
+  const sha256Hash = (await sha256Hex(await file.arrayBuffer())) ?? '';
 
   // 3. Signature Matching
   const fullHexStr = hexArray.join(' ');

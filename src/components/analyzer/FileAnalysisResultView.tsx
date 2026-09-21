@@ -81,7 +81,7 @@ export const FileAnalysisResultView: React.FC<FileAnalysisResultViewProps> = ({
   };
 
   const handleCopySha256 = () => {
-    navigator.clipboard.writeText(analysis.diagnostics.sha256Hash);
+    navigator.clipboard.writeText(analysis.diagnostics.sha256Hash ?? '');
     setCopiedHash(true);
     setTimeout(() => setCopiedHash(false), 2000);
   };
@@ -102,7 +102,7 @@ export const FileAnalysisResultView: React.FC<FileAnalysisResultViewProps> = ({
       `Detected Format: ${analysis.detectedFormat} (.${analysis.detectedExtension.toLowerCase()})\n` +
       `Detected MIME: ${analysis.detectedMimeType}\n` +
       `Extension Match: ${analysis.extensionComparison.message}\n` +
-      `SHA-256: ${analysis.diagnostics.sha256Hash}\n` +
+      `SHA-256: ${analysis.diagnostics.sha256Hash ?? 'Unavailable'}\n` +
       `Security Assessment: ${analysis.security.badgeText}\n` +
       `Analyzed: ${new Date(analysis.diagnostics.analyzedAt).toLocaleString()} (Client-Side Local)`;
 
@@ -623,7 +623,7 @@ export const FileAnalysisResultView: React.FC<FileAnalysisResultViewProps> = ({
               <div className="space-y-1 min-w-0">
                 <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">SHA-256 Checksum</span>
                 <p className="font-mono text-xs sm:text-sm text-slate-900 dark:text-white break-all font-bold">
-                  {analysis.diagnostics.sha256Hash}
+                  {analysis.diagnostics.sha256Hash ?? 'Unavailable'}
                 </p>
               </div>
 

@@ -424,7 +424,7 @@ export function exportAnalysisReport(
   <p><strong>File Name:</strong> ${analysis.fileName} <span class="badge">.${analysis.detectedExtension.toUpperCase()}</span></p>
   <p><strong>Detected Format:</strong> ${analysis.detectedFormat} (${analysis.category})</p>
   <p><strong>File Size:</strong> ${analysis.formattedSize} (${analysis.fileSize} bytes)</p>
-  <p><strong>SHA-256 Checksum:</strong> <span class="code">${analysis.diagnostics.sha256Hash}</span></p>
+  <p><strong>SHA-256 Checksum:</strong> <span class="code">${analysis.diagnostics.sha256Hash ?? 'Unavailable'}</span></p>
 
   <h2>Technical Binary Assessment</h2>
   <table class="table">
@@ -450,7 +450,7 @@ export function exportAnalysisReport(
 **Size:** ${analysis.formattedSize} (${analysis.fileSize} bytes)  
 **Detected Format:** ${analysis.detectedFormat} (\`.${analysis.detectedExtension.toLowerCase()}\`)  
 **MIME Type:** \`${analysis.detectedMimeType}\`  
-**SHA-256 Hash:** \`${analysis.diagnostics.sha256Hash}\`  
+**SHA-256 Hash:** \`${analysis.diagnostics.sha256Hash ?? 'Unavailable'}\`  
 **Generated:** ${new Date(timestamp).toLocaleString()} (Client-Side Local)
 
 ---

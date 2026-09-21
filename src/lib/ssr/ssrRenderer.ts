@@ -126,7 +126,7 @@ export function renderSsrPageHtml(
   const schemaJson = JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': meta.schemaGraph,
-  }, null, 2);
+  }, null, 2).replace(/</g, '\\u003c');
 
   const schemaScriptTag = `<script type="application/ld+json" id="anyfilex-jsonld-schema">\n${schemaJson}\n    </script>`;
   if (output.includes('<script type="application/ld+json"')) {
@@ -139,7 +139,13 @@ export function renderSsrPageHtml(
   }
 
   // 8. Inject Initial Route State for seamless client hydration
-  const initialStateScript = `<script id="__ANYFILEX_INITIAL_STATE__">window.__INITIAL_ROUTE__ = ${JSON.stringify(meta.route)};</script>`;
+  // Escape '<' (and JS line separators) so a crafted route value cannot break out
+  // of this <script> element — the same hardening applied to the JSON-LD graph above.
+  const initialStateJson = JSON.stringify(meta.route)
+    .replace(/</g, '\\u003c')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029');
+  const initialStateScript = `<script id="__ANYFILEX_INITIAL_STATE__">window.__INITIAL_ROUTE__ = ${initialStateJson};</script>`;
 
   // 9. Inject Pre-rendered Semantic HTML Body into #root
   const fullBodyHtml = buildSsrPageShell(meta.prerenderedHtml);

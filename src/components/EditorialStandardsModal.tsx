@@ -38,7 +38,7 @@ export const EditorialStandardsModal: React.FC<EditorialStandardsModalProps> = (
               How AnyFileX Tests, Verifies & Audits Technical Guides
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
-              Our 5-pillar editorial methodology governing 10,000+ file format specifications and opening walkthroughs.
+              Our 5-pillar editorial methodology governing 250+ file format specifications and opening walkthroughs.
             </p>
           </div>
           <button

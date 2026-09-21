@@ -20,7 +20,6 @@ import { Badge } from '../components/Badge';
 import { FileIdentifierUploader } from '../components/FileIdentifierUploader';
 import { FILE_SIGNATURES } from '../data/fileSignaturesData';
 import { FAQAccordion } from '../components/FAQAccordion';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { SEOHead } from '../components/SEOHead';
 
 interface FileIdentifierPageProps {
@@ -222,10 +221,6 @@ export const FileIdentifierPage: React.FC<FileIdentifierPageProps> = ({ onNaviga
         <FAQAccordion faqs={faqs} />
       </div>
 
-      {/* Schema.org Metadata */}
-      <div className="max-w-4xl mx-auto">
-        <SchemaMarkupView schemaData={schemaJson} />
-      </div>
     </div>
   );
 };

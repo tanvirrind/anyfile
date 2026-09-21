@@ -20,7 +20,6 @@ import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { FAQAccordion } from '../components/FAQAccordion';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { SEOHead } from '../components/SEOHead';
 import { parseMimeSlug } from '../data/expandedMimeDatabase';
 
@@ -264,10 +263,6 @@ def download():
         <FAQAccordion faqs={faqs} />
       </div>
 
-      {/* Schema.org */}
-      <div className="max-w-4xl mx-auto">
-        <SchemaMarkupView schemaData={schemaTechArticle} />
-      </div>
     </div>
   );
 };

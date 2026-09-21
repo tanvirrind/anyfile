@@ -30,7 +30,6 @@ import { Breadcrumb } from '../components/Breadcrumb';
 import { TOCSidebar } from '../components/TOCSidebar';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { Badge } from '../components/Badge';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { SEOHead } from '../components/SEOHead';
 import { AutoInternalLinks } from '../components/AutoInternalLinks';
 import { ReadingProgressBar } from '../components/ReadingProgressBar';
@@ -124,7 +123,6 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
     { id: 'faq', label: '13. Frequently Asked Questions' },
     { id: 'related-extensions', label: '14. Related Extensions' },
     { id: 'related-guides', label: '15. Related Guides & Comparisons' },
-    { id: 'schema-markup', label: '16. Schema JSON-LD' },
   ];
 
   // Smooth scroll handler
@@ -550,10 +548,6 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
             </div>
           </section>
 
-          {/* Section 11: Schema.org JSON-LD Metadata Inspector */}
-          <section id="schema-markup" className="scroll-mt-24">
-            <SchemaMarkupView schemaData={fullSchemaGraph} />
-          </section>
         </div>
       </div>
 

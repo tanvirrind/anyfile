@@ -28,7 +28,6 @@ import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { TOCSidebar } from '../components/TOCSidebar';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
 
@@ -133,7 +132,6 @@ export const MetadataViewerResultPage: React.FC<MetadataViewerResultPageProps> =
     { id: 'privacy-risk', label: 'Privacy Risk Audit' },
     { id: 'metadata-details', label: 'Metadata Properties' },
     { id: 'recommendations', label: 'Recommendations & Actions' },
-    { id: 'schema-meta', label: 'Structured Schema' },
   ];
 
   const handleTocSelect = (id: string) => {
@@ -555,10 +553,6 @@ export const MetadataViewerResultPage: React.FC<MetadataViewerResultPageProps> =
             <FAQAccordion faqs={faqs} />
           </section>
 
-          {/* Section: Schema Markup */}
-          <section id="schema-meta" className="scroll-mt-24">
-            <SchemaMarkupView schemaData={schemaJson} />
-          </section>
         </div>
       </div>
     </div>

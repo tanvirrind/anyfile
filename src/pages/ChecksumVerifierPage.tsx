@@ -25,7 +25,6 @@ import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { FAQAccordion } from '../components/FAQAccordion';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { SEOHead } from '../components/SEOHead';
 import {
   calculateFileHashes,
@@ -451,11 +450,6 @@ export const ChecksumVerifierPage: React.FC<ChecksumVerifierPageProps> = ({ onNa
         <FAQAccordion faqs={faqs} />
       </div>
 
-      {/* Schema.org Structured Data */}
-      <div className="max-w-4xl mx-auto space-y-4">
-        <SchemaMarkupView schemaData={schemaHowTo} title="HowTo Schema (JSON-LD)" />
-        <SchemaMarkupView schemaData={schemaJson} title="Tool Schema (JSON-LD)" />
-      </div>
     </div>
   );
 };

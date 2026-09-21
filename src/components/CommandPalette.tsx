@@ -365,7 +365,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose,
 
         {/* Footer info */}
         <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-400">
-          <span>Search 10,000+ extensions, software, tools, converters & AI Assistant</span>
+          <span>Search 250+ extensions, software, tools, converters & AI Assistant</span>
           <div className="flex items-center gap-3">
             <span>
               Press <kbd className="px-1.5 py-0.5 font-mono bg-white dark:bg-slate-800 border rounded">↵</kbd> to select

@@ -23,12 +23,14 @@ export const ExtensionHowToOpenSection: React.FC<ExtensionHowToOpenSectionProps>
 }) => {
   const [selectedOS, setSelectedOS] = useState<'windows' | 'mac' | 'linux' | 'android' | 'ios' | 'browser'>('windows');
 
+  // osSupport is optional on FileTypeInfo; a missing value means "not supported".
+  const os = item.osSupport;
   const platforms = [
-    { id: 'windows', label: 'Windows', icon: Monitor, supported: item.osSupport.windows },
-    { id: 'mac', label: 'macOS', icon: Laptop, supported: item.osSupport.mac },
-    { id: 'linux', label: 'Linux', icon: Monitor, supported: item.osSupport.linux },
-    { id: 'android', label: 'Android', icon: Smartphone, supported: item.osSupport.android },
-    { id: 'ios', label: 'iPhone / iPad', icon: Smartphone, supported: item.osSupport.ios },
+    { id: 'windows', label: 'Windows', icon: Monitor, supported: os?.windows ?? false },
+    { id: 'mac', label: 'macOS', icon: Laptop, supported: os?.mac ?? false },
+    { id: 'linux', label: 'Linux', icon: Monitor, supported: os?.linux ?? false },
+    { id: 'android', label: 'Android', icon: Smartphone, supported: os?.android ?? false },
+    { id: 'ios', label: 'iPhone / iPad', icon: Smartphone, supported: os?.ios ?? false },
     { id: 'browser', label: 'In Browser', icon: Globe, supported: true },
   ];
 

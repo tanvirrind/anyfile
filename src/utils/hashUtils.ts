@@ -172,6 +172,19 @@ function bufferToHex(buffer: ArrayBuffer): string {
   return hex;
 }
 
+/**
+ * SHA-256 hex digest of a full buffer, or null if the Web Crypto API is
+ * unavailable (insecure/non-HTTPS context). Never fabricates a fallback value.
+ */
+export async function sha256Hex(buffer: ArrayBuffer): Promise<string | null> {
+  try {
+    const digest = await crypto.subtle.digest('SHA-256', buffer);
+    return bufferToHex(digest);
+  } catch {
+    return null;
+  }
+}
+
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 Bytes';
   const k = 1024;

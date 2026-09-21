@@ -155,7 +155,7 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
           className="px-4 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-colors cursor-pointer flex items-center gap-1.5 shrink-0 self-start sm:self-auto"
           id="seo-browse-all-ext-btn"
         >
-          <span>Browse 10,000+ Extensions</span>
+          <span>Browse 250+ Extensions</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>

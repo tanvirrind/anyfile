@@ -26,7 +26,6 @@ import {
 } from 'lucide-react';
 import { FileTypeInfo, CategoryType, AppRoute } from '../types';
 import { fileFormatDB, CMSAuditLog, CMSAnalytics } from '../lib/database/fileFormatDatabase';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { SEOHead } from '../components/SEOHead';
 
 interface AdminCMSPageProps {
@@ -519,8 +518,6 @@ export const AdminCMSPage: React.FC<AdminCMSPageProps> = ({ onNavigate }) => {
         </div>
       )}
 
-      {/* Schema Markup View */}
-      <SchemaMarkupView schemaData={adminSchema} title="DataCatalog Admin CMS JSON-LD Schema" />
     </div>
   );
 };

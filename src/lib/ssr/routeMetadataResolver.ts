@@ -21,12 +21,37 @@ export interface RouteMetadata {
 
 const BASE_URL = 'https://www.anyfilex.com';
 
+// Bounded LRU memo: metadata is deterministic per (pathname, search), and deriving the
+// prerendered HTML + schema graph is the expensive part of every SSR request. Bounded
+// because the query string (e.g. ?q=) is caller-controlled and effectively unbounded.
+const METADATA_CACHE_LIMIT = 500;
+const metadataCache = new Map<string, RouteMetadata>();
+
 /**
  * High-performance route metadata resolver.
  * Parses incoming URL path/parameters and derives dynamic SEO titles, descriptions,
  * schema graphs, and prerendered HTML content dynamically.
+ * Results are memoized per (pathname, search).
  */
 export function resolveRouteMetadata(pathname: string, search: string = ''): RouteMetadata {
+  const cacheKey = `${pathname}|${search}`;
+  const cached = metadataCache.get(cacheKey);
+  if (cached) {
+    // Refresh recency so hot routes survive eviction.
+    metadataCache.delete(cacheKey);
+    metadataCache.set(cacheKey, cached);
+    return cached;
+  }
+  const resolved = buildRouteMetadata(pathname, search);
+  if (metadataCache.size >= METADATA_CACHE_LIMIT) {
+    const oldest = metadataCache.keys().next().value;
+    if (oldest !== undefined) metadataCache.delete(oldest);
+  }
+  metadataCache.set(cacheKey, resolved);
+  return resolved;
+}
+
+function buildRouteMetadata(pathname: string, search: string = ''): RouteMetadata {
   const route = parsePathToRoute(pathname, search);
   const cleanPath = routeToPath(route);
   const isHome = cleanPath === '/' || route.view === 'home';

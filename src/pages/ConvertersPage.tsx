@@ -96,7 +96,7 @@ export const ConvertersPage: React.FC<ConvertersPageProps> = ({
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 dark:bg-blue-950/80 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-bold">
           <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-          <span>Universal Client-Side Converter Architecture • 1,000+ Combinations</span>
+          <span>Universal Client-Side Converter Architecture • 9 Converter Pairs</span>
         </div>
 
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">

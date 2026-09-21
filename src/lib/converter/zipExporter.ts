@@ -10,7 +10,7 @@ export async function createZipFromQueueItems(
   items: QueueItem[],
   zipFilename: string = 'converted_files.zip',
   onProgress?: (percent: number) => void
-): Promise<{ zipBlobUrl: string; filename: string; size: number }> {
+): Promise<{ zipBlobUrl: string; filename: string; size: number; skipped: string[] }> {
   const { default: JSZip } = await import('jszip');
   const zip = new JSZip();
 
@@ -19,7 +19,9 @@ export async function createZipFromQueueItems(
     throw new Error('No completed converted files available to package into ZIP.');
   }
 
-  // Fetch blob data for each item and add to zip
+  // Fetch blob data for each item and add it to the zip. Any file that cannot be read is
+  // reported back to the caller instead of being dropped from the archive silently.
+  const skipped: string[] = [];
   for (let i = 0; i < completed.length; i++) {
     const item = completed[i];
     const filename = item.resultFileName || `${item.name.replace(/\.[^/.]+$/, '')}.${item.toExt}`;
@@ -30,11 +32,16 @@ export async function createZipFromQueueItems(
       zip.file(filename, blob);
     } catch (err) {
       console.error(`Failed to fetch blob for file ${filename}:`, err);
+      skipped.push(filename);
     }
 
     if (onProgress) {
       onProgress(Math.round(((i + 1) / completed.length) * 50));
     }
+  }
+
+  if (skipped.length === completed.length) {
+    throw new Error('None of the converted files could be read for packaging.');
   }
 
   // Generate ZIP blob
@@ -52,5 +59,6 @@ export async function createZipFromQueueItems(
     zipBlobUrl,
     filename: zipFilename,
     size: zipBlob.size,
+    skipped,
   };
 }

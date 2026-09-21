@@ -260,7 +260,7 @@ export interface FileSignatureRecord {
 
 export type AppRoute =
   | { view: 'home' }
-  | { view: 'extensions'; categoryFilter?: string; letterFilter?: string }
+  | { view: 'extensions'; categoryFilter?: string; letterFilter?: string; query?: string }
   | { view: 'extension-detail'; ext: string }
   | { view: 'how-to-open'; ext?: string; categoryFilter?: string }
   | { view: 'compare-hub'; categoryFilter?: string }

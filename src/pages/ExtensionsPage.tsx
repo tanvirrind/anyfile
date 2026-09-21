@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Search, Filter, Sparkles, ArrowRight, FileCode, CheckCircle2 } from 'lucide-react';
 import { getAllFileTypeInfos } from '../lib/database/extensionEngine';
 import { AppRoute, CategoryType, FileTypeInfo } from '../types';
@@ -12,14 +12,21 @@ interface ExtensionsPageProps {
   onNavigate: (route: AppRoute) => void;
   initialCategory?: string;
   initialLetter?: string;
+  initialSearch?: string;
 }
 
-export const ExtensionsPage: React.FC<ExtensionsPageProps> = ({ onNavigate, initialCategory, initialLetter }) => {
-  const [search, setSearch] = useState('');
+export const ExtensionsPage: React.FC<ExtensionsPageProps> = ({ onNavigate, initialCategory, initialLetter, initialSearch }) => {
+  const [search, setSearch] = useState(initialSearch || '');
   const [category, setCategory] = useState<string>(initialCategory || 'All');
   const [letter, setLetter] = useState<string>(initialLetter || 'All');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+
+  // Honor ?q= from the URL (the declared SearchAction target) and re-sync on navigation.
+  useEffect(() => {
+    setSearch(initialSearch || '');
+    setCurrentPage(1);
+  }, [initialSearch]);
 
   const alphabet = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
@@ -87,7 +94,7 @@ export const ExtensionsPage: React.FC<ExtensionsPageProps> = ({ onNavigate, init
         description={
           category !== 'All'
             ? `Browse all ${category.toLowerCase()} file formats. Check compatible software, MIME types, binary signatures, and conversion options.`
-            : 'Explore thousands of digital file extensions alphabetically or by category. Find compatible software, MIME types, specifications, and repair guides.'
+            : 'Explore hundreds of digital file extensions alphabetically or by category. Find compatible software, MIME types, specifications, and repair guides.'
         }
         canonicalPath={
           category !== 'All'
@@ -108,7 +115,7 @@ export const ExtensionsPage: React.FC<ExtensionsPageProps> = ({ onNavigate, init
           Browse Digital File Extensions
         </h1>
         <p className="text-base text-slate-600 dark:text-slate-300">
-          Search over 10,000+ file extensions, magic bytes, software compatibility, opening instructions, and conversion tools.
+          Search over 250+ file extensions, magic bytes, software compatibility, opening instructions, and conversion tools.
         </p>
       </div>
 

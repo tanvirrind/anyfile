@@ -36,7 +36,7 @@ export const EditorialStandardsPage: React.FC<EditorialStandardsPageProps> = ({ 
           Engineered for Absolute Technical Accuracy
         </h1>
         <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-          How AnyFileX researches, verifies on live testbeds, peer-reviews, and maintains our universal database of 10,000+ digital file format guides.
+          How AnyFileX researches, verifies on live testbeds, peer-reviews, and maintains our universal database of 250+ digital file format guides.
         </p>
       </div>
 

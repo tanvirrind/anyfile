@@ -182,7 +182,7 @@ export interface DiagnosticsInfo {
   totalFileSize: number;
   isPartialRead: boolean;
   clientSideOnly: boolean;
-  sha256Hash: string;
+  sha256Hash: string | null;
   md5Hash?: string;
   entropy?: number;
   analyzedAt: string;

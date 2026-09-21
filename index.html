@@ -1,6 +1,21 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Theme bootstrap: resolve the saved/system theme and set the `dark` class on
+         <html> before first paint. Without this the server-rendered markup is always
+         light and the client's effect flips it afterwards, causing a visible flash and
+         a server/client theme mismatch. Kept inline + blocking on purpose. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var dark = stored
+            ? stored === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (dark) document.documentElement.classList.add('dark');
+        } catch (e) { /* storage/matchMedia unavailable — fall back to light */ }
+      })();
+    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6SH6RYP96S"></script>
     <script>

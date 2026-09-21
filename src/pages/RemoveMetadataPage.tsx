@@ -23,7 +23,6 @@ import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { FAQAccordion } from '../components/FAQAccordion';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { SOFTWARE_LIST } from '../data/softwareData';
 import { SEOHead } from '../components/SEOHead';
 
@@ -400,11 +399,6 @@ export const RemoveMetadataPage: React.FC<RemoveMetadataPageProps> = ({ onNaviga
         <FAQAccordion faqs={faqs} />
       </div>
 
-      {/* Schema.org Structured Data */}
-      <div className="max-w-4xl mx-auto space-y-4">
-        <SchemaMarkupView schemaData={schemaHowTo} title="HowTo Schema (JSON-LD)" />
-        <SchemaMarkupView schemaData={schemaTool} title="Tool Schema (JSON-LD)" />
-      </div>
     </div>
   );
 };

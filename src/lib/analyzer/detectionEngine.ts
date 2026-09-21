@@ -69,6 +69,48 @@ function matchHexPattern(bytes: Uint8Array, hexPattern: string, offset: number):
 }
 
 /**
+ * Case-sensitive ASCII substring search over a byte range.
+ */
+function containsAscii(bytes: Uint8Array, needle: string, start: number, end: number): boolean {
+  const n = needle.length;
+  const upper = Math.min(end, bytes.length);
+  if (upper - start < n) return false;
+  outer: for (let i = start; i <= upper - n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (bytes[i + j] !== needle.charCodeAt(j)) continue outer;
+    }
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Determines the concrete format of a PKZIP container from its contents:
+ * - EPUB stores an uncompressed "mimetype" entry near the start of the file.
+ * - DOCX/XLSX/PPTX/APK store their entry names in the central directory at the end.
+ */
+function detectZipSubtype(bytes: Uint8Array): string | null {
+  const headEnd = Math.min(bytes.length, 1024);
+  if (containsAscii(bytes, 'application/epub+zip', 0, headEnd)) {
+    return 'epub';
+  }
+
+  const tailStart = Math.max(0, bytes.length - 256 * 1024);
+  const markers: Array<[string, string]> = [
+    ['apk', 'AndroidManifest.xml'],
+    ['docx', 'word/document.xml'],
+    ['xlsx', 'xl/workbook.xml'],
+    ['pptx', 'ppt/presentation.xml'],
+  ];
+  for (const [id, marker] of markers) {
+    if (containsAscii(bytes, marker, tailStart, bytes.length)) {
+      return id;
+    }
+  }
+  return null;
+}
+
+/**
  * Primary 4-Stage File Identification Pipeline
  *
  * Priority:
@@ -108,26 +150,23 @@ export function detectFileFormat(
   let confidence: ConfidenceLevel = 'Unknown';
   let confidenceScore = 20;
 
-  // Container Specific Check 1: PKZIP Family (DOCX, XLSX, PPTX, APK, EPUB, ODT, plain ZIP)
+  // Container Specific Check 1: PKZIP Family (DOCX, XLSX, PPTX, APK, EPUB, plain ZIP).
+  // Sub-type is determined from the archive's actual contents (central-directory entry
+  // names / EPUB mimetype), not the filename extension, so renamed archives are detected
+  // correctly and mismatched extensions surface as spoofs in the comparison step below.
   if (bytes.length >= 4 && bytes[0] === 0x50 && bytes[1] === 0x4B && bytes[2] === 0x03 && bytes[3] === 0x04) {
     detectionMethod = 'container_inspection';
     confidence = 'High';
 
-    if (filenameExt === 'docx' || asciiStream.includes('word/')) {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'docx') || null;
+    const contentSubtype = detectZipSubtype(bytes);
+    if (contentSubtype) {
+      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === contentSubtype) || null;
       confidenceScore = 98;
-    } else if (filenameExt === 'xlsx' || asciiStream.includes('xl/')) {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'xlsx') || null;
-      confidenceScore = 98;
-    } else if (filenameExt === 'pptx' || asciiStream.includes('ppt/')) {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'pptx') || null;
-      confidenceScore = 98;
-    } else if (filenameExt === 'apk' || asciiStream.includes('AndroidManifest.xml')) {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'apk') || null;
-      confidenceScore = 98;
-    } else if (filenameExt === 'epub' || asciiStream.includes('mimetypeapplication/epub+zip')) {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'epub') || null;
-      confidenceScore = 98;
+    } else if (['docx', 'xlsx', 'pptx', 'apk', 'epub'].includes(filenameExt)) {
+      // No content marker found — fall back to the extension as a weaker signal.
+      // (The extension-comparison step below flags the mismatch if content disagrees.)
+      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === filenameExt) || null;
+      confidenceScore = 88;
     } else {
       matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'zip') || null;
       confidenceScore = 99;

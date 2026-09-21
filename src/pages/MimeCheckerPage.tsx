@@ -23,7 +23,6 @@ import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { FAQAccordion } from '../components/FAQAccordion';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { SEOHead } from '../components/SEOHead';
 import { lookupMimeByInput, MimeRecord } from '../data/expandedMimeDatabase';
 
@@ -404,10 +403,6 @@ export const MimeCheckerPage: React.FC<MimeCheckerPageProps> = ({
         <FAQAccordion faqs={faqs} />
       </div>
 
-      {/* Schema.org */}
-      <div className="max-w-4xl mx-auto">
-        <SchemaMarkupView schemaData={schemaJson} />
-      </div>
     </div>
   );
 };

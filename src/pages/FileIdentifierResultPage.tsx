@@ -27,7 +27,6 @@ import { AppRoute, SoftwareInfo } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { SOFTWARE_LIST } from '../data/softwareData';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { TOCSidebar } from '../components/TOCSidebar';
 import { SEOHead } from '../components/SEOHead';
@@ -135,7 +134,6 @@ export const FileIdentifierResultPage: React.FC<FileIdentifierResultPageProps> =
     { id: 'os-support', label: 'Platform Compatibility' },
     { id: 'conversion', label: 'Convert This Format' },
     { id: 'security', label: 'Security & Safety Check' },
-    { id: 'schema-meta', label: 'Structured Schema' },
   ];
 
   const handleTocSelect = (id: string) => {
@@ -487,10 +485,6 @@ export const FileIdentifierResultPage: React.FC<FileIdentifierResultPageProps> =
             <FAQAccordion faqs={faqs} />
           </section>
 
-          {/* Section: Schema Markup */}
-          <section id="schema-meta" className="scroll-mt-24">
-            <SchemaMarkupView schemaData={schemaJson} />
-          </section>
         </div>
       </div>
     </div>

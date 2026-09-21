@@ -61,12 +61,18 @@ export async function inspectZipArchive(file: File): Promise<ZipInspectionResult
     }
 
     const uncompressedSize = (zipObj as any)._data?.uncompressedSize || 0;
+    const compressedSize = (zipObj as any)._data?.compressedSize || 0;
     totalUncompressedBytes += uncompressedSize;
+
+    // Heuristic: flag extreme compression ratios (a hallmark of ZIP bombs).
+    if (compressedSize > 0 && uncompressedSize / compressedSize > 1000) {
+      warnings.push(`Entry '${relativePath}' has a suspicious ${Math.round(uncompressedSize / compressedSize)}:1 compression ratio (possible ZIP bomb).`);
+    }
 
     entries.push({
       name: relativePath,
       size: uncompressedSize,
-      compressedSize: (zipObj as any)._data?.compressedSize || undefined,
+      compressedSize: compressedSize || undefined,
       date: zipObj.date || new Date(),
       isDirectory: isDir,
       isEncrypted: isEntryEncrypted,
@@ -117,9 +123,20 @@ export async function extractZipEntries(
       throw new Error(`Extraction aborted: Malicious path traversal detected in '${relativePath}'`);
     }
 
+    // Security: pre-decompression ZIP bomb guard. Check the declared uncompressed
+    // size BEFORE inflating, so a bomb is rejected without materializing it in memory.
+    const declaredSize = (zipObj as any)._data?.uncompressedSize || 0;
+    if (accumulatedBytes + declaredSize > MAX_UNCOMPRESSED_ARCHIVE_SIZE) {
+      throw new Error(
+        `Extraction halted: uncompressed size would exceed the ${Math.round(MAX_UNCOMPRESSED_ARCHIVE_SIZE / 1024 / 1024)} MB safety limit.`
+      );
+    }
+
     const blob = await zipObj.async('blob');
     accumulatedBytes += blob.size;
 
+    // Backstop: verify the actual decompressed size, defending against entries that
+    // understate their declared uncompressed size in the archive metadata.
     if (accumulatedBytes > MAX_UNCOMPRESSED_ARCHIVE_SIZE) {
       throw new Error(`Extraction halted: Maximum safety limit (250 MB) exceeded to protect browser stability.`);
     }

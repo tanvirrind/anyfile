@@ -10,6 +10,7 @@ import { evaluateSecurity } from './securityEngine';
 import { resolveAvailableTools } from './toolResolver';
 import { getFormatKnowledgeNode } from '../database/knowledgeGraph';
 import { formatBytes } from '../../utils/fileAnalyzer';
+import { sha256Hex } from '../../utils/hashUtils';
 
 // In-Memory Report Store with SessionStorage Persistence
 const analysisReportsStore = new Map<string, FileAnalysis>();
@@ -40,21 +41,6 @@ export function saveAnalysis(analysis: FileAnalysis): void {
     sessionStorage.setItem(`${ANALYSIS_CACHE_PREFIX}${analysis.id}`, JSON.stringify(analysis));
   } catch (err) {
     console.debug('Failed to write analysis to sessionStorage:', err);
-  }
-}
-
-/**
- * Computes SHA-256 hash using browser Web Crypto API
- */
-async function computeSha256(buffer: ArrayBuffer): Promise<string> {
-  try {
-    const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-  } catch {
-    // Fallback pseudo-hash if crypto.subtle is unavailable in insecure context
-    const bytes = new Uint8Array(buffer.slice(0, 32));
-    return Array.from(bytes).map((b) => b.toString(16).padStart(2, '0')).join('') + '0000';
   }
 }
 
@@ -147,21 +133,23 @@ export async function analyzeFile(
     return emptyAnalysis;
   }
 
-  // 1. Partial Read: Slice first 4096 bytes
-  if (onProgress) onProgress('Reading initial binary stream header (Offset 0x0000)...', 20);
+  // 1. Read the full file once: the SHA-256 fingerprint must cover the entire
+  // file (a partial read would produce a misleading hash), and the header slice
+  // for magic-byte detection is derived from the same buffer.
+  if (onProgress) onProgress('Reading file stream & binary header (Offset 0x0000)...', 20);
   const readStart = performance.now();
+  const fullBuffer = await file.arrayBuffer();
   const headerSliceSize = Math.min(file.size, 4096);
-  const headerBuffer = await file.slice(0, headerSliceSize).arrayBuffer();
-  const headerBytes = new Uint8Array(headerBuffer);
+  const headerBytes = new Uint8Array(fullBuffer.slice(0, headerSliceSize));
   const readTimeMs = Math.round(performance.now() - readStart);
 
   // 2. Identify Format & Magic Bytes
   if (onProgress) onProgress('Matching magic bytes & inspecting container headers...', 45);
-  const detection = detectFileFormat(headerBytes, file.name, file.type);
+  const detection = detectFileFormat(new Uint8Array(fullBuffer), file.name, file.type);
 
-  // 3. Compute Cryptographic Checksum
+  // 3. Compute Cryptographic Checksum (full-file SHA-256)
   if (onProgress) onProgress('Calculating SHA-256 cryptographic fingerprint...', 65);
-  const sha256Hash = await computeSha256(headerBuffer);
+  const sha256Hash = await sha256Hex(fullBuffer);
 
   // 4. Extract Deep Metadata
   if (onProgress) onProgress('Extracting technical metadata, dimensions & codecs...', 80);
@@ -213,9 +201,9 @@ export async function analyzeFile(
     diagnostics: {
       readTimeMs,
       analysisTimeMs: totalTimeMs,
-      bytesRead: headerSliceSize,
+      bytesRead: file.size,
       totalFileSize: file.size,
-      isPartialRead: file.size > headerSliceSize,
+      isPartialRead: false,
       clientSideOnly: true,
       sha256Hash,
       entropy: security.entropy,

@@ -214,8 +214,17 @@ export const ConverterUploadBox: React.FC<ConverterUploadBoxProps> = ({
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-    } catch (err) {
+
+      // Never ship a silently incomplete archive: report anything that was left out.
+      if (zipResult.skipped.length > 0) {
+        alert(
+          `ZIP created, but ${zipResult.skipped.length} file(s) could not be included:\n` +
+            zipResult.skipped.join('\n')
+        );
+      }
+    } catch (err: any) {
       console.error('ZIP generation error:', err);
+      alert(`Could not create the ZIP archive: ${err?.message || 'Unknown error'}`);
     } finally {
       setTimeout(() => setZipProgress(null), 1000);
     }

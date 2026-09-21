@@ -15,7 +15,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
     <div className="py-8 md:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 animate-in fade-in duration-200">
       <SEOHead
         title="About AnyFileX – Universal Digital File Intelligence"
-        description="Learn about AnyFileX mission, privacy-first client-side WebAssembly architecture, and our open database of 10,000+ indexed file formats."
+        description="Learn about AnyFileX mission, privacy-first client-side WebAssembly architecture, and our open database of 250+ indexed file formats."
         canonicalPath="/about"
       />
       <Breadcrumb items={[{ label: 'About AnyFileX' }]} onNavigate={onNavigate} />
@@ -33,7 +33,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
 
       {/* Stats Cards Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatsCard label="Searchable Formats" value="10,480" subtitle="254 deep curated • 10,480 index" icon={<Zap className="w-5 h-5" />} />
+        <StatsCard label="Searchable Formats" value="250+" subtitle="43 byte-signature profiles • 250+ indexed" icon={<Zap className="w-5 h-5" />} />
         <StatsCard label="Verified Guides" value="316" subtitle="Opening, repair & comparison manuals" icon={<Globe className="w-5 h-5" />} />
         <StatsCard label="In-Browser Tools" value="35+" subtitle="26 forensic tools • 9 converters" icon={<Server className="w-5 h-5" />} />
         <StatsCard label="Client Processing" value="100%" subtitle="Privacy via browser WebAssembly" icon={<Lock className="w-5 h-5" />} />
@@ -98,10 +98,10 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 space-y-2">
             <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
               <span>Extensions Indexing</span>
-              <span className="font-mono text-emerald-600 dark:text-emerald-400 text-xs">10,480 cataloged</span>
+              <span className="font-mono text-emerald-600 dark:text-emerald-400 text-xs">250+ cataloged</span>
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              <strong>Reconciliation:</strong> Claims of "50,000+ extensions" by automated scrapers count random strings, typos, and single-user temporary files. AnyFileX indexes exactly 10,480 verified digital formats, anchored by 254 deep profiles with byte signatures and software specifications.
+              <strong>Reconciliation:</strong> Claims of "50,000+ extensions" by automated scrapers count random strings, typos, and single-user temporary files. AnyFileX indexes exactly 250+ verified digital formats, anchored by 43 deep profiles with byte signatures and software specifications.
             </p>
           </div>
 

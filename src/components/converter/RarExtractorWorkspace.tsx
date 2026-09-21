@@ -27,6 +27,7 @@ export const RarExtractorWorkspace: React.FC = () => {
   const [previewContent, setPreviewContent] = useState<{ name: string; text?: string; url?: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -36,6 +37,7 @@ export const RarExtractorWorkspace: React.FC = () => {
     setIsLoading(true);
     setRarFileName(file.name);
     setPreviewContent(null);
+    setError(null);
 
     try {
       // Read RAR binary header and extract file entries
@@ -73,17 +75,14 @@ export const RarExtractorWorkspace: React.FC = () => {
           });
         });
       } else {
-        // Sample entries fallback if unrar library is processing binary
-        parsedItems.push(
-          { name: 'document_manifest.txt', size: 1024, type: 'txt', isDir: false, content: `Archive Manifest for ${file.name}\nExtracted cleanly via AnyFileX Online Engine.` },
-          { name: 'media/photo_01.jpg', size: 245000, type: 'jpg', isDir: false },
-          { name: 'data_export.csv', size: 12400, type: 'csv', isDir: false, content: 'id,name,value\n1,Item A,100\n2,Item B,200' }
-        );
+        // No readable entries: report honestly instead of inventing placeholder files.
+        setError('No file entries could be read from this RAR archive. In-browser RAR listing only works when the archive table is readable.');
       }
 
       setItems(parsedItems);
     } catch (err) {
       console.error('Error parsing RAR archive:', err);
+      setError(err instanceof Error && err.message ? `Could not read this RAR archive: ${err.message}` : 'Could not read this RAR archive.');
     } finally {
       setIsLoading(false);
     }
@@ -125,6 +124,11 @@ export const RarExtractorWorkspace: React.FC = () => {
 
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+      {error && (
+        <div role="alert" className="rounded-xl border border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/30 p-3 text-sm font-medium text-rose-700 dark:text-rose-300">
+          {error}
+        </div>
+      )}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
         <div className="space-y-1">
           <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">

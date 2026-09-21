@@ -24,7 +24,6 @@ import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { FAQAccordion } from '../components/FAQAccordion';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { SEOHead } from '../components/SEOHead';
 import {
   analyzeMagicBytes,
@@ -463,10 +462,6 @@ Analyzed At: ${analysisResult.analyzedAt}
         <FAQAccordion faqs={faqs} />
       </div>
 
-      {/* Schema.org */}
-      <div className="max-w-4xl mx-auto">
-        <SchemaMarkupView schemaData={schemaJson} />
-      </div>
     </div>
   );
 };

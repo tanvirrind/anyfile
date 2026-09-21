@@ -26,7 +26,6 @@ import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { FAQAccordion } from '../components/FAQAccordion';
-import { SchemaMarkupView } from '../components/SchemaMarkupView';
 import { SEOHead } from '../components/SEOHead';
 import {
   calculateFileHashes,
@@ -565,10 +564,6 @@ Zero file payload transmitted to external servers.
         <FAQAccordion faqs={faqs} />
       </div>
 
-      {/* Schema.org Structured Data */}
-      <div className="max-w-4xl mx-auto">
-        <SchemaMarkupView schemaData={schemaJson} />
-      </div>
     </div>
   );
 };
