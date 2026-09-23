@@ -771,33 +771,224 @@ export function deriveDynamicMetadata(route: AppRoute, canonicalUrl: string): Dy
     case 'software-detail': {
       const softId = route.id || 'gimp';
       const softInfo = getOrGenerateSoftwareInfo(softId);
-      const title = `${softInfo.name} – Formats & Review | AnyFileX`;
-      const description = `${softInfo.name} by ${softInfo.developer}: supported file formats, platforms (${(softInfo.supportedOS || []).join(', ')}), and features.`.slice(0, 155);
+      const isGoogleDocs = softId === 'google-docs';
+
+      const title = isGoogleDocs
+        ? 'Google Docs File Types: What Files Can Google Docs Open?'
+        : `${softInfo.name} – Formats & Review | AnyFileX`;
+      const description = isGoogleDocs
+        ? 'Discover what files Google Docs can open and export. Complete guide to supported formats, DOCX, ODT, PDF, EPUB, RTF, TXT, HTML compatibility and limitations.'
+        : `${softInfo.name} by ${softInfo.developer}: supported file formats, platforms (${(softInfo.supportedOS || []).join(', ')}), and features.`.slice(0, 155);
 
       const breadcrumbs: BreadcrumbItemSchema[] = [
         { name: 'Home', path: '/' },
         { name: 'Software', path: '/software' },
-        { name: softInfo.name, path: `/software/${softInfo.id}` },
+        { name: isGoogleDocs ? 'Google Docs File Types' : softInfo.name, path: `/software/${softInfo.id}` },
       ];
 
-      const specificSchemas: any[] = [
-        {
-          '@type': 'SoftwareApplication',
-          '@id': `${canonicalUrl}/#software`,
-          name: softInfo.name,
-          operatingSystem: (softInfo.supportedOS || []).join(', '),
-          applicationCategory: softInfo.category,
-          author: { '@type': 'Organization', name: softInfo.developer },
-          offers: {
-            '@type': 'Offer',
-            price: softInfo.priceType === 'Free' ? '0' : 'Varies',
-            priceCurrency: 'USD',
-          },
-          description: softInfo.description,
-        },
-      ];
+      const specificSchemas: any[] = isGoogleDocs
+        ? [
+            {
+              '@type': 'SoftwareApplication',
+              '@id': `${canonicalUrl}/#software`,
+              name: 'Google Docs',
+              operatingSystem: 'Windows, macOS, Linux, Android, iOS, ChromeOS, Web',
+              applicationCategory: 'WordProcessor, OfficeApplication',
+              author: { '@type': 'Organization', name: 'Google LLC' },
+              offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'USD',
+              },
+              description:
+                'Google Docs is a free cloud-based word processor for creating, opening, editing, and exporting DOCX, ODT, PDF, RTF, TXT, HTML, and EPUB files.',
+            },
+            {
+              '@type': 'FAQPage',
+              mainEntity: [
+                {
+                  '@type': 'Question',
+                  name: 'Does Google Docs have its own native file extension?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'No. Google Docs does not have a traditional standalone native file extension like .docx or .pages. Documents exist in Google cloud storage; .gdoc desktop files are tiny JSON web shortcuts linking to online URLs.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What file formats can Google Docs open or import?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Google Docs can open Microsoft Word (.docx, .doc, .docm, .dot, .dotx), OpenDocument (.odt), Rich Text (.rtf), Plain Text (.txt), HTML (.html, .htm), and PDF (.pdf) via OCR.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What formats can Google Docs export or download?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Google Docs can download files as DOCX, ODT, RTF, PDF, TXT, HTML (zipped), and EPUB.',
+                  },
+                },
+                {
+                  '@type': 'Question',
+                  name: 'Can Google Docs edit Word (.docx) files without converting them?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes. Google Docs includes native Office Editing Mode for .docx files, saving edits directly back to the original Word file without conversion.',
+                  },
+                },
+              ],
+            },
+            {
+              '@type': 'HowTo',
+              name: 'How to Upload and Open a File in Google Docs',
+              description: 'Step-by-step guide to uploading and opening files in Google Docs.',
+              step: [
+                {
+                  '@type': 'HowToStep',
+                  name: 'Access Google Drive or Docs',
+                  text: 'Navigate to drive.google.com or docs.google.com and log in.',
+                },
+                {
+                  '@type': 'HowToStep',
+                  name: 'Upload the Document',
+                  text: 'Click + New > File upload in Drive, or File > Open > Upload in Google Docs.',
+                },
+                {
+                  '@type': 'HowToStep',
+                  name: 'Open Document',
+                  text: 'Choose your DOCX, ODT, PDF, RTF, TXT, or HTML file to begin editing.',
+                },
+              ],
+            },
+          ]
+        : [
+            {
+              '@type': 'SoftwareApplication',
+              '@id': `${canonicalUrl}/#software`,
+              name: softInfo.name,
+              operatingSystem: (softInfo.supportedOS || []).join(', '),
+              applicationCategory: softInfo.category,
+              author: { '@type': 'Organization', name: softInfo.developer },
+              offers: {
+                '@type': 'Offer',
+                price: softInfo.priceType === 'Free' ? '0' : 'Varies',
+                priceCurrency: 'USD',
+              },
+              description: softInfo.description,
+            },
+          ];
 
-      const prerenderedHtml = `
+      const prerenderedHtml = isGoogleDocs
+        ? `
+        <article class="anyfilex-ssr-container max-w-5xl mx-auto px-4 py-8 space-y-8">
+          <nav aria-label="Breadcrumb" class="mb-6 text-sm text-slate-500 flex gap-2">
+            <a href="/" class="hover:underline">Home</a> &rsaquo;
+            <a href="/software" class="hover:underline">Software</a> &rsaquo;
+            <span class="text-slate-900 dark:text-white font-semibold">Google Docs File Types</span>
+          </nav>
+          <header class="mb-6">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
+              Google Docs File Types: What Files Can Google Docs Open & Export?
+            </h1>
+            <p class="text-slate-600 dark:text-slate-300 mt-3 text-lg leading-relaxed">
+              Google Docs is Google's free cloud-based collaborative word processor. It does not have a traditional standalone native file extension like .docx or .pages. Instead, documents exist natively in cloud storage, and .gdoc desktop shortcuts function as JSON web pointers. Google Docs opens, imports, edits, and exports standard document formats.
+            </p>
+          </header>
+
+          <section class="bg-slate-50 dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4">
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Supported Formats Matrix: Import vs. Export</h2>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr class="border-b border-slate-200 dark:border-slate-800">
+                    <th class="py-2.5 px-3">Format</th>
+                    <th class="py-2.5 px-3">Open / Import</th>
+                    <th class="py-2.5 px-3">Export / Download</th>
+                    <th class="py-2.5 px-3">Important Limitations</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                  <tr>
+                    <td class="py-2 px-3 font-semibold"><a href="/file-extensions/docx" class="text-blue-600 hover:underline">.DOCX (Word)</a></td>
+                    <td class="py-2 px-3 text-emerald-600 font-bold">Yes (Office Mode)</td>
+                    <td class="py-2 px-3 text-blue-600 font-bold">Yes (.docx)</td>
+                    <td class="py-2 px-3 text-xs">50MB limit. VBA macros stripped. Fonts substitute to Google Fonts.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-3 font-semibold"><a href="/file-extensions/doc" class="text-blue-600 hover:underline">.DOC (Word 97-2003)</a></td>
+                    <td class="py-2 px-3 text-emerald-600 font-bold">Yes (Auto-Convert)</td>
+                    <td class="py-2 px-3 text-slate-500 font-medium">No (DOCX only)</td>
+                    <td class="py-2 px-3 text-xs">Legacy binary converted to modern DOCX/Docs. Cannot re-export to .doc.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-3 font-semibold"><a href="/file-extensions/odt" class="text-blue-600 hover:underline">.ODT (OpenDocument)</a></td>
+                    <td class="py-2 px-3 text-emerald-600 font-bold">Yes (Native)</td>
+                    <td class="py-2 px-3 text-blue-600 font-bold">Yes (.odt)</td>
+                    <td class="py-2 px-3 text-xs">LibreOffice frames and formulas may shift or rasterize.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-3 font-semibold"><a href="/file-extensions/pdf" class="text-blue-600 hover:underline">.PDF (Acrobat)</a></td>
+                    <td class="py-2 px-3 text-amber-600 font-bold">Yes (OCR Text)</td>
+                    <td class="py-2 px-3 text-blue-600 font-bold">Yes (.pdf)</td>
+                    <td class="py-2 px-3 text-xs">Triggers OCR text extraction; multi-column and table layouts may break.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-3 font-semibold"><a href="/file-extensions/epub" class="text-blue-600 hover:underline">.EPUB (Ebook)</a></td>
+                    <td class="py-2 px-3 text-rose-600 font-bold">No (Cannot Open)</td>
+                    <td class="py-2 px-3 text-blue-600 font-bold">Yes (.epub)</td>
+                    <td class="py-2 px-3 text-xs">Google Docs cannot open EPUB. Export creates reflowable EPUB 3.0.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-3 font-semibold"><a href="/file-extensions/rtf" class="text-blue-600 hover:underline">.RTF (Rich Text)</a></td>
+                    <td class="py-2 px-3 text-emerald-600 font-bold">Yes (Native)</td>
+                    <td class="py-2 px-3 text-blue-600 font-bold">Yes (.rtf)</td>
+                    <td class="py-2 px-3 text-xs">Basic styles preserved; drawing canvases and OLE objects removed.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-3 font-semibold"><a href="/file-extensions/txt" class="text-blue-600 hover:underline">.TXT (Plain Text)</a></td>
+                    <td class="py-2 px-3 text-emerald-600 font-bold">Yes (Native)</td>
+                    <td class="py-2 px-3 text-blue-600 font-bold">Yes (.txt)</td>
+                    <td class="py-2 px-3 text-xs">All styling, colors, and font formatting are discarded.</td>
+                  </tr>
+                  <tr>
+                    <td class="py-2 px-3 font-semibold"><a href="/file-extensions/html" class="text-blue-600 hover:underline">.HTML (Web Page)</a></td>
+                    <td class="py-2 px-3 text-emerald-600 font-bold">Yes (Native)</td>
+                    <td class="py-2 px-3 text-blue-600 font-bold">Yes (.zip)</td>
+                    <td class="py-2 px-3 text-xs">External CSS/JS stripped. Exported as a zip with HTML and images folder.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="space-y-4">
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">How to Upload and Open Files in Google Docs</h2>
+            <ol class="list-decimal list-inside space-y-2 text-slate-700 dark:text-slate-300 text-sm">
+              <li><strong>Google Drive:</strong> Visit drive.google.com, click "+ New" &gt; "File upload", then double-click or right-click "Open with &gt; Google Docs".</li>
+              <li><strong>Inside Google Docs:</strong> In docs.google.com, click File &gt; Open &gt; Upload tab, and drag and drop your document.</li>
+              <li><strong>Gmail:</strong> Hover over any document attachment in Gmail and click the "Edit with Google Docs" pencil icon.</li>
+              <li><strong>Mobile:</strong> Open the Google Docs app on iOS or Android and tap the folder icon to open device storage files.</li>
+            </ol>
+          </section>
+
+          <section class="space-y-4">
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Frequently Asked Questions</h2>
+            <div class="space-y-3 text-sm">
+              <div class="border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
+                <h3 class="font-bold text-slate-900 dark:text-white">Does Google Docs have its own file extension?</h3>
+                <p class="text-slate-600 dark:text-slate-400 mt-1">No. Google Docs documents live in Google Drive cloud storage without a standalone file container. Desktop .gdoc files are web URL pointer shortcuts.</p>
+              </div>
+              <div class="border border-slate-200 dark:border-slate-800 p-4 rounded-xl">
+                <h3 class="font-bold text-slate-900 dark:text-white">What file formats can Google Docs open?</h3>
+                <p class="text-slate-600 dark:text-slate-400 mt-1">Google Docs opens DOCX, DOC, DOCM, DOT, ODT, RTF, TXT, HTML, and PDF (via optical character recognition).</p>
+              </div>
+            </div>
+          </section>
+        </article>
+      `
+        : `
         <article class="anyfilex-ssr-container max-w-5xl mx-auto px-4 py-8">
           <nav aria-label="Breadcrumb" class="mb-6 text-sm text-slate-500 flex gap-2">
             <a href="/" class="hover:underline">Home</a> &rsaquo;

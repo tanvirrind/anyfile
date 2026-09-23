@@ -24,6 +24,7 @@ import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { EmptyState } from '../components/EmptyState';
 import { SEOHead } from '../components/SEOHead';
+import { GoogleDocsDetailView, GOOGLE_DOCS_FAQS } from '../components/software/GoogleDocsDetailView';
 
 interface SoftwarePageProps {
   onNavigate: (route: AppRoute) => void;
@@ -49,25 +50,129 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
   if (selectedSoftwareId) {
     const soft = SOFTWARE_LIST.find((s) => s.id === selectedSoftwareId) || SOFTWARE_LIST[0];
     const supportedExtInfos = getExtensionsForSoftware(soft.id);
+    const isGoogleDocs = soft.id === 'google-docs';
 
-    const softwareSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'SoftwareApplication',
-      name: soft.name,
-      operatingSystem: soft.supportedOS.join(', '),
-      applicationCategory: soft.category,
-      offers: {
-        '@type': 'Offer',
-        price: soft.priceType === 'Free' ? '0' : 'Paid',
-        priceCurrency: 'USD',
-      },
-      description: soft.description,
-      softwareVersion: 'Latest',
-      author: {
-        '@type': 'Organization',
-        name: soft.developer,
-      },
-    };
+    const softwareSchema = isGoogleDocs
+      ? {
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'SoftwareApplication',
+              '@id': 'https://www.anyfilex.com/software/google-docs#software',
+              name: 'Google Docs',
+              operatingSystem: 'Windows, macOS, Linux, Android, iOS, ChromeOS, Web',
+              applicationCategory: 'WordProcessor, OfficeApplication',
+              offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'USD',
+              },
+              description:
+                'Google Docs is a free cloud-based word processor for creating, opening, editing, and exporting DOCX, ODT, PDF, RTF, TXT, HTML, and EPUB files.',
+              softwareVersion: 'Latest Cloud Release',
+              author: {
+                '@type': 'Organization',
+                name: 'Google LLC',
+              },
+            },
+            {
+              '@type': 'FAQPage',
+              mainEntity: GOOGLE_DOCS_FAQS.map((faq) => ({
+                '@type': 'Question',
+                name: faq.question,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: faq.answer,
+                },
+              })),
+            },
+            {
+              '@type': 'HowTo',
+              name: 'How to Upload and Open a File in Google Docs',
+              description:
+                'Step-by-step guide to uploading and opening Microsoft Word, PDF, OpenDocument, or plain text files in Google Docs.',
+              step: [
+                {
+                  '@type': 'HowToStep',
+                  name: 'Access Google Drive or Docs',
+                  text: 'Navigate to drive.google.com or docs.google.com and log in with your Google account.',
+                },
+                {
+                  '@type': 'HowToStep',
+                  name: 'Upload the Document',
+                  text: 'Click the + New button in Google Drive and select File upload, or click File > Open > Upload in Google Docs.',
+                },
+                {
+                  '@type': 'HowToStep',
+                  name: 'Select and Open Document',
+                  text: 'Choose your DOCX, DOC, ODT, RTF, TXT, HTML, or PDF file to upload and begin editing.',
+                },
+              ],
+            },
+          ],
+        }
+      : {
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: soft.name,
+          operatingSystem: soft.supportedOS.join(', '),
+          applicationCategory: soft.category,
+          offers: {
+            '@type': 'Offer',
+            price: soft.priceType === 'Free' ? '0' : 'Paid',
+            priceCurrency: 'USD',
+          },
+          description: soft.description,
+          softwareVersion: 'Latest',
+          author: {
+            '@type': 'Organization',
+            name: soft.developer,
+          },
+        };
+
+    if (isGoogleDocs) {
+      return (
+        <div className="py-8 md:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 animate-in fade-in duration-200">
+          <SEOHead
+            title="Google Docs File Types: What Files Can Google Docs Open?"
+            description="Discover what files Google Docs can open and export. Complete guide to supported formats, DOCX, ODT, PDF, EPUB, RTF, TXT, HTML compatibility and limitations."
+            canonicalPath={`/software/${soft.id}`}
+            schemaData={softwareSchema}
+          />
+
+          <Breadcrumb
+            items={[
+              { label: 'Software Directory', route: { view: 'software' } },
+              { label: 'Google Docs File Types' },
+            ]}
+            onNavigate={onNavigate}
+          />
+
+          <GoogleDocsDetailView onNavigate={onNavigate} />
+
+          {/* Alternative Software Applications */}
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+              Alternative Applications in {soft.category}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {SOFTWARE_LIST.filter((s) => s.id !== soft.id && s.category === soft.category).slice(0, 3).map((alt) => (
+                <div
+                  key={alt.id}
+                  onClick={() => onNavigate({ view: 'software-detail', id: alt.id })}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 hover:bg-blue-50 dark:hover:bg-blue-950/40 border border-slate-200 dark:border-slate-700/80 transition-all cursor-pointer group space-y-1"
+                >
+                  <span className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600">
+                    {alt.name}
+                  </span>
+                  <p className="text-xs text-slate-500 line-clamp-2">{alt.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className="py-8 md:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 animate-in fade-in duration-200">

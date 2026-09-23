@@ -188,8 +188,8 @@ export const OFFICE_AND_PRODUCTIVITY_SOFTWARE: SoftwareInfo[] = [
     name: 'Google Docs',
     developer: 'Google LLC',
     category: 'Productivity & Office',
-    description: 'Free web-based collaborative document editor with real-time multi-user editing.',
-    longDescription: 'Google Docs is an online word processor that lets you create and format documents and work with other people in real time from any computer or mobile device.',
+    description: 'Free cloud-based collaborative word processor supporting DOCX, ODT, PDF, RTF, TXT, HTML, and EPUB files.',
+    longDescription: 'Google Docs is an online word processor that lets you create, open, edit, and export documents with real-time multi-user collaboration from any computer or mobile device. It supports Microsoft Word (.docx, .doc), OpenDocument (.odt), PDF (via OCR), Rich Text (.rtf), Plain Text (.txt), HTML, and EPUB formats.',
     supportedOS: ['windows', 'mac', 'linux', 'android', 'ios'],
     priceType: 'Free',
     priceText: 'Free Web App / Google Workspace',
@@ -199,9 +199,11 @@ export const OFFICE_AND_PRODUCTIVITY_SOFTWARE: SoftwareInfo[] = [
     rating: 4.8,
     reviewCount: 115000,
     features: [
+      'Native Office Editing Mode for Microsoft Word (.docx) files without mandatory conversion',
+      'Direct export to 7 formats: DOCX, ODT, RTF, PDF, TXT, zipped HTML, and EPUB',
+      'Optical Character Recognition (OCR) to convert scanned PDFs into editable text',
       'Instant cloud autosave with granular revision version history',
-      'Real-time simultaneous multi-user typing and commenting',
-      'Built-in Gemini AI document writing assistant'
+      'Real-time simultaneous multi-user typing, commenting, and suggestions'
     ],
     alternatives: [
       { name: 'Microsoft Word', slug: 'microsoft-word', description: 'Desktop word processor.' }
