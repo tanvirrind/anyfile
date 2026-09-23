@@ -919,6 +919,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
 // Helper to load content entities with localStorage persistence
 export function getAllContentEntities(): ContentEntity[] {
   try {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') return INITIAL_CONTENT_ENTITIES;
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return INITIAL_CONTENT_ENTITIES;
     const parsed = JSON.parse(raw);
@@ -943,6 +944,7 @@ export function getContentEntityBySlug(slug: string): ContentEntity | undefined 
 
 export function saveContentEntity(entity: ContentEntity): void {
   try {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') return;
     const all = getAllContentEntities();
     const existingIndex = all.findIndex(e => e.id === entity.id);
     let updated: ContentEntity[];

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, X, Upload, ArrowRight, CheckCircle2, Zap, ShieldCheck, FileCode, AppWindow, RefreshCw, Wrench, BookOpen, Layers } from 'lucide-react';
 import { searchEngine, SearchRecord } from '../lib/search/searchEngine';

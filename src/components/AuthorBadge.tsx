@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { ShieldCheck, Info } from 'lucide-react';
 import { getAuthorByName, AuthorQualification } from '../lib/content/editorialTeam';

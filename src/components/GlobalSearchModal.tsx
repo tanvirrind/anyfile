@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, ArrowRight, FileSearch, BookOpen, Sparkles, CornerDownLeft } from 'lucide-react';
 import { FileTypeInfo, GuideInfo, AppRoute } from '../types';

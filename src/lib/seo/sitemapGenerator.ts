@@ -11,6 +11,7 @@ import { EXPANDED_MIME_DATABASE } from '../../data/expandedMimeDatabase';
 import { TOOLS_REGISTRY } from '../tools/toolsRegistry';
 import { getPrioritizedFormatList } from '../guides/formatGuideEngine';
 import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine';
+import { isExcludedFromSitemap } from '../routes/routeManifest';
 
 const BASE_URL = 'https://www.anyfilex.com';
 
@@ -85,6 +86,12 @@ export function generateSitemapXml(items: SitemapItem[]): string {
   // A given <loc> may appear at most once per sitemap document, so dedupe before serializing.
   const seenUrls = new Set<string>();
   const uniqueItems = items.filter((item) => {
+    try {
+      const pathname = new URL(item.url).pathname;
+      if (isExcludedFromSitemap(pathname)) return false;
+    } catch {
+      if (isExcludedFromSitemap(item.url)) return false;
+    }
     if (seenUrls.has(item.url)) return false;
     seenUrls.add(item.url);
     return true;

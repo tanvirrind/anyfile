@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useMemo } from 'react';
 import { AppRoute } from '../../types';
 import { FormatTopicalCoverage, TopicalPillarKey } from '../../lib/content/types';

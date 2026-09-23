@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { WorkflowHistoryRecord } from '../../lib/workflow/types';
 import {

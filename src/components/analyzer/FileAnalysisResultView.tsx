@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { FileAnalysis } from '../../lib/analyzer/types';
 import { AppRoute } from '../../types';

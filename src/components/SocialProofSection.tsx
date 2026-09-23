@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { ShieldCheck, Info, X, ExternalLink, CheckCircle2, AlertCircle } from 'lucide-react';
 

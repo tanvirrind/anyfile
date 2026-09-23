@@ -201,8 +201,35 @@ async function startServer() {
     res.send(getSegmentedSitemapXml(segment));
   });
 
-  // AI Assistant Endpoint (rate-limited + input-capped)
-  const assistantLimiter = apiRateLimiter(30, 15 * 60 * 1000); // 30 req / 15 min / IP
+  // AI Assistant Endpoint (graceful rate-limiting + input-capped)
+  function assistantRateLimiter(max: number, windowMs: number) {
+    const hits = new Map<string, { count: number; resetAt: number }>();
+    return (req: Request, res: Response, next: NextFunction) => {
+      const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
+        .toString().split(',')[0].trim();
+      const now = Date.now();
+      const entry = hits.get(ip);
+      if (entry && now < entry.resetAt && entry.count >= max) {
+        const body = req.body || {};
+        const prompt = typeof body.message === 'string' ? body.message.trim() : 'Hello';
+        const fallback = generateLocalFallbackResponse(prompt);
+        res.setHeader('Retry-After', '60');
+        return res.json({
+          text: `${fallback.text}\n\n*(Note: High request volume detected. Answered instantly via AnyFileX offline knowledge engine.)*`,
+          suggestedActions: fallback.suggestedActions,
+          isFallback: true,
+          rateLimitExceeded: true,
+        });
+      }
+      if (!entry || now >= entry.resetAt) {
+        hits.set(ip, { count: 0, resetAt: now + windowMs });
+      }
+      hits.get(ip)!.count += 1;
+      next();
+    };
+  }
+
+  const assistantLimiter = assistantRateLimiter(150, 15 * 60 * 1000); // 150 req / 15 min / IP
 
   const sanitizePromptField = (value: unknown, maxLen: number): string => {
     if (value === null || value === undefined) return '';
@@ -257,7 +284,7 @@ ${prompt}`;
       const systemInstruction = buildDatabaseContext();
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.6-flash',
+        model: 'gemini-3.8-flash',
         contents: promptContent,
         config: {
           systemInstruction,
@@ -274,13 +301,25 @@ ${prompt}`;
         isFallback: false,
       });
     } catch (error: any) {
-      console.error('Error generating AI response via Gemini:', error);
+      const isRateLimit =
+        error?.status === 429 ||
+        error?.code === 429 ||
+        String(error?.message || '').toLowerCase().includes('resource_exhausted') ||
+        String(error?.message || '').toLowerCase().includes('rate') ||
+        String(error?.message || '').toLowerCase().includes('quota');
+
+      console.warn('Gemini Assistant call note:', error?.message || error);
       const fallback = generateLocalFallbackResponse(prompt);
+      const notice = isRateLimit
+        ? '*(Note: AI rate limit reached. Answered instantly via AnyFileX offline format intelligence engine.)*'
+        : '*(Note: Generated via AnyFileX Local Knowledge Engine due to network fallback)*';
+
       return res.json({
-        text: `${fallback.text}\n\n*(Note: Generated via AnyFileX Local Knowledge Engine due to network fallback)*`,
+        text: `${fallback.text}\n\n${notice}`,
         suggestedActions: fallback.suggestedActions,
         isFallback: true,
-        error: error.message || 'Gemini API call error',
+        rateLimitExceeded: isRateLimit,
+        error: isRateLimit ? 'Rate limit reached' : error?.message || 'Gemini API call error',
       });
     }
   });

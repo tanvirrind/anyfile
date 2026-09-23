@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { History, Download, Trash2, CheckCircle2, ArrowRight } from 'lucide-react';
 import { ConversionHistoryItem } from '../../lib/converter/types';

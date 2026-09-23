@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useMemo } from 'react';
 import { AppRoute } from '../../types';
 import { FormatPrioritizationScore, ContentGapItem, PriorityTier, ContentType } from '../../lib/content/types';

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { X, CheckCircle2, ShieldCheck, AlertTriangle, Monitor, RefreshCw, Wrench, Download, ExternalLink, Binary, FileText } from 'lucide-react';
 import { FileTypeInfo } from '../types';

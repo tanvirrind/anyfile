@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { AppRoute } from '../../types';
 import { POPULAR_FILE_TYPES } from '../../data/fileTypesData';

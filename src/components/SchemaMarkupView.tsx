@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Code, Copy, Check, ShieldCheck } from 'lucide-react';
 

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { ArrowRight, Layers, ShieldCheck, Sparkles, Filter, ExternalLink } from 'lucide-react';
 import { FileTypeInfo } from '../types';

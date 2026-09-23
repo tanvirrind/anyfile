@@ -37,6 +37,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://www.anyfilex.com/file-extensions/3mf</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.anyfilex.com/file-extensions/dst</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.anyfilex.com/file-extensions/obj</loc>
     <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -140,12 +152,6 @@
   </url>
   <url>
     <loc>https://www.anyfilex.com/file-extensions/dae</loc>
-    <lastmod>2026-09-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.anyfilex.com/file-extensions/3mf</loc>
     <lastmod>2026-09-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>

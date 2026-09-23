@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { AppRoute } from '../../types';
 import { ContentEntity } from '../../lib/content/types';
