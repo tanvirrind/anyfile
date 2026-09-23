@@ -51,7 +51,7 @@ export const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({
     setIsLoading(true);
     setErrorMessage(null);
 
-    const result = await loginAdmin('admin', passkey, rememberMe);
+    const result = await loginAdmin(passkey, rememberMe);
     setIsLoading(false);
     if (result.success && result.user) {
       setSession(result.user);

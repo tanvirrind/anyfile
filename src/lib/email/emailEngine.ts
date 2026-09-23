@@ -161,7 +161,7 @@ export function decodeMimeWords(input: string): string {
         return new TextDecoder(charset).decode(bytes);
       } else if (enc === 'Q') {
         const clean = text.replace(/_/g, ' ');
-        const decoded = clean.replace(/=([0-9A-Fa-f]{2})/g, (__, hex) => {
+        const decoded = clean.replace(/=([0-9A-Fa-f]{2})/g, (_: string, hex: string) => {
           return String.fromCharCode(parseInt(hex, 16));
         });
         const bytes = new Uint8Array(decoded.length);
