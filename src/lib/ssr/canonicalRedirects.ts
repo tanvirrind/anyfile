@@ -16,7 +16,12 @@ export function getCanonicalRedirect(pathname: string, search: string = ''): str
     return null;
   }
 
-  // Normalize path for route pattern analysis (stripping trailing slash for comparison only)
+  // Root path ("/") must always be served directly without redirect
+  if (pathname === '/') {
+    return null;
+  }
+
+  // Normalize path for route pattern analysis by stripping trailing slashes
   const normalized = pathname.replace(/\/+$/, '') || '/';
   if (normalized === '/') {
     return null;
@@ -80,7 +85,7 @@ export function getCanonicalRedirect(pathname: string, search: string = ''): str
     }
   }
 
-  // Only redirect if targetPath is genuinely different from the current request
+  // 1. If an alias mapped to a different canonical path, redirect directly
   if (targetPath) {
     const targetClean = targetPath.replace(/\/+$/, '');
     if (targetClean !== pathname) {
@@ -88,10 +93,10 @@ export function getCanonicalRedirect(pathname: string, search: string = ''): str
     }
   }
 
-  // Trailing slash normalization for non-root paths (e.g. /file-extensions/heic/ -> /file-extensions/heic)
+  // 2. Trailing slash normalization for any non-root path (e.g. /file-extensions/heic/ -> /file-extensions/heic)
   if (pathname.length > 1 && pathname.endsWith('/')) {
-    const stripped = pathname.replace(/\/+$/, '') || '/';
-    if (stripped !== '/') {
+    const stripped = pathname.replace(/\/+$/, '');
+    if (stripped && stripped !== '/') {
       const pathWithoutPercent = stripped.replace(/%[0-9A-Fa-f]{2}/g, '');
       if (/[A-Z]/.test(pathWithoutPercent)) {
         const lower = stripped.replace(/%[0-9A-Fa-f]{2}|[A-Z]/g, (match) => {
@@ -104,7 +109,7 @@ export function getCanonicalRedirect(pathname: string, search: string = ''): str
     }
   }
 
-  // Casing normalization (e.g. /FILE-EXTENSIONS -> /file-extensions)
+  // 3. Casing normalization (e.g. /FILE-EXTENSIONS -> /file-extensions)
   // RFC 3986 specifies uppercase percent-encoded triplets (%2B); do not flag percent triplets as casing issues
   const pathWithoutPercent = pathname.replace(/%[0-9A-Fa-f]{2}/g, '');
   if (/[A-Z]/.test(pathWithoutPercent)) {

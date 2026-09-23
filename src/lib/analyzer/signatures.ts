@@ -274,6 +274,22 @@ export const COMPREHENSIVE_SIGNATURES: SignaturePattern[] = [
     },
   },
   {
+    id: 'msg',
+    name: 'Outlook Item Message',
+    extension: 'MSG',
+    category: 'Documents',
+    mimeType: 'application/vnd.ms-outlook',
+    magicBytesHex: 'D0 CF 11 E0 A1 B1 1A E1',
+    offset: 0,
+    confidence: 'High',
+    description: 'Microsoft Outlook email message, appointment, or contact exported using Compound File Binary Format (CFBF/OLE2).',
+    meaning: 'Microsoft OLE Compound Document Header (D0 CF 11 E0 A1 B1 1A E1) encapsulating Outlook MAPI message properties.',
+    asciiRepresentation: '........',
+    secondaryCheck: (bytes, ascii, ext) => {
+      return ext === 'msg' || ascii.includes('__substg1.0_') || ascii.includes('Outlook');
+    },
+  },
+  {
     id: 'epub',
     name: 'Electronic Publication E-Book',
     extension: 'EPUB',
@@ -605,6 +621,41 @@ export const COMPREHENSIVE_SIGNATURES: SignaturePattern[] = [
     description: 'ISO 10303-21 open international exchange standard representing 3D mechanical assemblies and solid B-Rep geometry.',
     meaning: 'ASCII standard header "ISO-10303-21;" identifying STEP Part 21 clear text encoding.',
     asciiRepresentation: 'ISO-10303-21',
+  },
+  {
+    id: '3mf',
+    name: '3D Manufacturing Format Package',
+    extension: '3MF',
+    category: 'CAD & 3D',
+    mimeType: 'model/3mf',
+    magicBytesHex: '50 4B 03 04',
+    offset: 0,
+    confidence: 'High',
+    description: '3MF Consortium XML-based zipped container standard containing 3D triangle meshes, multi-material specs, and additive manufacturing slicer configurations.',
+    meaning: 'PKWARE ZIP local file header "PK\\x03\\x04" (50 4B 03 04) containing Open Packaging Convention [Content_Types].xml and 3D/3dmodel.model relationships.',
+    asciiRepresentation: 'PK..',
+    isContainer: true,
+    secondaryCheck: (bytes, ascii, ext) => {
+      if (ext === '3mf') return true;
+      return ascii.includes('3D/3dmodel.model') || ascii.includes('3dmanufacturing');
+    },
+  },
+  {
+    id: 'dst',
+    name: 'Tajima Embroidery Format',
+    extension: 'DST',
+    category: 'CAD & 3D',
+    mimeType: 'application/x-tajima',
+    magicBytesHex: '4C 41 3A',
+    offset: 0,
+    confidence: 'High',
+    description: 'Tajima industrial embroidery machine format containing coordinate stitch sequences, jump commands, and color change codes.',
+    meaning: 'ASCII header beginning with "LA:" (4C 41 3A) followed by design label and 512-byte header block.',
+    asciiRepresentation: 'LA:',
+    secondaryCheck: (bytes, ascii, ext) => {
+      if (ext === 'dst') return true;
+      return ascii.startsWith('LA:') && ascii.includes('ST:');
+    },
   },
 
   // ==========================================

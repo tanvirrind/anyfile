@@ -267,3 +267,5 @@ export const GuidesPage: React.FC<GuidesPageProps> = ({ onNavigate, selectedGuid
     </div>
   );
 };
+
+export default GuidesPage;

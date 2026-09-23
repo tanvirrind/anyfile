@@ -347,6 +347,30 @@ function resolveFormatIntelligence(cleanExt: string, category: CategoryType): {
         detailedOverview: `The .${extUpper} format is a specialized digital image specification utilizing raster or vector encoding for graphical assets. It maintains structured color palettes, coordinate bounding boxes, and compressed pixel arrays.`,
       };
     case 'CAD & 3D':
+      if (extUpper === '3MF') {
+        return {
+          magicBytesHex: '50 4B 03 04',
+          magicBytesAscii: 'PK..',
+          typicalSize: '1 MB - 50 MB',
+          detailedOverview: 'The .3MF format is a zipped Open Packaging Convention container holding 3D geometric meshes, slicer parameters, multi-part hierarchies, and material definitions.',
+        };
+      }
+      if (extUpper === 'STL') {
+        return {
+          magicBytesHex: '73 6F 6C 69 64',
+          magicBytesAscii: 'solid',
+          typicalSize: '500 KB - 80 MB',
+          detailedOverview: 'The .STL format represents 3D surfaces as unstructured triangulated facets in either IEEE 754 binary format or ASCII text representation.',
+        };
+      }
+      if (extUpper === 'DST') {
+        return {
+          magicBytesHex: '4C 41 3A',
+          magicBytesAscii: 'LA:',
+          typicalSize: '10 KB - 500 KB',
+          detailedOverview: 'The .DST file format is a Tajima commercial embroidery machine format storing 2D stitch coordinate jumps and stop codes.',
+        };
+      }
       return {
         magicBytesHex: '41 43 31 30',
         magicBytesAscii: 'AC10',

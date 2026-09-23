@@ -28,8 +28,8 @@ export async function createZipFromQueueItems(
 
     try {
       const response = await fetch(item.resultBlobUrl!);
-      const blob = await response.blob();
-      zip.file(filename, blob);
+      const arrayBuffer = await response.arrayBuffer();
+      zip.file(filename, arrayBuffer);
     } catch (err) {
       console.error(`Failed to fetch blob for file ${filename}:`, err);
       skipped.push(filename);

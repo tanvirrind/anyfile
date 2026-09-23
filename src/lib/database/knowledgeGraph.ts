@@ -82,6 +82,7 @@ export const CURATED_COMPARISONS: ComparisonPairMeta[] = [
   { slug: 'dwg-vs-dxf', ext1: 'DWG', ext2: 'DXF', category: 'CAD & 3D', title: 'DWG vs DXF', highlight: 'AutoCAD native binary drawing vs open ASCII drawing exchange format' },
   { slug: 'step-vs-iges', ext1: 'STEP', ext2: 'IGES', category: 'CAD & 3D', title: 'STEP vs IGES', highlight: 'Modern ISO 10303 3D solid model interchange vs legacy surface CAD geometry' },
   { slug: 'stl-vs-obj', ext1: 'STL', ext2: 'OBJ', category: 'CAD & 3D', title: 'STL vs OBJ', highlight: 'Raw triangle 3D printing mesh vs Wavefront polygon mesh with UV textures' },
+  { slug: '3mf-vs-stl', ext1: '3MF', ext2: 'STL', category: 'CAD & 3D', title: '3MF vs STL', highlight: 'Modern multi-color XML package with unit fidelity vs legacy 1987 unitless triangle mesh' },
 ];
 
 /**

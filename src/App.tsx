@@ -13,49 +13,75 @@ import { Footer } from './components/Footer';
 import { CommandPalette } from './components/CommandPalette';
 import { SEOHead } from './components/SEOHead';
 import { PageSkeleton } from './components/PageSkeleton';
+import { ErrorBoundary } from './components/ErrorBoundary';
+
+// Resilient code-splitting loader with retry for network hiccups or transient module fetching failures
+function lazyWithRetry<P extends object = any>(
+  factory: () => Promise<any>,
+  namedExport?: string
+): React.ComponentType<P> {
+  return lazy(async () => {
+    try {
+      const module = await factory();
+      const comp = module.default || (namedExport ? module[namedExport] : Object.values(module)[0]);
+      return { default: comp };
+    } catch (err) {
+      console.warn('Dynamic import failed, retrying module fetch...', err);
+      await new Promise(resolve => setTimeout(resolve, 300));
+      try {
+        const module = await factory();
+        const comp = module.default || (namedExport ? module[namedExport] : Object.values(module)[0]);
+        return { default: comp };
+      } catch (retryErr) {
+        console.error('Dynamic import retry failed:', retryErr);
+        throw retryErr;
+      }
+    }
+  }) as React.ComponentType<P>;
+}
 
 // Code-Split Dynamic Page Views for instant first render & reduced initial bundle
-const ExtensionsPage = lazy(() => import('./pages/ExtensionsPage').then(m => ({ default: m.ExtensionsPage })));
-const ExtensionDetailPage = lazy(() => import('./pages/ExtensionDetailPage').then(m => ({ default: m.ExtensionDetailPage })));
-const SoftwarePage = lazy(() => import('./pages/SoftwarePage').then(m => ({ default: m.SoftwarePage })));
-const ConvertersPage = lazy(() => import('./pages/ConvertersPage').then(m => ({ default: m.ConvertersPage })));
-const TroubleshootHubPage = lazy(() => import('./pages/TroubleshootHubPage').then(m => ({ default: m.TroubleshootHubPage })));
-const TroubleshootGuidePage = lazy(() => import('./pages/TroubleshootGuidePage').then(m => ({ default: m.TroubleshootGuidePage })));
-const TechnicalHubPage = lazy(() => import('./pages/TechnicalHubPage').then(m => ({ default: m.TechnicalHubPage })));
-const TechnicalGuidePage = lazy(() => import('./pages/TechnicalGuidePage').then(m => ({ default: m.TechnicalGuidePage })));
-const ToolsPage = lazy(() => import('./pages/ToolsPage').then(m => ({ default: m.ToolsPage })));
-const ToolDetailPage = lazy(() => import('./pages/ToolDetailPage').then(m => ({ default: m.ToolDetailPage })));
-const FileAnalyzerPage = lazy(() => import('./pages/FileAnalyzerPage').then(m => ({ default: m.FileAnalyzerPage })));
-const FileIdentifierPage = lazy(() => import('./pages/FileIdentifierPage').then(m => ({ default: m.FileIdentifierPage })));
-const FileIdentifierResultPage = lazy(() => import('./pages/FileIdentifierResultPage').then(m => ({ default: m.FileIdentifierResultPage })));
-const MetadataViewerPage = lazy(() => import('./pages/MetadataViewerPage').then(m => ({ default: m.MetadataViewerPage })));
-const MetadataViewerResultPage = lazy(() => import('./pages/MetadataViewerResultPage').then(m => ({ default: m.MetadataViewerResultPage })));
-const RemoveMetadataPage = lazy(() => import('./pages/RemoveMetadataPage').then(m => ({ default: m.RemoveMetadataPage })));
-const HashGeneratorPage = lazy(() => import('./pages/HashGeneratorPage').then(m => ({ default: m.HashGeneratorPage })));
-const ChecksumVerifierPage = lazy(() => import('./pages/ChecksumVerifierPage').then(m => ({ default: m.ChecksumVerifierPage })));
-const MimeCheckerPage = lazy(() => import('./pages/MimeCheckerPage').then(m => ({ default: m.MimeCheckerPage })));
-const MagicByteDetectorPage = lazy(() => import('./pages/MagicByteDetectorPage').then(m => ({ default: m.MagicByteDetectorPage })));
-const MimeDetailPage = lazy(() => import('./pages/MimeDetailPage').then(m => ({ default: m.MimeDetailPage })));
-const GuidesPage = lazy(() => import('./pages/GuidesPage').then(m => ({ default: m.GuidesPage })));
-const BlogPage = lazy(() => import('./pages/BlogPage').then(m => ({ default: m.BlogPage })));
-const CategoryPage = lazy(() => import('./pages/CategoryPage').then(m => ({ default: m.CategoryPage })));
-const HowToOpenHubPage = lazy(() => import('./pages/HowToOpenHubPage').then(m => ({ default: m.HowToOpenHubPage })));
-const HowToOpenPage = lazy(() => import('./pages/HowToOpenPage').then(m => ({ default: m.HowToOpenPage })));
-const CompareHubPage = lazy(() => import('./pages/CompareHubPage').then(m => ({ default: m.CompareHubPage })));
-const ComparisonPage = lazy(() => import('./pages/ComparisonPage').then(m => ({ default: m.ComparisonPage })));
-const AdminCMSPage = lazy(() => import('./pages/AdminCMSPage').then(m => ({ default: m.AdminCMSPage })));
-const AssistantPage = lazy(() => import('./pages/AssistantPage').then(m => ({ default: m.AssistantPage })));
-const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
-const EditorialStandardsPage = lazy(() => import('./pages/EditorialStandardsPage').then(m => ({ default: m.EditorialStandardsPage })));
-const AuthorsPage = lazy(() => import('./pages/AuthorsPage').then(m => ({ default: m.AuthorsPage })));
-const ContactPage = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })));
-const SeoAuditPage = lazy(() => import('./pages/SeoAuditPage').then(m => ({ default: m.SeoAuditPage })));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
-const WorkflowPage = lazy(() => import('./pages/WorkflowPage').then(m => ({ default: m.WorkflowPage })));
-const FormatHubView = lazy(() => import('./components/content/FormatHubView').then(m => ({ default: m.FormatHubView })));
-const ContentDashboardPage = lazy(() => import('./pages/ContentDashboardPage').then(m => ({ default: m.ContentDashboardPage })));
-const FormatGuidePage = lazy(() => import('./pages/FormatGuidePage').then(m => ({ default: m.FormatGuidePage })));
-const AdminAuthGuard = lazy(() => import('./components/admin/AdminAuthGuard').then(m => ({ default: m.AdminAuthGuard })));
+const ExtensionsPage = lazyWithRetry(() => import('./pages/ExtensionsPage'), 'ExtensionsPage');
+const ExtensionDetailPage = lazyWithRetry(() => import('./pages/ExtensionDetailPage'), 'ExtensionDetailPage');
+const SoftwarePage = lazyWithRetry(() => import('./pages/SoftwarePage'), 'SoftwarePage');
+const ConvertersPage = lazyWithRetry(() => import('./pages/ConvertersPage'), 'ConvertersPage');
+const TroubleshootHubPage = lazyWithRetry(() => import('./pages/TroubleshootHubPage'), 'TroubleshootHubPage');
+const TroubleshootGuidePage = lazyWithRetry(() => import('./pages/TroubleshootGuidePage'), 'TroubleshootGuidePage');
+const TechnicalHubPage = lazyWithRetry(() => import('./pages/TechnicalHubPage'), 'TechnicalHubPage');
+const TechnicalGuidePage = lazyWithRetry(() => import('./pages/TechnicalGuidePage'), 'TechnicalGuidePage');
+const ToolsPage = lazyWithRetry(() => import('./pages/ToolsPage'), 'ToolsPage');
+const ToolDetailPage = lazyWithRetry(() => import('./pages/ToolDetailPage'), 'ToolDetailPage');
+const FileAnalyzerPage = lazyWithRetry(() => import('./pages/FileAnalyzerPage'), 'FileAnalyzerPage');
+const FileIdentifierPage = lazyWithRetry(() => import('./pages/FileIdentifierPage'), 'FileIdentifierPage');
+const FileIdentifierResultPage = lazyWithRetry(() => import('./pages/FileIdentifierResultPage'), 'FileIdentifierResultPage');
+const MetadataViewerPage = lazyWithRetry(() => import('./pages/MetadataViewerPage'), 'MetadataViewerPage');
+const MetadataViewerResultPage = lazyWithRetry(() => import('./pages/MetadataViewerResultPage'), 'MetadataViewerResultPage');
+const RemoveMetadataPage = lazyWithRetry(() => import('./pages/RemoveMetadataPage'), 'RemoveMetadataPage');
+const HashGeneratorPage = lazyWithRetry(() => import('./pages/HashGeneratorPage'), 'HashGeneratorPage');
+const ChecksumVerifierPage = lazyWithRetry(() => import('./pages/ChecksumVerifierPage'), 'ChecksumVerifierPage');
+const MimeCheckerPage = lazyWithRetry(() => import('./pages/MimeCheckerPage'), 'MimeCheckerPage');
+const MagicByteDetectorPage = lazyWithRetry(() => import('./pages/MagicByteDetectorPage'), 'MagicByteDetectorPage');
+const MimeDetailPage = lazyWithRetry(() => import('./pages/MimeDetailPage'), 'MimeDetailPage');
+const GuidesPage = lazyWithRetry(() => import('./pages/GuidesPage'), 'GuidesPage');
+const BlogPage = lazyWithRetry(() => import('./pages/BlogPage'), 'BlogPage');
+const CategoryPage = lazyWithRetry(() => import('./pages/CategoryPage'), 'CategoryPage');
+const HowToOpenHubPage = lazyWithRetry(() => import('./pages/HowToOpenHubPage'), 'HowToOpenHubPage');
+const HowToOpenPage = lazyWithRetry(() => import('./pages/HowToOpenPage'), 'HowToOpenPage');
+const CompareHubPage = lazyWithRetry(() => import('./pages/CompareHubPage'), 'CompareHubPage');
+const ComparisonPage = lazyWithRetry(() => import('./pages/ComparisonPage'), 'ComparisonPage');
+const AdminCMSPage = lazyWithRetry(() => import('./pages/AdminCMSPage'), 'AdminCMSPage');
+const AssistantPage = lazyWithRetry(() => import('./pages/AssistantPage'), 'AssistantPage');
+const AboutPage = lazyWithRetry(() => import('./pages/AboutPage'), 'AboutPage');
+const EditorialStandardsPage = lazyWithRetry(() => import('./pages/EditorialStandardsPage'), 'EditorialStandardsPage');
+const AuthorsPage = lazyWithRetry(() => import('./pages/AuthorsPage'), 'AuthorsPage');
+const ContactPage = lazyWithRetry(() => import('./pages/ContactPage'), 'ContactPage');
+const SeoAuditPage = lazyWithRetry(() => import('./pages/SeoAuditPage'), 'SeoAuditPage');
+const NotFoundPage = lazyWithRetry(() => import('./pages/NotFoundPage'), 'NotFoundPage');
+const WorkflowPage = lazyWithRetry(() => import('./pages/WorkflowPage'), 'WorkflowPage');
+const FormatHubView = lazyWithRetry(() => import('./components/content/FormatHubView'), 'FormatHubView');
+const ContentDashboardPage = lazyWithRetry(() => import('./pages/ContentDashboardPage'), 'ContentDashboardPage');
+const FormatGuidePage = lazyWithRetry(() => import('./pages/FormatGuidePage'), 'FormatGuidePage');
+const AdminAuthGuard = lazyWithRetry(() => import('./components/admin/AdminAuthGuard'), 'AdminAuthGuard');
 
 import { AppRoute } from './types';
 import { parsePathToRoute, routeToPath } from './utils/router';
@@ -147,7 +173,8 @@ export default function App({ initialRoute }: AppProps = {}) {
 
       {/* Main Page Router */}
       <main className="flex-grow">
-        <Suspense fallback={<PageSkeleton />}>
+        <ErrorBoundary>
+          <Suspense fallback={<PageSkeleton />}>
           {currentRoute.view === 'home' && (
             <>
               <SEOHead
@@ -382,7 +409,8 @@ export default function App({ initialRoute }: AppProps = {}) {
             <NotFoundPage onNavigate={handleNavigate} requestedPath={currentRoute.requestedPath} />
           )}
         </Suspense>
-      </main>
+      </ErrorBoundary>
+    </main>
 
       {/* Universal Footer */}
       <Footer onNavigate={handleNavigate} onOpenSearch={() => setCommandPaletteOpen(true)} />

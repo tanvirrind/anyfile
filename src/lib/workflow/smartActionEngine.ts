@@ -150,6 +150,44 @@ const CONVERSION_RATIONALE_MAP: Record<string, ConversionTargetInfo[]> = {
       popularUseCases: ['High-DPI print graphics', 'Text document screenshots'],
       isRecommended: false
     }
+  ],
+  eml: [
+    {
+      format: 'pdf',
+      name: 'Archival PDF Document',
+      mime: 'application/pdf',
+      rationale: 'Renders RFC 822 email headers, formatted HTML body, and attachment manifest into universal printable PDF.',
+      popularUseCases: ['Legal discovery and litigation', 'Accounting audit archives', 'Universal printing and sharing'],
+      isRecommended: true
+    }
+  ],
+  msg: [
+    {
+      format: 'eml',
+      name: 'Standard RFC 822 EML',
+      mime: 'message/rfc822',
+      rationale: 'Translates proprietary Outlook CFBF format into universal open internet standard compatible with Apple Mail and Thunderbird.',
+      popularUseCases: ['Opening Outlook emails on Mac and Linux', 'Importing into standard email archives', 'Cross-platform archiving'],
+      isRecommended: true
+    },
+    {
+      format: 'pdf',
+      name: 'Archival PDF Document',
+      mime: 'application/pdf',
+      rationale: 'Renders Outlook message and attachments manifest into universal printable PDF document.',
+      popularUseCases: ['Legal archives', 'Business audits', 'Universal sharing'],
+      isRecommended: false
+    }
+  ],
+  '3mf': [
+    {
+      format: 'stl',
+      name: 'Binary STL 3D Mesh',
+      mime: 'model/stl',
+      rationale: 'Extracts mesh geometry from 3MF containers and exports universal binary STL for 3D slicing software.',
+      popularUseCases: ['3D printing in Cura or PrusaSlicer', 'Legacy CAD software import', 'CNC fabrication'],
+      isRecommended: true
+    }
   ]
 };
 
@@ -248,6 +286,70 @@ export function generateSmartActions(analysis: FileAnalysis): SmartActionsResult
       iconName: 'FileText',
       isPrimary: true,
       onClickAction: 'extract_pdf_pages'
+    });
+  }
+
+  // Email & Communication Smart Actions
+  if (category === 'Email & Comm' || ext === 'eml' || ext === 'msg' || ext === 'mbox' || ext === 'tnef') {
+    openActions.push({
+      id: 'open_in_email_viewer',
+      category: 'open',
+      title: 'In-Browser Email Inspector',
+      description: 'View formatted email, audit SPF/DKIM security, and extract attachments in browser RAM.',
+      badge: 'Email Forensics',
+      iconName: 'Mail',
+      isPrimary: true,
+      route: { view: 'tool-detail', slug: 'email-viewer' }
+    });
+
+    if (ext === 'tnef' || ext === 'dat') {
+      optimizeActions.push({
+        id: 'winmail_extract',
+        category: 'optimize',
+        title: 'Extract winmail.dat Trapped Files',
+        description: 'Decode Outlook TNEF package and recover original attachments and documents.',
+        badge: 'TNEF Extractor',
+        iconName: 'FolderArchive',
+        isPrimary: true,
+        route: { view: 'tool-detail', slug: 'winmail-extractor' }
+      });
+    }
+
+    if (ext === 'msg') {
+      convertActions.push({
+        id: 'convert_msg_to_eml',
+        category: 'convert',
+        title: 'Convert Outlook MSG to EML',
+        description: 'Translate proprietary Outlook .msg compound file into standard open RFC 822 .eml.',
+        badge: 'Open Standard',
+        iconName: 'Mail',
+        isPrimary: true,
+        route: { view: 'tool-detail', slug: 'msg-to-eml' }
+      });
+    }
+
+    convertActions.push({
+      id: 'convert_email_to_pdf',
+      category: 'convert',
+      title: 'Archive Email to PDF Record',
+      description: 'Generate publication-ready PDF document with metadata cards and attachment manifest.',
+      badge: 'Legal Archive',
+      iconName: 'Printer',
+      route: { view: 'tool-detail', slug: 'eml-to-pdf' }
+    });
+  }
+
+  // 3D & CAD Smart Actions
+  if (category === 'CAD & 3D' || ext === 'stl' || ext === '3mf') {
+    openActions.push({
+      id: ext === '3mf' ? 'open_3mf_viewer' : 'open_stl_viewer',
+      category: 'open',
+      title: ext === '3mf' ? '3MF Package & Model Inspector' : 'Interactive 3D STL Viewer',
+      description: 'Render interactive 3D WebGL mesh, inspect volume, bounding dimensions, and facets.',
+      badge: 'WebGL 3D',
+      iconName: 'Box',
+      isPrimary: true,
+      route: { view: 'tool-detail', slug: ext === '3mf' ? '3mf-viewer' : 'stl-viewer' }
     });
   }
 

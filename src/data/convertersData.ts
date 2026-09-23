@@ -200,5 +200,37 @@ export const CONVERTERS_LIST: ConverterInfo[] = [
     recommendedApps: ['Mozilla Thunderbird', 'Outlook', 'AnyFileX EML Viewer'],
     commonIssues: ['Remote tracking pixel images blocked in exported PDF.'],
     faqs: [{ question: 'Can I convert EML to PDF for legal compliance?', answer: 'Yes, PDF archives preserve exact timestamp headers, sender details, and message text for legal records.' }]
+  },
+  {
+    id: '3mf-to-stl',
+    fromExt: '3MF',
+    toExt: 'STL',
+    name: '3MF to STL 3D Mesh Converter',
+    category: 'CAD & 3D',
+    description: 'Convert 3MF 3D printing project packages into standardized binary STL meshes for older slicers and CAM tools directly in your browser.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Instant',
+    qualityRating: 'Lossless',
+    steps: [
+      { title: 'Upload 3MF Package', desc: 'Drag and drop your .3mf model file or load the sample calibration cube.' },
+      { title: 'Select Parts or Assembly', desc: 'Inspect parts in 3D WebGL and choose whether to export all objects merged or isolate a single part.' },
+      { title: 'Download Binary STL', desc: 'Click Convert and instantly download your slicer-ready IEEE 754 binary STL file.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser 3D Converter', 'Bambu Studio', 'PrusaSlicer', 'OrcaSlicer', 'Blender'],
+    commonIssues: [
+      'Multi-color paint layers and AMS filament color maps are lost because STL only stores triangle geometry.',
+      'Slicer-specific seam configurations and support painting are stripped in STL output.'
+    ],
+    faqs: [
+      {
+        question: 'Why convert 3MF to STL?',
+        answer: 'Many legacy slicers, CNC software, laser cutters, and 3D printing services require standard binary STL files rather than multi-part 3MF packages.'
+      },
+      {
+        question: 'Does AnyFileX upload my 3D CAD designs?',
+        answer: 'No! The entire 3MF XML parsing and STL binary tessellation occurs 100% inside your web browser client memory.'
+      }
+    ]
   }
 ];

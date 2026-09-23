@@ -90,6 +90,44 @@ export const CAD_AND_ENGINEERING_EXTENSIONS_DATA: ExtensionSchema[] = [
     keywords: ['stl file', 'open stl', '3d printing stl', 'cura slicer', 'convert stl']
   },
   {
+    slug: '3mf',
+    extension: '3MF',
+    title: '.3MF File Extension - 3D Manufacturing Format & Slicer Specs',
+    description: '3MF (3D Manufacturing Format) is an open XML-based compressed archive standard designed specifically for additive manufacturing, storing complete 3D models with materials, colors, build plate items, and slicer metadata.',
+    category: 'CAD & 3D',
+    mime: 'model/3mf',
+    developer: '3MF Consortium (Microsoft, HP, Ultimaker, 3D Systems, Prusa, Bambu Lab)',
+    software: ['Bambu Studio', 'PrusaSlicer', 'OrcaSlicer', 'UltiMaker Cura', 'Autodesk Fusion 360', 'SolidWorks', 'Blender', 'Windows 3D Builder'],
+    related_extensions: ['STL', 'OBJ', 'AMF', 'STEP'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: ['3mf-to-stl', 'stl-to-3mf', '3mf-to-obj'],
+    security: {
+      dangerRating: 'Low Risk',
+      canContainMalware: false,
+      tips: ['Open Packaging Convention (ZIP) container; verify manifest XML integrity before slicing']
+    },
+    keywords: ['3mf file', 'open 3mf', 'bambu studio 3mf', 'prusaslicer project', 'convert 3mf to stl', '3mf viewer']
+  },
+  {
+    slug: 'dst',
+    extension: 'DST',
+    title: '.DST File Extension - Tajima Commercial Embroidery Format',
+    description: 'DST is an industry-standard commercial embroidery machine file format developed by Tajima, containing stitch coordinates, needle jumps, and color change stop codes for automated embroidery sewing machines.',
+    category: 'CAD & 3D',
+    mime: 'application/x-tajima',
+    developer: 'Tajima Group',
+    software: ['Wilcom Truesizer', 'Embird', 'Ink/Stitch (Inkscape Plugin)', 'Bernina ArtLink', 'Hatch Embroidery'],
+    related_extensions: ['PES', 'EXP', 'JEF', 'VP3', 'DXF'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: ['dst-to-pes', 'dst-to-exp', 'dxf-to-dst'],
+    security: {
+      dangerRating: 'Low Risk',
+      canContainMalware: false,
+      tips: ['Contains machine movement vector commands for computerized sewing and embroidery machines']
+    },
+    keywords: ['dst file', 'open dst embroidery', 'tajima dst viewer', 'convert dst to pes']
+  },
+  {
     slug: 'obj',
     extension: 'OBJ',
     title: '.OBJ File Extension - Wavefront 3D Geometry Specification',

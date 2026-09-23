@@ -20,7 +20,9 @@ import {
   FolderArchive,
   Image as ImageIcon,
   Layers,
-  ShieldCheck
+  ShieldCheck,
+  Mail,
+  Box
 } from 'lucide-react';
 import { AppRoute, ToolTab } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
@@ -57,6 +59,8 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
   const [activeCategory, setActiveCategory] = useState<string>(() => {
     if (initialCategoryProp) {
       const lower = initialCategoryProp.toLowerCase();
+      if (lower === 'email' || lower === 'emails' || lower === 'mail') return 'Email & Mail';
+      if (lower === 'cad' || lower === '3d') return '3D & CAD';
       if (lower === 'image' || lower === 'images') return 'Images';
       if (lower === 'document' || lower === 'documents') return 'Documents';
       if (lower === 'archive' || lower === 'archives') return 'Archives';
@@ -297,10 +301,94 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       icon: Code2,
       tags: ['IANA Specs', 'Content-Type', 'HTTP Headers'],
       processingType: 'local'
+    },
+
+    // Email & Mail Tools
+    {
+      id: 'email-viewer',
+      name: 'Browser-Based Email & EML/MSG Viewer',
+      category: 'Email & Mail',
+      desc: 'Inspect RFC 822 .eml, Outlook .msg, and MBOX files with sanitized HTML rendering, attachment extraction, and SPF/DKIM security auditing.',
+      route: { view: 'tool-detail', slug: 'email-viewer' } as any,
+      icon: Mail,
+      tags: ['EML Viewer', 'MSG Viewer', 'MBOX Mailboxes', 'SPF/DKIM', 'Attachments'],
+      badge: 'Email Forensics',
+      processingType: 'local',
+      isPopular: true
+    },
+    {
+      id: 'winmail-extractor',
+      name: 'Winmail.dat (TNEF) Extractor',
+      category: 'Email & Mail',
+      desc: 'Extract hidden files, PDFs, spreadsheets, and documents trapped in Microsoft Outlook winmail.dat attachments.',
+      route: { view: 'tool-detail', slug: 'winmail-extractor' } as any,
+      icon: FolderArchive,
+      tags: ['Outlook TNEF', 'Winmail Rescue', 'Zip Download', '100% Private'],
+      badge: 'TNEF Extractor',
+      processingType: 'local',
+      isPopular: true
+    },
+    {
+      id: 'eml-to-pdf',
+      name: 'EML to PDF Email Archiver',
+      category: 'Email & Mail',
+      desc: 'Convert RFC 822 and Outlook emails into publication-ready PDF documents with audit summaries and attachment manifests.',
+      route: { view: 'tool-detail', slug: 'eml-to-pdf' } as any,
+      icon: FileText,
+      tags: ['PDF Archive', 'Legal Discovery', 'Forensic Headers', 'Print Ready'],
+      badge: 'Legal Archive',
+      processingType: 'local',
+      isPopular: true
+    },
+    {
+      id: 'msg-to-eml',
+      name: 'Outlook MSG to EML Converter',
+      category: 'Email & Mail',
+      desc: 'Convert proprietary Microsoft Outlook .msg compound binary files to open RFC 822 .eml format in browser RAM.',
+      route: { view: 'tool-detail', slug: 'msg-to-eml' } as any,
+      icon: Mail,
+      tags: ['Outlook MSG', 'Standard EML', 'MAPI Properties', 'Cross-Platform'],
+      processingType: 'local'
+    },
+
+    // 3D & CAD Tools
+    {
+      id: 'stl-viewer',
+      name: 'Interactive 3D STL Viewer',
+      category: '3D & CAD',
+      desc: 'Hardware-accelerated 3D WebGL renderer for binary and ASCII STL meshes with facet inspection, wireframe, bounding dimensions, and volume calculations.',
+      route: { view: 'tool-detail', slug: 'stl-viewer' } as any,
+      icon: Box,
+      tags: ['WebGL 3D', 'Volume Calc', 'Weight Estimator', 'Bbox Dimensions'],
+      badge: 'Interactive 3D',
+      processingType: 'local',
+      isPopular: true
+    },
+    {
+      id: '3mf-viewer',
+      name: '3MF Package & Model Inspector',
+      category: '3D & CAD',
+      desc: 'Unpack modern 3D Manufacturing Format containers, inspect multi-model mesh objects, slicer metadata, thumbnails, and color palettes.',
+      route: { view: 'tool-detail', slug: '3mf-viewer' } as any,
+      icon: Layers,
+      tags: ['3MF Inspector', 'Slicer Profiles', 'Multi-Mesh', 'Thumbnails'],
+      badge: '3MF Package',
+      processingType: 'local',
+      isPopular: true
+    },
+    {
+      id: '3mf-to-stl',
+      name: '3MF to STL 3D Mesh Converter',
+      category: '3D & CAD',
+      desc: 'Convert 3MF containers into universal binary or ASCII STL mesh files for 3D printing slicing software.',
+      route: { view: 'converter-detail', id: '3mf-to-stl' } as any,
+      icon: Box,
+      tags: ['3D Printing', 'Slicer Ready', 'Binary STL', 'Zero Upload'],
+      processingType: 'local'
     }
   ];
 
-  const categories = ['All', 'Images', 'Documents', 'Archives', 'Data & Privacy', 'Developer & Security'];
+  const categories = ['All', 'Email & Mail', '3D & CAD', 'Images', 'Documents', 'Archives', 'Data & Privacy', 'Developer & Security'];
 
   const filteredTools = toolsList.filter((tool) => {
     const matchesSearch =

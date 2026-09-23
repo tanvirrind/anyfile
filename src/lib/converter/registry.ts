@@ -180,11 +180,67 @@ export const FORMATS_REGISTRY: Record<string, FormatInfo> = {
     description: 'Reflowable electronic book format based on HTML5 and CSS for ereaders, iPads, and mobile devices.',
     commonUses: ['Digital Books', 'E-Readers', 'Interactive Publications'],
     developer: 'International Digital Publishing Forum (IDPF)'
+  },
+  '3mf': {
+    ext: '3mf',
+    name: '3D Manufacturing Format',
+    category: 'CAD',
+    mimeTypes: ['application/vnd.ms-package.3dmanufacturing-3dmodel+xml', 'model/3mf'],
+    description: 'XML-based, zipped 3D printing container standard containing meshes, materials, multi-part assemblies, and slicer build specifications.',
+    commonUses: ['Bambu Studio Slicing', 'PrusaSlicer Projects', 'Multi-Color 3D Printing', 'CAD Model Sharing'],
+    developer: '3MF Consortium'
+  },
+  stl: {
+    ext: 'stl',
+    name: 'Stereolithography 3D Mesh',
+    category: 'CAD',
+    mimeTypes: ['model/stl', 'application/sla', 'application/vnd.ms-pki.stl'],
+    description: 'Standard 3D tessellated surface mesh format representing geometric solids as triangular facets in binary or ASCII encoding.',
+    commonUses: ['3D Printing Slicers', 'Rapid Prototyping', 'Computer-Aided Manufacturing (CAM)'],
+    developer: '3D Systems / Chuck Hull'
   }
 };
 
 // Custom definitions for primary highlighted converters
 export const POPULAR_CONVERTER_PAIRS: ConverterPair[] = [
+  {
+    id: '3mf-to-stl',
+    fromExt: '3mf',
+    toExt: 'stl',
+    name: '3MF to STL Converter',
+    category: 'CAD',
+    description: 'Convert 3MF manufacturing project packages (Bambu Lab, Prusa, OrcaSlicer) into universal Binary STL meshes directly in browser memory.',
+    isPopular: true,
+    badge: '3D Printing Tool',
+    features: [
+      '100% In-Browser Conversion — Zero file uploads, complete design privacy',
+      'Supports multi-object packages with selective or merged part export',
+      'Generates standardized IEEE 754 Binary STL files with valid normals',
+      'Interactive 3D WebGL preview before and after conversion',
+      'Technical loss report detailing preserved geometry vs. discarded slicer color tags'
+    ],
+    steps: [
+      { title: 'Upload 3MF Package', desc: 'Drag and drop your .3mf file or load the sample calibration model.' },
+      { title: 'Inspect & Select Parts', desc: 'Choose whether to export all combined parts or isolate a specific object.' },
+      { title: 'Convert & Download STL', desc: 'Click Convert and download your slicer-ready binary STL immediately.' }
+    ],
+    faqs: [
+      {
+        question: 'What information is lost when converting 3MF to STL?',
+        answer: 'STL format only supports raw triangle geometry and normals. Multi-color paint data, filament profiles, slicer seam configurations, and support painted areas in the 3MF package will be discarded during conversion.'
+      },
+      {
+        question: 'Can I convert 3MF files exported from Bambu Studio or OrcaSlicer?',
+        answer: 'Yes! AnyFileX parses standard 3MF Open Packaging Convention containers and extracts the 3D model geometry from 3D/3dmodel.model cleanly.'
+      },
+      {
+        question: 'Are my proprietary CAD files safe from server leaks?',
+        answer: 'Absolutely. The conversion occurs entirely inside your local browser JavaScript and WebGL execution space. No data packets ever leave your computer.'
+      }
+    ],
+    fromFormat: FORMATS_REGISTRY['3mf'],
+    toFormat: FORMATS_REGISTRY.stl
+  },
   {
     id: 'heic-to-jpg',
     fromExt: 'heic',

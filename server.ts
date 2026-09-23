@@ -329,7 +329,12 @@ ${prompt}`;
     // Development SSR Handler
     app.get('*', async (req, res, next) => {
       const url = req.originalUrl;
-      if (url.match(/\.(js|css|svg|png|jpg|jpeg|gif|webp|ico|json|map|woff|woff2|ttf)$/)) {
+      if (
+        url.startsWith('/@') ||
+        url.startsWith('/src/') ||
+        url.startsWith('/node_modules/') ||
+        url.match(/\.(js|jsx|ts|tsx|mjs|cjs|css|svg|png|jpg|jpeg|gif|webp|ico|json|map|woff|woff2|ttf|wasm)$/i)
+      ) {
         return next();
       }
       try {
@@ -389,7 +394,7 @@ ${prompt}`;
     app.get('*', (req, res, next) => {
       const url = req.originalUrl;
       // Skip static files with extensions if static middleware missed them
-      if (url.match(/\.(js|css|svg|png|jpg|jpeg|gif|webp|ico|json|map|woff|woff2|ttf)$/)) {
+      if (url.match(/\.(js|jsx|ts|tsx|mjs|cjs|css|svg|png|jpg|jpeg|gif|webp|ico|json|map|woff|woff2|ttf|wasm)$/i)) {
         return next();
       }
 

@@ -38,6 +38,8 @@ import { ConverterUploadBox } from '../components/converter/ConverterUploadBox';
 import { ZipCreatorWorkspace } from '../components/converter/ZipCreatorWorkspace';
 import { ZipExtractorWorkspace } from '../components/converter/ZipExtractorWorkspace';
 import { RarExtractorWorkspace } from '../components/converter/RarExtractorWorkspace';
+import { ThreeMfToStlWorkspace } from '../components/converter/ThreeMfToStlWorkspace';
+import { EmlToPdfWorkspace } from '../components/email/EmlToPdfWorkspace';
 import { ConverterSecurityNotice } from '../components/converter/ConverterSecurityNotice';
 import { ConversionHistoryWidget } from '../components/converter/ConversionHistoryWidget';
 import { FAQAccordion } from '../components/FAQAccordion';
@@ -205,6 +207,10 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
           <ZipExtractorWorkspace />
         ) : pair.id === 'rar-extractor' ? (
           <RarExtractorWorkspace />
+        ) : pair.id === '3mf-to-stl' ? (
+          <ThreeMfToStlWorkspace onNavigate={onNavigate} />
+        ) : pair.id === 'eml-to-pdf' || pair.id === 'msg-to-pdf' ? (
+          <EmlToPdfWorkspace onNavigate={onNavigate} />
         ) : (
           <ConverterUploadBox
             pair={pair}

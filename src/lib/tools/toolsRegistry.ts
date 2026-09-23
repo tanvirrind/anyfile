@@ -8,7 +8,9 @@ export type ToolCategory =
   | 'audio'
   | 'video'
   | 'data'
-  | 'developer';
+  | 'developer'
+  | 'cad'
+  | 'email';
 
 export interface ToolDefinition {
   slug: string;
@@ -989,10 +991,367 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
     relatedExtensionSlugs: ['exe', 'zip', 'pdf', 'png'],
     comparisonSlugs: ['jpg-vs-jpeg'],
     howToOpenSlugs: ['dat', 'bin']
+  },
+
+  'stl-viewer': {
+    slug: 'stl-viewer',
+    name: 'Interactive 3D STL Viewer & Diagnostics',
+    category: 'cad',
+    categoryLabel: '3D & CAD Tools',
+    tagline: 'Inspect 3D STL models with WebGL orbit controls, dimensions, triangle counts, and solid volume',
+    description: 'Free browser-based STL viewer. Orbit, pan, zoom, inspect bounding box dimensions, triangle counts, solid volume, and 3D print filament weight estimates with zero server uploads.',
+    processingType: 'local',
+    supportedInputFormats: ['stl'],
+    supportedOutputFormats: ['stl', 'png'],
+    isPopular: true,
+    badge: '3D Printing Tool',
+    features: [
+      'Interactive 3D WebGL viewport with smooth orbit, pan, and zoom controls',
+      'Accurate bounding box dimensions (X × Y × Z in mm) and build plate grid',
+      'Triangle facet count, vertex count, and solid volume (cm³) calculations',
+      'Estimated 3D print filament weight for PLA, PETG, and ABS (~20% infill)',
+      'High-resolution PNG viewport snapshot export and Binary STL download'
+    ],
+    steps: [
+      { title: 'Upload STL File', desc: 'Drag and drop your binary or ASCII .stl file, or click Load Sample Cube.' },
+      { title: 'Inspect 3D Model', desc: 'Rotate, zoom, toggle wireframe, facet normals, or bounding box dimensions.' },
+      { title: 'Check Metrics & Export', desc: 'Review watertight manifold status, volume estimates, or export as clean binary STL.' }
+    ],
+    technicalDetails: 'Parses both binary IEEE 754 float32 facets and ASCII STL lines using JavaScript DataView. Computes volume via signed tetrahedron summation and renders real-time shaded polygons using WebGL and Three.js.',
+    faqs: [
+      {
+        question: 'Does this viewer support both Binary and ASCII STL formats?',
+        answer: 'Yes! AnyFileX automatically detects whether an STL is binary or ASCII and parses the geometry accordingly.'
+      },
+      {
+        question: 'Are my proprietary CAD or 3D models uploaded to the cloud?',
+        answer: 'No! All 3D rendering and geometric calculations occur 100% locally in your web browser memory using client-side WebGL.'
+      },
+      {
+        question: 'Can I check if my model is watertight for 3D printing?',
+        answer: 'Yes! The diagnostics panel checks all triangle boundary edges to verify manifold watertightness and warn of holes.'
+      }
+    ],
+    relatedToolSlugs: ['3mf-viewer', 'stl-repair', '3mf-to-stl'],
+    relatedExtensionSlugs: ['stl', '3mf', 'obj', 'step'],
+    comparisonSlugs: ['3mf-vs-stl'],
+    howToOpenSlugs: ['stl', '3mf']
+  },
+
+  '3mf-viewer': {
+    slug: '3mf-viewer',
+    name: '3MF File Viewer & Package Inspector',
+    category: 'cad',
+    categoryLabel: '3D & CAD Tools',
+    tagline: 'Inspect 3MF manufacturing packages, multi-part objects, and slicer metadata in browser memory',
+    description: 'Explore 3MF (3D Manufacturing Format) project packages from Bambu Studio, PrusaSlicer, OrcaSlicer, or Cura. Inspect individual part meshes, unit definitions, and package manifests.',
+    processingType: 'local',
+    supportedInputFormats: ['3mf'],
+    supportedOutputFormats: ['stl', 'png'],
+    isPopular: true,
+    badge: '3D Manufacturing',
+    features: [
+      'Interactive 3D WebGL rendering of 3MF models and multi-object assemblies',
+      'Part isolation selector allowing inspection of individual components within an assembly',
+      'Slicer metadata detection (Bambu Studio, PrusaSlicer, OrcaSlicer, Cura)',
+      'Open Packaging Convention (OPC) file tree inspector viewing XML manifests',
+      'One-click direct export of any component or all parts to Binary STL'
+    ],
+    steps: [
+      { title: 'Upload 3MF Package', desc: 'Drag and drop your .3mf file into the workspace.' },
+      { title: 'Inspect Geometry & Metadata', desc: 'Switch between 3D model view, object parts hierarchy, and ZIP package file tree.' },
+      { title: 'Export to STL', desc: 'Convert and save selected parts or the entire assembly as a standardized binary STL.' }
+    ],
+    technicalDetails: 'Unpacks the ZIP container in client memory using JSZip, parses 3D/3dmodel.model XML schemas, applies affine transformation matrices to build items, and renders geometry via Three.js.',
+    faqs: [
+      {
+        question: 'What is a 3MF file compared to an STL?',
+        answer: '3MF is an XML-based zipped container created by the 3MF Consortium that preserves multiple parts, units, colors, and slicer settings, whereas STL only holds raw geometric triangles.'
+      },
+      {
+        question: 'Can I view multi-part Bambu Studio or PrusaSlicer plates?',
+        answer: 'Yes! You can isolate and view each individual object or render the entire print bed assembly.'
+      }
+    ],
+    relatedToolSlugs: ['stl-viewer', '3mf-to-stl', 'stl-repair'],
+    relatedExtensionSlugs: ['3mf', 'stl', 'obj'],
+    comparisonSlugs: ['3mf-vs-stl'],
+    howToOpenSlugs: ['3mf', 'stl']
+  },
+
+  'stl-repair': {
+    slug: 'stl-repair',
+    name: 'STL Mesh Diagnostic & Repair Tool',
+    category: 'cad',
+    categoryLabel: '3D & CAD Tools',
+    tagline: 'Diagnose and repair non-manifold edges, flipped face normals, and degenerate triangles in browser RAM',
+    description: 'Prepare clean, watertight STL meshes for 3D printing. Detects boundary holes, recomputes consistent surface normals via vertex winding, removes zero-area facets, and exports repaired binary STL files.',
+    processingType: 'local',
+    supportedInputFormats: ['stl'],
+    supportedOutputFormats: ['stl'],
+    isPopular: true,
+    badge: 'Mesh Forensics',
+    features: [
+      'Automated detection of degenerate (zero-area or collinear) triangle facets',
+      'Normal vector recalculation using right-hand rule cross-product geometric winding',
+      'Boundary hole and non-manifold edge detection scorecard',
+      'Before & After defect comparison with interactive 3D WebGL preview',
+      'Zero-upload privacy: STL repair executes 100% client-side in browser memory'
+    ],
+    steps: [
+      { title: 'Upload Defective STL', desc: 'Drag and drop your .stl mesh into the repair scanner.' },
+      { title: 'Review Diagnostic Scorecard', desc: 'Inspect counts of degenerate triangles, flipped normals, and boundary seams.' },
+      { title: 'Execute Repair & Download', desc: 'Click Execute Auto-Repair and download your cleaned, watertight binary STL.' }
+    ],
+    technicalDetails: 'Scans facet vertices using vector distance thresholds, filters degenerate geometry, recalculates normalized cross products (v2 - v1) × (v3 - v1), and generates clean binary STL buffers.',
+    faqs: [
+      {
+        question: 'What causes STL mesh errors?',
+        answer: 'CAD export tessellation bugs, zero-thickness walls, intersecting bodies, or unstitched surface patches can create non-manifold holes and inverted face normals that confuse 3D printing slicers.'
+      },
+      {
+        question: 'Will this tool repair my file without uploading to third-party servers?',
+        answer: 'Yes! All polygon repair algorithms run strictly inside your browser WebAssembly/JavaScript environment.'
+      }
+    ],
+    relatedToolSlugs: ['stl-viewer', '3mf-to-stl', '3mf-viewer'],
+    relatedExtensionSlugs: ['stl', '3mf', 'obj'],
+    comparisonSlugs: ['3mf-vs-stl'],
+    howToOpenSlugs: ['stl']
+  },
+
+  'email-viewer': {
+    slug: 'email-viewer',
+    name: 'Browser-Based Email & EML/MSG Viewer',
+    category: 'email',
+    categoryLabel: 'Email & Communication',
+    tagline: 'Inspect RFC 822 .eml, Outlook .msg, and MBOX mailbox files with sanitized HTML and attachment extraction',
+    description: 'Free browser-based email viewer. Parse and view .eml, .msg, and .mbox email files, extract attachments, inspect forensic RFC 822 routing headers, and verify SPF/DKIM authentication with zero cloud uploads.',
+    processingType: 'local',
+    supportedInputFormats: ['eml', 'msg', 'mbox', 'dat', 'tnef'],
+    supportedOutputFormats: ['pdf', 'eml', 'zip'],
+    isPopular: true,
+    badge: 'Email Forensics',
+    features: [
+      'Interactive HTML and clean plain-text email message rendering',
+      'Attachment security audit identifying dangerous executable payloads and macros',
+      'Raw RFC 822 header inspection with real-time search and filter',
+      'One-click Export to PDF and standardized RFC 822 EML',
+      '100% In-Browser Privacy — Confidential emails never leave your computer'
+    ],
+    steps: [
+      { title: 'Upload Email File', desc: 'Drag and drop your .eml, .msg, .mbox, or winmail.dat file, or click Load Sample.' },
+      { title: 'Inspect Content & Attachments', desc: 'Read sanitized email body, review SPF/DKIM flags, and inspect attached files.' },
+      { title: 'Save or Export', desc: 'Download attachments individually, bundle as ZIP, or export the message to PDF.' }
+    ],
+    technicalDetails: 'Parses multipart MIME boundaries, decodes Quoted-Printable and Base64 streams, reads Outlook OLE2/CFBF property storages, and sanitizes HTML scripts using client-side JavaScript.',
+    faqs: [
+      {
+        question: 'Are my confidential emails or attachments uploaded to any server?',
+        answer: 'No! AnyFileX parses and displays your email entirely in local browser RAM using client-side Web APIs. Zero bytes are transmitted to any server.'
+      },
+      {
+        question: 'Can I view Outlook .msg files on a Mac or Linux computer?',
+        answer: 'Yes! AnyFileX includes a built-in Compound File Binary Format parser that reads Outlook .msg files on any operating system without requiring Microsoft Outlook.'
+      },
+      {
+        question: 'Does this tool detect malicious or phishing attachments?',
+        answer: 'Yes! The built-in security auditor flags suspicious extensions (such as .exe, .scr, .vbs, .js, .xlsm) and checks SPF/DKIM verification headers.'
+      }
+    ],
+    relatedToolSlugs: ['eml-viewer', 'winmail-extractor', 'eml-to-pdf', 'msg-to-eml', 'mbox-viewer'],
+    relatedExtensionSlugs: ['eml', 'msg', 'mbox', 'tnef', 'vcf'],
+    comparisonSlugs: ['eml-vs-msg'],
+    howToOpenSlugs: ['eml', 'msg', 'mbox']
+  },
+
+  'eml-viewer': {
+    slug: 'eml-viewer',
+    name: 'RFC 822 EML File Viewer & Inspector',
+    category: 'email',
+    categoryLabel: 'Email & Communication',
+    tagline: 'Open, read, and extract attachments from standard RFC 822 .eml files in browser RAM',
+    description: 'Open .eml files directly in your web browser without installing Thunderbird or Outlook. View styled message text, inspect raw MIME headers, and download embedded attachments safely.',
+    processingType: 'local',
+    supportedInputFormats: ['eml'],
+    supportedOutputFormats: ['pdf', 'eml', 'zip'],
+    isPopular: true,
+    badge: 'Standard EML',
+    features: [
+      'Universal RFC 822, RFC 2045, and RFC 2047 MIME parsing',
+      'HTML body viewer with tracker beacon and script protection',
+      'Embedded attachment extractor with virus/risk flags',
+      'Export archived email record to PDF document'
+    ],
+    steps: [
+      { title: 'Drop .EML File', desc: 'Upload your .eml email file into the browser workspace.' },
+      { title: 'Read Message', desc: 'Switch between HTML and Plain Text views.' },
+      { title: 'Extract Files', desc: 'Download attachments or export to archival PDF.' }
+    ],
+    technicalDetails: 'Splits RFC 822 headers and body, recurses through multipart/mixed and multipart/alternative boundaries, and decodes encoded words via UTF-8 byte streams.',
+    faqs: [
+      {
+        question: 'How do I open an .eml file without an email client?',
+        answer: 'Drop your .eml file into AnyFileX to immediately read the email and download attachments directly in your browser.'
+      }
+    ],
+    relatedToolSlugs: ['email-viewer', 'eml-to-pdf', 'msg-to-eml', 'winmail-extractor'],
+    relatedExtensionSlugs: ['eml', 'msg', 'mbox'],
+    comparisonSlugs: ['eml-vs-msg'],
+    howToOpenSlugs: ['eml']
+  },
+
+  'winmail-extractor': {
+    slug: 'winmail-extractor',
+    name: 'Winmail.dat (TNEF) Attachment Extractor',
+    category: 'email',
+    categoryLabel: 'Email & Communication',
+    tagline: 'Extract hidden files, PDFs, and documents trapped in Microsoft Outlook winmail.dat attachments',
+    description: 'Free online winmail.dat extractor. Decode Microsoft Transport Neutral Encapsulation Format (TNEF) attachments and rescue your PDF, Word, Excel, and image files in browser RAM.',
+    processingType: 'local',
+    supportedInputFormats: ['dat', 'tnef'],
+    supportedOutputFormats: ['zip'],
+    isPopular: true,
+    badge: 'TNEF Extractor',
+    features: [
+      'In-browser TNEF signature (0x223E9F78) binary decoding',
+      'Recovers original documents, spreadsheets, and photos hidden in winmail.dat',
+      'Extracts Outlook rich-text message notes and contact cards',
+      'Batch download all extracted files as a clean ZIP archive',
+      'Zero cloud uploads — 100% private in-browser file recovery'
+    ],
+    steps: [
+      { title: 'Upload winmail.dat', desc: 'Drag and drop your winmail.dat attachment into the extractor.' },
+      { title: 'Inspect Trapped Files', desc: 'AnyFileX extracts the encapsulated files from the binary container.' },
+      { title: 'Download Documents', desc: 'Save individual files or download everything as a ZIP archive.' }
+    ],
+    technicalDetails: 'Parses binary TNEF attribute streams (attAttachData, attAttachTitle, attBody, attSubject) and reassembles original uncompressed byte arrays.',
+    faqs: [
+      {
+        question: 'Why did I receive a winmail.dat file?',
+        answer: 'When a Microsoft Outlook user sends rich-text emails to non-Outlook users (like Gmail or Apple Mail), Outlook bundles formatting and attachments into a winmail.dat container.'
+      },
+      {
+        question: 'Is it safe to open winmail.dat in AnyFileX?',
+        answer: 'Yes! The file is decoded entirely in local browser memory without uploading to third-party servers.'
+      }
+    ],
+    relatedToolSlugs: ['email-viewer', 'eml-viewer', 'msg-to-eml'],
+    relatedExtensionSlugs: ['tnef', 'msg', 'eml'],
+    howToOpenSlugs: ['dat', 'msg']
+  },
+
+  'msg-to-eml': {
+    slug: 'msg-to-eml',
+    name: 'Outlook MSG to EML Converter',
+    category: 'email',
+    categoryLabel: 'Email & Communication',
+    tagline: 'Convert proprietary Microsoft Outlook .msg files to open RFC 822 .eml format in browser RAM',
+    description: 'Convert Outlook .msg compound binary files into universal RFC 822 .eml format. Preserves full message text, sender details, timestamp headers, and embedded attachments.',
+    processingType: 'local',
+    supportedInputFormats: ['msg'],
+    supportedOutputFormats: ['eml'],
+    isPopular: true,
+    badge: 'Format Transcoder',
+    features: [
+      'Extracts Outlook MAPI properties and converts to standard RFC 822 headers',
+      'Preserves full HTML formatting and plain-text fallbacks',
+      'Encodes all attachments into standardized base64 MIME boundary parts',
+      'Generates clean, compliant .eml files importable into Apple Mail or Thunderbird'
+    ],
+    steps: [
+      { title: 'Upload .MSG File', desc: 'Select your Microsoft Outlook .msg message.' },
+      { title: 'In-Memory Conversion', desc: 'The engine parses MAPI streams and compiles an RFC 822 structure.' },
+      { title: 'Download .EML', desc: 'Save your standardized .eml file with all attachments preserved.' }
+    ],
+    technicalDetails: 'Reads OLE2/CFBF directory structures, resolves UTF-16LE text properties, and re-encodes multi-part MIME boundaries.',
+    faqs: [
+      {
+        question: 'Why convert MSG to EML?',
+        answer: 'MSG is proprietary to Microsoft Outlook. EML is an open standard readable on all platforms including macOS, iOS, Android, and Linux.'
+      }
+    ],
+    relatedToolSlugs: ['email-viewer', 'eml-to-pdf', 'winmail-extractor'],
+    relatedExtensionSlugs: ['msg', 'eml'],
+    comparisonSlugs: ['eml-vs-msg'],
+    howToOpenSlugs: ['msg', 'eml']
+  },
+
+  'eml-to-pdf': {
+    slug: 'eml-to-pdf',
+    name: 'EML to PDF Email Archiver & Converter',
+    category: 'email',
+    categoryLabel: 'Email & Communication',
+    tagline: 'Transform RFC 822 email files into official, printable PDF archival records',
+    description: 'Convert .eml and .msg email files into standardized PDF documents. Includes metadata cards, formatted message text, attachment manifests, and optional forensic RFC 822 headers.',
+    processingType: 'local',
+    supportedInputFormats: ['eml', 'msg'],
+    supportedOutputFormats: ['pdf'],
+    isPopular: true,
+    badge: 'Legal Archive',
+    features: [
+      'Generates publication-ready PDF documents with elegant header summaries',
+      'Preserves evidentiary email timestamps, senders, and recipient records',
+      'Optional forensic appendix with raw RFC 822 transport headers',
+      'Live in-browser PDF preview and instant local download'
+    ],
+    steps: [
+      { title: 'Upload Email', desc: 'Drop your .eml or .msg file into the archiver.' },
+      { title: 'Configure Options', desc: 'Select whether to include raw RFC 822 headers in the PDF appendix.' },
+      { title: 'Download PDF', desc: 'Save your formatted, audit-ready PDF document.' }
+    ],
+    technicalDetails: 'Parses email structures and renders vector PDF pages using jsPDF with dynamic line wrapping, page splitting, and header cards.',
+    faqs: [
+      {
+        question: 'Can converted PDF emails be used for legal or audit purposes?',
+        answer: 'Yes! The generated PDF preserves exact timestamp headers, sender details, and an attachment manifest.'
+      }
+    ],
+    relatedToolSlugs: ['email-viewer', 'msg-to-eml', 'winmail-extractor'],
+    relatedExtensionSlugs: ['eml', 'pdf', 'msg'],
+    comparisonSlugs: ['eml-vs-msg'],
+    howToOpenSlugs: ['eml', 'pdf']
+  },
+
+  'mbox-viewer': {
+    slug: 'mbox-viewer',
+    name: 'MBOX Mailbox Archive Inspector',
+    category: 'email',
+    categoryLabel: 'Email & Communication',
+    tagline: 'Inspect large Unix MBOX archives from Google Takeout, Thunderbird, or Apple Mail',
+    description: 'Free in-browser MBOX mailbox inspector. Browse individual messages inside large mailbox archives, search senders, read formatted emails, and extract attachments.',
+    processingType: 'local',
+    supportedInputFormats: ['mbox'],
+    supportedOutputFormats: ['eml', 'pdf'],
+    isPopular: false,
+    badge: 'Mailbox Explorer',
+    features: [
+      'Scans MBOX "From " delimiters to index all messages in archive',
+      'Interactive email list with sender, date, subject, and size columns',
+      'Inspect individual messages with full HTML rendering and attachment extraction',
+      '100% In-browser RAM processing with zero server uploads'
+    ],
+    steps: [
+      { title: 'Drop MBOX Archive', desc: 'Upload your .mbox mailbox file from Google Takeout or Thunderbird.' },
+      { title: 'Browse Messages', desc: 'Search and click through the indexed messages.' },
+      { title: 'Export Email', desc: 'Save individual messages as standard .eml or export to PDF.' }
+    ],
+    technicalDetails: 'Parses Unix mboxo/mboxrd format delimiters, extracts individual RFC 822 byte streams, and renders message components.',
+    faqs: [
+      {
+        question: 'What is an MBOX file?',
+        answer: 'MBOX is a standard plain-text file format used by Thunderbird, Apple Mail, and Google Takeout that stores an entire collection of email messages in a single continuous file.'
+      }
+    ],
+    relatedToolSlugs: ['email-viewer', 'eml-viewer', 'eml-to-pdf'],
+    relatedExtensionSlugs: ['mbox', 'eml', 'msg'],
+    howToOpenSlugs: ['mbox', 'eml']
   }
 };
 
 export const TOOL_CATEGORIES: { id: ToolCategory; label: string; description: string }[] = [
+  { id: 'email', label: 'Email & Communication', description: 'Inspect RFC 822 EML files, Outlook MSG items, extract winmail.dat packages, and archive emails to PDF.' },
+  { id: 'cad', label: '3D & CAD Tools', description: 'Interactive 3D STL viewers, 3MF package inspectors, mesh diagnostics, and repair tools.' },
   { id: 'image', label: 'Image Tools', description: 'Compress, resize, convert, and inspect image formats locally in browser RAM.' },
   { id: 'document', label: 'Document Tools', description: 'Convert PDF pages, Word DOCX, and PowerPoint PPTX documents securely.' },
   { id: 'archive', label: 'Archive Tools', description: 'Create ZIP archives, inspect archive contents, and extract files with path traversal security.' },

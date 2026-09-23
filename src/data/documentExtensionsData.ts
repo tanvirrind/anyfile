@@ -861,5 +861,24 @@ export const DOCUMENT_EXTENSIONS_DATA: ExtensionSchema[] = [
     related_converters: ['log-to-txt'],
     security: { dangerRating: 'Low Risk', canContainMalware: false, tips: ['Inspect .LOG files to troubleshoot software application crashes'] },
     keywords: ['log file', 'open log file', 'system event log']
+  },
+  {
+    slug: 'msg',
+    extension: 'MSG',
+    title: '.MSG File Extension - Outlook Email Message File',
+    description: 'MSG is a file format used by Microsoft Outlook and Exchange to store an individual email message, appointment, contact, or task item, including full MAPI headers, body text, and attachments.',
+    category: 'Documents',
+    mime: 'application/vnd.ms-outlook',
+    developer: 'Microsoft Corporation',
+    software: ['Microsoft Outlook', 'Mozilla Thunderbird (with ImportExportTools)', 'AnyFileX EML/MSG Viewer', 'Kryptel', 'MsgViewer'],
+    related_extensions: ['EML', 'OFT', 'PST', 'OST', 'VCF'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: ['eml-to-pdf', 'msg-to-eml', 'msg-to-pdf'],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: ['May contain malicious executable email attachments or phishing links; inspect before opening embedded files']
+    },
+    keywords: ['msg file', 'open msg file', 'outlook msg viewer', 'convert msg to pdf', 'msg to eml']
   }
 ];

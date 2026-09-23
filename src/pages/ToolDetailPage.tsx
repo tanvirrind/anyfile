@@ -23,6 +23,13 @@ import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
 import { ImageCompressorWorkspace } from '../components/tools/ImageCompressorWorkspace';
 import { ImageResizerWorkspace } from '../components/tools/ImageResizerWorkspace';
+import { StlViewerWorkspace } from '../components/tools/StlViewerWorkspace';
+import { ThreeMfViewerWorkspace } from '../components/tools/ThreeMfViewerWorkspace';
+import { StlRepairWorkspace } from '../components/tools/StlRepairWorkspace';
+import { EmailViewerWorkspace } from '../components/email/EmailViewerWorkspace';
+import { EmlToPdfWorkspace } from '../components/email/EmlToPdfWorkspace';
+import { WinmailExtractorWorkspace } from '../components/email/WinmailExtractorWorkspace';
+import { MsgToEmlWorkspace } from '../components/email/MsgToEmlWorkspace';
 import { ConverterUploadBox } from '../components/converter/ConverterUploadBox';
 import { getFormatKnowledgeNode } from '../lib/database/knowledgeGraph';
 
@@ -133,6 +140,20 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
           <ImageCompressorWorkspace />
         ) : toolSlug === 'image-resizer' ? (
           <ImageResizerWorkspace />
+        ) : toolSlug === 'stl-viewer' ? (
+          <StlViewerWorkspace onNavigate={onNavigate} />
+        ) : toolSlug === '3mf-viewer' ? (
+          <ThreeMfViewerWorkspace onNavigate={onNavigate} />
+        ) : toolSlug === 'stl-repair' ? (
+          <StlRepairWorkspace onNavigate={onNavigate} />
+        ) : toolSlug === 'email-viewer' || toolSlug === 'eml-viewer' || toolSlug === 'mbox-viewer' ? (
+          <EmailViewerWorkspace onNavigate={onNavigate} />
+        ) : toolSlug === 'winmail-extractor' ? (
+          <WinmailExtractorWorkspace onNavigate={onNavigate} />
+        ) : toolSlug === 'msg-to-eml' ? (
+          <MsgToEmlWorkspace onNavigate={onNavigate} />
+        ) : toolSlug === 'eml-to-pdf' ? (
+          <EmlToPdfWorkspace onNavigate={onNavigate} />
         ) : converterPair ? (
           <div className="space-y-6">
             <ConverterUploadBox pair={converterPair} />
