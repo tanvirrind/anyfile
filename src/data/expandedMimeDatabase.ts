@@ -950,6 +950,70 @@ export function analyzeMagicBytes(
   else if (hexSig.startsWith('49 44 33')) {
     detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'mp3');
   }
+  // Check RAR Archive ("Rar!\x1A\x07")
+  else if (hexSig.startsWith('52 61 72 21')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'rar');
+  }
+  // Check 7-Zip Archive ("7z\xBC\xAF\x27\x1C")
+  else if (hexSig.startsWith('37 7A BC AF 27 1C')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === '7z');
+  }
+  // Check GZIP Archive (\x1F\x8B\x08)
+  else if (hexSig.startsWith('1F 8B 08')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'gz');
+  }
+  // Check WebP Image (RIFF....WEBP)
+  else if (hexSig.startsWith('52 49 46 46') && asciiStr.includes('WEBP')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'webp');
+  }
+  // Check WAV Audio (RIFF....WAVE)
+  else if (hexSig.startsWith('52 49 46 46') && asciiStr.includes('WAVE')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'wav');
+  }
+  // Check AVI Video (RIFF....AVI )
+  else if (hexSig.startsWith('52 49 46 46') && (asciiStr.includes('AVI ') || asciiStr.includes('AVI'))) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'avi');
+  }
+  // Check OGG Vorbis / Opus (OggS)
+  else if (hexSig.startsWith('4F 67 67 53')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'ogg');
+  }
+  // Check FLAC Audio (fLaC)
+  else if (hexSig.startsWith('66 4C 61 43')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'flac');
+  }
+  // Check TIFF Image (Little-endian "II*\0" or Big-endian "MM\0*")
+  else if (hexSig.startsWith('49 49 2A 00') || hexSig.startsWith('4D 4D 00 2A')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'tiff');
+  }
+  // Check BMP Bitmap ("BM")
+  else if (hexSig.startsWith('42 4D')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'bmp');
+  }
+  // Check WebAssembly Binary Module ("\0asm")
+  else if (hexSig.startsWith('00 61 73 6D')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'wasm');
+  }
+  // Check Java Bytecode / Mach-O Fat Binary ("\xCA\xFE\xBA\xBE")
+  else if (hexSig.startsWith('CA FE BA BE')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'class');
+  }
+  // Check Shell Script ("#!" Shebang)
+  else if (hexSig.startsWith('23 21')) {
+    detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'sh');
+  }
+  // Check Microsoft OLE Compound Document / Outlook MSG (\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1)
+  else if (hexSig.startsWith('D0 CF 11 E0 A1 B1 1A E1')) {
+    if (expectedExt === 'msg') {
+      detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'msg');
+    } else if (expectedExt === 'xls') {
+      detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'xls');
+    } else if (expectedExt === 'ppt') {
+      detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'ppt');
+    } else {
+      detectedRec = EXPANDED_MIME_DATABASE.find((m) => m.extension === 'doc');
+    }
+  }
   // Fallback lookup by expected extension
   else {
     detectedRec = lookupMimeByInput(expectedExt);
@@ -969,6 +1033,14 @@ export function analyzeMagicBytes(
     severity = 'critical';
     isSpoofed = true;
     message = `🚨 SECURITY SPOOFING ALERT: File extension is ".${expectedExt}", but magic bytes (.ELF) indicate a Linux Binary Executable!`;
+  } else if (hexSig.startsWith('23 21') && !['sh', 'bash', 'zsh', 'py', 'pl', 'rb', 'php', 'js', 'ts'].includes(expectedExt)) {
+    severity = 'critical';
+    isSpoofed = true;
+    message = `🚨 SCRIPT SPOOFING ALERT: File extension is ".${expectedExt}", but magic bytes start with "#!" (Executable Shell/Script Shebang). Disguised script detected!`;
+  } else if (hexSig.startsWith('CA FE BA BE') && expectedExt !== 'class' && expectedExt !== 'dylib') {
+    severity = 'critical';
+    isSpoofed = true;
+    message = `🚨 EXECUTABLE SPOOFING ALERT: File extension is ".${expectedExt}", but magic bytes indicate compiled Java Bytecode or Mach-O binary!`;
   } else if (detectedRec && detectedRec.extension !== expectedExt && expectedExt) {
     // Check if both are zip-based containers (e.g. docx vs zip)
     const isZipFamily = ['zip', 'docx', 'xlsx', 'pptx', 'epub', 'apk', 'jar', '7z', 'kmz'].includes(expectedExt) && detectedRec.extension === 'zip';

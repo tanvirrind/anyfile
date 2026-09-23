@@ -268,7 +268,7 @@ export const ChecksumVerifierPage: React.FC<ChecksumVerifierPageProps> = ({ onNa
                 rows={3}
                 value={expectedChecksum}
                 onChange={(e) => handleChecksumInputChange(e.target.value)}
-                placeholder="Paste the official SHA-256, MD5, SHA-1, or SHA-512 hash published by vendor..."
+                placeholder="Paste the official SHA-256, SHA-512, SHA-384, MD5, SHA-1, or CRC-32 checksum published by vendor..."
                 className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 font-mono text-xs text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-indigo-500 resize-none"
               />
 
@@ -373,7 +373,7 @@ export const ChecksumVerifierPage: React.FC<ChecksumVerifierPageProps> = ({ onNa
                       File Verification Failed!
                     </h3>
                     <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                      The checksum calculated for <strong>{fileHashes.fileName}</strong> does NOT match your expected publisher signature across MD5, SHA-1, SHA-256, or SHA-512. The file may be incomplete, corrupted during download, or modified.
+                      The checksum calculated for <strong>{fileHashes.fileName}</strong> does NOT match your expected publisher signature across CRC-32, MD5, SHA-1, SHA-256, SHA-384, or SHA-512. The file may be incomplete, corrupted during download, or modified.
                     </p>
                   </div>
                 </div>

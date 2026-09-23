@@ -93,12 +93,16 @@ export const HashGeneratorPage: React.FC<HashGeneratorPageProps> = ({ onNavigate
 
   const handleCopyAllHashes = () => {
     if (!fileHashes) return;
-    const text = `File: ${fileHashes.fileName}\nSize: ${fileHashes.formattedSize}\nMD5: ${
+    const text = `File: ${fileHashes.fileName}\nSize: ${fileHashes.formattedSize}\nCRC-32: ${
+      useUppercase ? fileHashes.crc32.toUpperCase() : fileHashes.crc32
+    }\nMD5: ${
       useUppercase ? fileHashes.md5.toUpperCase() : fileHashes.md5
     }\nSHA-1: ${
       useUppercase ? fileHashes.sha1.toUpperCase() : fileHashes.sha1
     }\nSHA-256: ${
       useUppercase ? fileHashes.sha256.toUpperCase() : fileHashes.sha256
+    }\nSHA-384: ${
+      useUppercase ? fileHashes.sha384.toUpperCase() : fileHashes.sha384
     }\nSHA-512: ${
       useUppercase ? fileHashes.sha512.toUpperCase() : fileHashes.sha512
     }`;
@@ -118,9 +122,11 @@ Calculated At:  ${fileHashes.calculatedAt}
 
 Cryptographic Hashes:
 --------------------------------------------------
+CRC-32:  ${useUppercase ? fileHashes.crc32.toUpperCase() : fileHashes.crc32}
 MD5:     ${useUppercase ? fileHashes.md5.toUpperCase() : fileHashes.md5}
 SHA-1:   ${useUppercase ? fileHashes.sha1.toUpperCase() : fileHashes.sha1}
 SHA-256: ${useUppercase ? fileHashes.sha256.toUpperCase() : fileHashes.sha256}
+SHA-384: ${useUppercase ? fileHashes.sha384.toUpperCase() : fileHashes.sha384}
 SHA-512: ${useUppercase ? fileHashes.sha512.toUpperCase() : fileHashes.sha512}
 
 Security Notice:
@@ -453,8 +459,10 @@ Zero file payload transmitted to external servers.
             {[
               { algo: 'SHA-256', val: fileHashes.sha256, recommended: true, bits: '256-bit', desc: 'Modern NIST cryptographic standard recommended for software verification.' },
               { algo: 'SHA-512', val: fileHashes.sha512, recommended: false, bits: '512-bit', desc: 'High-security 512-bit cryptographic hash for ultra-critical integrity.' },
+              { algo: 'SHA-384', val: fileHashes.sha384, recommended: false, bits: '384-bit', desc: 'NIST NSA Suite B cryptographic standard with intermediate 384-bit security.' },
               { algo: 'SHA-1', val: fileHashes.sha1, recommended: false, bits: '160-bit', desc: 'Legacy 160-bit hash algorithm (used in Git commits and legacy checksums).' },
               { algo: 'MD5', val: fileHashes.md5, recommended: false, bits: '128-bit', desc: 'Fast legacy 128-bit checksum algorithm for basic download checking.' },
+              { algo: 'CRC-32', val: fileHashes.crc32, recommended: false, bits: '32-bit', desc: 'IEEE 802.3 cyclical redundancy check used in archives (ZIP/GZ) and SFV verification.' },
             ].map(({ algo, val, recommended, bits, desc }) => {
               const displayVal = useUppercase ? val.toUpperCase() : val.toLowerCase();
               const isComparedMatch = comparisonResult?.isMatch && comparisonResult.matchedAlgorithm === algo;

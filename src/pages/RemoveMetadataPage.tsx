@@ -41,31 +41,65 @@ export const RemoveMetadataPage: React.FC<RemoveMetadataPageProps> = ({ onNaviga
   } | null>(null);
 
   const [cleaningState, setCleaningState] = useState<'idle' | 'cleaning' | 'done'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleCleanFile = async (file: File) => {
     setCleaningState('cleaning');
+    setErrorMessage(null);
 
-    setTimeout(() => {
-      // Create a clean canvas/blob stripped of EXIF headers
-      const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-      const cleanName = file.name.replace(`.${ext}`, `_clean.${ext}`);
+    const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+    const cleanExt = ['jpg', 'jpeg', 'png', 'webp', 'bmp'].includes(ext) ? ext : 'jpg';
+    const cleanName = file.name.replace(new RegExp(`\\.${ext}$`, 'i'), `_clean.${cleanExt}`);
 
-      // Create synthetic clean blob
-      const blob = new Blob([new Uint8Array(Math.max(1024, file.size - 2048))], { type: file.type || 'image/jpeg' });
-      const url = URL.createObjectURL(blob);
+    try {
+      // Use browser HTML5 Canvas to re-encode image pixels, stripping all EXIF, GPS, and XMP headers
+      const objectUrl = URL.createObjectURL(file);
+      const img = new Image();
+
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error('Unable to decode image. Please ensure this is a valid image file.'));
+        img.src = objectUrl;
+      });
+
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth || img.width;
+      canvas.height = img.naturalHeight || img.height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas 2D context is unavailable.');
+
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(objectUrl);
+
+      const mime = cleanExt === 'png' ? 'image/png' : cleanExt === 'webp' ? 'image/webp' : 'image/jpeg';
+      const cleanBlob: Blob | null = await new Promise((resolve) => {
+        canvas.toBlob(resolve, mime, 0.95);
+      });
+
+      if (!cleanBlob) throw new Error('Failed to generate sanitized image file.');
+
+      const url = URL.createObjectURL(cleanBlob);
+      const strippedBytes = Math.max(0, file.size - cleanBlob.size);
+      const strippedLabel = strippedBytes > 0
+        ? `${(strippedBytes / 1024).toFixed(2)} KB (EXIF / GPS / Camera metadata scrubbed)`
+        : 'EXIF / GPS / Device metadata headers removed';
 
       setCleanedFile({
         originalName: file.name,
         cleanedName: cleanName,
-        originalSize: (file.size / 1024).toFixed(1) + ' KB',
-        cleanedSize: ((file.size - 1024) / 1024).toFixed(1) + ' KB',
-        bytesStripped: '1.02 KB (EXIF / GPS / Author metadata removed)',
+        originalSize: `${(file.size / 1024).toFixed(1)} KB`,
+        cleanedSize: `${(cleanBlob.size / 1024).toFixed(1)} KB`,
+        bytesStripped: strippedLabel,
         blobUrl: url
       });
 
       setCleaningState('done');
-    }, 800);
+    } catch (err: any) {
+      console.error('Metadata scrub error:', err);
+      setErrorMessage(err.message || 'An error occurred while stripping metadata.');
+      setCleaningState('idle');
+    }
   };
 
   const softwareRecommendations = [
@@ -190,6 +224,13 @@ export const RemoveMetadataPage: React.FC<RemoveMetadataPageProps> = ({ onNaviga
             Select a photo or document to remove EXIF, GPS, and author headers locally in browser RAM.
           </p>
         </div>
+
+        {errorMessage && (
+          <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 flex items-center gap-3 text-rose-800 dark:text-rose-200 text-xs sm:text-sm">
+            <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0" />
+            <p>{errorMessage}</p>
+          </div>
+        )}
 
         {cleaningState === 'idle' && (
           <div className="border-2 border-dashed border-slate-300 dark:border-slate-800 rounded-3xl p-8 text-center space-y-4 bg-slate-50/50 dark:bg-slate-800/30">

@@ -31,6 +31,10 @@ import { EmlToPdfWorkspace } from '../components/email/EmlToPdfWorkspace';
 import { WinmailExtractorWorkspace } from '../components/email/WinmailExtractorWorkspace';
 import { MsgToEmlWorkspace } from '../components/email/MsgToEmlWorkspace';
 import { ConverterUploadBox } from '../components/converter/ConverterUploadBox';
+import { ZipCreatorWorkspace } from '../components/converter/ZipCreatorWorkspace';
+import { ZipExtractorWorkspace } from '../components/converter/ZipExtractorWorkspace';
+import { RarExtractorWorkspace } from '../components/converter/RarExtractorWorkspace';
+import { ThreeMfToStlWorkspace } from '../components/converter/ThreeMfToStlWorkspace';
 import { getFormatKnowledgeNode } from '../lib/database/knowledgeGraph';
 
 interface ToolDetailPageProps {
@@ -146,6 +150,14 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
           <ThreeMfViewerWorkspace onNavigate={onNavigate} />
         ) : toolSlug === 'stl-repair' ? (
           <StlRepairWorkspace onNavigate={onNavigate} />
+        ) : toolSlug === 'zip-creator' ? (
+          <ZipCreatorWorkspace />
+        ) : toolSlug === 'zip-extractor' ? (
+          <ZipExtractorWorkspace />
+        ) : toolSlug === 'rar-extractor' ? (
+          <RarExtractorWorkspace />
+        ) : toolSlug === '3mf-to-stl' ? (
+          <ThreeMfToStlWorkspace onNavigate={onNavigate} />
         ) : toolSlug === 'email-viewer' || toolSlug === 'eml-viewer' || toolSlug === 'mbox-viewer' ? (
           <EmailViewerWorkspace onNavigate={onNavigate} />
         ) : toolSlug === 'winmail-extractor' ? (
@@ -154,6 +166,139 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
           <MsgToEmlWorkspace onNavigate={onNavigate} />
         ) : toolSlug === 'eml-to-pdf' ? (
           <EmlToPdfWorkspace onNavigate={onNavigate} />
+        ) : toolSlug === 'file-identifier' || toolSlug === 'file-analyzer' ? (
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
+            <Cpu className="w-12 h-12 text-blue-600 mx-auto" />
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                File Analyzer & Magic Byte Identifier
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-lg mx-auto">
+                Inspect binary headers, verify MIME types, detect malware disguises, and examine entropy locally in browser RAM.
+              </p>
+            </div>
+            <button
+              onClick={() => onNavigate({ view: 'file-identifier' })}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
+            >
+              <span>Launch Full File Analyzer</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        ) : toolSlug === 'metadata-viewer' ? (
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
+            <FileCode className="w-12 h-12 text-emerald-600 mx-auto" />
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                Metadata Viewer & EXIF Inspector
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-lg mx-auto">
+                Read camera tags, GPS coordinates, author history, and embedded color profiles without uploading files.
+              </p>
+            </div>
+            <button
+              onClick={() => onNavigate({ view: 'metadata-viewer' })}
+              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
+            >
+              <span>Open Metadata Viewer</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        ) : toolSlug === 'remove-metadata' ? (
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
+            <ShieldCheck className="w-12 h-12 text-emerald-600 mx-auto" />
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                Privacy Metadata Stripper
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-lg mx-auto">
+                Strip GPS coordinates, device serial numbers, and author tags from images and documents locally in browser RAM.
+              </p>
+            </div>
+            <button
+              onClick={() => onNavigate({ view: 'remove-metadata' })}
+              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
+            >
+              <span>Launch Metadata Scrubber</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        ) : toolSlug === 'hash-generator' ? (
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
+            <Cpu className="w-12 h-12 text-indigo-600 mx-auto" />
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                Cryptographic Hash Generator
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-lg mx-auto">
+                Generate SHA-256, SHA-512, SHA-384, SHA-1, MD5, and CRC-32 checksums locally with the Web Crypto API.
+              </p>
+            </div>
+            <button
+              onClick={() => onNavigate({ view: 'hash-generator' })}
+              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
+            >
+              <span>Launch Hash Generator</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        ) : toolSlug === 'checksum-verifier' ? (
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
+            <ShieldCheck className="w-12 h-12 text-emerald-600 mx-auto" />
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                Download Checksum Verifier
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-lg mx-auto">
+                Compare ISO and software installer checksums against publisher signatures to detect file tampering and corruption.
+              </p>
+            </div>
+            <button
+              onClick={() => onNavigate({ view: 'checksum-verifier' })}
+              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
+            >
+              <span>Launch Checksum Verifier</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        ) : toolSlug === 'magic-byte-detector' ? (
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
+            <FileCode className="w-12 h-12 text-blue-600 mx-auto" />
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                Magic Byte Binary Signature Detector
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-lg mx-auto">
+                Detect file spoofing and inspect raw binary hex headers to uncover disguised executables and scripts.
+              </p>
+            </div>
+            <button
+              onClick={() => onNavigate({ view: 'magic-byte-detector' })}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
+            >
+              <span>Launch Magic Byte Detector</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        ) : toolSlug === 'mime-checker' ? (
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
+            <Layers className="w-12 h-12 text-indigo-600 mx-auto" />
+            <div className="space-y-1">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                MIME Type & Extension Lookup Engine
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-lg mx-auto">
+                Query standard IANA Content-Types, HTTP headers, and MIME mappings for over 500+ file extensions.
+              </p>
+            </div>
+            <button
+              onClick={() => onNavigate({ view: 'mime-checker' })}
+              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
+            >
+              <span>Launch MIME Checker</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         ) : converterPair ? (
           <div className="space-y-6">
             <ConverterUploadBox pair={converterPair} />

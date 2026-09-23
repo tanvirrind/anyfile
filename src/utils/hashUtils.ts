@@ -1,18 +1,44 @@
-// Pure JavaScript MD5 Implementation (RFC 1321) & Web Crypto API for SHA-1, SHA-256, SHA-512
+// Pure JavaScript MD5 Implementation (RFC 1321), IEEE 802.3 CRC-32 & Web Crypto API for SHA-1, SHA-256, SHA-384, SHA-512
 
 export interface FileHashResult {
   fileName: string;
   fileSize: number;
   formattedSize: string;
   mimeType: string;
+  crc32: string;
   md5: string;
   sha1: string;
   sha256: string;
+  sha384: string;
   sha512: string;
   calculatedAt: string;
 }
 
-export type HashAlgorithm = 'MD5' | 'SHA-1' | 'SHA-256' | 'SHA-512';
+export type HashAlgorithm = 'CRC-32' | 'MD5' | 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
+
+// Precomputed CRC-32 table (IEEE 802.3 standard polynomial 0xEDB88320)
+function makeCrcTable(): Uint32Array {
+  const table = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let c = i;
+    for (let k = 0; k < 8; k++) {
+      c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+    }
+    table[i] = c;
+  }
+  return table;
+}
+
+const crcTable = makeCrcTable();
+
+export function crc32Uint8Array(bytes: Uint8Array): string {
+  let crc = 0 ^ (-1);
+  for (let i = 0; i < bytes.length; i++) {
+    crc = (crc >>> 8) ^ crcTable[(crc ^ bytes[i]) & 0xff];
+  }
+  const result = (crc ^ (-1)) >>> 0;
+  return result.toString(16).padStart(8, '0');
+}
 
 // Standard MD5 implementation for Uint8Array
 function md5Uint8Array(bytes: Uint8Array): string {
@@ -199,19 +225,26 @@ export async function calculateFileHashes(
 ): Promise<FileHashResult> {
   onProgress?.(10);
   const buffer = await file.arrayBuffer();
-  onProgress?.(40);
+  onProgress?.(30);
 
   const bytes = new Uint8Array(buffer);
+
+  // CRC-32
+  const crc32Hex = crc32Uint8Array(bytes);
+  onProgress?.(45);
 
   // MD5
   const md5Hex = md5Uint8Array(bytes);
   onProgress?.(60);
 
-  // Web Crypto API for SHA-1, SHA-256, SHA-512
+  // Web Crypto API for SHA-1, SHA-256, SHA-384, SHA-512
   const sha1Buf = await crypto.subtle.digest('SHA-1', buffer);
-  onProgress?.(75);
+  onProgress?.(70);
 
   const sha256Buf = await crypto.subtle.digest('SHA-256', buffer);
+  onProgress?.(80);
+
+  const sha384Buf = await crypto.subtle.digest('SHA-384', buffer);
   onProgress?.(90);
 
   const sha512Buf = await crypto.subtle.digest('SHA-512', buffer);
@@ -222,9 +255,11 @@ export async function calculateFileHashes(
     fileSize: file.size,
     formattedSize: formatFileSize(file.size),
     mimeType: file.type || 'application/octet-stream',
+    crc32: crc32Hex,
     md5: md5Hex,
     sha1: bufferToHex(sha1Buf),
     sha256: bufferToHex(sha256Buf),
+    sha384: bufferToHex(sha384Buf),
     sha512: bufferToHex(sha512Buf),
     calculatedAt: new Date().toISOString()
   };
@@ -236,7 +271,7 @@ export function sanitizeHashString(input: string): string {
 
 export function compareChecksums(
   inputChecksum: string,
-  hashes: { md5: string; sha1: string; sha256: string; sha512: string }
+  hashes: { crc32?: string; md5: string; sha1: string; sha256: string; sha384?: string; sha512: string }
 ): {
   isMatch: boolean;
   matchedAlgorithm?: HashAlgorithm;
@@ -249,11 +284,16 @@ export function compareChecksums(
   }
 
   let detectedType: HashAlgorithm | undefined;
-  if (clean.length === 32) detectedType = 'MD5';
+  if (clean.length === 8) detectedType = 'CRC-32';
+  else if (clean.length === 32) detectedType = 'MD5';
   else if (clean.length === 40) detectedType = 'SHA-1';
   else if (clean.length === 64) detectedType = 'SHA-256';
+  else if (clean.length === 96) detectedType = 'SHA-384';
   else if (clean.length === 128) detectedType = 'SHA-512';
 
+  if (hashes.crc32 && clean === hashes.crc32.toLowerCase()) {
+    return { isMatch: true, matchedAlgorithm: 'CRC-32', detectedType, cleanInput: clean };
+  }
   if (clean === hashes.md5.toLowerCase()) {
     return { isMatch: true, matchedAlgorithm: 'MD5', detectedType, cleanInput: clean };
   }
@@ -262,6 +302,9 @@ export function compareChecksums(
   }
   if (clean === hashes.sha256.toLowerCase()) {
     return { isMatch: true, matchedAlgorithm: 'SHA-256', detectedType, cleanInput: clean };
+  }
+  if (hashes.sha384 && clean === hashes.sha384.toLowerCase()) {
+    return { isMatch: true, matchedAlgorithm: 'SHA-384', detectedType, cleanInput: clean };
   }
   if (clean === hashes.sha512.toLowerCase()) {
     return { isMatch: true, matchedAlgorithm: 'SHA-512', detectedType, cleanInput: clean };

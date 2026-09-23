@@ -224,6 +224,16 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       tags: ['Directory Tree', 'Safe Unzip', 'Zip Slip Protection'],
       processingType: 'local'
     },
+    {
+      id: 'rar-extractor',
+      name: 'RAR Archive Inspector & Extractor',
+      category: 'Archives',
+      desc: 'Inspect file trees, verify header signatures, and extract files from RAR archives directly in your browser.',
+      route: { view: 'tool-detail', slug: 'rar-extractor' } as any,
+      icon: FolderArchive,
+      tags: ['RAR Inspector', 'Signature Check', 'Zero Upload'],
+      processingType: 'local'
+    },
 
     // Format Intelligence & Developer Tools
     {
@@ -385,6 +395,18 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       icon: Box,
       tags: ['3D Printing', 'Slicer Ready', 'Binary STL', 'Zero Upload'],
       processingType: 'local'
+    },
+    {
+      id: 'stl-repair',
+      name: '3D STL Mesh Repair & Forensics',
+      category: '3D & CAD',
+      desc: 'Analyze 3D STL meshes for manifold defects, degenerate zero-area facets, unshared edges, and auto-repair inverted triangle normal vectors.',
+      route: { view: 'tool-detail', slug: 'stl-repair' } as any,
+      icon: Box,
+      tags: ['Mesh Forensics', 'Manifold Check', 'Normal Inversion', 'Watertight'],
+      badge: 'Forensics Tool',
+      processingType: 'local',
+      isPopular: true
     }
   ];
 

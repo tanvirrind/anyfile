@@ -48,7 +48,7 @@ export const RarExtractorWorkspace: React.FC = () => {
       const isRar = view[0] === 0x52 && view[1] === 0x61 && view[2] === 0x72 && view[3] === 0x21;
 
       if (!isRar) {
-        alert('Invalid RAR archive signature.');
+        setError('Invalid RAR archive signature. The file header does not match RAR4 or RAR5 magic bytes.');
         setRarFileName(null);
         setIsLoading(false);
         return;

@@ -174,7 +174,10 @@ export const ConverterUploadBox: React.FC<ConverterUploadBoxProps> = ({
       setTimeout(() => URL.revokeObjectURL(result.resultBlobUrl), 5000);
     } catch (err: any) {
       console.error('Error generating single file conversion:', err);
-      alert(`Could not convert single file to .${cleanExt.toUpperCase()}: ${err.message || 'Unknown error'}`);
+      setValidationErrors((prev) => [
+        ...prev,
+        `Could not convert single file to .${cleanExt.toUpperCase()}: ${err.message || 'Unknown error'}`
+      ]);
     } finally {
       setConvertingItemFormats((prev) => {
         const next = { ...prev };
@@ -217,14 +220,17 @@ export const ConverterUploadBox: React.FC<ConverterUploadBoxProps> = ({
 
       // Never ship a silently incomplete archive: report anything that was left out.
       if (zipResult.skipped.length > 0) {
-        alert(
-          `ZIP created, but ${zipResult.skipped.length} file(s) could not be included:\n` +
-            zipResult.skipped.join('\n')
-        );
+        setValidationErrors((prev) => [
+          ...prev,
+          `ZIP created, but ${zipResult.skipped.length} file(s) could not be included: ${zipResult.skipped.join(', ')}`
+        ]);
       }
     } catch (err: any) {
       console.error('ZIP generation error:', err);
-      alert(`Could not create the ZIP archive: ${err?.message || 'Unknown error'}`);
+      setValidationErrors((prev) => [
+        ...prev,
+        `Could not create the ZIP archive: ${err?.message || 'Unknown error'}`
+      ]);
     } finally {
       setTimeout(() => setZipProgress(null), 1000);
     }

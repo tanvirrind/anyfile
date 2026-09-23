@@ -127,7 +127,7 @@ export const ThreeMfViewerWorkspace: React.FC<ThreeMfViewerWorkspaceProps> = ({ 
       a.click();
       URL.revokeObjectURL(result.stlBlobUrl);
     } catch (err: any) {
-      alert(`Export error: ${err.message}`);
+      setErrorMessage(`Export error: ${err.message}`);
     }
   };
 
