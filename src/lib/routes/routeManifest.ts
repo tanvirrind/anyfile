@@ -572,8 +572,10 @@ export function buildRouteManifest(): RouteManifestEntry[] {
     });
   }
 
-  // 10. Tools (excluding user result pages)
+  // 10. Tools (excluding user result pages and legacy redirect-only slugs)
+  const redirectOnlyToolSlugs = new Set(['zip-creator', 'zip-extractor', 'rar-extractor', '3mf-to-stl']);
   for (const [slug, tool] of Object.entries(TOOLS_REGISTRY)) {
+    if (redirectOnlyToolSlugs.has(slug)) continue;
     add({
       path: `/tools/${slug}`,
       canonicalUrl: `${BASE_URL}/tools/${slug}`,

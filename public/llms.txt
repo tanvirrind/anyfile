@@ -23,6 +23,10 @@ All diagnostic operations (hash computation, magic byte extraction, EXIF metadat
 - AI File Assistant: `https://www.anyfilex.com/assistant`
 - About Platform: `https://www.anyfilex.com/about`
 - Contact & Support: `https://www.anyfilex.com/contact`
+- Authors & Review Board: `https://www.anyfilex.com/authors`
+- Tanveer Hussain author profile: `https://www.anyfilex.com/authors/tanveer-hussain`
+- Privacy Policy: `https://www.anyfilex.com/privacy`
+- Terms of Service: `https://www.anyfilex.com/terms`
 
 ### Category Directory Pages
 - Images & Raster Graphics: `https://www.anyfilex.com/category/images`

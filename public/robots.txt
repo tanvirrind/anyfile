@@ -6,6 +6,9 @@ Disallow: /admin/content
 Disallow: /admin-cms
 Disallow: /admin-cms/
 Disallow: /seo-audit
+Disallow: /tools/file-identifier/result/
+Disallow: /tools/metadata-viewer/result/
+Disallow: /workflows
 
 # Sitemap Declarations
 # A single master index is declared: it references every segmented sub-sitemap below,

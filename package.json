@@ -14,6 +14,7 @@
     "legacy:dev": "tsx server.ts",
     "legacy:build": "vite build && tsx scripts/generate-static-sitemaps.ts && tsx scripts/prerender.ts && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
     "legacy:sitemaps": "tsx scripts/generate-static-sitemaps.ts",
+    "generate:site-files": "tsx scripts/generate-static-sitemaps.ts",
     "legacy:prerender": "tsx scripts/prerender.ts",
     "legacy:start": "node dist/server.cjs",
     "clean": "rm -rf dist",
