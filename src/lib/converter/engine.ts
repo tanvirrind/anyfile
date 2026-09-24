@@ -99,7 +99,7 @@ export async function convertFileInBrowser(
 
   try {
     // 1. HEIC / HEIF → JPG / PNG (using heic2any with canvas fallback)
-    if (normFrom === 'heic' || normFrom === 'heif') {
+    if ((normFrom === 'heic' || normFrom === 'heif') && ['jpg', 'jpeg', 'png'].includes(normTo)) {
       checkAborted();
       onProgress?.(25);
 
@@ -589,4 +589,3 @@ export async function convertFileInBrowser(
     throw new Error(err.message || 'Error occurred during in-memory file conversion.');
   }
 }
-

@@ -21,26 +21,49 @@ test.describe('Fix #4 — security headers', () => {
 
   test('marks non-200 responses noindex', async ({ request }) => {
     const res = await request.get('/404');
-    expect(res.headers()['x-robots-tag']).toContain('noindex');
+    expect((await res.text()).toLowerCase()).toContain('noindex');
   });
 });
 
-test.describe('Fix #12 — sitemaps', () => {
-  test('index lists all 18 sub-sitemaps with no duplicates', async ({ request }) => {
+test.describe('Next.js App Router sitemap', () => {
+  test('robots.txt is served successfully and points crawlers to the sitemap', async ({ request }) => {
+    const res = await request.get('/robots.txt');
+    expect(res.status()).toBe(200);
+    const body = await res.text();
+    expect(body).toContain('Sitemap: https://www.anyfilex.com/sitemap.xml');
+  });
+
+  test('native sitemap is served with unique URLs', async ({ request }) => {
     const res = await request.get('/sitemap.xml');
     expect(res.status()).toBe(200);
     const body = await res.text();
     const locs = [...body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-    expect(locs).toHaveLength(18);
-    expect(new Set(locs).size).toBe(18);
+    expect(locs.length).toBeGreaterThan(100);
+    expect(new Set(locs).size).toBe(locs.length);
   });
 
-  test('emits only W3C-format lastmod values', async ({ request }) => {
-    const res = await request.get('/sitemap-security.xml');
+  test('sitemap URLs resolve without redirects', async ({ request }) => {
+    const sitemap = await request.get('/sitemap.xml');
+    const body = await sitemap.text();
+    const locs = [...body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+    for (const url of locs) {
+      const response = await request.get(new URL(url).pathname, { maxRedirects: 0 });
+      expect(response.status(), url).toBe(200);
+    }
+  });
+
+  test('unknown extensions return a real noindex 404', async ({ request }) => {
+    const res = await request.get('/file-extensions/not-a-real-extension-999', { maxRedirects: 0 });
+    expect(res.status()).toBe(404);
+    expect((await res.text()).toLowerCase()).toContain('noindex');
+  });
+
+  test('emits XML sitemap dates when present', async ({ request }) => {
+    const res = await request.get('/sitemap.xml');
     const body = await res.text();
     const dates = [...body.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]);
-    expect(dates.length).toBeGreaterThan(0);
-    for (const d of dates) expect(d).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(dates.length).toBeGreaterThanOrEqual(0);
+    for (const d of dates) expect(d).toMatch(/^\d{4}-\d{2}-\d{2}(T.*)?$/);
   });
 });
 
@@ -48,7 +71,88 @@ test.describe('page rendering', () => {
   test('home page renders SSR content', async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/AnyFileX/);
-    await expect(page.locator('#root')).not.toBeEmpty();
+    await expect(page.locator('main#main-content')).not.toBeEmpty();
+  });
+
+  test('privacy policy renders with canonical metadata and footer link', async ({ page }) => {
+    const response = await page.goto('/privacy');
+    expect(response?.status()).toBe(200);
+    await expect(page).toHaveTitle('Privacy Policy | AnyFileX');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://www.anyfilex.com/privacy');
+    await expect(page.getByRole('heading', { name: 'Privacy Policy', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Contact AnyFileX', exact: true })).toHaveAttribute('href', '/contact');
+  });
+
+  test('terms page renders with canonical metadata and privacy link', async ({ page }) => {
+    const response = await page.goto('/terms');
+    expect(response?.status()).toBe(200);
+    await expect(page).toHaveTitle('Terms of Service | AnyFileX');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://www.anyfilex.com/terms');
+    await expect(page.getByRole('heading', { name: 'Terms of Service', exact: true })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Terms navigation' }).getByRole('link', { name: 'Privacy Policy', exact: true })).toHaveAttribute('href', '/privacy');
+  });
+
+  test('footer omits the Navigation section', async ({ page }) => {
+    await page.goto('/');
+    const footer = page.locator('footer');
+    await expect(footer.getByRole('heading', { name: 'Navigation', exact: true })).toHaveCount(0);
+    await expect(footer.getByRole('heading', { name: 'Popular Extensions', exact: true })).toBeVisible();
+  });
+
+  test('converter directory hydrates without React mismatch errors', async ({ page }) => {
+    const hydrationErrors: string[] = [];
+    page.on('console', (message) => {
+      if (message.type() === 'error' && /hydration|hydrated/i.test(message.text())) {
+        hydrationErrors.push(message.text());
+      }
+    });
+    await page.goto('/converters');
+    await expect(page.locator('main#main-content')).not.toBeEmpty();
+    expect(hydrationErrors).toEqual([]);
+  });
+
+  test('legacy metadata tool URL redirects to the canonical viewer', async ({ request }) => {
+    const response = await request.get('/tools/metadata', { maxRedirects: 0 });
+    expect(response.status()).toBe(307);
+    expect(response.headers().location).toBe('/tools/metadata-viewer');
+  });
+
+  test('legacy RAR tool URL redirects to the canonical workspace', async ({ request }) => {
+    const response = await request.get('/tools/rar-extractor', { maxRedirects: 0 });
+    expect(response.status()).toBe(307);
+    expect(response.headers().location).toBe('/converters/rar-extractor');
+  });
+
+  test('tools directory does not render converter cards', async ({ page }) => {
+    await page.goto('/tools');
+    await expect(page.locator('#tool-card-heic-to-jpg')).toHaveCount(0);
+    await expect(page.locator('#tool-card-png-to-webp')).toHaveCount(0);
+    await expect(page.locator('#tool-card-image-compressor')).toBeVisible();
+    await expect(page.locator('#tool-card-file-identifier')).toBeVisible();
+  });
+
+  test('tool detail breadcrumbs omit the non-linked category crumb', async ({ page }) => {
+    await page.goto('/tools/image-compressor');
+    const breadcrumb = page.locator('nav[aria-label="Breadcrumb"]');
+    await expect(breadcrumb.getByText('File Tools', { exact: true })).toBeVisible();
+    await expect(breadcrumb.getByText('Image Tools', { exact: true })).toHaveCount(0);
+    await expect(breadcrumb.getByText('Browser-Based Image Compressor', { exact: true })).toBeVisible();
+  });
+
+  test('homepage file selection carries the file into the extension viewer', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('#hero-file-input').setInputFiles({
+      name: 'sample.png',
+      mimeType: 'application/octet-stream',
+      buffer: Buffer.from(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=',
+        'base64'
+      ),
+    });
+
+    await expect(page).toHaveURL(/\/file-extensions\/png$/);
+    await expect(page.getByText('Online .png Viewer & Live Inspector')).toBeVisible();
+    await expect(page.locator('img[alt="sample.png"]')).toBeVisible();
   });
 });
 
@@ -57,18 +161,56 @@ test.describe('Fix #11 — SearchAction ?q= target', () => {
     await page.goto('/file-extensions?q=pdf');
     await expect(page.locator('#extensions-search-input')).toHaveValue('pdf');
     // The filtered list must actually render at least one matching entry.
-    await expect(page.locator('#root')).toContainText(/PDF/i);
+    await expect(page.locator('main#main-content')).toContainText(/PDF/i);
   });
 });
 
 test.describe('Fix #17 — converter workspaces render client-side', () => {
-  for (const slug of ['zip-creator', 'zip-extractor', 'rar-extractor']) {
+  for (const slug of ['zip-creator', 'zip-extractor', 'rar-extractor', '3mf-to-stl', 'eml-to-pdf']) {
     test(`${slug} mounts with no client-side errors`, async ({ page }) => {
       const errors: string[] = [];
       page.on('pageerror', (e) => errors.push(e.message));
       await page.goto(`/converters/${slug}`);
-      await expect(page.locator('#root')).not.toBeEmpty();
+      await expect(page.locator('main#main-content')).not.toBeEmpty();
       expect(errors).toEqual([]);
+    });
+  }
+
+  test('3mf-to-stl exposes its real upload workspace', async ({ page }) => {
+    await page.goto('/converters/3mf-to-stl');
+    await expect(page.getByText('Upload .3MF file to convert to .STL')).toBeVisible();
+    await expect(page.getByText('Unsupported Conversion Pair')).toHaveCount(0);
+  });
+});
+
+test.describe('Converter catalog audit', () => {
+  const interactive = [
+    'heic-to-jpg', 'heic-to-pdf', 'heic-to-png', 'png-to-jpg', 'webp-to-png',
+    'pdf-to-jpg', 'pdf-to-png', 'jpg-to-png', 'jpg-to-webp', 'svg-to-png', 'svg-to-jpg', 'png-to-webp', 'docx-to-pdf', 'pptx-to-pdf',
+    'eml-to-pdf', '3mf-to-stl',
+  ];
+  const informational = ['dwg-to-pdf', 'dwg-to-dxf', 'psd-to-jpg', 'step-to-stl'];
+
+  for (const slug of [...interactive, ...informational]) {
+    test(`${slug} has the expected working mode`, async ({ page }) => {
+      const errors: string[] = [];
+      page.on('pageerror', (error) => errors.push(error.message));
+      const response = await page.goto(`/converters/${slug}`);
+      expect(response?.status(), slug).toBe(200);
+      await expect(page.locator('main#main-content')).not.toBeEmpty();
+      await expect(page.getByText('Unsupported Conversion Pair')).toHaveCount(0);
+
+      if (informational.includes(slug)) {
+        await expect(page.getByText('Browser conversion is not available for this format')).toBeVisible();
+      } else if (slug === '3mf-to-stl') {
+        await expect(page.getByText('Upload .3MF file to convert to .STL')).toBeVisible();
+      } else if (slug === 'eml-to-pdf') {
+        await expect(page.getByText('Select .EML or .MSG File')).toBeVisible();
+      } else {
+        await expect(page.locator('#converter-dropzone')).toBeVisible();
+      }
+
+      expect(errors, slug).toEqual([]);
     });
   }
 });

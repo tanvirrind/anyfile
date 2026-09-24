@@ -2,5 +2,5 @@
   "name": "AnyFileX",
   "description": "Open Any File in Seconds with AnyFileX - Convert, repair, identify, and understand any digital file format.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

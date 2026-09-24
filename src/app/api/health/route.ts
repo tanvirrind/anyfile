@@ -4,7 +4,6 @@ export async function GET() {
   return NextResponse.json({
     status: 'ok',
     ssrEngine: 'Next.js App Router',
-    geminiAvailable: !!process.env.GEMINI_API_KEY,
     timestamp: new Date().toISOString(),
   });
 }

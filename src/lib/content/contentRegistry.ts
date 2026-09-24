@@ -14,7 +14,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     clusterId: 'cluster-a-formats',
     primaryTopic: 'HEIC File Format',
     searchIntent: 'informational',
-    summary: 'HEIC (High Efficiency Image Container) is the modern image container format adopted by Apple in iOS 11. It utilizes HEVC (H.265) compression to cut file sizes by ~50% compared to legacy JPEG while supporting 16-bit color depth and depth maps.',
+    summary: 'HEIC (High Efficiency Image Container) is the modern image container format adopted by Apple in iOS 11. It commonly uses HEVC (H.265) intra-frame compression to reduce file size compared with JPEG while supporting modern color, metadata, and auxiliary-image features.',
     contentSections: [
       {
         heading: 'What Is a HEIC File?',
@@ -23,23 +23,23 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       },
       {
         heading: 'How HEIC Compression Works Under the Hood',
-        body: 'HEIC applies High Efficiency Video Coding (HEVC / H.265) intra-frame coding techniques to static imagery. While legacy JPEG partitions images into fixed 8x8 pixel discrete cosine transform (DCT) blocks, HEVC operates on variable Coding Tree Units (CTUs) ranging from 4x4 up to 64x64 pixels. This dynamic partitioning allows HEIC to compress smooth skies and gradient backgrounds with massive efficiency while preserving sharp high-frequency edges in hair, fabric, and text.',
+        body: 'HEIC commonly applies High Efficiency Video Coding (HEVC / H.265) intra-frame techniques to still imagery. While legacy JPEG partitions images into fixed 8x8 pixel discrete cosine transform (DCT) blocks, HEVC uses coding structures with luma coding-tree blocks up to 64x64 pixels; 4x4 is a transform-block size, not the full CTU range. This helps compress smooth areas efficiently while preserving detail.',
         bullets: [
-          'Variable CTU Block Partitioning: 4x4 to 64x64 pixel matrices.',
-          '16-Bit Color Channel Depth: Captures over 281 trillion color shades compared to 8-bit JPEG (16.7 million colors).',
-          'Zero Generational Degradation: Re-encoding artifacts are minimized through modern deblocking filters.'
+          'Coding-tree structure: luma coding blocks can reach 64x64 pixels, while smaller transform blocks can be used inside them.',
+          'Color depth: HEIF/HEIC can carry 8-bit or 10-bit image data depending on the capture pipeline; 16-bit is a format capability ceiling, not a guarantee for every iPhone photo.',
+          'Lossy encoding: HEVC image compression can be lossy, so repeated decode/re-encode cycles may introduce additional artifacts.'
         ]
       },
       {
         heading: 'HEIC Technical Specifications & Binary Signature',
         body: 'HEIC files encapsulate binary boxes following the ISO Base Media File Format (ISOBMFF). The file header begins with a 4-byte box size followed by the "ftyp" FourCC code and the specific brand marker "heic" or "mif1".',
         bullets: [
-          'Magic Bytes (Hex): 00 00 00 18 66 74 79 70 68 65 69 63',
+          'Brand signature: ftypheic at bytes 4–11 in a normal ISO Base Media File Format header; the preceding box-size field varies.',
           'MIME Content-Types: image/heic, image/heif, image/heic-sequence',
           'Standard Extension: .heic, .heif',
           'Container Structure: ISO/IEC 23008-12 ISOBMFF Box Tree'
         ],
-        codeSnippet: '00 00 00 18 66 74 79 70 68 65 69 63 | ....ftypheic'
+        codeSnippet: '.... 66 74 79 70 68 65 69 63 | ....ftypheic'
       },
       {
         heading: 'HEIC vs Standard JPEG: Practical Advantages',
@@ -47,8 +47,8 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
         bullets: [
           'Storage Efficiency: 40% to 55% smaller byte payload at identical structural similarity (SSIM) indexes.',
           'Depth Maps & Computational Photography: Encapsulates stereo disparity data used for Portrait Mode blur adjustments in post-production.',
-          'Live Photos in One Container: Combines still JPEG-equivalent frame and 3-second HEVC video stream within a unified header instead of separate .MOV files.',
-          'Non-Destructive Edits: Rotation, crop margins, and color filter parameters can be stored as metadata instructions without recompressing pixel layers.'
+          'Live Photos: Apple commonly pairs a still HEIC image with a separate MOV video asset; the two files should not be assumed to be one self-contained HEIC file.',
+          'Editing metadata: Some workflows store edit instructions or sidecar metadata separately from the original image; do not assume every edit is embedded in the HEIC container.'
         ]
       }
     ],
@@ -230,9 +230,9 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     contentSections: [
       {
         heading: 'How to Open HEIC on Windows 11 and Windows 10',
-        body: 'Windows PCs do not decode HEVC codec containers by default. Use one of these three verified methods to view HEIC photos on Windows:',
+        body: 'Windows support for HEIF/HEIC depends on the Windows version and installed codecs. If Photos or File Explorer cannot open the image, use one of these verified methods:',
         bullets: [
-          'Method 1 (Official Store Codecs): Install "HEIF Image Extensions" (Free) and "HEVC Video Extensions" ($0.99) from the official Microsoft Store.',
+          'Method 1 (Official Store Codecs): Install the "HEIF Image Extensions" and, when Windows requests it for the image profile, the "HEVC Video Extensions" from the official Microsoft Store. Availability and pricing can vary by region.',
           'Method 2 (CopyTrans HEIC): Download the free utility "CopyTrans HEIC for Windows" to enable native Windows Explorer thumbnail previews and double-click viewing in Windows Photo Viewer.',
           'Method 3 (AnyFileX Instant Browser Viewer): Drag and drop the HEIC photo into the AnyFileX File Analyzer or Image Viewer to decode and render the pixel matrix in-memory.'
         ],
@@ -261,6 +261,32 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
         ],
         codeSnippet: 'sudo apt install heif-gdk-pixbuf libheif-examples gimp',
         stepNumber: 4
+      }, {
+        heading: 'What to Know About HEIC Compatibility',
+        body: 'HEIC is a container based on the ISO Base Media File Format (ISOBMFF) and commonly stores still images encoded with HEVC intra-frame compression. Support is not identical across operating systems: the HEIF container, the HEVC image profile, and the application that opens the file each matter. A file that opens in Apple Photos may still need an extension or an updated codec on Windows or Linux.',
+        bullets: [
+          'The reliable brand marker is the text ftypheic at bytes 4–11 of a normal HEIC file; the preceding four-byte box-size field varies with the file.',
+          'HEVC compression can be lossy. Keeping the original file avoids another generation of re-encoding loss when image fidelity matters.',
+          'Live Photos are commonly delivered as a still HEIC image plus a separate MOV video asset; they should not be assumed to be one self-contained HEIC file.'
+        ]
+      },
+      {
+        heading: 'How to Convert HEIC and Protect Photo Privacy',
+        body: 'Convert HEIC to JPG when a destination service or older application does not support HEIF. JPG is broadly compatible, while HEIC can retain more modern image features and usually uses less storage. AnyFileX browser conversion keeps the selected file in browser memory for the conversion workflow; you should still review the output and metadata before sharing it.',
+        bullets: [
+          'Use HEIC when the receiving device or service supports it and storage efficiency matters.',
+          'Use JPG for broad compatibility with older websites, office software, and devices.',
+          'Use the metadata-cleaning tool before sharing if the image contains location, camera, or author metadata.'
+        ]
+      },
+      {
+        heading: 'Troubleshooting HEIC Files That Still Will Not Open',
+        body: 'If a HEIC image fails after the correct extension is installed, first confirm that the file is complete and that its extension matches its detected signature. A renamed or truncated file can look like a codec problem. Test a second known-good HEIC image, update the viewing application, and use a browser-based viewer or converter only when the file is safe to inspect.',
+        bullets: [
+          'Check the file size and transfer source for an incomplete download or interrupted copy.',
+          'Inspect the header with a magic-byte tool instead of trusting the filename alone.',
+          'Keep the original untouched before attempting conversion or repair.'
+        ]
       }
     ],
     relatedFormats: ['heic', 'heif', 'jpg', 'png'],
@@ -271,7 +297,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     faq: [
       {
         question: 'Why does Windows Photos show an error saying "The HEVC Video Extension is required"?',
-        answer: 'HEIC files use HEVC compression patented by MPEG LA. Because of licensing royalties, Microsoft does not bundle the HEVC decoder inside base Windows installations and requires installing the codec from the Microsoft Store or using a web viewer like AnyFileX.'
+      answer: 'HEIC images may use HEVC compression, and codec licensing and platform support differ by Windows edition and region. If Photos cannot decode the file, install the relevant HEIF/HEVC extensions from the Microsoft Store or use a browser viewer such as AnyFileX.'
       },
       {
         question: 'Can I view HEIC photos without installing any software on my computer?',
@@ -281,15 +307,10 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     schemaType: 'HowTo',
     status: 'published',
     publishedDate: '2024-05-15',
-    updatedDate: '2024-11-20',
+    updatedDate: '2026-09-24',
     lastAuditedDate: 'September 2026',
     createdAt: '2024-05-15',
     knowledgeGraphVersion: '5.2.0',
-    reviewedBy: {
-      name: 'Elena Rostova',
-      role: 'Lead Digital Media & Codec Engineer',
-      credentials: 'M.Sc., Signal Processing'
-    },
     verifiedPlatforms: [
       'Windows 11 (23H2/24H2)',
       'macOS Sonoma (14.6) & Sequoia (15.0)',
@@ -310,14 +331,13 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       keywords: ['how to open heic file', 'open heic windows 11', 'heic viewer', 'view heic on pc']
     },
     author: {
-      id: 'marcus-vance',
-      name: 'Marcus Vance',
-      role: 'Senior CAD Systems Architect & Engineering Data Specialist',
-      credentials: 'B.Arch, P.E.',
-      avatar: AUTHOR_AVATARS.marcusVance,
-      bio: 'Licensed Professional Engineer (P.E.) specializing in cross-platform desktop binary file association, container rendering, and CAD workflows.'
+      id: 'technical-editorial-board',
+      name: 'AnyFileX Technical Editorial Team',
+      role: 'Technical Editorial Team',
+      avatar: AUTHOR_AVATARS.technicalBoard,
+      bio: 'Editorial team responsible for maintaining platform compatibility notes and standards-based file format guidance.'
     },
-    readingTimeMinutes: 4,
+    readingTimeMinutes: 7,
     difficulty: 'Beginner',
     targetOS: ['windows', 'mac', 'linux', 'android', 'ios']
   },

@@ -21,6 +21,7 @@ import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
+import { generateFAQSchema } from '../lib/seo/faqGenerator';
 import { ImageCompressorWorkspace } from '../components/tools/ImageCompressorWorkspace';
 import { ImageResizerWorkspace } from '../components/tools/ImageResizerWorkspace';
 import { StlViewerWorkspace } from '../components/tools/StlViewerWorkspace';
@@ -37,7 +38,7 @@ import { RarExtractorWorkspace } from '../components/converter/RarExtractorWorks
 import { ThreeMfToStlWorkspace } from '../components/converter/ThreeMfToStlWorkspace';
 import { getFormatKnowledgeNode } from '../lib/database/knowledgeGraph';
 
-interface ToolDetailPageProps {
+export interface ToolDetailPageProps {
   toolSlug: string;
   onNavigate: (route: AppRoute) => void;
 }
@@ -91,19 +92,23 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
         canonicalPath={`/tools/${toolSlug}`}
         schemaData={{
           '@context': 'https://schema.org',
-          '@type': 'WebApplication',
-          name: effectiveName,
-          url: `https://www.anyfilex.com/tools/${toolSlug}`,
-          description: effectiveDesc,
-          applicationCategory: 'UtilitiesApplication',
-          operatingSystem: 'Windows, macOS, Linux, iOS, Android'
+          '@graph': [
+            {
+              '@type': 'WebApplication',
+              name: effectiveName,
+              url: `https://www.anyfilex.com/tools/${toolSlug}`,
+              description: effectiveDesc,
+              applicationCategory: 'UtilitiesApplication',
+              operatingSystem: 'Windows, macOS, Linux, iOS, Android'
+            },
+            generateFAQSchema(defaultFaqs),
+          ],
         }}
       />
 
       <Breadcrumb
         items={[
           { label: 'File Tools', route: { view: 'tools' } },
-          { label: effectiveCategory, route: { view: 'tools', categoryFilter: tool?.category } },
           { label: effectiveName }
         ]}
         onNavigate={onNavigate}

@@ -22,7 +22,7 @@ import { ConverterDetailPage } from './ConverterDetailPage';
 import { ConversionHistoryWidget } from '../components/converter/ConversionHistoryWidget';
 import { SEOHead } from '../components/SEOHead';
 
-interface ConvertersPageProps {
+export interface ConvertersPageProps {
   onNavigate: (route: AppRoute) => void;
   selectedConverterId?: string;
 }

@@ -12,15 +12,15 @@ import { LatestGuidesSection } from '../LatestGuidesSection';
 import { NewsletterSection } from '../NewsletterSection';
 import { AppRoute } from '../../types';
 import { routeToPath } from '../../utils/router';
+import { useRouter } from 'next/navigation';
+import { setPendingFile } from '../../lib/fileTransferStore';
 
 export function HomeViewClient() {
+  const router = useRouter();
   const handleNavigate = (route: AppRoute) => {
     const path = routeToPath(route);
-    if (typeof window !== 'undefined') {
-      window.history.pushState(null, '', path);
-      window.dispatchEvent(new PopStateEvent('popstate'));
-      window.scrollTo(0, 0);
-    }
+    router.push(path);
+    window.scrollTo(0, 0);
   };
 
   const handleSelectExtension = (ext: string) => {
@@ -34,6 +34,7 @@ export function HomeViewClient() {
   const handleDropFile = (file: File) => {
     const ext = file.name.split('.').pop()?.toLowerCase();
     if (ext) {
+      setPendingFile(file);
       handleNavigate({ view: 'extension-detail', ext });
     }
   };

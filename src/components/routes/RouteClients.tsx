@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { HowToOpenHubPage } from '../../views/HowToOpenHubPage';
 import { HowToOpenPage } from '../../views/HowToOpenPage';
-import { ConvertersPage } from '../../views/ConvertersPage';
+import { ConvertersPageProps } from '../../views/ConvertersPage';
 import { CompareHubPage } from '../../views/CompareHubPage';
 import { ComparisonPage } from '../../views/ComparisonPage';
 import { CategoryPage } from '../../views/CategoryPage';
@@ -13,18 +14,31 @@ import { TroubleshootGuidePage } from '../../views/TroubleshootGuidePage';
 import { TechnicalHubPage } from '../../views/TechnicalHubPage';
 import { TechnicalGuidePage } from '../../views/TechnicalGuidePage';
 import { ToolsPage } from '../../views/ToolsPage';
-import { ToolDetailPage } from '../../views/ToolDetailPage';
+import { ToolDetailPageProps } from '../../views/ToolDetailPage';
 import { AppRoute } from '../../types';
 import { routeToPath } from '../../utils/router';
+import { useRouter } from 'next/navigation';
+
+const ConvertersPage = dynamic<ConvertersPageProps>(
+  () => import('../../views/ConvertersPage').then((module) => module.ConvertersPage),
+  { loading: () => <RouteLoadingState label="Loading converter workspace…" /> }
+);
+
+const ToolDetailPage = dynamic<ToolDetailPageProps>(
+  () => import('../../views/ToolDetailPage').then((module) => module.ToolDetailPage),
+  { loading: () => <RouteLoadingState label="Loading browser tool…" /> }
+);
+
+function RouteLoadingState({ label }: { label: string }) {
+  return <div className="min-h-[40vh] flex items-center justify-center text-sm text-slate-500">{label}</div>;
+}
 
 function useAppNavigate() {
+  const router = useRouter();
   return (route: AppRoute) => {
     const path = routeToPath(route);
-    if (typeof window !== 'undefined') {
-      window.history.pushState(null, '', path);
-      window.dispatchEvent(new PopStateEvent('popstate'));
-      window.scrollTo(0, 0);
-    }
+    router.push(path);
+    window.scrollTo(0, 0);
   };
 }
 

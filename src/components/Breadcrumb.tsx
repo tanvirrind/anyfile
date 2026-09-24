@@ -1,6 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
 import { AppRoute } from '../types';
+import { routeToPath } from '../utils/router';
 
 export interface BreadcrumbItem {
   label: string;
@@ -17,14 +19,13 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, onNavigate }) => 
     <nav aria-label="Breadcrumb" className="py-2.5 px-1 flex items-center overflow-x-auto text-xs font-medium text-slate-500 dark:text-slate-400 no-scrollbar">
       <ol className="flex items-center space-x-2 shrink-0">
         <li>
-          <button
-            onClick={() => onNavigate({ view: 'home' })}
+          <Link
+            href="/"
             className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
-            id="breadcrumb-home-btn"
           >
             <Home className="w-3.5 h-3.5" />
             <span>Home</span>
-          </button>
+          </Link>
         </li>
         {items.map((item, idx) => {
           const isLast = idx === items.length - 1;
@@ -36,13 +37,12 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, onNavigate }) => 
                   {item.label}
                 </span>
               ) : (
-                <button
-                  onClick={() => item.route && onNavigate(item.route)}
+                <Link
+                  href={item.route ? routeToPath(item.route) : '#'}
                   className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
-                  id={`breadcrumb-item-${idx}`}
                 >
                   {item.label}
-                </button>
+                </Link>
               )}
             </li>
           );

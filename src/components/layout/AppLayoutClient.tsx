@@ -6,30 +6,35 @@ import { Footer } from '../Footer';
 import { CommandPalette } from '../CommandPalette';
 import { AppRoute } from '../../types';
 import { parsePathToRoute, routeToPath } from '../../utils/router';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface AppLayoutClientProps {
   children: React.ReactNode;
 }
 
 export function AppLayoutClient({ children }: AppLayoutClientProps) {
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        return savedTheme === 'dark';
-      }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    return false;
-  });
+  const router = useRouter();
+  const pathname = usePathname();
+  // Keep the server and first client render identical. Browser theme
+  // preferences are read after hydration to avoid mismatching the Navbar.
+  const [darkMode, setDarkMode] = useState(false);
 
   const [searchOpen, setSearchOpen] = useState(false);
-  const [currentRoute, setCurrentRoute] = useState<AppRoute>(() => {
-    if (typeof window !== 'undefined') {
-      return parsePathToRoute(window.location.pathname, window.location.search);
+  // Keep the initial server and client render identical. The pathname is
+  // applied in the effect below after hydration, which prevents active-nav
+  // classes from changing between SSR and the first client render.
+  const [currentRoute, setCurrentRoute] = useState<AppRoute>({ view: 'home' });
+
+  useEffect(() => {
+    if (pathname) {
+      setCurrentRoute(parsePathToRoute(pathname, typeof window === 'undefined' ? '' : window.location.search));
     }
-    return { view: 'home' };
-  });
+  }, [pathname]);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    setDarkMode(savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -53,11 +58,9 @@ export function AppLayoutClient({ children }: AppLayoutClientProps) {
 
   const handleNavigate = (route: AppRoute) => {
     const path = routeToPath(route);
-    if (typeof window !== 'undefined') {
-      window.history.pushState(null, '', path);
-      setCurrentRoute(route);
-      window.scrollTo(0, 0);
-    }
+    router.push(path);
+    setCurrentRoute(route);
+    window.scrollTo(0, 0);
   };
 
   return (

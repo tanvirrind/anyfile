@@ -24,7 +24,8 @@ import {
 } from 'lucide-react';
 import { AppRoute } from '../../types';
 import { Badge } from '../Badge';
-import { FAQAccordion, FAQItem } from '../FAQAccordion';
+import { FAQAccordion } from '../FAQAccordion';
+import { GOOGLE_DOCS_FAQS } from '../../data/googleDocsFaqs';
 
 interface GoogleDocsDetailViewProps {
   onNavigate: (route: AppRoute) => void;
@@ -41,40 +42,7 @@ interface FormatRow {
   limitations: string;
 }
 
-export const GOOGLE_DOCS_FAQS: FAQItem[] = [
-  {
-    question: 'Does Google Docs have its own native file extension?',
-    answer: 'No. Google Docs does not have a traditional standalone native file extension like .docx or .pages. Documents are stored directly in Google cloud infrastructure. When you use the Google Drive desktop sync client, shortcuts with the .gdoc extension appear on your drive. However, a .gdoc file is simply a lightweight JSON web shortcut containing a document URL and unique resource ID—it does not contain the actual document contents or text.'
-  },
-  {
-    question: 'What file formats can Google Docs open or import?',
-    answer: 'Google Docs can open and import Microsoft Word (.docx, .doc, .docm, .dot, .dotx), OpenDocument Text (.odt), Rich Text Format (.rtf), Plain Text (.txt), HTML (.html, .htm), and Adobe Portable Document Format (.pdf) via Google Cloud OCR text extraction.'
-  },
-  {
-    question: 'Can Google Docs open and edit Microsoft Word (.docx) files without converting them?',
-    answer: 'Yes. Google Docs features native "Office Editing Mode" for Microsoft Word (.docx) files. You can view, comment, suggest, and edit .docx files directly without converting them to Google Docs format. All changes are saved directly back to the original .docx file, preserving compatibility for Word users.'
-  },
-  {
-    question: 'What formats can Google Docs export or download?',
-    answer: 'Google Docs allows you to download documents in 7 universal formats by navigating to File > Download: Microsoft Word (.docx), OpenDocument Format (.odt), Rich Text Format (.rtf), PDF Document (.pdf), Plain Text (.txt), Web Page (.html, packaged as a zipped archive with images), and EPUB Publication (.epub).'
-  },
-  {
-    question: 'Why did my Word document formatting change when opened in Google Docs?',
-    answer: 'Formatting shifts usually happen because of font substitution. If your Word document uses fonts installed locally on your computer (such as Aptos, Calibri, or proprietary corporate fonts), Google Docs substitutes them with similar Google Fonts (like Carlito, Roboto, or Arial). Differences in table margin calculation, complex multi-level lists, nested tables, floating images, and unsupported WordArt or VBA macros can also cause layout changes.'
-  },
-  {
-    question: 'What is the maximum file size Google Docs can open or convert?',
-    answer: 'For text documents converted into Google Docs format, the limit is up to 50 MB or 1.02 million characters (regardless of page count). If you upload embedded images, they cannot exceed 50 MB each. For PDF documents converted to Google Docs via OCR, the maximum file size is 50 MB and only the first 10 pages are processed if the document is excessively large.'
-  },
-  {
-    question: 'Can Google Docs open password-protected Word or PDF files?',
-    answer: 'No. Google Docs cannot open encrypted or password-protected documents. You must remove the password protection using Microsoft Word, Adobe Acrobat, or AnyFileX converter tools before uploading the file to Google Docs.'
-  },
-  {
-    question: 'Can Google Docs open or export EPUB ebook files?',
-    answer: 'Google Docs CANNOT open or import .epub files directly. However, Google Docs CAN export any document into a reflowable .epub ebook by selecting File > Download > EPUB Publication (.epub). Heading 1 styles automatically generate clean chapter breaks in the resulting ebook.'
-  }
-];
+export { GOOGLE_DOCS_FAQS } from '../../data/googleDocsFaqs';
 
 export const GoogleDocsDetailView: React.FC<GoogleDocsDetailViewProps> = ({ onNavigate }) => {
   const [activeUploadMethod, setActiveUploadMethod] = useState<'drive' | 'docs' | 'gmail' | 'mobile'>('drive');

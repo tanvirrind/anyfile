@@ -186,6 +186,7 @@ const SUPPORTED_CONVERSION_MAP: Record<string, string[]> = {
   zip: ['extract'],
   rar: ['extract'],
   files: ['zip'],
+  '3mf': ['stl'],
 };
 
 /**

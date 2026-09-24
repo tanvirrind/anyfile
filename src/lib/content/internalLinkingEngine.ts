@@ -22,18 +22,18 @@ export function computeInternalLinksForEntity(entity: ContentEntity): EntityLink
 
   // 1. Parent Topic Hub
   const parentHub: InternalLinkItem = {
-    targetTitle: `${extUpper} Topic Authority Hub`,
-    targetUrl: `/hub/${formatKey}`,
+    targetTitle: `.${extUpper} File Extension Guide`,
+    targetUrl: `/file-extensions/${formatKey}`,
     targetType: 'hub',
     anchorText: `explore the complete ${extUpper} format hub`,
     contextHint: 'Format Ecosystem Overview',
-    route: { view: 'content-hub' as any, topic: formatKey }
+    route: { view: 'extension-detail', ext: formatKey }
   };
 
   // 2. Extension detail links
   const extensionLinks: InternalLinkItem[] = entity.relatedExtensions.slice(0, 3).map(ext => ({
     targetTitle: `.${ext} File Extension Guide`,
-    targetUrl: `/file-extension/${ext.toLowerCase()}`,
+    targetUrl: `/file-extensions/${ext.toLowerCase()}`,
     targetType: 'format',
     anchorText: `inspect .${ext} specification and specifications`,
     contextHint: 'Extension database entry',
@@ -46,7 +46,7 @@ export function computeInternalLinksForEntity(entity: ContentEntity): EntityLink
   // Standard File Analyzer
   const analyzerLink: InternalLinkItem = {
     targetTitle: 'AnyFileX Binary File Analyzer',
-    targetUrl: '/file-analyzer',
+    targetUrl: '/tools/file-analyzer',
     targetType: 'analyzer',
     anchorText: `verify genuine .${extUpper} magic bytes in File Analyzer`,
     contextHint: 'Binary validation & security inspection',

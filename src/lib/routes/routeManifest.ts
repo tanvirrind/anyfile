@@ -15,6 +15,7 @@ import { SOFTWARE_LIST } from '../../data/softwareData';
 import { CONVERTERS_LIST } from '../../data/convertersData';
 import { CATEGORIES_LIST } from '../../data/categoriesData';
 import { GUIDES_LIST, BLOG_POSTS } from '../../data/guidesData';
+import { INITIAL_CONTENT_ENTITIES } from '../content/contentRegistry';
 import { CURATED_COMPARISONS } from '../database/knowledgeGraph';
 import { TROUBLESHOOTING_GUIDES } from '../database/troubleshootingData';
 import { REPAIR_GUIDES } from '../../data/repairData';
@@ -26,6 +27,10 @@ import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine'
 
 export const BASE_URL = 'https://www.anyfilex.com';
 export const PLATFORM_RELEASE_DATE = '2026-09-18';
+
+export function getMimeRouteSlug(mimeType: string): string {
+  return mimeType.replace('/', '-').replace(/\+/g, '-plus-').toLowerCase();
+}
 
 export type RouteType =
   | 'home'
@@ -51,6 +56,8 @@ export type RouteType =
   | 'blog-hub'
   | 'blog-detail'
   | 'about'
+  | 'privacy'
+  | 'terms'
   | 'contact'
   | 'editorial-standards'
   | 'authors'
@@ -83,6 +90,7 @@ export function isExcludedFromSitemap(path: string): boolean {
     clean.startsWith('/admin-cms') ||
     clean.startsWith('/seo-audit') ||
     clean.startsWith('/tools/file-identifier/result') ||
+    clean === '/tools/file-analyzer' ||
     clean.startsWith('/tools/metadata-viewer/result') ||
     clean.includes('/result/') ||
     clean === '/404' ||
@@ -181,7 +189,10 @@ export function buildRouteManifest(): RouteManifestEntry[] {
     entries.push({
       ...entry,
       path: cleanPath,
-      canonicalUrl: `${BASE_URL}${cleanPath === '/' ? '' : cleanPath}`,
+      // Encode literal plus signs in URL segments. A raw '+' is commonly
+      // decoded as a space by web servers, which would make valid MIME routes
+      // appear to be missing.
+      canonicalUrl: `${BASE_URL}${cleanPath === '/' ? '' : cleanPath.replace(/\+/g, '%2B')}`,
     });
   };
 
@@ -319,6 +330,30 @@ export function buildRouteManifest(): RouteManifestEntry[] {
   });
 
   add({
+    path: '/privacy',
+    canonicalUrl: `${BASE_URL}/privacy`,
+    type: 'privacy',
+    title: 'Privacy Policy – AnyFileX',
+    description: 'Learn how AnyFileX handles files, messages, local browser storage, and privacy when you use our file intelligence tools.',
+    priority: 0.5,
+    changefreq: 'yearly',
+    sitemapSegment: 'main',
+    isIndexable: true,
+  });
+
+  add({
+    path: '/terms',
+    canonicalUrl: `${BASE_URL}/terms`,
+    type: 'terms',
+    title: 'Terms of Service – AnyFileX',
+    description: 'Read the terms governing access to AnyFileX file format guides, browser-based tools, converters, and related services.',
+    priority: 0.5,
+    changefreq: 'yearly',
+    sitemapSegment: 'main',
+    isIndexable: true,
+  });
+
+  add({
     path: '/contact',
     canonicalUrl: `${BASE_URL}/contact`,
     type: 'contact',
@@ -351,7 +386,7 @@ export function buildRouteManifest(): RouteManifestEntry[] {
     priority: 0.4,
     changefreq: 'weekly',
     sitemapSegment: 'main',
-    isIndexable: true,
+    isIndexable: false,
   });
 
   // 2. Verified File Extensions (Driven strictly by catalog)
@@ -481,6 +516,21 @@ export function buildRouteManifest(): RouteManifestEntry[] {
     });
   }
 
+  for (const guide of REPAIR_GUIDES) {
+    add({
+      path: `/troubleshoot/${guide.id}`,
+      canonicalUrl: `${BASE_URL}/troubleshoot/${guide.id}`,
+      type: 'troubleshoot-detail',
+      title: `${guide.title} – File Repair Guide`,
+      description: `Step-by-step guidance for repairing damaged .${guide.extension} files.`,
+      priority: 0.75,
+      changefreq: 'monthly',
+      sitemapSegment: 'troubleshoot',
+      isIndexable: true,
+      params: { id: guide.id },
+    });
+  }
+
   // 9. Technical & Security
   for (const tech of TECHNICAL_AUTHORITY_GUIDES) {
     add({
@@ -529,6 +579,69 @@ export function buildRouteManifest(): RouteManifestEntry[] {
     });
   }
 
+  // Published content-registry guides use their editorial slugs while the
+  // legacy guide catalog above continues to preserve its existing URLs.
+  for (const entity of INITIAL_CONTENT_ENTITIES) {
+    if (entity.status !== 'published') continue;
+    add({
+      path: `/guides/${entity.slug}`,
+      canonicalUrl: `${BASE_URL}/guides/${entity.slug}`,
+      type: 'guide-detail',
+      title: entity.seoMeta.title,
+      description: entity.seoMeta.description,
+      priority: 0.75,
+      changefreq: 'monthly',
+      sitemapSegment: 'guides',
+      isIndexable: true,
+      params: { id: entity.slug },
+    });
+  }
+
+  // 12. Blog posts and MIME directory pages. These are catalog-backed routes,
+  // so the same inventory drives static params and sitemap generation.
+  add({
+    path: '/blog',
+    canonicalUrl: `${BASE_URL}/blog`,
+    type: 'blog-hub',
+    title: 'AnyFileX Technical Blog',
+    description: 'Technical articles about file formats, compatibility, and browser tools.',
+    priority: 0.7,
+    changefreq: 'weekly',
+    sitemapSegment: 'guides',
+    isIndexable: true,
+  });
+
+  for (const post of BLOG_POSTS) {
+    add({
+      path: `/blog/${post.id}`,
+      canonicalUrl: `${BASE_URL}/blog/${post.id}`,
+      type: 'blog-detail',
+      title: `${post.title} – AnyFileX`,
+      description: post.summary,
+      priority: 0.65,
+      changefreq: 'monthly',
+      sitemapSegment: 'guides',
+      isIndexable: true,
+      params: { id: post.id },
+    });
+  }
+
+  for (const mime of EXPANDED_MIME_DATABASE) {
+    const slug = getMimeRouteSlug(mime.mimeType);
+    add({
+      path: `/mime-type/${slug}`,
+      canonicalUrl: `${BASE_URL}/mime-type/${slug}`,
+      type: 'mime-detail',
+      title: `${mime.mimeType} MIME Type – AnyFileX`,
+      description: mime.description,
+      priority: 0.55,
+      changefreq: 'monthly',
+      sitemapSegment: 'mime-types',
+      isIndexable: true,
+      params: { slug },
+    });
+  }
+
   return entries;
 }
 
@@ -546,7 +659,9 @@ export function getStaticParamsForRouteType(type: RouteType): Array<Record<strin
  * Looks up manifest entry by exact path
  */
 export function getRouteManifestEntry(path: string): RouteManifestEntry | undefined {
-  const clean = path.replace(/\/+$/, '') || '/';
+  let decoded = path;
+  try { decoded = decodeURIComponent(path); } catch { /* retain the raw path */ }
+  const clean = decoded.replace(/\/+$/, '') || '/';
   const manifest = buildRouteManifest();
   return manifest.find((e) => e.path === clean);
 }

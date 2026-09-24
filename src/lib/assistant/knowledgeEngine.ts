@@ -18,7 +18,7 @@ export interface AssistantAnalysisResult {
 }
 
 /**
- * Build rich system prompt context for Gemini incorporating database items.
+ * Build a rich reference context for the assistant knowledge base.
  */
 export function buildDatabaseContext(): string {
   const extensionsSummary = POPULAR_FILE_TYPES.map(

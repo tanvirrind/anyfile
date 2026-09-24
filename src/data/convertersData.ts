@@ -51,6 +51,29 @@ export const CONVERTERS_LIST: ConverterInfo[] = [
     ]
   },
   {
+    id: 'heic-to-png',
+    fromExt: 'HEIC',
+    toExt: 'PNG',
+    name: 'HEIC to PNG Converter',
+    category: 'Images',
+    description: 'Convert Apple HEIC photos into PNG images locally in your browser for editing and lossless workflows.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Instant',
+    qualityRating: 'Lossless',
+    steps: [
+      { title: 'Upload a HEIC photo', desc: 'Select a HEIC image from your iPhone, Mac, or device storage.' },
+      { title: 'Decode locally', desc: 'The browser decodes the HEIC image and re-encodes it as PNG without a server upload.' },
+      { title: 'Download the PNG', desc: 'Save the converted PNG image locally.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser Converter', 'Apple Preview', 'ImageMagick'],
+    commonIssues: ['PNG files can be substantially larger than HEIC because PNG uses lossless image compression.'],
+    faqs: [
+      { question: 'Does HEIC to PNG reduce image quality?', answer: 'PNG output is lossless after decoding, but it cannot restore detail already removed by the source image encoding.' },
+      { question: 'Are HEIC photos uploaded during conversion?', answer: 'No. The browser performs the conversion locally and the source photo is not sent to an AnyFileX server.' }
+    ]
+  },
+  {
     id: 'dwg-to-pdf',
     fromExt: 'DWG',
     toExt: 'PDF',
@@ -62,9 +85,9 @@ export const CONVERTERS_LIST: ConverterInfo[] = [
     speedRating: 'Fast (< 30s)',
     qualityRating: 'Lossless',
     steps: [
-      { title: 'Drop CAD Drawing', desc: 'Drag your AutoCAD .dwg blueprint or technical drawing into converter.' },
-      { title: 'Select Layout & Line Weight', desc: 'Pick Model Space or Layout Tab and configure monochrome or color pen tables.' },
-      { title: 'Generate High-Res Vector PDF', desc: 'Download crystal-clear vector PDF suitable for large format printing.' }
+      { title: 'Open a DWG-capable application', desc: 'Open the .dwg drawing in AutoCAD, DWG TrueView, or another application that supports DWG plotting.' },
+      { title: 'Choose the layout and plot settings', desc: 'Select the required model or paper-space layout, page size, plot style, line weights, fonts, and external references.' },
+      { title: 'Plot or export to PDF', desc: 'Use the application’s PDF plotter or export command, then review the resulting PDF before sharing or printing.' }
     ],
     recommendedApps: ['Autodesk DWG TrueView', 'AutoCAD Web', 'Any DWG to PDF Converter'],
     commonIssues: [
@@ -72,7 +95,191 @@ export const CONVERTERS_LIST: ConverterInfo[] = [
       'Missing CAD font files (.shx) causing text to render as default sans-serif.'
     ],
     faqs: [
-      { question: 'Will line weights and layers be preserved in PDF?', answer: 'Yes, converting DWG to vector PDF preserves vector geometry, line thickness, and embedded drawing layers.' }
+      { question: 'Will line weights and layers be preserved in PDF?', answer: 'They can be preserved when the DWG application uses the correct plot style, fonts, layouts, and external references. Review the PDF because preservation depends on the application and export settings.' }
+    ]
+  },
+  {
+    id: 'png-to-jpg',
+    fromExt: 'PNG',
+    toExt: 'JPG',
+    name: 'PNG to JPG Converter',
+    category: 'Images',
+    description: 'Convert PNG graphics into compact JPG images with an optional background color for transparent pixels.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Instant',
+    qualityRating: 'Lossy Compression',
+    steps: [
+      { title: 'Upload PNG graphics', desc: 'Select one or more PNG files from your device.' },
+      { title: 'Choose quality and background', desc: 'Set JPEG quality and choose how transparent pixels should be filled.' },
+      { title: 'Download JPG files', desc: 'Save the converted JPG images locally.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser Converter', 'Squoosh', 'ImageMagick'],
+    commonIssues: ['JPG does not support transparency, so transparent pixels require a solid background color.'],
+    faqs: [
+      { question: 'What happens to transparent pixels when converting PNG to JPG?', answer: 'JPG has no alpha channel, so transparent pixels are filled with the selected background color, white by default.' },
+      { question: 'Are my PNG files uploaded?', answer: 'No. The conversion runs in your browser and the source file is not sent to an AnyFileX server.' }
+    ]
+  },
+  {
+    id: 'webp-to-png',
+    fromExt: 'WEBP',
+    toExt: 'PNG',
+    name: 'WEBP to PNG Converter',
+    category: 'Images',
+    description: 'Convert WEBP images to PNG while retaining browser-rendered image dimensions and transparency where supported.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Instant',
+    qualityRating: 'Lossless',
+    steps: [
+      { title: 'Upload a WEBP image', desc: 'Select a WEBP file from your device.' },
+      { title: 'Render the image locally', desc: 'Your browser decodes the image and re-encodes it as PNG.' },
+      { title: 'Download the PNG', desc: 'Save the converted PNG file.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser Converter', 'Squoosh', 'ImageMagick'],
+    commonIssues: ['Animated WEBP files may require frame-aware processing and should be checked after export.'],
+    faqs: [
+      { question: 'Will transparency be preserved?', answer: 'For supported still WEBP images, transparent pixels can be retained when the browser decodes the source with an alpha channel.' },
+      { question: 'Does PNG conversion improve image quality?', answer: 'PNG avoids additional lossy compression, but it cannot restore detail already lost in a lossy WEBP source.' }
+    ]
+  },
+  {
+    id: 'pdf-to-jpg',
+    fromExt: 'PDF',
+    toExt: 'JPG',
+    name: 'PDF to JPG Page Converter',
+    category: 'Documents',
+    description: 'Render PDF pages as JPG images locally in your browser for previews, sharing, and image-based workflows.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Fast (< 30s)',
+    qualityRating: 'Near Lossless',
+    steps: [
+      { title: 'Upload a PDF', desc: 'Select a PDF document from your device.' },
+      { title: 'Render the pages', desc: 'The browser renders each page into an image at the selected output scale.' },
+      { title: 'Download JPG pages', desc: 'Save the rendered page images locally.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser Converter', 'Adobe Acrobat', 'ImageMagick'],
+    commonIssues: ['Text and vector graphics become raster pixels in JPG output; use a higher render scale for print use.'],
+    faqs: [
+      { question: 'Does each PDF page become a separate JPG?', answer: 'Yes. Multi-page PDFs are rendered as separate page images for download.' },
+      { question: 'Are PDF files uploaded to a server?', answer: 'No. PDF rendering is performed in your browser where supported.' }
+    ]
+  },
+  {
+    id: 'jpg-to-png',
+    fromExt: 'JPG',
+    toExt: 'PNG',
+    name: 'JPG to PNG Converter',
+    category: 'Images',
+    description: 'Convert JPG images to PNG format locally in your browser for editing and workflows that require PNG output.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Instant',
+    qualityRating: 'Lossless',
+    steps: [
+      { title: 'Upload a JPG image', desc: 'Select one or more JPG files.' },
+      { title: 'Convert locally', desc: 'Your browser decodes the JPG and writes a PNG image.' },
+      { title: 'Download PNG files', desc: 'Save the converted PNG images locally.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser Converter', 'Squoosh', 'ImageMagick'],
+    commonIssues: ['PNG conversion does not restore detail removed by the original JPG compression.'],
+    faqs: [
+      { question: 'Does converting JPG to PNG restore lost quality?', answer: 'No. PNG preserves the decoded pixels without adding another lossy encode, but it cannot restore detail already removed from the JPG.' },
+      { question: 'Why convert JPG to PNG?', answer: 'PNG is useful for workflows that require lossless re-saving or broad support for image editing pipelines.' }
+    ]
+  },
+  {
+    id: 'jpg-to-webp',
+    fromExt: 'JPG',
+    toExt: 'WEBP',
+    name: 'JPG to WEBP Converter',
+    category: 'Images',
+    description: 'Convert JPG images into efficient WEBP files locally in your browser for smaller web assets.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Instant',
+    qualityRating: 'Lossy Compression',
+    steps: [
+      { title: 'Upload a JPG image', desc: 'Select one or more JPG files from your device.' },
+      { title: 'Choose image quality', desc: 'Adjust the WEBP quality setting for the balance of size and visual detail you need.' },
+      { title: 'Download WEBP files', desc: 'Save the optimized WEBP images locally.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser Converter', 'Squoosh', 'ImageMagick'],
+    commonIssues: ['WEBP quality and file size vary with the selected compression setting and image content.'],
+    faqs: [
+      { question: 'Why convert JPG to WEBP?', answer: 'WEBP can provide smaller web image files at comparable visual quality, which may reduce page transfer size.' },
+      { question: 'Does JPG to WEBP conversion upload my image?', answer: 'No. The conversion runs locally in your browser without sending the source image to an AnyFileX server.' }
+    ]
+  },
+  {
+    id: 'pdf-to-png',
+    fromExt: 'PDF',
+    toExt: 'PNG',
+    name: 'PDF to PNG Page Converter',
+    category: 'Documents',
+    description: 'Render PDF pages as PNG images locally in your browser for lossless page previews and image workflows.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Fast (< 30s)',
+    qualityRating: 'Lossless',
+    steps: [
+      { title: 'Upload a PDF', desc: 'Select a PDF document from your device.' },
+      { title: 'Render the pages', desc: 'The browser renders each page into a PNG image at the selected output scale.' },
+      { title: 'Download PNG pages', desc: 'Save the rendered page images locally.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser Converter', 'Adobe Acrobat', 'ImageMagick'],
+    commonIssues: ['Large or image-heavy PDFs can produce large PNG files; use an appropriate render scale.'],
+    faqs: [
+      { question: 'Does each PDF page become a separate PNG?', answer: 'Yes. Multi-page PDFs are rendered as separate PNG page images for download.' },
+      { question: 'Are PDF files uploaded to a server?', answer: 'No. PDF rendering is performed locally in your browser where supported.' }
+    ]
+  },
+  {
+    id: 'docx-to-pdf',
+    fromExt: 'DOCX',
+    toExt: 'PDF',
+    name: 'DOCX to PDF Converter',
+    category: 'Documents',
+    description: 'Convert DOCX documents into portable PDF files locally in your browser.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Fast (< 30s)',
+    qualityRating: 'Near Lossless',
+    steps: [
+      { title: 'Upload a DOCX document', desc: 'Select a Microsoft Word DOCX file from your device.' },
+      { title: 'Process the document locally', desc: 'The browser reads the document structure and lays out the PDF without a server upload.' },
+      { title: 'Download the PDF', desc: 'Save the generated PDF file locally.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser Converter', 'Microsoft Word', 'LibreOffice'],
+    commonIssues: ['Complex fonts, tracked changes, floating objects, and advanced Word layout features may not reproduce identically.'],
+    faqs: [
+      { question: 'Will DOCX formatting be preserved?', answer: 'Common text, headings, paragraphs, lists, and basic tables are supported. Advanced Word-specific layout features should be reviewed after export.' },
+      { question: 'Are DOCX files uploaded to a server?', answer: 'No. The browser processes the document locally and does not send the source file to an AnyFileX server.' }
+    ]
+  },
+  {
+    id: 'pptx-to-pdf',
+    fromExt: 'PPTX',
+    toExt: 'PDF',
+    name: 'PPTX to PDF Converter',
+    category: 'Documents',
+    description: 'Convert PowerPoint PPTX presentations into portable PDF documents locally in your browser.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Fast (< 30s)',
+    qualityRating: 'Near Lossless',
+    steps: [
+      { title: 'Upload a PPTX presentation', desc: 'Select a PowerPoint PPTX file from your device.' },
+      { title: 'Process the slides locally', desc: 'The browser reads supported slide content and creates a PDF without a server upload.' },
+      { title: 'Download the PDF', desc: 'Save the generated PDF presentation locally.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser Converter', 'Microsoft PowerPoint', 'LibreOffice Impress'],
+    commonIssues: ['Complex slide layouts, embedded media, custom fonts, and animations may not reproduce identically in PDF output.'],
+    faqs: [
+      { question: 'Will PPTX animations be preserved in PDF?', answer: 'No. PDF captures slide content as static pages; animations and transitions are not interactive in the exported document.' },
+      { question: 'Are PPTX files uploaded during conversion?', answer: 'No. The browser processes the presentation locally and does not send the source file to an AnyFileX server.' }
     ]
   },
   {
@@ -162,6 +369,29 @@ export const CONVERTERS_LIST: ConverterInfo[] = [
     faqs: [{ question: 'Why convert SVG to PNG?', answer: 'Some older apps, social platforms, and email clients do not display vector SVG files.' }]
   },
   {
+    id: 'svg-to-jpg',
+    fromExt: 'SVG',
+    toExt: 'JPG',
+    name: 'SVG to JPG Converter',
+    category: 'Images',
+    description: 'Rasterize SVG graphics into JPG images locally in your browser for broad compatibility and sharing.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Instant',
+    qualityRating: 'Lossy Compression',
+    steps: [
+      { title: 'Upload an SVG graphic', desc: 'Select an SVG file from your device.' },
+      { title: 'Choose raster settings', desc: 'Set the output dimensions, quality, and background color for the JPG.' },
+      { title: 'Download the JPG', desc: 'Save the rasterized JPG image locally.' }
+    ],
+    recommendedApps: ['AnyFileX In-Browser Converter', 'Inkscape', 'ImageMagick'],
+    commonIssues: ['JPG does not support transparency, and external SVG fonts or assets may not render identically.'],
+    faqs: [
+      { question: 'Why convert SVG to JPG?', answer: 'JPG is widely accepted by applications and platforms that do not support vector SVG files.' },
+      { question: 'Can JPG preserve SVG transparency?', answer: 'No. JPG has no alpha channel, so transparent areas require a selected solid background color.' }
+    ]
+  },
+  {
     id: 'png-to-webp',
     fromExt: 'PNG',
     toExt: 'WEBP',
@@ -188,8 +418,8 @@ export const CONVERTERS_LIST: ConverterInfo[] = [
     name: 'EML to PDF Email Archiver',
     category: 'Email & Comm',
     description: 'Convert RFC 822 email files into printable PDF documents with headers and attachments.',
-    isInteractiveToolAvailable: false,
-    onlineConversionSupported: false,
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
     speedRating: 'Fast (< 30s)',
     qualityRating: 'Lossless',
     steps: [
@@ -232,5 +462,65 @@ export const CONVERTERS_LIST: ConverterInfo[] = [
         answer: 'No! The entire 3MF XML parsing and STL binary tessellation occurs 100% inside your web browser client memory.'
       }
     ]
+  }
+  ,{
+    id: 'zip-creator',
+    fromExt: 'FILES',
+    toExt: 'ZIP',
+    name: 'ZIP Archive Creator',
+    category: 'Archives',
+    description: 'Create a ZIP archive from files and folders locally in your browser.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Fast (< 30s)',
+    qualityRating: 'Lossless',
+    steps: [
+      { title: 'Select files or folders', desc: 'Choose files or add a folder to the local archive queue.' },
+      { title: 'Build the archive', desc: 'The browser compresses the selected files without uploading them.' },
+      { title: 'Download the ZIP', desc: 'Save the generated ZIP archive locally.' }
+    ],
+    recommendedApps: ['AnyFileX ZIP Creator', '7-Zip', 'Windows File Explorer'],
+    commonIssues: ['Files that cannot be read locally are reported instead of being silently omitted.'],
+    faqs: [{ question: 'Are files uploaded while creating a ZIP?', answer: 'No. ZIP creation runs locally in your browser.' }]
+  },
+  {
+    id: 'zip-extractor',
+    fromExt: 'ZIP',
+    toExt: 'FILES',
+    name: 'ZIP Archive Extractor',
+    category: 'Archives',
+    description: 'Extract files from ZIP archives locally in your browser.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Fast (< 30s)',
+    qualityRating: 'Lossless',
+    steps: [
+      { title: 'Select a ZIP archive', desc: 'Choose a ZIP file from your device.' },
+      { title: 'Inspect the contents', desc: 'Review the archive entries in browser memory.' },
+      { title: 'Download extracted files', desc: 'Save individual files or the extracted folder locally.' }
+    ],
+    recommendedApps: ['AnyFileX ZIP Extractor', '7-Zip', 'Windows File Explorer'],
+    commonIssues: ['Encrypted archives require a compatible password-enabled extraction workflow.'],
+    faqs: [{ question: 'Are ZIP files uploaded while extracting?', answer: 'No. Extraction runs locally in your browser.' }]
+  },
+  {
+    id: 'rar-extractor',
+    fromExt: 'RAR',
+    toExt: 'FILES',
+    name: 'RAR Archive Extractor',
+    category: 'Archives',
+    description: 'Inspect and extract supported RAR archives locally in your browser.',
+    isInteractiveToolAvailable: true,
+    onlineConversionSupported: true,
+    speedRating: 'Fast (< 30s)',
+    qualityRating: 'Lossless',
+    steps: [
+      { title: 'Select a RAR archive', desc: 'Choose a RAR file from your device.' },
+      { title: 'Inspect archive entries', desc: 'Review the files detected in the archive.' },
+      { title: 'Extract and download', desc: 'Save the extracted files locally.' }
+    ],
+    recommendedApps: ['AnyFileX RAR Extractor', '7-Zip', 'WinRAR'],
+    commonIssues: ['Some encrypted, multi-volume, or newer RAR variants may require desktop extraction software.'],
+    faqs: [{ question: 'Are RAR files uploaded while extracting?', answer: 'No. Extraction runs locally in your browser.' }]
   }
 ];

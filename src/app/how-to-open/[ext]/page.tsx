@@ -2,19 +2,15 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { HowToOpenDetailClient } from '@/components/routes/RouteClients';
-import { isValidCatalogExtension, BASE_URL } from '@/lib/routes/routeManifest';
+import { isValidCatalogExtension, BASE_URL, getStaticParamsForRouteType } from '@/lib/routes/routeManifest';
 import { getHowToOpenGuide } from '@/lib/guides/howToOpenEngine';
-import { getPrioritizedFormatList } from '@/lib/guides/formatGuideEngine';
 
 interface PageProps {
   params: Promise<{ ext: string }>;
 }
 
 export async function generateStaticParams() {
-  const formats = getPrioritizedFormatList();
-  return formats.map((format) => ({
-    ext: format.toLowerCase(),
-  }));
+  return getStaticParamsForRouteType('how-to-open-detail');
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

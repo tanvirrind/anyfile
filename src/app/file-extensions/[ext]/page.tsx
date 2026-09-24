@@ -2,20 +2,16 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { ExtensionDetailClient } from '@/components/extensions/ExtensionDetailClient';
-import { isValidCatalogExtension, BASE_URL } from '@/lib/routes/routeManifest';
+import { isValidCatalogExtension, BASE_URL, getStaticParamsForRouteType } from '@/lib/routes/routeManifest';
 import { getOrGenerateExtensionInfo } from '@/lib/seo/extensionGenerator';
 import { generateExtensionSchema } from '@/lib/seo/faqGenerator';
-import { POPULAR_FILE_TYPES } from '@/data/fileTypesData';
 
 interface PageProps {
   params: Promise<{ ext: string }>;
 }
 
 export async function generateStaticParams() {
-  // Pre-render popular extensions statically
-  return POPULAR_FILE_TYPES.map((ft) => ({
-    ext: ft.extension.toLowerCase(),
-  }));
+  return getStaticParamsForRouteType('extension-detail');
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

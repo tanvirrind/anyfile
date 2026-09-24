@@ -412,7 +412,23 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
 
   const categories = ['All', 'Email & Mail', '3D & CAD', 'Images', 'Documents', 'Archives', 'Data & Privacy', 'Developer & Security'];
 
+  const converterToolIds = new Set([
+    'heic-to-jpg',
+    'png-to-webp',
+    'webp-to-jpg',
+    'jpg-to-png',
+    'svg-to-png',
+    'pdf-to-jpg',
+    'pdf-to-png',
+    'docx-to-pdf',
+    'pptx-to-pdf',
+    'eml-to-pdf',
+    'msg-to-eml',
+    '3mf-to-stl',
+  ]);
+
   const filteredTools = toolsList.filter((tool) => {
+    if (converterToolIds.has(tool.id)) return false;
     const matchesSearch =
       tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tool.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||

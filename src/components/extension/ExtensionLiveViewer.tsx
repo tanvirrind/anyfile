@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Upload,
   Eye,
@@ -23,9 +23,10 @@ import { FileTypeInfo, AppRoute } from '../../types';
 interface ExtensionLiveViewerProps {
   item: FileTypeInfo;
   onNavigate: (route: AppRoute) => void;
+  initialFile?: File | null;
 }
 
-export const ExtensionLiveViewer: React.FC<ExtensionLiveViewerProps> = ({ item, onNavigate }) => {
+export const ExtensionLiveViewer: React.FC<ExtensionLiveViewerProps> = ({ item, onNavigate, initialFile }) => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -40,6 +41,12 @@ export const ExtensionLiveViewer: React.FC<ExtensionLiveViewerProps> = ({ item, 
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (initialFile) {
+      void handleFileSelect(initialFile);
+    }
+  }, [initialFile]);
+
   const isHeic = item.extension.toUpperCase() === 'HEIC' || item.extension.toUpperCase() === 'HEIF';
   const isImage = item.category === 'Images';
 
@@ -52,6 +59,8 @@ export const ExtensionLiveViewer: React.FC<ExtensionLiveViewerProps> = ({ item, 
     try {
       const fileNameLower = selectedFile.name.toLowerCase();
       const isHeicFile = fileNameLower.endsWith('.heic') || fileNameLower.endsWith('.heif');
+      const isImageFile = selectedFile.type.startsWith('image/') ||
+        /\.(png|jpe?g|gif|webp|bmp|svg|avif|tiff?)$/i.test(fileNameLower);
 
       if (isHeicFile || isHeic) {
         // Decode HEIC directly in browser memory using heic2any
@@ -82,7 +91,7 @@ export const ExtensionLiveViewer: React.FC<ExtensionLiveViewerProps> = ({ item, 
           });
         };
         img.src = objectUrl;
-      } else if (selectedFile.type.startsWith('image/')) {
+      } else if (isImageFile) {
         // Standard image preview
         const objectUrl = URL.createObjectURL(selectedFile);
         setPreviewUrl(objectUrl);

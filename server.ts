@@ -2,11 +2,9 @@ import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import fs from 'fs';
-import crypto from 'crypto';
 import dotenv from 'dotenv';
 import { createServer as createViteServer } from 'vite';
-import { GoogleGenAI } from '@google/genai';
-import { buildDatabaseContext, extractSuggestedActions, generateLocalFallbackResponse } from './src/lib/assistant/knowledgeEngine';
+import { generateLocalFallbackResponse } from './src/lib/assistant/knowledgeEngine';
 import { getSegmentedSitemapXml } from './src/lib/seo/sitemapGenerator';
 import { renderSsrPageHtml, isSearchEngineBot } from './src/lib/ssr/ssrRenderer';
 import { getStaticRoutePaths } from './src/lib/ssr/staticGenerator';
@@ -127,30 +125,11 @@ async function startServer() {
     next();
   });
 
-  // Initialize Gemini AI Client (Lazy & Safe)
-  let ai: GoogleGenAI | null = null;
-  if (process.env.GEMINI_API_KEY) {
-    try {
-      ai = new GoogleGenAI({
-        apiKey: process.env.GEMINI_API_KEY,
-        httpOptions: {
-          headers: {
-            'User-Agent': 'aistudio-build',
-          },
-        },
-      });
-      console.log('Gemini GenAI SDK initialized successfully.');
-    } catch (err) {
-      console.warn('Failed to initialize Gemini SDK:', err);
-    }
-  }
-
   // Health check
   app.get('/api/health', (req, res) => {
     res.json({
       status: 'ok',
       ssrEngine: 'active',
-      geminiAvailable: !!process.env.GEMINI_API_KEY,
       timestamp: new Date().toISOString(),
     });
   });
@@ -231,12 +210,6 @@ async function startServer() {
 
   const assistantLimiter = assistantRateLimiter(150, 15 * 60 * 1000); // 150 req / 15 min / IP
 
-  const sanitizePromptField = (value: unknown, maxLen: number): string => {
-    if (value === null || value === undefined) return '';
-    // Strip control characters (incl. newlines) to shrink the prompt-injection surface.
-    return String(value).replace(/[\u0000-\u001f\u007f]/g, ' ').slice(0, maxLen);
-  };
-
   app.post('/api/assistant', assistantLimiter, async (req, res) => {
     const body = req.body || {};
     const rawMessage: unknown = body.message;
@@ -253,105 +226,12 @@ async function startServer() {
 
     const prompt = message || 'Hello';
 
-    let promptContent = prompt;
-    const fileContext = body.fileContext;
-    if (fileContext && typeof fileContext === 'object') {
-      const name = sanitizePromptField(fileContext.name, 200);
-      const size = sanitizePromptField(fileContext.size, 20);
-      const mimeType = sanitizePromptField(fileContext.mimeType, 120);
-      const magicBytes = sanitizePromptField(fileContext.magicBytes, 200);
-      promptContent = `[ATTACHED FILE FOR ANALYSIS]:
-FileName: ${name}
-FileSize: ${size} bytes
-MIME Type: ${mimeType}
-Magic Bytes Hex: ${magicBytes || 'N/A'}
-
-USER QUESTION:
-${prompt}`;
-    }
-
-    if (!process.env.GEMINI_API_KEY || !ai) {
-      console.log('No GEMINI_API_KEY found or AI uninitialized, returning local knowledge engine response.');
-      const fallback = generateLocalFallbackResponse(prompt);
-      return res.json({
-        text: fallback.text,
-        suggestedActions: fallback.suggestedActions,
-        isFallback: true,
-      });
-    }
-
-    try {
-      const systemInstruction = buildDatabaseContext();
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash',
-        contents: promptContent,
-        config: {
-          systemInstruction,
-          temperature: 0.7,
-        },
-      });
-
-      const responseText = response.text || 'I apologize, but I was unable to generate a response for that file format query.';
-      const suggestedActions = extractSuggestedActions(prompt, responseText);
-
-      return res.json({
-        text: responseText,
-        suggestedActions,
-        isFallback: false,
-      });
-    } catch (error: any) {
-      const isRateLimit =
-        error?.status === 429 ||
-        error?.code === 429 ||
-        String(error?.message || '').toLowerCase().includes('resource_exhausted') ||
-        String(error?.message || '').toLowerCase().includes('rate') ||
-        String(error?.message || '').toLowerCase().includes('quota');
-
-      console.warn('Gemini Assistant call note:', error?.message || error);
-      const fallback = generateLocalFallbackResponse(prompt);
-      const notice = isRateLimit
-        ? '*(Note: AI rate limit reached. Answered instantly via AnyFileX offline format intelligence engine.)*'
-        : '*(Note: Generated via AnyFileX Local Knowledge Engine due to network fallback)*';
-
-      return res.json({
-        text: `${fallback.text}\n\n${notice}`,
-        suggestedActions: fallback.suggestedActions,
-        isFallback: true,
-        rateLimitExceeded: isRateLimit,
-        error: isRateLimit ? 'Rate limit reached' : error?.message || 'Gemini API call error',
-      });
-    }
-  });
-  // Admin login — server-side passphrase validation. The passphrase lives in
-  // ADMIN_PASSPHRASE on the server and is never shipped to the client bundle.
-  const adminAttempts = new Map<string, { count: number; resetAt: number }>();
-  app.post('/api/admin/login', (req, res) => {
-    const ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
-      .toString().split(',')[0].trim();
-    const now = Date.now();
-    const entry = adminAttempts.get(ip);
-    if (entry && now < entry.resetAt && entry.count >= 5) {
-      return res.status(429).json({ ok: false, error: 'Too many attempts. Try again later.' });
-    }
-    if (!entry || now >= entry.resetAt) {
-      adminAttempts.set(ip, { count: 0, resetAt: now + 15 * 60 * 1000 });
-    }
-    const passkey = (req.body?.passkey || '').toString();
-    const expected = process.env.ADMIN_PASSPHRASE;
-    if (!expected) {
-      return res.status(503).json({ ok: false, error: 'Admin access is not configured on this server.' });
-    }
-    const a = Buffer.from(passkey);
-    const b = Buffer.from(expected);
-    const ok = a.length === b.length && crypto.timingSafeEqual(a, b);
-    if (ok) {
-      adminAttempts.delete(ip);
-      return res.json({ ok: true });
-    }
-    const e = adminAttempts.get(ip)!;
-    e.count += 1;
-    return res.status(401).json({ ok: false, error: 'Invalid passphrase.' });
+    const fallback = generateLocalFallbackResponse(prompt);
+    return res.json({
+      text: fallback.text,
+      suggestedActions: fallback.suggestedActions,
+      isFallback: true,
+    });
   });
 
   // Serve static assets from public directory
@@ -487,5 +367,3 @@ ${prompt}`;
 }
 
 startServer();
-
-

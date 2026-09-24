@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest';
+import fs from 'node:fs';
+import path from 'node:path';
 import {
   buildRouteManifest,
   isExcludedFromSitemap,
@@ -9,10 +11,9 @@ import {
   isValidConverterId,
   isValidToolSlug,
   BASE_URL,
+  getRouteManifestEntry,
 } from '../../src/lib/routes/routeManifest';
 import sitemap from '../../src/app/sitemap';
-import { renderSsrPageHtml } from '../../src/lib/ssr/ssrRenderer';
-import { getCanonicalRedirect } from '../../src/lib/ssr/canonicalRedirects';
 
 describe('Next.js Migration & Content Manifest Verification', () => {
   const manifest = buildRouteManifest();
@@ -50,7 +51,7 @@ describe('Next.js Migration & Content Manifest Verification', () => {
   it('ensures canonical URLs strictly match the requested public URLs', () => {
     for (const item of manifest) {
       expect(item.canonicalUrl.startsWith(BASE_URL)).toBe(true);
-      const expectedUrl = `${BASE_URL}${item.path === '/' ? '' : item.path}`;
+      const expectedUrl = `${BASE_URL}${item.path === '/' ? '' : item.path.replace(/\+/g, '%2B')}`;
       expect(item.canonicalUrl).toBe(expectedUrl);
     }
   });
@@ -123,27 +124,27 @@ describe('Next.js Migration & Content Manifest Verification', () => {
     expect(urls).toContain(`${BASE_URL}/file-extensions/pdf`);
   });
 
-  it('guarantees that no sitemap URL redirects (all canonical sitemap URLs return zero redirects)', () => {
+  it('guarantees that every sitemap URL is represented by the shared manifest', () => {
     const sitemapEntries = sitemap();
     for (const entry of sitemapEntries) {
       const urlObj = new URL(entry.url);
-      const redirect = getCanonicalRedirect(urlObj.pathname);
-      expect(redirect).toBeNull();
+      expect(getRouteManifestEntry(urlObj.pathname)).toBeDefined();
+      expect(isExcludedFromSitemap(urlObj.pathname)).toBe(false);
     }
   });
 
-  it('verifies that prerendered / server-rendered HTML contains core semantic content and metadata', () => {
-    const homeHtml = renderSsrPageHtml('/', 'AnyFileX');
-    expect(homeHtml).toContain('<!doctype html>');
-    expect(homeHtml).toContain('<title>');
-    expect(homeHtml).toContain('AnyFileX');
-    expect(homeHtml).toContain('Open Any File in Seconds');
-
-    const heicHtml = renderSsrPageHtml('/file-extensions/heic', 'AnyFileX');
-    expect(heicHtml).toContain('HEIC');
-    expect(heicHtml).toContain('High Efficiency Image Container');
-
-    const googleDocsHtml = renderSsrPageHtml('/software/google-docs', 'AnyFileX');
-    expect(googleDocsHtml).toContain('Google Docs');
+  it('has App Router page implementations for the Phase 1 public routes', () => {
+    const appRoot = path.resolve(process.cwd(), 'src/app');
+    for (const file of [
+      'page.tsx',
+      'file-extensions/page.tsx',
+      'file-extensions/[ext]/page.tsx',
+      'software/page.tsx',
+      'software/[id]/page.tsx',
+      'sitemap.ts',
+      'not-found.tsx',
+    ]) {
+      expect(fs.existsSync(path.join(appRoot, file)), file).toBe(true);
+    }
   });
 });

@@ -27,15 +27,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const conv = CONVERTERS_LIST.find((c) => c.id.toLowerCase() === cleanId);
-  const title = `${conv?.name || cleanId.toUpperCase()} – Free In-Browser Converter | AnyFileX`;
-  const description = `${conv?.description || 'Convert file formats'} 100% private client-side conversion in your browser with zero server uploads.`;
+  const title = `${conv?.name || cleanId.toUpperCase()} – Free In-Browser Converter`;
+  const description = conv?.onlineConversionSupported
+    ? `${conv.description} 100% private client-side conversion in your browser with zero server uploads.`
+    : `${conv?.description || 'File conversion guidance'} Learn which desktop and web applications can safely convert this format.`;
   const canonicalUrl = `${BASE_URL}/converters/${cleanId}`;
 
   return {
     title,
     description,
     alternates: { canonical: canonicalUrl },
-    openGraph: { title, description, url: canonicalUrl, type: 'article' },
+    openGraph: { title: `${title} | AnyFileX`, description, url: canonicalUrl, type: 'article' },
   };
 }
 

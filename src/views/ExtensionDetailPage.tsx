@@ -47,9 +47,10 @@ import { getBestComparisonForExtension } from '../lib/database/knowledgeGraph';
 interface ExtensionDetailPageProps {
   ext: string;
   onNavigate: (route: AppRoute) => void;
+  initialFile?: File | null;
 }
 
-export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, onNavigate }) => {
+export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, onNavigate, initialFile }) => {
   const [activeToc, setActiveToc] = useState('quick-facts');
   const [copiedExt, setCopiedExt] = useState(false);
   const [shared, setShared] = useState(false);
@@ -411,7 +412,7 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
 
           {/* Section 2: Online In-Browser Live Viewer */}
           <section id="live-viewer" className="scroll-mt-24">
-            <ExtensionLiveViewer item={item} onNavigate={onNavigate} />
+            <ExtensionLiveViewer item={item} onNavigate={onNavigate} initialFile={initialFile} />
           </section>
 
           {/* Section 3-10: Deep Topical Authority (What is, How to Open, Conversions, MIME, Magic Bytes, Comparison, Compatibility) */}

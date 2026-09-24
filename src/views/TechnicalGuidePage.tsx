@@ -27,6 +27,7 @@ import {
   Database
 } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
+import { generateFAQSchema } from '../lib/seo/faqGenerator';
 import { AuthorBadge } from '../components/AuthorBadge';
 import { EditorialStandardsModal } from '../components/EditorialStandardsModal';
 import {
@@ -104,23 +105,28 @@ export const TechnicalGuidePage: React.FC<TechnicalGuidePageProps> = ({
         canonicalPath={`/security/${guide.slug}`}
         schemaData={{
           '@context': 'https://schema.org',
-          '@type': 'TechArticle',
-          headline: guide.title,
-          description: guide.subtitle,
-          url: `https://www.anyfilex.com/security/${guide.slug}`,
-          mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': `https://www.anyfilex.com/security/${guide.slug}`
-          },
-          author: {
-            '@type': 'Person',
-            name: guide.author.name,
-            jobTitle: guide.author.role
-          },
-          publisher: {
-            '@type': 'Organization',
-            name: 'AnyFileX Technical Authority & File Intelligence Standards'
-          }
+          '@graph': [
+            {
+              '@type': 'TechArticle',
+              headline: guide.title,
+              description: guide.subtitle,
+              url: `https://www.anyfilex.com/security/${guide.slug}`,
+              mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': `https://www.anyfilex.com/security/${guide.slug}`
+              },
+              author: {
+                '@type': 'Person',
+                name: guide.author.name,
+                jobTitle: guide.author.role
+              },
+              publisher: {
+                '@type': 'Organization',
+                name: 'AnyFileX Technical Authority & File Intelligence Standards'
+              }
+            },
+            generateFAQSchema(guide.faqs || []),
+          ],
         }}
       />
 

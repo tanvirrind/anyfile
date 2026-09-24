@@ -266,7 +266,7 @@ How can I assist you with digital file formats today?`,
                   AnyFileX AI Assistant
                 </h1>
                 <span className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded-full border border-blue-200 dark:border-blue-800">
-                  Gemini 3.6 Flash
+                  Local Knowledge Engine
                 </span>
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400">

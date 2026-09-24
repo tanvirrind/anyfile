@@ -6,6 +6,7 @@ import { Breadcrumb } from '../components/Breadcrumb';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
+import { generateFAQSchema } from '../lib/seo/faqGenerator';
 
 interface RepairPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -22,7 +23,8 @@ export const RepairPage: React.FC<RepairPageProps> = ({ onNavigate, selectedRepa
         <SEOHead
           title={`${guide.title} – Corrupt .${guide.extension} Recovery`}
           description={`Step-by-step tutorial on repairing corrupted .${guide.extension} files. Fix truncated headers, CRC errors, and broken data streams.`}
-          canonicalPath={`/repair/${guide.id}`}
+          canonicalPath={`/troubleshoot/${guide.id}`}
+          schemaData={generateFAQSchema(guide.faqs || [])}
         />
         <Breadcrumb
           items={[

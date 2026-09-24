@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { AppRoute } from '../../types';
 import { ContentEntity } from '../../lib/content/types';
 import { computeInternalLinksForEntity } from '../../lib/content/internalLinkingEngine';
@@ -8,6 +9,7 @@ import { Breadcrumb } from '../Breadcrumb';
 import { Badge } from '../Badge';
 import { TOCSidebar } from '../TOCSidebar';
 import { SEOHead } from '../SEOHead';
+import { generateFAQSchema } from '../../lib/seo/faqGenerator';
 import { AuthorBadge } from '../AuthorBadge';
 import { EditorialStandardsModal } from '../EditorialStandardsModal';
 import {
@@ -87,26 +89,32 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
   // Generate real Schema.org JSON-LD
   const schemaPayload: any = {
     '@context': 'https://schema.org',
-    '@type': entity.schemaType === 'HowTo' ? 'HowTo' : 'TechArticle',
-    headline: entity.h1 || entity.title,
-    description: entity.summary,
-    author: {
-      '@type': 'Person',
-      name: entity.author.name,
-      jobTitle: entity.author.role
-    },
-    datePublished: entity.publishedDate || entity.createdAt,
-    dateModified: entity.updatedDate,
-    mainEntityOfPage: `https://www.anyfilex.com/guides/${entity.slug}`
+    '@graph': [{
+      '@type': entity.schemaType === 'HowTo' ? 'HowTo' : 'TechArticle',
+      headline: entity.h1 || entity.title,
+      description: entity.summary,
+      author: {
+        '@type': 'Person',
+        name: entity.author.name,
+        jobTitle: entity.author.role
+      },
+      datePublished: entity.publishedDate || entity.createdAt,
+      dateModified: entity.updatedDate,
+      mainEntityOfPage: `https://www.anyfilex.com/guides/${entity.slug}`
+    }]
   };
 
   if (entity.schemaType === 'HowTo') {
-    schemaPayload.step = entity.contentSections.map((sec, i) => ({
+    schemaPayload['@graph'][0].step = entity.contentSections.map((sec, i) => ({
       '@type': 'HowToStep',
       name: sec.heading,
       text: sec.body,
       position: i + 1
     }));
+  }
+
+  if (entity.faq && entity.faq.length > 0) {
+    schemaPayload['@graph'].push(generateFAQSchema(entity.faq));
   }
 
   return (
@@ -259,15 +267,13 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
                 </p>
                 <div className="flex flex-wrap gap-3 pt-1">
                   {linkingMatrix.toolLinks.slice(0, 2).map((t, idx) => (
-                    <button
+                    <Link
                       key={idx}
-                      onClick={() => {
-                        if (t.route) onNavigate(t.route);
-                      }}
+                      href={t.targetUrl}
                       className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs"
                     >
                       <Zap className="w-3.5 h-3.5" /> {t.targetTitle}
-                    </button>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -293,11 +299,12 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
                         <span>{f.question}</span>
                         {expandedFaqIndex === fIdx ? <ChevronUp className="w-4 h-4 text-blue-500" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
                       </button>
-                      {expandedFaqIndex === fIdx && (
-                        <div className="p-4 pt-0 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/50">
-                          {f.answer}
-                        </div>
-                      )}
+                      <div
+                        className={`${expandedFaqIndex === fIdx ? 'block' : 'hidden'} p-4 pt-0 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-100 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/50`}
+                        aria-hidden={expandedFaqIndex !== fIdx}
+                      >
+                        {f.answer}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -389,8 +396,8 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {linkingMatrix.parentHub && (
-                <div
-                  onClick={() => linkingMatrix.parentHub?.route && onNavigate(linkingMatrix.parentHub.route)}
+                <Link
+                  href={linkingMatrix.parentHub.targetUrl}
                   className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-all cursor-pointer group"
                 >
                   <span className="text-[11px] font-bold text-blue-600 block uppercase">Topic Hub</span>
@@ -398,13 +405,13 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
                     {linkingMatrix.parentHub.targetTitle}
                   </div>
                   <span className="text-xs text-slate-500 block mt-1">{linkingMatrix.parentHub.anchorText}</span>
-                </div>
+                </Link>
               )}
 
               {linkingMatrix.guideLinks.slice(0, 3).map((g, idx) => (
-                <div
+                <Link
                   key={idx}
-                  onClick={() => g.route && onNavigate(g.route)}
+                  href={g.targetUrl}
                   className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-all cursor-pointer group"
                 >
                   <span className="text-[11px] font-bold text-emerald-600 block uppercase">{g.contextHint}</span>
@@ -412,7 +419,7 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
                     {g.targetTitle}
                   </div>
                   <span className="text-xs text-slate-500 block mt-1">{g.anchorText}</span>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

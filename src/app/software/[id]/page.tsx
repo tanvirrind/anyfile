@@ -5,7 +5,7 @@ import { SoftwarePageClient } from '@/components/software/SoftwarePageClient';
 import { SOFTWARE_LIST } from '@/data/softwareData';
 import { BASE_URL, isValidSoftwareId } from '@/lib/routes/routeManifest';
 import { getOrGenerateSoftwareInfo } from '@/lib/database/softwareEngine';
-import { GOOGLE_DOCS_FAQS } from '@/components/software/GoogleDocsDetailView';
+import { GOOGLE_DOCS_FAQS } from '@/data/googleDocsFaqs';
 
 interface PageProps {
   params: Promise<{ id: string }>;

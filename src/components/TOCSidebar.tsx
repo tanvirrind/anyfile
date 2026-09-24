@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { List, Copy, Check, ChevronDown, ChevronUp } from 'lucide-react';
 
 export interface TOCItem {
@@ -85,7 +86,8 @@ export const TOCSidebar: React.FC<TOCSidebarProps> = ({
         {items.map((item) => {
           const isActive = activeId === item.id;
           return (
-            <button
+            <Link
+              href={`#${item.id}`}
               key={item.id}
               onClick={() => handleSelect(item.id)}
               className={`w-full text-left px-3 py-2 rounded-xl font-medium transition-all flex items-center justify-between cursor-pointer ${
@@ -97,11 +99,10 @@ export const TOCSidebar: React.FC<TOCSidebarProps> = ({
             >
               <span className="line-clamp-1">{item.label}</span>
               {isActive && <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0 ml-2"></span>}
-            </button>
+            </Link>
           );
         })}
       </nav>
     </div>
   );
 };
-

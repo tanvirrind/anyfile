@@ -46,6 +46,7 @@ import { ConverterSecurityNotice } from '../components/converter/ConverterSecuri
 import { ConversionHistoryWidget } from '../components/converter/ConversionHistoryWidget';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
+import { CONVERTERS_LIST } from '../data/convertersData';
 
 interface ConverterDetailPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -66,6 +67,18 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
 
   const pair = useMemo(() => resolveConverterPair(pairSlug), [pairSlug]);
   const guide = useMemo(() => getConversionAuthorityGuide(pairSlug), [pairSlug]);
+  const catalogEntry = useMemo(
+    () => CONVERTERS_LIST.find((converter) => converter.id === pairSlug.toLowerCase()),
+    [pairSlug]
+  );
+  const hasCustomWorkspace = [
+    'zip-creator',
+    'zip-extractor',
+    'rar-extractor',
+    '3mf-to-stl',
+    'eml-to-pdf',
+    'msg-to-pdf',
+  ].includes(pair.id);
 
   const handleCopyLink = () => {
     if (typeof window !== 'undefined') {
@@ -75,8 +88,105 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
     }
   };
 
+  // Some catalog entries are intentionally informational: the browser does
+  // not have a verified decoder/encoder for the source and target formats.
+  // Keep these public URLs useful without rendering an upload control that
+  // cannot actually process the file.
+  if (catalogEntry && !catalogEntry.onlineConversionSupported && !hasCustomWorkspace) {
+    const fromUpper = catalogEntry.fromExt.toUpperCase();
+    const toUpper = catalogEntry.toExt.toUpperCase();
+
+    return (
+      <div className="py-8 md:py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 animate-in fade-in duration-200">
+        <SEOHead
+          title={`${catalogEntry.name} – Conversion Guide`}
+          description={`${catalogEntry.description} Learn how to create a reliable .${toUpper} export using a DWG-capable application.`}
+          canonicalPath={`/converters/${catalogEntry.id}`}
+          schemaData={{
+            '@context': 'https://schema.org',
+            '@graph': [
+              {
+                '@type': 'WebPage',
+                '@id': `https://www.anyfilex.com/converters/${catalogEntry.id}#webpage`,
+                name: `${catalogEntry.name} – Conversion Guide`,
+                url: `https://www.anyfilex.com/converters/${catalogEntry.id}`,
+                description: catalogEntry.description,
+              },
+              {
+                '@type': 'FAQPage',
+                '@id': `https://www.anyfilex.com/converters/${catalogEntry.id}#faq`,
+                mainEntity: catalogEntry.faqs.map((faq) => ({
+                  '@type': 'Question',
+                  name: faq.question,
+                  acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+                })),
+              },
+            ],
+          }}
+        />
+
+        <Breadcrumb
+          items={[
+            { label: 'Converters', route: { view: 'converters' } },
+            { label: `Convert ${fromUpper} to ${toUpper}` },
+          ]}
+          onNavigate={onNavigate}
+        />
+
+        <header className="text-center max-w-3xl mx-auto space-y-4">
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <Badge variant="blue" size="md">{catalogEntry.category} Conversion Guide</Badge>
+            <span className="text-xs font-mono font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1 rounded-full">
+              .{fromUpper} → .{toUpper}
+            </span>
+          </div>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+            How to Convert .{fromUpper} to .{toUpper}
+          </h1>
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+            {catalogEntry.description}
+          </p>
+        </header>
+
+        <section className="max-w-3xl mx-auto rounded-3xl border border-amber-200 bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/30 p-6 sm:p-8 space-y-3">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Browser conversion is not available for this format</h2>
+          <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+            AnyFileX does not currently decode DWG files or generate PDF files from them in browser memory. No file is uploaded or processed on this page. Use a DWG-capable CAD application for the conversion workflow below.
+          </p>
+        </section>
+
+        <section className="max-w-3xl mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 space-y-5">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Recommended workflow</h2>
+          <ol className="space-y-4 list-decimal pl-5 text-sm text-slate-600 dark:text-slate-300">
+            {catalogEntry.steps.map((step) => (
+              <li key={step.title} className="pl-2">
+                <strong className="text-slate-900 dark:text-white">{step.title}.</strong> {step.desc}
+              </li>
+            ))}
+          </ol>
+          <div>
+            <h3 className="font-bold text-slate-900 dark:text-white mb-2">Applications to consider</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300">{catalogEntry.recommendedApps.join(' · ')}</p>
+          </div>
+        </section>
+
+        <section className="max-w-3xl mx-auto space-y-4">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Common export issues</h2>
+          <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+            {catalogEntry.commonIssues.map((issue) => <li key={issue}>{issue}</li>)}
+          </ul>
+        </section>
+
+        <section className="max-w-3xl mx-auto space-y-4">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Frequently asked question</h2>
+          <FAQAccordion faqs={catalogEntry.faqs} />
+        </section>
+      </div>
+    );
+  }
+
   // If the conversion is not supported in AnyFileX (Quality Control Rule)
-  if (!guide && pair.id !== 'zip-creator' && pair.id !== 'zip-extractor' && pair.id !== 'rar-extractor') {
+  if (!guide && !hasCustomWorkspace) {
     return (
       <div className="py-16 max-w-4xl mx-auto px-4 text-center space-y-6">
         <div className="w-16 h-16 rounded-2xl bg-amber-100 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto">

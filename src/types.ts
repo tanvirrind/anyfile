@@ -300,6 +300,8 @@ export type AppRoute =
   | { view: 'seo-audit' }
   | { view: 'sitemaps' }
   | { view: 'about' }
+  | { view: 'privacy' }
+  | { view: 'terms' }
   | { view: 'editorial-standards' }
   | { view: 'authors'; authorId?: string }
   | { view: 'contact' }

@@ -116,6 +116,10 @@ export function routeToPath(route: AppRoute): string {
       return '/sitemaps';
     case 'about':
       return '/about';
+    case 'privacy':
+      return '/privacy';
+    case 'terms':
+      return '/terms';
     case 'editorial-standards':
       return '/editorial-standards';
     case 'authors':
@@ -330,6 +334,13 @@ export function parsePathToRoute(pathname: string, search: string = ''): AppRout
     }
     case 'about':
       return { view: 'about' };
+    case 'privacy':
+    case 'privacy-policy':
+      return { view: 'privacy' };
+    case 'terms':
+    case 'terms-and-conditions':
+    case 'terms-of-service':
+      return { view: 'terms' };
     case 'editorial':
     case 'editorial-standards':
     case 'editorial-policy':
@@ -373,4 +384,3 @@ export function parsePathToRoute(pathname: string, search: string = ''): AppRout
     }
   }
 }
-

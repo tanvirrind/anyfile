@@ -20,6 +20,7 @@ import {
   Lock
 } from 'lucide-react';
 import { SEOHead } from '../components/SEOHead';
+import { generateFAQSchema } from '../lib/seo/faqGenerator';
 import { DiagnosticDropzone } from '../components/DiagnosticDropzone';
 import {
   getTroubleshootingGuide,
@@ -57,18 +58,23 @@ export const TroubleshootGuidePage: React.FC<TroubleshootGuidePageProps> = ({
         canonicalPath={`/troubleshoot/${guide.id}`}
         schemaData={{
           '@context': 'https://schema.org',
-          '@type': 'TechArticle',
-          headline: guide.title,
-          description: guide.subtitle,
-          url: `https://www.anyfilex.com/troubleshoot/${guide.id}`,
-          mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': `https://www.anyfilex.com/troubleshoot/${guide.id}`
-          },
-          author: {
-            '@type': 'Organization',
-            name: 'AnyFileX Technical Diagnostic Team'
-          }
+          '@graph': [
+            {
+              '@type': 'TechArticle',
+              headline: guide.title,
+              description: guide.subtitle,
+              url: `https://www.anyfilex.com/troubleshoot/${guide.id}`,
+              mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': `https://www.anyfilex.com/troubleshoot/${guide.id}`
+              },
+              author: {
+                '@type': 'Organization',
+                name: 'AnyFileX Technical Diagnostic Team'
+              }
+            },
+            generateFAQSchema(guide.faqs || []),
+          ],
         }}
       />
 
