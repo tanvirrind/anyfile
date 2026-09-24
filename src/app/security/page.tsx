@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description: 'Technical security research on executable disguises, macro payloads, polyglot files, and header integrity verification.',
     url: 'https://www.anyfilex.com/security',
     type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },
 };
 

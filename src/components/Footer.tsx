@@ -41,7 +41,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer className="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800 shrink-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12 pb-12 border-b border-slate-800 text-left">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 pb-12 border-b border-slate-800 text-left">
           {/* Brand Column */}
           <div className="col-span-1 sm:col-span-2 space-y-4 text-left">
             {renderAnchor(
@@ -91,102 +91,28 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* Links Column 1: Extensions */}
+          {/* Primary links */}
           <div className="text-left">
-            <h4 className="text-xs font-heading font-bold uppercase tracking-wider text-white mb-4 text-left">Popular Extensions</h4>
-            <ul className="space-y-2.5 text-xs text-slate-400 text-left">
-              {['HEIC', 'PSD', 'DWG', 'STEP', 'EML', 'DAT', 'PDF', 'WEBP', 'ZIP'].map((ext) => (
-                <li key={ext} className="text-left">
-                  {renderAnchor(
-                    { view: 'extension-detail', ext },
-                    'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug',
-                    `.${ext} Format Guide`
-                  )}
-                </li>
-              ))}
+            <h4 className="text-xs font-heading font-bold uppercase tracking-wider text-white mb-4">Explore</h4>
+            <ul className="space-y-2.5 text-xs text-slate-400">
+              <li>{renderAnchor({ view: 'extensions' }, 'hover:text-blue-400 transition-colors', 'File Extensions')}</li>
+              <li>{renderAnchor({ view: 'guides' }, 'hover:text-blue-400 transition-colors', 'Guides')}</li>
+              <li>{renderAnchor({ view: 'how-to-open' }, 'hover:text-blue-400 transition-colors', 'How to Open Files')}</li>
+              <li>{renderAnchor({ view: 'software' }, 'hover:text-blue-400 transition-colors', 'Software')}</li>
+              <li>{renderAnchor({ view: 'compare-hub' }, 'hover:text-blue-400 transition-colors', 'Compare Formats')}</li>
+              <li>{renderAnchor({ view: 'converters' }, 'hover:text-blue-400 transition-colors', 'Converters')}</li>
+              <li>{renderAnchor({ view: 'tools' }, 'hover:text-blue-400 transition-colors', 'Tools')}</li>
             </ul>
           </div>
 
-          {/* Links Column 2: Tools & Converters */}
+          {/* Company and legal links */}
           <div className="text-left">
-            <h4 className="text-xs font-heading font-bold uppercase tracking-wider text-white mb-4 text-left">Tools & Utilities</h4>
-            <ul className="space-y-2.5 text-xs text-slate-400 text-left">
-              <li className="text-left">
-                {renderAnchor({ view: 'file-identifier' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Magic Byte Identifier Engine')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'metadata-viewer' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'EXIF & File Metadata Viewer')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'remove-metadata' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Remove Metadata Privacy Guide')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'hash-generator' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'File Hash Generator (MD5 / SHA256)')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'checksum-verifier' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Checksum Verifier')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'mime-checker' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'MIME Type Checker')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'magic-byte-detector' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Magic Byte Detector')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'converters' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Online File Converters')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'repair' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Troubleshoot & Problem Hub')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'repair-detail', id: 'why-wont-my-file-open' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', "Why Won't My File Open?")}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'repair-detail', id: 'fix-file-wrong-extension' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Fix Wrong File Extension')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'tools', toolId: 'hash' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'SHA-256 Checksum Verifier')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'tools', toolId: 'size-calc' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'File Size Calculator')}
-              </li>
-            </ul>
-          </div>
-
-          {/* Links Column 3: Format Guides & Technical Authority */}
-          <div className="text-left">
-            <h4 className="text-xs font-heading font-bold uppercase tracking-wider text-white mb-4 text-left">Format Guides & Authority</h4>
-            <ul className="space-y-2.5 text-xs text-slate-400 text-left">
-              <li className="text-left">
-                {renderAnchor({ view: 'security-hub' } as any, 'text-left block w-full hover:text-blue-400 font-semibold text-blue-300 transition-colors cursor-pointer leading-snug', '🛡️ Security & Authority Center')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'technical-guide', slug: 'what-are-magic-bytes' } as any, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'What Are Magic Bytes?')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'technical-guide', slug: 'what-is-file-entropy' } as any, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'What Is File Entropy?')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'technical-guide', slug: 'what-is-sha-256' } as any, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'What Is SHA-256?')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'technical-guide', slug: 'what-is-a-zip-bomb' } as any, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'What Is a ZIP Bomb?')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'technical-guide', slug: 'how-file-extensions-can-be-spoofed' } as any, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'How Extensions Are Spoofed')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'format-guide', format: 'heic' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'HEIC Format Specifications')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'format-guide', format: 'webp' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'What Is a WEBP File?')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'how-to-open' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'How to Open Any File')}
-              </li>
-              <li className="text-left">
-                {renderAnchor({ view: 'compare-hub' }, 'text-left block w-full hover:text-blue-400 transition-colors cursor-pointer leading-snug', 'Compare File Formats')}
-              </li>
+            <h4 className="text-xs font-heading font-bold uppercase tracking-wider text-white mb-4">Company</h4>
+            <ul className="space-y-2.5 text-xs text-slate-400">
+              <li>{renderAnchor({ view: 'about' }, 'hover:text-blue-400 transition-colors', 'About AnyFileX')}</li>
+              <li>{renderAnchor({ view: 'contact' }, 'hover:text-blue-400 transition-colors', 'Contact')}</li>
+              <li>{renderAnchor({ view: 'privacy' }, 'hover:text-blue-400 transition-colors', 'Privacy Policy')}</li>
+              <li>{renderAnchor({ view: 'terms' }, 'hover:text-blue-400 transition-colors', 'Terms & Conditions')}</li>
             </ul>
           </div>
 
@@ -196,10 +122,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
           <div>© {new Date().getFullYear()} AnyFileX. Open Any File in Seconds with AnyFileX. All rights reserved.</div>
           <div className="flex items-center gap-3 text-slate-400">
-            {renderAnchor({ view: 'privacy' }, 'hover:text-blue-400 transition-colors', 'Privacy Policy')}
-            <span aria-hidden="true">·</span>
-            {renderAnchor({ view: 'terms' }, 'hover:text-blue-400 transition-colors', 'Terms of Service')}
-            <span aria-hidden="true">·</span>
             <span>Built with precision for web power users</span>
           </div>
         </div>

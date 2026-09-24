@@ -159,13 +159,13 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
   // MIME lookup helper
   const mimeMatches = POPULAR_FILE_TYPES.filter((f) => f.mimeType.toLowerCase().includes(mimeQuery.toLowerCase().trim()));
 
-  const toolTabsList = [
+  const toolTabsList: Array<{ id: string; label: string; icon: typeof FileSearch; desc: string; badge?: string }> = [
     { id: 'identifier', label: 'File Identifier', icon: FileSearch, desc: 'Signature analysis & format detection' },
     { id: 'metadata', label: 'Metadata Viewer', icon: FileCode, desc: 'EXIF, size, and header properties' },
     { id: 'mime', label: 'MIME Type Checker', icon: Tag, desc: 'Instant MIME lookup database' },
     { id: 'magic-bytes', label: 'Magic Byte Detector', icon: Binary, desc: 'Hex header signature matcher' },
     { id: 'hash', label: 'Hash Generator', icon: Hash, desc: 'In-browser MD5 & SHA256 checksums' },
-    { id: 'converter', label: 'File Converter', icon: RefreshCw, desc: 'Format conversion tool', badge: 'Coming Soon' },
+    { id: 'converter', label: 'File Converter', icon: RefreshCw, desc: 'Format conversion tool' },
   ];
 
   return (

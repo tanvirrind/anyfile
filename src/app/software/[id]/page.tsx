@@ -56,6 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       url: canonicalUrl,
       type: 'article',
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: title }],
     },
     robots: {
       index: true,

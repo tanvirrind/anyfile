@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     description: 'Learn how AnyFileX handles files, messages, local browser storage, and privacy when you use our file intelligence tools.',
     url: 'https://www.anyfilex.com/privacy',
     type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },
 };
 

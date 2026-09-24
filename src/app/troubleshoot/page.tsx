@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description: 'Fix corrupted file headers, resolve missing codecs, and repair unreadable files with verified recovery techniques.',
     url: 'https://www.anyfilex.com/troubleshoot',
     type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },
 };
 

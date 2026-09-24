@@ -330,6 +330,31 @@ export function buildRouteManifest(): RouteManifestEntry[] {
   });
 
   add({
+    path: '/authors',
+    canonicalUrl: `${BASE_URL}/authors`,
+    type: 'authors',
+    title: 'AnyFileX Authors & Review Board',
+    description: 'Meet the authors and technical reviewers behind AnyFileX file format guidance and tools.',
+    priority: 0.5,
+    changefreq: 'monthly',
+    sitemapSegment: 'main',
+    isIndexable: true,
+  });
+
+  add({
+    path: '/authors/tanveer-hussain',
+    canonicalUrl: `${BASE_URL}/authors/tanveer-hussain`,
+    type: 'authors',
+    title: 'Tanveer Hussain – AnyFileX Author',
+    description: 'Author profile for Tanveer Hussain, writing about digital file formats, web systems, structured data, and privacy-aware tools.',
+    priority: 0.6,
+    changefreq: 'monthly',
+    sitemapSegment: 'main',
+    isIndexable: true,
+    params: { authorId: 'tanveer-hussain' },
+  });
+
+  add({
     path: '/privacy',
     canonicalUrl: `${BASE_URL}/privacy`,
     type: 'privacy',

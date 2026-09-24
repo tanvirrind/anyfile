@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description: 'In-depth engineering articles on container architectures, codec specifications, and binary data structures.',
     url: 'https://www.anyfilex.com/guides',
     type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },
 };
 

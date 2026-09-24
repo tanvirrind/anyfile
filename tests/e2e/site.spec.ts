@@ -72,6 +72,13 @@ test.describe('page rendering', () => {
     await page.goto('/');
     await expect(page).toHaveTitle(/AnyFileX/);
     await expect(page.locator('main#main-content')).not.toBeEmpty();
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://www.anyfilex.com/og-image.png');
+    await expect(page.getByText('Coming Soon', { exact: true })).toHaveCount(0);
+  });
+
+  test('site-wide favicon is included in the document head', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/favicon.svg');
   });
 
   test('privacy policy renders with canonical metadata and footer link', async ({ page }) => {
@@ -92,11 +99,33 @@ test.describe('page rendering', () => {
     await expect(page.getByRole('navigation', { name: 'Terms navigation' }).getByRole('link', { name: 'Privacy Policy', exact: true })).toHaveAttribute('href', '/privacy');
   });
 
+  test('Tanveer Hussain author profile renders with Person schema', async ({ page }) => {
+    const response = await page.goto('/authors/tanveer-hussain');
+    expect(response?.status()).toBe(200);
+    await expect(page).toHaveTitle('Tanveer Hussain – AnyFileX Author | AnyFileX');
+    await expect(page.getByRole('heading', { name: 'Tanveer Hussain', exact: true })).toBeVisible();
+    await expect(page.getByRole('img', { name: 'Tanveer Hussain', exact: true })).toHaveAttribute('src', /tanveer-hussain\.png/);
+    expect(await page.locator('script#json-ld-tanveer-hussain').textContent()).toContain('"@type":"Person"');
+    await expect(page.getByRole('link', { name: 'LinkedIn profile', exact: true })).toHaveAttribute('href', 'https://linkedin.com/in/tanvirrind/');
+  });
+
+  test('authors archive includes Tanveer Hussain', async ({ page }) => {
+    await page.goto('/authors');
+    await expect(page.getByRole('heading', { name: 'Tanveer Hussain', exact: true })).toBeVisible();
+    await expect(page.getByRole('img', { name: 'Tanveer Hussain', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'View author profile', exact: true })).toHaveAttribute('href', '/authors/tanveer-hussain');
+  });
+
   test('footer omits the Navigation section', async ({ page }) => {
     await page.goto('/');
     const footer = page.locator('footer');
     await expect(footer.getByRole('heading', { name: 'Navigation', exact: true })).toHaveCount(0);
-    await expect(footer.getByRole('heading', { name: 'Popular Extensions', exact: true })).toBeVisible();
+    await expect(footer.getByRole('heading', { name: 'Explore', exact: true })).toBeVisible();
+    await expect(footer.getByRole('heading', { name: 'Company', exact: true })).toBeVisible();
+    await expect(footer.getByText('.HEIC Format Guide', { exact: true })).toHaveCount(0);
+    await expect(footer.getByText('Magic Byte Identifier Engine', { exact: true })).toHaveCount(0);
+    await expect(footer.getByRole('link', { name: 'Privacy Policy', exact: true })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'Terms & Conditions', exact: true })).toBeVisible();
   });
 
   test('converter directory hydrates without React mismatch errors', async ({ page }) => {

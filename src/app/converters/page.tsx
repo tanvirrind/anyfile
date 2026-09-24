@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description: 'Convert images, documents, audio, and archives directly in your web browser with 100% privacy and zero server uploads.',
     url: 'https://www.anyfilex.com/converters',
     type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },
 };
 

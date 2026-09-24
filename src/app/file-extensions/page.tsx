@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description: 'Search and browse comprehensive technical specifications, MIME types, and header magic bytes for 250+ file extensions.',
     url: 'https://www.anyfilex.com/file-extensions',
     type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },
 };
 

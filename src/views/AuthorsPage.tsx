@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { ShieldCheck, Award, GraduationCap, BookOpen, CheckCircle2, FileText, ArrowRight, ExternalLink } from 'lucide-react';
 import { EDITORIAL_TEAM, AuthorQualification } from '../lib/content/editorialTeam';
 import { AppRoute } from '../types';
@@ -66,6 +67,31 @@ export const AuthorsPage: React.FC<AuthorsPageProps> = ({ onNavigate, selectedAu
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
+
+      {/* Featured author profile */}
+      <section className="rounded-3xl border border-blue-200 bg-blue-50/60 p-6 dark:border-blue-900/60 dark:bg-blue-950/20 sm:p-8">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            <img
+              src="/tanveer-hussain.png"
+              alt="Tanveer Hussain"
+              className="h-20 w-20 shrink-0 rounded-2xl object-cover border border-blue-200 shadow-sm dark:border-blue-800"
+            />
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Featured author</p>
+              <h2 className="mt-1 text-2xl font-bold text-slate-900 dark:text-white">Tanveer Hussain</h2>
+              <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Web systems, digital file formats, and practical technical guidance</p>
+            </div>
+          </div>
+          <Link
+            href="/authors/tanveer-hussain"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-blue-700"
+          >
+            <span>View author profile</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
 
       {/* Author Directory Grid */}
       <div className="space-y-8">

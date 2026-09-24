@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description: 'Side-by-side technical comparisons between competing file formats: compression, quality, metadata, and compatibility.',
     url: 'https://www.anyfilex.com/compare',
     type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },
 };
 
