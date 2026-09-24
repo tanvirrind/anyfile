@@ -107,14 +107,14 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
             '@graph': [
               {
                 '@type': 'WebPage',
-                '@id': `https://www.anyfilex.com/converters/${catalogEntry.id}#webpage`,
+                '@id': `https://anyfilex.com/converters/${catalogEntry.id}#webpage`,
                 name: `${catalogEntry.name} – Conversion Guide`,
-                url: `https://www.anyfilex.com/converters/${catalogEntry.id}`,
+                url: `https://anyfilex.com/converters/${catalogEntry.id}`,
                 description: catalogEntry.description,
               },
               {
                 '@type': 'FAQPage',
-                '@id': `https://www.anyfilex.com/converters/${catalogEntry.id}#faq`,
+                '@id': `https://anyfilex.com/converters/${catalogEntry.id}#faq`,
                 mainEntity: catalogEntry.faqs.map((faq) => ({
                   '@type': 'Question',
                   name: faq.question,
@@ -222,9 +222,9 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
           '@graph': [
             {
               '@type': 'WebApplication',
-              '@id': `https://www.anyfilex.com/converters/${pair.id}#app`,
+              '@id': `https://anyfilex.com/converters/${pair.id}#app`,
               name: pair.name,
-              url: `https://www.anyfilex.com/converters/${pair.id}`,
+              url: `https://anyfilex.com/converters/${pair.id}`,
               description: pair.description,
               applicationCategory: 'UtilitiesApplication',
               operatingSystem: 'Windows, macOS, Linux, iOS, Android',
@@ -233,7 +233,7 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
             ...(guide ? [
               {
                 '@type': 'HowTo',
-                '@id': `https://www.anyfilex.com/converters/${pair.id}#howto`,
+                '@id': `https://anyfilex.com/converters/${pair.id}#howto`,
                 name: `How to Convert ${fromUpper} to ${toUpper}`,
                 description: guide.metaDescription,
                 step: guide.steps.map((s) => ({
@@ -245,7 +245,7 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
               },
               {
                 '@type': 'FAQPage',
-                '@id': `https://www.anyfilex.com/converters/${pair.id}#faq`,
+                '@id': `https://anyfilex.com/converters/${pair.id}#faq`,
                 mainEntity: guide.faqs.map((f) => ({
                   '@type': 'Question',
                   name: f.question,

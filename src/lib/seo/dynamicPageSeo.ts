@@ -29,7 +29,7 @@ import { TOOLS_REGISTRY } from '../tools/toolsRegistry';
 import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine';
 import { EXPANDED_MIME_DATABASE } from '../../data/expandedMimeDatabase';
 
-const BASE_URL = 'https://www.anyfilex.com';
+const BASE_URL = 'https://anyfilex.com';
 
 /**
  * CATEGORIES_LIST uses presentational names ("Images & Raster Graphics") while

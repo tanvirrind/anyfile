@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   title: 'File Extensions Directory – Technical Format Specifications',
   description: 'Search and browse comprehensive technical specifications, MIME types, and header magic bytes for 250+ file extensions.',
   alternates: {
-    canonical: 'https://www.anyfilex.com/file-extensions',
+    canonical: 'https://anyfilex.com/file-extensions',
   },
   openGraph: {
     title: 'File Extensions Directory – Technical Format Specifications',
     description: 'Search and browse comprehensive technical specifications, MIME types, and header magic bytes for 250+ file extensions.',
-    url: 'https://www.anyfilex.com/file-extensions',
+    url: 'https://anyfilex.com/file-extensions',
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },
@@ -25,13 +25,13 @@ const BREADCRUMB_JSON_LD = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://www.anyfilex.com',
+      item: 'https://anyfilex.com',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'File Extensions',
-      item: 'https://www.anyfilex.com/file-extensions',
+      item: 'https://anyfilex.com/file-extensions',
     },
   ],
 };

@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: 'Terms of Service',
   description: 'Read the terms governing access to AnyFileX file format guides, browser-based tools, converters, and related services.',
   alternates: {
-    canonical: 'https://www.anyfilex.com/terms',
+    canonical: 'https://anyfilex.com/terms',
   },
   openGraph: {
     title: 'Terms of Service – AnyFileX',
     description: 'Read the terms governing access to AnyFileX file format guides, browser-based tools, converters, and related services.',
-    url: 'https://www.anyfilex.com/terms',
+    url: 'https://anyfilex.com/terms',
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },

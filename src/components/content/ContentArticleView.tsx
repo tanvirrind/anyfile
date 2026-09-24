@@ -100,7 +100,7 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
       },
       datePublished: entity.publishedDate || entity.createdAt,
       dateModified: entity.updatedDate,
-      mainEntityOfPage: `https://www.anyfilex.com/guides/${entity.slug}`
+      mainEntityOfPage: `https://anyfilex.com/guides/${entity.slug}`
     }]
   };
 

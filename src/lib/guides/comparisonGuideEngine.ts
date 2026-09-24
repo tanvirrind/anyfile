@@ -1429,7 +1429,7 @@ export function getComparisonGuide(slugInput: string): ComparisonGuideData {
             headline: `${ext1Upper} vs ${ext2Upper}: Technical File Format Comparison`,
             description: metaDescription,
             author: { '@type': 'Organization', name: 'AnyFileX Technical Knowledge Base' },
-            publisher: { '@type': 'Organization', name: 'AnyFileX', url: 'https://www.anyfilex.com/' },
+            publisher: { '@type': 'Organization', name: 'AnyFileX', url: 'https://anyfilex.com/' },
           },
           {
             '@type': 'FAQPage',
@@ -1599,7 +1599,7 @@ export function getComparisonGuide(slugInput: string): ComparisonGuideData {
           headline: `${ext1Upper} vs ${ext2Upper}: Technical File Format Comparison`,
           description: metaDescription,
           author: { '@type': 'Organization', name: 'AnyFileX Technical Knowledge Base' },
-          publisher: { '@type': 'Organization', name: 'AnyFileX', url: 'https://www.anyfilex.com/' },
+          publisher: { '@type': 'Organization', name: 'AnyFileX', url: 'https://anyfilex.com/' },
         },
       ],
     },

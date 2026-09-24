@@ -79,7 +79,7 @@ export const GuidesPage: React.FC<GuidesPageProps> = ({ onNavigate, selectedGuid
         seoMeta: {
           title: `${legacyGuide.title} | AnyFileX`,
           description: legacyGuide.summary,
-          canonical: `https://www.anyfilex.com/guides/${legacyGuide.slug || legacyGuide.id}`,
+          canonical: `https://anyfilex.com/guides/${legacyGuide.slug || legacyGuide.id}`,
           robots: 'index, follow'
         },
         author: {

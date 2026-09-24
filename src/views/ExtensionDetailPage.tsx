@@ -159,7 +159,7 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
 
   // Schema.org JSON-LD structured data for SEO
   const canonicalPath = `/file-extensions/${item.extension.toLowerCase()}`;
-  const canonicalUrl = `https://www.anyfilex.com${canonicalPath}`;
+  const canonicalUrl = `https://anyfilex.com${canonicalPath}`;
   const faqs = generateExtensionFAQs(item);
 
   // Complete Schema Graph combining BreadcrumbList, TechArticle, SoftwareApplication, FAQPage, WebPage
@@ -179,13 +179,13 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
               '@type': 'ListItem',
               position: 1,
               name: 'Home',
-              item: 'https://www.anyfilex.com/',
+              item: 'https://anyfilex.com/',
             },
             {
               '@type': 'ListItem',
               position: 2,
               name: 'Extensions',
-              item: 'https://www.anyfilex.com/file-extensions',
+              item: 'https://anyfilex.com/file-extensions',
             },
             {
               '@type': 'ListItem',

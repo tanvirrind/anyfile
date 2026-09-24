@@ -185,7 +185,7 @@ export default function App({ initialRoute }: AppProps = {}) {
                   '@context': 'https://schema.org',
                   '@type': 'WebApplication',
                   name: 'AnyFileX',
-                  url: 'https://www.anyfilex.com/',
+                  url: 'https://anyfilex.com/',
                   description: 'Open Any File in Seconds with AnyFileX. Convert, repair, identify, and understand any digital file format.',
                   applicationCategory: 'UtilitiesApplication',
                   operatingSystem: 'Windows, macOS, Linux, Android, iOS'

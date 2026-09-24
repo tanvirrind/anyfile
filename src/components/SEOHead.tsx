@@ -20,7 +20,7 @@ interface SEOHeadProps {
   ogType?: 'website' | 'article';
 }
 
-const BASE_URL = 'https://www.anyfilex.com';
+const BASE_URL = 'https://anyfilex.com';
 
 export const SEOHead: React.FC<SEOHeadProps> = ({
   title,
@@ -30,7 +30,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   breadcrumbs,
   category,
   robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-  image = 'https://www.anyfilex.com/og-image.png',
+  image = 'https://anyfilex.com/og-image.png',
   imageAlt = 'AnyFileX - Universal File Format Platform',
   ogType = 'website',
 }) => {

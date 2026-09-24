@@ -8,7 +8,7 @@ describe('Google Docs Software Page SEO and Content Quality', () => {
       view: 'software-detail',
       id: 'google-docs'
     },
-    'https://www.anyfilex.com/software/google-docs'
+    'https://anyfilex.com/software/google-docs'
   );
 
   it('1. SEO title clearly matches search intent', () => {

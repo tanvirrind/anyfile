@@ -45,8 +45,8 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onNaviga
     '@graph': [
       {
         '@type': 'CollectionPage',
-        '@id': `https://www.anyfilex.com${canonicalPath}#collection`,
-        url: `https://www.anyfilex.com${canonicalPath}`,
+        '@id': `https://anyfilex.com${canonicalPath}#collection`,
+        url: `https://anyfilex.com${canonicalPath}`,
         name: `${category.name} File Extensions & Software Specifications`,
         description: category.description,
       },

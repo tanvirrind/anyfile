@@ -100,7 +100,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     seoMeta: {
       title: 'What Is a HEIC File? Format Guide, Compression & Specs | AnyFileX',
       description: 'Learn what a HEIC file is, how HEVC image compression cuts file size in half, its technical magic byte signatures, and how to view HEIC on Windows & Mac.',
-      canonical: 'https://www.anyfilex.com/guides/what-is-a-heic-file',
+      canonical: 'https://anyfilex.com/guides/what-is-a-heic-file',
       robots: 'index, follow',
       ogTitle: 'What Is a HEIC File? High Efficiency Image Format Explained',
       ogDescription: 'Comprehensive technical breakdown of the Apple HEIC/HEIF photo format, ISO container architecture, and cross-platform compatibility.',
@@ -199,7 +199,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     seoMeta: {
       title: 'What Is a WEBP File? Web Image Specs, RIFF Headers & Compression',
       description: 'Understand the WEBP format, how Google VP8 intra-frame coding reduces image payload by 30%, and how to open or convert WEBP files.',
-      canonical: 'https://www.anyfilex.com/guides/what-is-a-webp-file',
+      canonical: 'https://anyfilex.com/guides/what-is-a-webp-file',
       robots: 'index, follow',
       keywords: ['what is a webp file', 'webp format', 'webp vs png', 'webp compression']
     },
@@ -326,7 +326,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     seoMeta: {
       title: 'How to Open a HEIC File on Windows 11, Mac, Android & Linux',
       description: 'Step-by-step tutorial on opening HEIC files on Windows 11/10, Mac Preview, Android, and Linux with free codecs and browser tools.',
-      canonical: 'https://www.anyfilex.com/guides/how-to-open-a-heic-file',
+      canonical: 'https://anyfilex.com/guides/how-to-open-a-heic-file',
       robots: 'index, follow',
       keywords: ['how to open heic file', 'open heic windows 11', 'heic viewer', 'view heic on pc']
     },
@@ -429,7 +429,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     seoMeta: {
       title: 'How to Convert HEIC to JPG Online (Fast & Free) | AnyFileX',
       description: 'Convert iPhone HEIC photos to JPG images for free in your browser. No software required, 100% private client-side processing, batch ZIP download.',
-      canonical: 'https://www.anyfilex.com/guides/how-to-convert-heic-to-jpg',
+      canonical: 'https://anyfilex.com/guides/how-to-convert-heic-to-jpg',
       robots: 'index, follow',
       keywords: ['convert heic to jpg', 'heic to jpg online', 'iphone photo to jpg', 'batch heic converter']
     },
@@ -534,7 +534,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     seoMeta: {
       title: 'HEIC vs JPG: Quality, Compression & Compatibility Compared | AnyFileX',
       description: 'HEIC vs JPG side-by-side comparison. Learn how HEIC cuts file size by 50% with 16-bit color, why JPEG has 100% device compatibility, and when to use each.',
-      canonical: 'https://www.anyfilex.com/guides/heic-vs-jpg',
+      canonical: 'https://anyfilex.com/guides/heic-vs-jpg',
       robots: 'index, follow',
       keywords: ['heic vs jpg', 'heic vs jpeg', 'is heic better than jpg', 'heic quality compared to jpg']
     },
@@ -628,7 +628,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     seoMeta: {
       title: 'Why Won’t My JPG File Open? Fix Corrupted & Invalid JPEG Images',
       description: 'Learn why your JPG image won’t open, how to detect extension mismatches with magic bytes, and how to repair broken JPEG files.',
-      canonical: 'https://www.anyfilex.com/guides/why-wont-my-jpg-file-open',
+      canonical: 'https://anyfilex.com/guides/why-wont-my-jpg-file-open',
       robots: 'index, follow',
       keywords: ['why wont my jpg open', 'jpg file not opening', 'fix corrupted jpg', 'invalid image marker jpg']
     },
@@ -729,7 +729,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     seoMeta: {
       title: 'What Are Magic Bytes? File Signatures & Hex Headers Explained | AnyFileX',
       description: 'Learn what magic bytes are, how file signatures identify true file formats, view a table of common hex signatures, and understand why they prevent malware spoofing.',
-      canonical: 'https://www.anyfilex.com/guides/what-are-magic-bytes',
+      canonical: 'https://anyfilex.com/guides/what-are-magic-bytes',
       robots: 'index, follow',
       keywords: ['what are magic bytes', 'file signature', 'magic numbers file format', 'hex file headers', 'file type detection']
     },
@@ -824,7 +824,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     seoMeta: {
       title: 'How to Detect File Extension Spoofing & Fake Files | AnyFileX',
       description: 'Learn how hackers disguise .exe malware as .pdf and .jpg files, how Right-to-Left Override attacks work, and how to verify magic byte headers safely.',
-      canonical: 'https://www.anyfilex.com/guides/how-to-detect-a-file-extension-spoof',
+      canonical: 'https://anyfilex.com/guides/how-to-detect-a-file-extension-spoof',
       robots: 'index, follow',
       keywords: ['file extension spoofing', 'fake pdf exe', 'detect disguised file', 'right to left override file', 'file security header']
     },
@@ -918,7 +918,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     seoMeta: {
       title: 'What Programs Open HEIC Files? Windows & Mac Software Guide | AnyFileX',
       description: 'Discover the best free and professional software to open HEIC photos on Windows 11/10 and Mac. Compare CopyTrans, IrfanView, Photoshop, and GIMP.',
-      canonical: 'https://www.anyfilex.com/guides/what-programs-open-heic-files',
+      canonical: 'https://anyfilex.com/guides/what-programs-open-heic-files',
       robots: 'index, follow',
       keywords: ['what programs open heic files', 'heic viewer windows', 'free heic software', 'open heic on pc program']
     },

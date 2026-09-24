@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   title: 'Compatible Software & App Directory – AnyFileX',
   description: 'Explore compatible desktop, web, and mobile software applications for opening, converting, and editing file formats.',
   alternates: {
-    canonical: 'https://www.anyfilex.com/software',
+    canonical: 'https://anyfilex.com/software',
   },
   openGraph: {
     title: 'Compatible Software & App Directory – AnyFileX',
     description: 'Explore compatible desktop, web, and mobile software applications for opening, converting, and editing file formats.',
-    url: 'https://www.anyfilex.com/software',
+    url: 'https://anyfilex.com/software',
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },

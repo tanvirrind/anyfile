@@ -58,7 +58,7 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
           '@graph': [
             {
               '@type': 'SoftwareApplication',
-              '@id': 'https://www.anyfilex.com/software/google-docs#software',
+              '@id': 'https://anyfilex.com/software/google-docs#software',
               name: 'Google Docs',
               operatingSystem: 'Windows, macOS, Linux, Android, iOS, ChromeOS, Web',
               applicationCategory: 'WordProcessor, OfficeApplication',

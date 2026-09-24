@@ -30,7 +30,7 @@ test.describe('Next.js App Router sitemap', () => {
     const res = await request.get('/robots.txt');
     expect(res.status()).toBe(200);
     const body = await res.text();
-    expect(body).toContain('Sitemap: https://www.anyfilex.com/sitemap.xml');
+    expect(body).toContain('Sitemap: https://anyfilex.com/sitemap.xml');
   });
 
   test('native sitemap is served with unique URLs', async ({ request }) => {
@@ -72,7 +72,7 @@ test.describe('page rendering', () => {
     await page.goto('/');
     await expect(page).toHaveTitle(/AnyFileX/);
     await expect(page.locator('main#main-content')).not.toBeEmpty();
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://www.anyfilex.com/og-image.png');
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://anyfilex.com/og-image.png');
     await expect(page.getByText('Coming Soon', { exact: true })).toHaveCount(0);
   });
 
@@ -85,7 +85,7 @@ test.describe('page rendering', () => {
     const response = await page.goto('/privacy');
     expect(response?.status()).toBe(200);
     await expect(page).toHaveTitle('Privacy Policy | AnyFileX');
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://www.anyfilex.com/privacy');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://anyfilex.com/privacy');
     await expect(page.getByRole('heading', { name: 'Privacy Policy', exact: true })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Contact AnyFileX', exact: true })).toHaveAttribute('href', '/contact');
   });
@@ -94,7 +94,7 @@ test.describe('page rendering', () => {
     const response = await page.goto('/terms');
     expect(response?.status()).toBe(200);
     await expect(page).toHaveTitle('Terms of Service | AnyFileX');
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://www.anyfilex.com/terms');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://anyfilex.com/terms');
     await expect(page.getByRole('heading', { name: 'Terms of Service', exact: true })).toBeVisible();
     await expect(page.getByRole('navigation', { name: 'Terms navigation' }).getByRole('link', { name: 'Privacy Policy', exact: true })).toHaveAttribute('href', '/privacy');
   });

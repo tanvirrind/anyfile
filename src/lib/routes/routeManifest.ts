@@ -25,7 +25,7 @@ import { EXPANDED_MIME_DATABASE } from '../../data/expandedMimeDatabase';
 import { getPrioritizedFormatList } from '../guides/formatGuideEngine';
 import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine';
 
-export const BASE_URL = 'https://www.anyfilex.com';
+export const BASE_URL = 'https://anyfilex.com';
 export const PLATFORM_RELEASE_DATE = '2026-09-18';
 
 export function getMimeRouteSlug(mimeType: string): string {

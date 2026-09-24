@@ -100,13 +100,13 @@ export default async function SoftwareDetailPage({ params }: PageProps) {
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: 'https://www.anyfilex.com',
+          item: 'https://anyfilex.com',
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Software',
-          item: 'https://www.anyfilex.com/software',
+          item: 'https://anyfilex.com/software',
         },
         {
           '@type': 'ListItem',

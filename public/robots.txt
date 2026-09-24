@@ -13,7 +13,7 @@ Disallow: /workflows
 # Sitemap Declarations
 # A single master index is declared: it references every segmented sub-sitemap below,
 # so listing those children here as well would announce each one twice.
-Sitemap: https://www.anyfilex.com/sitemap.xml
+Sitemap: https://anyfilex.com/sitemap.xml
 
 # LLM Web Agents & AI Answer Engines Directives
 User-agent: GPTBot

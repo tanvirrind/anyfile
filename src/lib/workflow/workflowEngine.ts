@@ -436,7 +436,7 @@ export function exportAnalysisReport(
   </table>
 
   <div class="footer">
-    Generated client-side by AnyFileX (https://www.anyfilex.com) on ${new Date(timestamp).toLocaleString()}. 100% Private Browser Execution.
+    Generated client-side by AnyFileX (https://anyfilex.com) on ${new Date(timestamp).toLocaleString()}. 100% Private Browser Execution.
   </div>
 </body>
 </html>`;

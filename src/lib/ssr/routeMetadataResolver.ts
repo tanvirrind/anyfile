@@ -19,7 +19,7 @@ export interface RouteMetadata {
   route: AppRoute;
 }
 
-const BASE_URL = 'https://www.anyfilex.com';
+const BASE_URL = 'https://anyfilex.com';
 
 // Bounded LRU memo: metadata is deterministic per (pathname, search), and deriving the
 // prerendered HTML + schema graph is the expensive part of every SSR request. Bounded

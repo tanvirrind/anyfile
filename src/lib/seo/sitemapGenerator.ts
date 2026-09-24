@@ -13,7 +13,7 @@ import { getPrioritizedFormatList } from '../guides/formatGuideEngine';
 import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine';
 import { isExcludedFromSitemap } from '../routes/routeManifest';
 
-const BASE_URL = 'https://www.anyfilex.com';
+const BASE_URL = 'https://anyfilex.com';
 
 // Stable, deterministic platform content release date (avoids build-to-build lastmod churn).
 const PLATFORM_RELEASE_DATE = '2026-09-18';

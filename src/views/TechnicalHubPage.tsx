@@ -81,7 +81,7 @@ export const TechnicalHubPage: React.FC<TechnicalHubPageProps> = ({
           name: 'AnyFileX File Security & Technical Authority Center',
           description:
             'Authoritative technical reference on file signatures, MIME types, cryptography, entropy, and file format mechanics.',
-          url: 'https://www.anyfilex.com/security'
+          url: 'https://anyfilex.com/security'
         }}
       />
 

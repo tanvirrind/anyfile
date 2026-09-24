@@ -5,7 +5,7 @@ import '@/index.css';
 import { AppLayoutClient } from '@/components/layout/AppLayoutClient';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.anyfilex.com'),
+  metadataBase: new URL('https://anyfilex.com'),
   title: {
     template: '%s | AnyFileX',
     default: 'AnyFileX – Universal File Format Intelligence & Tools',

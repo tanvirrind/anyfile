@@ -6,12 +6,12 @@ export const metadata: Metadata = {
   title: 'File Security & Forensic Analysis – AnyFileX',
   description: 'Technical security research on executable disguises, macro payloads, polyglot files, and header integrity verification.',
   alternates: {
-    canonical: 'https://www.anyfilex.com/security',
+    canonical: 'https://anyfilex.com/security',
   },
   openGraph: {
     title: 'File Security & Forensic Analysis – AnyFileX',
     description: 'Technical security research on executable disguises, macro payloads, polyglot files, and header integrity verification.',
-    url: 'https://www.anyfilex.com/security',
+    url: 'https://anyfilex.com/security',
     type: 'website',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
   },

@@ -63,13 +63,13 @@ async function startServer() {
 
   app.use(express.json({ limit: '10mb' }));
 
-  // 1. Canonical Host Redirection (anyfilex.com -> www.anyfilex.com)
+  // 1. Canonical Host Redirection (www host -> anyfilex.com)
   app.use((req, res, next) => {
     const rawHost = (req.headers['x-forwarded-host'] || req.headers.host || '').toString().toLowerCase();
     const host = rawHost.split(':')[0]; // strip port if present
-    if (host === 'anyfilex.com') {
+    if (host.startsWith('www.') && host.slice(4) === 'anyfilex.com') {
       const search = req.originalUrl.includes('?') ? req.originalUrl.slice(req.originalUrl.indexOf('?')) : '';
-      return res.redirect(301, `https://www.anyfilex.com${req.path}${search}`);
+      return res.redirect(301, `https://anyfilex.com${req.path}${search}`);
     }
     next();
   });

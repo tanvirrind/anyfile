@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const canonicalUrl = 'https://www.anyfilex.com/authors/tanveer-hussain';
+const canonicalUrl = 'https://anyfilex.com/authors/tanveer-hussain';
 
 export const metadata: Metadata = {
   title: 'Tanveer Hussain – AnyFileX Author',
@@ -24,7 +24,7 @@ const AUTHOR_JSON_LD = {
   '@id': `${canonicalUrl}#person`,
   name: 'Tanveer Hussain',
   url: canonicalUrl,
-  image: 'https://www.anyfilex.com/tanveer-hussain.png',
+  image: 'https://anyfilex.com/tanveer-hussain.png',
   sameAs: [
     'https://tanvirrind.vercel.app',
     'https://linkedin.com/in/tanvirrind/',
@@ -41,7 +41,7 @@ const AUTHOR_JSON_LD = {
   worksFor: {
     '@type': 'Organization',
     name: 'AnyFileX',
-    url: 'https://www.anyfilex.com',
+    url: 'https://anyfilex.com',
   },
 };
 

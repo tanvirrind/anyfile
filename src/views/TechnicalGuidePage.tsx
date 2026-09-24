@@ -110,10 +110,10 @@ export const TechnicalGuidePage: React.FC<TechnicalGuidePageProps> = ({
               '@type': 'TechArticle',
               headline: guide.title,
               description: guide.subtitle,
-              url: `https://www.anyfilex.com/security/${guide.slug}`,
+              url: `https://anyfilex.com/security/${guide.slug}`,
               mainEntityOfPage: {
                 '@type': 'WebPage',
-                '@id': `https://www.anyfilex.com/security/${guide.slug}`
+                '@id': `https://anyfilex.com/security/${guide.slug}`
               },
               author: {
                 '@type': 'Person',
