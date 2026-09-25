@@ -308,6 +308,106 @@ function resolveFormatIntelligence(cleanExt: string, category: CategoryType): {
     };
   }
 
+  if (extUpper === 'GFD') {
+    return {
+      magicBytesHex: 'No universal signature; some variants may use application-specific binary or compound-document headers',
+      magicBytesAscii: 'Variant-dependent',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Varies by creating application',
+      detailedOverview: 'GFD is an overloaded data-file extension. GeForms uses GFD for electronic and printable form data, while other reported uses include GeoFrac data, GNUe Forms menus, and VISUAL EPR energy-field files. Because these variants do not share one reliable public header, identify the source application and inspect a copy before opening or converting the file.'
+    };
+  }
+
+  if (extUpper === 'FRF') {
+    return {
+      magicBytesHex: 'No universal signature; common reported variants include 19 00 00 00 or 0A 9C 92 7C 51 A5 E1',
+      magicBytesAscii: 'Variant-dependent binary',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Varies by creating application; commonly 4 KB - 2 MB',
+      detailedOverview: 'FRF is an overloaded extension. Legacy FastReport/FreeReport templates commonly use a Delphi-style binary report structure, while other FRF files may be automotive firmware, ABBYY FineReader page data, FLIR reports, FontMonger fonts, or engineering frequency-response data. The extension alone cannot identify the format, so inspect the source application and internal header before opening or converting it.'
+    };
+  }
+
+  if (extUpper === 'VEP') {
+    return {
+      magicBytesHex: '3C 54 69 6D 65 4C 69 6E 65 (common AVS XML marker) or 66 74 79 70 (MP4 content mislabeled as VEP)',
+      magicBytesAscii: '<TimeLine / ftyp',
+      mimeType: 'text/xml',
+      typicalSize: 'Hundreds of KB - hundreds of MB',
+      detailedOverview: 'VEP most commonly identifies an AVS Video Editor project. AVS projects use XML-style timeline and source-reference data, while thumbnails or encoded blocks may be embedded as text or binary data. A VEP file is not normally playable by itself because it depends on the project’s source clips and Content directory. A file beginning with an MP4 ftyp box may be video data that has been given the wrong extension, and should be identified from its internal header before opening.'
+    };
+  }
+
+  if (extUpper === 'SRL') {
+    return {
+      magicBytesHex: 'No universal signature; reported variants include Java serialization streams, XML text, OpenSSL serial text, and game-specific binary data',
+      magicBytesAscii: 'Variant-dependent',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Bytes - tens of MB, depending on the source application',
+      detailedOverview: 'SRL is an overloaded extension. Cricket Scorer Pro may store serialized match data, Nintendo DS or Wii U workflows may use SRL for ROM content, OpenSSL creates text serial-number files for certificate signing, and other software uses SRL for reward lists, rifle data, saves, or databases. The file header, neighboring files, and original source are more reliable than the extension alone.'
+    };
+  }
+
+  if (extUpper === 'JRP') {
+    return {
+      magicBytesHex: 'EF BB BF (common UTF-8 text BOM), FF FE (UTF-16 LE), or AM 63 ... (reported TracStar variant)',
+      magicBytesAscii: 'UTF text / AMc',
+      mimeType: 'text/plain',
+      typicalSize: 'Hundreds of bytes - 180 KB for common report variants',
+      detailedOverview: 'JRP is most commonly a text-based JMP report containing analysis results, tables, charts, scripts, and report settings. Other .JRP files belong to Electric Quilt, Pg4uw job reports, or TracStar and may use different structures. A text encoding marker can help identify a JMP-style report, but the original application and neighboring project files remain the best way to select an opener.'
+    };
+  }
+
+  if (extUpper === 'IFU') {
+    return {
+      magicBytesHex: 'No universal public signature; All Image layout and header are application-specific',
+      magicBytesAscii: 'Application-specific disk image',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Varies with the imaged storage device',
+      detailedOverview: 'IFU most commonly identifies an uncompressed image created by Towodo All Image. Because the image represents storage media rather than a conventional document, its contents may include partition structures, file systems, boot code, and arbitrary files. The extension does not provide a universal magic-byte signature, so identify the creating software before mounting, restoring, or converting it.'
+    };
+  }
+
+  if (extUpper === 'GRN') {
+    return {
+      magicBytesHex: 'No single stable public signature across Granny generations and alternate GRN variants',
+      magicBytesAscii: 'Binary Granny asset / variant-dependent text',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Tens of KB - hundreds of MB, depending on model and animation data',
+      detailedOverview: 'GRN most commonly identifies a compiled Granny 3D asset containing meshes, materials, animation tracks, and related game data. The extension is also used by unrelated text or data formats such as Masterpoint bridge records, so a file that begins as readable text should not be treated as a Granny model. Use the originating game or Granny-compatible viewer and inspect the header before attempting conversion.'
+    };
+  }
+
+  if (extUpper === 'FFD') {
+    return {
+      magicBytesHex: 'No universal signature; game, database, descriptor, and project variants use different internal structures',
+      magicBytesAscii: 'Variant-dependent proprietary data',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Varies from small preferences or saves to database files',
+      detailedOverview: 'FFD is a shared extension rather than one standardized format. It may identify game-save data, FlashFiler database records, flat-file descriptors, personal-finance data, form data, or a video-project file. The source application, neighboring files, and internal header are required to choose the correct opener; changing the suffix alone does not convert the data.'
+    };
+  }
+
+  if (extUpper === 'FEF') {
+    return {
+      magicBytesHex: 'No universal signature; variants may be TIFF-based, encrypted video, electrophysiology data, or flat ASCII engineering data',
+      magicBytesAscii: 'Variant-dependent / TIFF or text possible',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Varies from small form or text exports to large image, video, or scientific data files',
+      detailedOverview: 'FEF is a shared extension used by unrelated formats. Fujifilm variants may use TIFF-based raw-image structures, FocusOnCrypt may store encoded video fragments, CardioLab may store electrophysiology measurements, and engineering tools may use FEF for flat neutral data. The internal header, source application, and related files are required to identify the correct format.'
+    };
+  }
+
+  if (extUpper === 'UU') {
+    return {
+      magicBytesHex: '62 65 67 69 6E 20 (ASCII "begin "; common uuencode header)',
+      magicBytesAscii: 'begin 644 filename',
+      mimeType: 'text/x-uuencode',
+      typicalSize: 'Depends on the encoded payload; approximately 33% larger than the original binary',
+      detailedOverview: 'UU files usually contain uuencoded ASCII text. A common header begins with "begin" followed by Unix permissions and the original filename, encoded data lines follow, and an "end" line terminates the stream. The UU wrapper does not reveal the final file type until decoding; the result may be a document, archive, image, audio file, or executable.'
+    };
+  }
+
   if (extUpper === 'CIFF') {
     return {
       magicBytesHex: '49 49 1A 00 / HEAPCCDR marker in Canon raw-camera structures',
