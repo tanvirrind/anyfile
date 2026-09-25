@@ -146,10 +146,10 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
         <div>
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-400">
             <Layers className="w-4 h-4" />
-            <span>SEO Interlinking Graph & SEO Knowledge Index</span>
+            <span>Related Formats & Helpful Resources</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-1">
-            Complete SEO Relationships for .{extUpper} File Specification
+            Explore related information about .{extUpper} files
           </h2>
         </div>
         <button
