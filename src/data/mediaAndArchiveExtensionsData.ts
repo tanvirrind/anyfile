@@ -24,6 +24,37 @@ export const MEDIA_AND_ARCHIVE_EXTENSIONS_DATA: ExtensionSchema[] = [
     keywords: ['zip file', 'open zip', 'extract zip archive', 'zip compression']
   },
   {
+    slug: 'ad1',
+    extension: 'AD1',
+    title: '.AD1 File Extension - AccessData Forensic Image & FTK Imager Guide',
+    description: 'AD1 is AccessData/Exterro\'s logical evidence image format, created by FTK Imager to preserve selected files and folders for digital forensics. Learn how to identify, open, and handle AD1 files safely.',
+    category: 'Archives',
+    mime: 'application/octet-stream',
+    developer: 'AccessData / Exterro',
+    software: ['FTK Imager', 'Forensic Toolkit (FTK)', 'Autopsy (with supported evidence tooling)', 'AnyFileX File Identifier'],
+    related_extensions: ['AD2', 'AD3', 'AD4', 'E01', 'AFF', 'DD'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: ['ad1-to-e01', 'ad1-to-zip'],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Treat AD1 files as forensic evidence and work from a verified copy; do not edit or resave the original.',
+        'AD1 is a logical evidence container and may contain executable files or other malicious artifacts from the source system.',
+        'Preserve acquisition metadata and hashes when using an AD1 file in an investigation.'
+      ]
+    },
+    keywords: [
+      'ad1 file',
+      'ad1 file extension',
+      'open ad1 file',
+      'ad1 viewer',
+      'ftk imager ad1',
+      'accessdata forensic image',
+      'ad1 logical image'
+    ]
+  },
+  {
     slug: 'rar',
     extension: 'RAR',
     title: '.RAR File Extension - Roshal Archive Compressed Format',
@@ -146,7 +177,7 @@ export const MEDIA_AND_ARCHIVE_EXTENSIONS_DATA: ExtensionSchema[] = [
       canContainMalware: true,
       tips: ['Verify macOS Gatekeeper code signature before running installers extracted from .DMG images']
     },
-    keywords: ['dmg file', 'open dmg on windows', 'mac disk image']
+    keywords: ['dmg file', 'dmg file extension', 'what is a dmg file', 'open dmg on windows', 'how to open dmg file', 'mount dmg on mac', 'mac disk image', 'convert dmg to iso']
   },
   {
     slug: 'bz2',

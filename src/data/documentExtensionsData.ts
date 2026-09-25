@@ -428,8 +428,8 @@ export const DOCUMENT_EXTENSIONS_DATA: ExtensionSchema[] = [
   {
     slug: 'tsv',
     extension: 'TSV',
-    title: '.TSV File Extension - Tab-Separated Values Data File',
-    description: 'TSV is a plain text data file that organizes records in columns separated by ASCII tab characters.',
+    title: '.TSV File Extension - Tab-Separated Values Data File & Excel Guide',
+    description: 'TSV is a plain text data file that organizes records in columns separated by tab characters. Learn how to open a TSV file in Excel, Google Sheets, or a text editor while preserving delimiters and encoding.',
     category: 'Documents',
     mime: 'text/tab-separated-values',
     developer: 'Universal Standard',
@@ -437,8 +437,8 @@ export const DOCUMENT_EXTENSIONS_DATA: ExtensionSchema[] = [
     related_extensions: ['CSV', 'TXT', 'XLSX'],
     related_guides: ['how-to-open-unknown-files'],
     related_converters: ['tsv-to-csv', 'tsv-to-xlsx'],
-    security: { dangerRating: 'Low Risk', canContainMalware: false, tips: ['Plain text format widely used in database export/import routines'] },
-    keywords: ['tsv file', 'open tsv', 'tab separated values']
+    security: { dangerRating: 'Low Risk', canContainMalware: false, tips: ['Plain text format widely used in database export/import routines', 'Treat TSV files from untrusted sources like CSV files: review formula-like cells before opening them in spreadsheet software'] },
+    keywords: ['tsv file', 'open tsv', 'how to open a tsv file', 'how to open tsv file in excel', 'open tsv in excel', 'tsv viewer', 'tab separated values', 'convert tsv to csv']
   },
   {
     slug: 'numbers',

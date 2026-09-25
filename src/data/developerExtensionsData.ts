@@ -1,6 +1,99 @@
 import { ExtensionSchema } from '../lib/database/extensionEngine';
 
 export const DEVELOPER_EXTENSIONS_DATA: ExtensionSchema[] = [
+  {
+    slug: 'urs',
+    extension: 'URS',
+    title: '.URS File Extension - GE Multilin Relay Settings File Guide',
+    description: 'URS is primarily a GE Multilin URPC/Settings Editor settings file used to store relay configuration and control parameters. The extension is also used by ControlDraw for User Requirements Specifications and by some unrelated software, so the internal signature should be verified before opening or importing it.',
+    category: 'Code & Data',
+    mime: 'application/octet-stream',
+    developer: 'GE Multilin / GE Vernova Grid Solutions',
+    software: ['GE Multilin URPC/Settings Editor', 'ControlDraw URS Writer', 'AnyFileX File Identifier'],
+    related_extensions: ['SET', 'CONF', 'USR', 'CFG', 'INI', 'DAT', 'XML', 'LOG'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: false,
+      tips: [
+        'Treat GE Multilin URS files as operational configuration data; do not edit values manually or load them into a relay without an approved change process.',
+        'Verify the file belongs to the intended relay model, firmware version, and engineering project before importing settings.',
+        'Keep an original copy and use checksums or versioned backups when transferring relay settings.'
+      ]
+    },
+    keywords: [
+      'urs file',
+      'urs file extension',
+      'open urs file',
+      'ge multilin urs',
+      'urpc settings editor',
+      'relay settings file',
+      'controlDraw urs'
+    ]
+  },
+  {
+    slug: 'bps',
+    extension: 'BPS',
+    title: '.BPS File Extension - Binary Patching System Format Guide',
+    description: 'BPS most commonly refers to the Binary Patching System format, a compact delta-patch file that transforms an original binary into a modified target. It is widely used for retro-game ROM hacks, translations, firmware updates, and other binary distributions; older software also used .BPS for backup or security-related data, so the internal signature should be verified.',
+    category: 'Code & Data',
+    mime: 'application/octet-stream',
+    developer: 'byuu / Binary Patching System specification',
+    software: ['Floating IPS (Flips)', 'beat', 'ROM Patcher JS', 'BPS Patch tools', 'AnyFileX File Identifier'],
+    related_extensions: ['IPS', 'UPS', 'BSP', 'ROM', 'Z64', 'WAD'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'A BPS1 patch is not a complete ROM; apply it only to the exact source file it expects. Legacy backup/security files using .BPS require their original application.',
+        'Verify the source, target, and patch CRC32 checksums before trusting the output.',
+        'Download patches from reputable project pages and scan any patched executable or firmware before running it.'
+      ]
+    },
+    keywords: [
+      'bps file',
+      'bps file extension',
+      'open bps file',
+      'binary patching system',
+      'bps patch',
+      'bps rom patch',
+      'apply bps patch'
+    ]
+  },
+  {
+    slug: 'frx',
+    extension: 'FRX',
+    title: '.FRX File Extension - Visual Basic Form & Visual FoxPro Report Guide',
+    description: 'FRX is an overloaded developer file extension used for Visual Basic binary form resources, Visual FoxPro reports, and some XML-based report definitions. Learn how to identify the variant you have and open it with the correct software.',
+    category: 'Code & Data',
+    mime: 'application/octet-stream',
+    developer: 'Microsoft Visual Basic / Visual FoxPro ecosystem',
+    software: ['Microsoft Visual Studio', 'Microsoft Visual FoxPro', 'FastReport .NET Designer', 'Microsoft Office', 'AnyFileX File Identifier'],
+    related_extensions: ['FRM', 'FRT', 'VBP', 'FXP', 'FXR', 'XML', 'FR3'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'FRX has multiple unrelated formats; identify the internal signature before choosing an application.',
+        'Binary form resources can contain embedded images or other data, while XML report files should be parsed defensively.',
+        'Open unknown FRX files in a copy and scan files received from untrusted sources before importing them into development tools.'
+      ]
+    },
+    keywords: [
+      'frx file',
+      'frx file extension',
+      'open frx file',
+      'visual basic frx',
+      'visual foxpro frx',
+      'frx report file',
+      'frx viewer'
+    ]
+  },
   // ==========================================
   // 1. DATA & CONFIGURATION FORMATS (JSON, XML, YAML, YML, TOML, INI, ENV, etc.)
   // ==========================================

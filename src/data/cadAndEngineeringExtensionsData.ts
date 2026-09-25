@@ -259,7 +259,7 @@ export const CAD_AND_ENGINEERING_EXTENSIONS_DATA: ExtensionSchema[] = [
       canContainMalware: false,
       tips: ['View .SLDPRT models without a SolidWorks license using the free eDrawings Viewer application']
     },
-    keywords: ['sldprt file', 'open sldprt', 'solidworks part file', 'edrawings viewer', 'convert sldprt to stl']
+    keywords: ['sldprt file', 'open sldprt', 'how to open sldprt file', 'how to view sldprt files', 'sldprt viewer', 'solidworks part file', 'edrawings viewer', 'convert sldprt to stl', 'sldprt to step']
   },
   {
     slug: 'sldasm',

@@ -296,6 +296,58 @@ function resolveFormatIntelligence(cleanExt: string, category: CategoryType): {
 } {
   const extUpper = cleanExt.toUpperCase();
 
+  // FRX is an overloaded extension: Visual Basic form resources, Visual FoxPro
+  // reports, and XML report definitions do not share one reliable magic number.
+  if (extUpper === 'FRX') {
+    return {
+      magicBytesHex: 'No universal signature; common variants: 3C 3F 78 6D 6C (XML) or 00 00 (binary)',
+      magicBytesAscii: '<?xml / binary',
+      mimeType: 'application/octet-stream',
+      typicalSize: '4 KB - 140 KB',
+      detailedOverview: 'FRX is an overloaded developer format. Visual Basic uses .FRX files for binary form resources such as images and icons associated with a .FRM form, while Visual FoxPro uses .FRX for report definitions. Some report tools also store XML-based report templates under this extension, so the internal signature and neighboring project files must be checked before opening.'
+    };
+  }
+
+  if (extUpper === 'CIFF') {
+    return {
+      magicBytesHex: '49 49 1A 00 / HEAPCCDR marker in Canon raw-camera structures',
+      magicBytesAscii: 'II.. / HEAPCCDR',
+      mimeType: 'image/x-canon-crw',
+      typicalSize: '1 MB - 20 MB',
+      detailedOverview: 'CIFF is Canon\'s legacy Camera Image File Format used by early digital-camera raw workflows. Canon CIFF-family files commonly begin with a little-endian marker and may contain the HEAPCCDR identifier inside the structured raw container, so a complete signature check is more reliable than the extension alone.'
+    };
+  }
+
+  if (extUpper === 'IVS') {
+    return {
+      magicBytesHex: 'No universal signature; variant-dependent binary or capture data',
+      magicBytesAscii: 'Variant-dependent',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Varies by capture or application',
+      detailedOverview: 'IVS is an ambiguous extension. Aircrack-ng-related IVS files store wireless initialization-vector capture data, while other software may use IVS for streaming metadata. Inspect the surrounding files and binary structure before choosing an application.'
+    };
+  }
+
+  if (extUpper === 'HOT') {
+    return {
+      magicBytesHex: 'No universal signature; game-specific binary resource',
+      magicBytesAscii: 'Game-specific',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Varies by game resource',
+      detailedOverview: 'HOT files are game-specific data. The Sims uses HOT resources for sound references, while 4x4 Evolution uses HOT files for hot-lap records. These files are normally loaded by the associated game rather than opened directly.'
+    };
+  }
+
+  if (extUpper === 'TIBX') {
+    return {
+      magicBytesHex: 'Acronis generation-specific binary header; no single stable public signature',
+      magicBytesAscii: 'Acronis binary archive',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Hundreds of MB - multiple TB',
+      detailedOverview: 'TIBX is Acronis\' newer backup archive format. It stores backup chains and may use different internal structures across Acronis products, so the creating product and backup chain are important for recovery.'
+    };
+  }
+
   // 1. Search Comprehensive Signatures
   const sigMatch = COMPREHENSIVE_SIGNATURES.find(
     (s) => s.extension?.toUpperCase() === extUpper || s.id?.toUpperCase() === extUpper

@@ -319,9 +319,9 @@ export const IMAGE_EXTENSIONS_DATA: ExtensionSchema[] = [
     software: ['Nikon NX Studio', 'Adobe Lightroom', 'Capture One', 'Darktable'],
     related_extensions: ['NRW', 'DNG', 'JPG', 'TIFF'],
     related_guides: ['how-to-open-unknown-files'],
-    related_converters: ['heic-to-jpg'],
+    related_converters: [],
     security: { dangerRating: 'Low Risk', canContainMalware: false, tips: ['NEF files contain embedded full-resolution JPEG preview copies'] },
-    keywords: ['nef file', 'nikon raw', 'open nef', 'nef to jpg', 'nikon photo']
+    keywords: ['nef file', 'nef file format', 'nikon raw', 'open nef', 'open nef file online', 'nef viewer', 'nef to jpg', 'convert nef to jpg', 'nikon photo']
   },
   {
     slug: 'nrw',
@@ -396,7 +396,7 @@ export const IMAGE_EXTENSIONS_DATA: ExtensionSchema[] = [
     related_guides: ['how-to-open-unknown-files'],
     related_converters: ['heic-to-jpg', 'jpg-to-png'],
     security: { dangerRating: 'Low Risk', canContainMalware: false, tips: ['DNG embeds camera profiles and linear demosaicing data safely'] },
-    keywords: ['dng file', 'adobe dng', 'open dng', 'dng converter', 'digital negative']
+    keywords: ['dng file', 'what is dng', 'dng file format', 'adobe dng', 'open dng', 'how to open dng file', 'dng converter', 'digital negative']
   },
   {
     slug: 'orf',
