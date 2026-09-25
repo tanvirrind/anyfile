@@ -763,6 +763,55 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
 
   // --- SYSTEM & EXECUTABLES ---
   {
+    extension: 'ELG',
+    name: 'ELG Event and Diagnostic Log File',
+    category: 'System & Executables',
+    description: 'ELG is a shared file extension used for event, diagnostic, telemetry, and data-logger files. IBM Integrated Management Module (IMM) logs are a common association, but the actual structure depends on the application that created the file.',
+    detailedOverview: 'An .elg file is usually a structured log rather than one single standardized format. Common ELG variants record server events, severity levels, login activity, VPN or firewall diagnostics, wireless telemetry, equipment readings, or geospatial events. Some variants are readable UTF-8 or ASCII text, while others are XML, compressed, or proprietary binary data. Identify the producer before attempting to edit or convert the file.',
+    mimeType: 'application/octet-stream',
+    magicBytesHex: 'No universal signature; common IBM IMM logs begin with ASCII “Index” or text log content',
+    typicalSize: '2 KB – 110 KB for common event logs; varies by producer',
+    dangerRating: 'Medium Risk',
+    dangerExplanation: 'A legitimate ELG is normally data-only, but the extension is ambiguous and may contain compressed or proprietary content. Verify the file signature and scan untrusted downloads before opening them in diagnostic software.',
+    exampleUse: 'IBM IMM server events, Qualcomm diagnostics, VPN/firewall logs, industrial data logging',
+    popularityScore: 70,
+    developer: 'Application-specific; commonly IBM IMM and other diagnostic systems',
+    firstReleased: 'Application-dependent',
+    osSupport: { windows: true, mac: true, linux: true, android: false, ios: false },
+    popularApps: [
+      { name: 'IBM Integrated Management Module (IMM)', os: ['windows', 'linux'], isFree: false, developer: 'IBM', slug: 'ibm-imm' },
+      { name: 'Qualcomm QXDM / QCAT', os: ['windows'], isFree: false, developer: 'Qualcomm', slug: 'qualcomm-qxdm' },
+      { name: 'Eschmann Datalogger Software', os: ['windows'], isFree: false, developer: 'Eschmann Technologies', slug: 'eschmann-datalogger' },
+      { name: 'Campbell Scientific LoggerNet', os: ['windows', 'mac', 'linux'], isFree: false, developer: 'Campbell Scientific', slug: 'loggernet' },
+      { name: 'Text Editor or Hex Viewer', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'Various', slug: 'text-editor' }
+    ],
+    openingSteps: [
+      { title: 'Identify the source system first', desc: 'Check the file name, folder, device, or support ticket that produced the .elg file. The suffix alone does not identify one format.' },
+      { title: 'Open IBM IMM event logs with the management tools', desc: 'For server files such as spevents.elg, use the IBM IMM web interface or the IBM support utilities that exported the log.' },
+      { title: 'Inspect text-based ELG files safely', desc: 'If the file contains readable text, open a copy in a plain-text editor or hex viewer. Do not save it back unless the producing application documents the format.' },
+      { title: 'Use the original diagnostic or logger application', desc: 'Qualcomm, Eschmann, LoggerNet, VPN, SAP, Trimble, and geospatial ELG variants may require their own import or analysis software.' },
+      { title: 'Verify the file locally in AnyFileX', desc: 'Use the File Identifier and Magic Byte Detector to inspect the header, MIME guess, printable text, and compression indicators without uploading the file.' }
+    ],
+    conversions: [
+      { targetExtension: 'TXT', description: 'Extract readable text from text-based ELG logs for review or archival. Preserve the original file because binary variants may not round-trip.', difficulty: 'Easy', onlinePossible: true },
+      { targetExtension: 'CSV', description: 'Export event fields to CSV only when the source application can parse the specific ELG variant into rows and columns.', difficulty: 'Medium', onlinePossible: false },
+      { targetExtension: 'XML', description: 'Some ELG producers store XML data; use the producing application or an XML-aware tool rather than renaming the extension.', difficulty: 'Medium', onlinePossible: false }
+    ],
+    repairTips: [
+      'Do not rename .elg to .txt, .xml, or .gz as a repair. Renaming changes only the label and can make the file harder for its original application to recognize.',
+      'Keep an untouched backup and work on a copy; proprietary logs may be invalidated by text-editor line-ending or encoding changes.',
+      'If an IBM IMM log is truncated, re-export it from the management interface or collect a fresh diagnostic bundle from the server.',
+      'Check the first bytes and file entropy with AnyFileX to distinguish text, XML, compressed, and binary variants before choosing a recovery tool.'
+    ],
+    faqs: [
+      { question: 'What is an ELG file?', answer: 'ELG is an ambiguous log-file extension used by IBM IMM and several unrelated diagnostic, telemetry, data-logger, VPN, firewall, SAP, geospatial, and industrial applications. The correct opener depends on the program that created the file.' },
+      { question: 'How do I open an ELG file on Windows?', answer: 'First identify its source. IBM IMM event logs should be handled with IBM management tools; Qualcomm logs with QXDM or QCAT; Eschmann and LoggerNet logs with their corresponding applications. If it is plain text, a text editor can inspect a copy.' },
+      { question: 'Does ELG have a standard magic number or MIME type?', answer: 'No. ELG is not one universal container. Some common IBM IMM logs begin with readable text such as “Index”, while other ELG files may be XML, compressed, or proprietary binary. application/octet-stream is the safest generic Content-Type when the producer is unknown.' },
+      { question: 'Can I convert an ELG file to TXT or CSV?', answer: 'Text-based ELG files can often be read or exported as TXT. CSV export is application-dependent because the log fields and delimiters differ between producers. Do not simply change the extension.' },
+      { question: 'Are ELG files safe?', answer: 'Most ELG files are data logs, not executable programs, but the extension is ambiguous. Scan files from untrusted sources, verify their header, and avoid opening them in privileged diagnostic software until the source is confirmed.' }
+    ]
+  },
+  {
     extension: 'DAT',
     name: 'Generic Data File',
     category: 'System & Executables',

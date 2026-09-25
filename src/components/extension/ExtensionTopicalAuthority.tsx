@@ -49,6 +49,7 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
   const extLower = item.extension.toLowerCase();
   const isHeic = extUpper === 'HEIC' || extUpper === 'HEIF';
   const isDwg = extUpper === 'DWG';
+  const isElg = extUpper === 'ELG';
 
   const formatGuide = getOrGenerateFormatGuide(extUpper);
   const bestComparison = getBestComparisonForExtension(item.extension, item.category);
@@ -144,6 +145,29 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
       };
     }
 
+    if (isElg) {
+      return {
+        os: [
+          { name: 'Windows 10 / 11', supported: true, notes: 'Best coverage for IBM IMM utilities, QXDM/QCAT, and vendor loggers', badge: 'Best Support' },
+          { name: 'Linux', supported: true, notes: 'Readable text variants can be inspected locally; vendor apps may not be available', badge: 'Text / Vendor App' },
+          { name: 'macOS', supported: true, notes: 'Text-based ELG files can be inspected; proprietary tools may require another platform', badge: 'Text Inspection' },
+          { name: 'Android / iOS', supported: false, notes: 'No general native ELG viewer; identify the producer first', badge: 'No General Viewer' },
+        ],
+        browsers: [
+          { name: 'Any modern browser', supported: true, notes: 'AnyFileX can inspect the file locally and show printable content and header evidence', badge: 'Local Inspect' },
+          { name: 'Text-based ELG preview', supported: true, notes: 'Readable logs can be viewed as text; proprietary or compressed variants need a source app', badge: 'Variant Dependent' },
+          { name: 'Native browser rendering', supported: false, notes: 'Browsers do not have a universal decoder for the ELG extension', badge: 'No Standard Decoder' },
+        ],
+        software: item.popularApps.slice(0, 5).map((app) => ({ name: app.name, supported: true, notes: 'Use when this application is the producer of the .elg file; support varies by variant', badge: app.isFree ? 'Free' : 'Vendor Tool' })),
+        platforms: [
+          { name: 'IBM IMM / Lenovo server management', supported: true, notes: 'Common source of spevents.elg-style server event logs', badge: 'Source System' },
+          { name: 'Qualcomm diagnostic workflows', supported: true, notes: 'QXDM/QCAT may export wireless diagnostic logs with an ELG suffix', badge: 'Source System' },
+          { name: 'Industrial data loggers', supported: true, notes: 'Eschmann and Campbell Scientific use application-specific log structures', badge: 'Source System' },
+          { name: 'AnyFileX browser tools', supported: true, notes: 'Local header and content inspection without server upload', badge: 'Zero Upload' },
+        ],
+      };
+    }
+
     // Dynamic Generic Fallback for Other Formats
     const firstApp = item.popularApps[0]?.name || 'Standard Viewer';
     const secondApp = item.popularApps[1]?.name || 'Universal Viewer';
@@ -228,6 +252,13 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
       ];
     }
 
+    if (isElg) {
+      return [
+        { target: 'TXT', badge: 'Readable Logs', speed: 'Local Inspect', description: 'Inspect or extract readable text from a text-based ELG variant. Keep the original file unchanged because ELG is not one universal format.', buttonText: 'Inspect ELG as Text', buttonColor: 'bg-blue-600 hover:bg-blue-700 text-white', converterId: null },
+        { target: 'CSV', badge: 'Structured Export', speed: 'Source App Required', description: 'Export event fields to CSV only when the application that created the ELG file understands that specific log variant.', buttonText: 'Browse Conversion Tools', buttonColor: 'bg-slate-900 hover:bg-black dark:bg-slate-800 dark:hover:bg-slate-700 text-white', converterId: null },
+      ];
+    }
+
     // Generic Fallback
     const target1 = bestComparison.targetExt;
     const target2 = target1 === 'PDF' ? 'JPG' : 'PDF';
@@ -279,6 +310,14 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
       ];
     }
 
+    if (isElg) {
+      return [
+        { mime: 'application/octet-stream', usage: 'Safe generic type when the ELG producer and internal format are unknown', ext: '.elg' },
+        { mime: 'text/plain', usage: 'Use only when the specific ELG variant is verified as plain text', ext: '.elg' },
+        { mime: 'application/xml', usage: 'Use only for a verified XML-based ELG variant', ext: '.elg' },
+      ];
+    }
+
     const rows = [
       { mime: item.mimeType || 'application/octet-stream', usage: `Standard official MIME type for .${extLower} files`, ext: `.${extLower}` },
     ];
@@ -323,6 +362,21 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
           { label: 'Magic Bytes (Bytes 0-3)', value: "41 43 31 30 ('AC10')", color: 'text-blue-600 dark:text-blue-400' },
           { label: 'Version String (Bytes 4-5)', value: "33 32 ('32' = AC1032)", color: 'text-emerald-600 dark:text-emerald-400' },
           { label: 'Binary Structure', value: 'Indexed CAD Database', color: 'text-amber-600 dark:text-amber-400' },
+        ],
+      };
+    }
+
+    if (isElg) {
+      return {
+        hexString: '49 6E 64 65 78 (example only; not universal)',
+        asciiString: 'Index / text log',
+        offsetLabel: 'Offset 0x00 (variant dependent)',
+        explanation: 'ELG has no universal magic-byte signature. A common IBM IMM event-log variant begins with readable ASCII such as “Index”, while other ELG files begin with a log record, XML, a compression header, or proprietary binary data. Use the full file header and source application together for identification.',
+        boxes: [
+          { label: 'Common Text Prefix', value: '49 6E 64 65 78 = “Index”', color: 'text-blue-600 dark:text-blue-400' },
+          { label: 'Signature Status', value: 'Not universal', color: 'text-amber-600 dark:text-amber-400' },
+          { label: 'Possible Structures', value: 'Text / XML / GZIP / Binary', color: 'text-emerald-600 dark:text-emerald-400' },
+          { label: 'Best Evidence', value: 'Producer + header + strings', color: 'text-slate-900 dark:text-white' },
         ],
       };
     }
@@ -746,12 +800,14 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
               .{extUpper} MIME Types & HTTP Server Headers
             </h2>
           </div>
-          <span className="text-xs font-mono font-bold text-slate-400">IANA Standard</span>
+          <span className="text-xs font-mono font-bold text-slate-400">{isElg ? 'Producer Dependent' : 'IANA Standard'}</span>
         </div>
 
         <div className="space-y-4">
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            When serving <code>.{extLower}</code> files over HTTP or configuring REST APIs, web servers must send the official IANA registered Content-Type headers:
+            {isElg
+              ? <>There is no single official MIME type for <code>.{extLower}</code> because the extension is shared by unrelated log producers. Use <code>application/octet-stream</code> when the source format is unknown, or the producer&apos;s documented type when one exists:</>
+              : <>When serving <code>.{extLower}</code> files over HTTP or configuring REST APIs, web servers must send the official IANA registered Content-Type headers:</>}
           </p>
 
           <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
