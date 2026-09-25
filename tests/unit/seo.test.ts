@@ -1,63 +1,45 @@
 import { describe, it, expect } from 'vitest';
-import fs from 'fs';
-import { normalizeLastmod, getSegmentedSitemapXml, SITEMAP_SEGMENTS } from '../../src/lib/seo/sitemapGenerator';
-import { renderSsrPageHtml } from '../../src/lib/ssr/ssrRenderer';
+import { metadata as rootMetadata } from '../../src/app/layout';
+import { metadata as homeMetadata } from '../../src/app/page';
+import { generateMetadata as generateExtensionMetadata } from '../../src/app/file-extensions/[ext]/page';
+import sitemap from '../../src/app/sitemap';
+import robots from '../../src/app/robots';
+import { getRouteManifestEntry } from '../../src/lib/routes/routeManifest';
 
-const contentSegments = SITEMAP_SEGMENTS.filter((s) => s.id !== 'index');
-const locsOf = (xml: string) => [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-const datesOf = (xml: string) => [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]);
-
-describe('Fix #12 — sitemap lastmod normalisation', () => {
-  it('converts human-readable month/year to W3C datetime', () => {
-    expect(normalizeLastmod('August 2024')).toBe('2024-08-01');
-    expect(normalizeLastmod('June 2024')).toBe('2024-06-01');
-    expect(normalizeLastmod('December 2023')).toBe('2023-12-01');
+describe('Next.js App Router SEO', () => {
+  it('defines site-wide metadata through the root layout', () => {
+    expect(rootMetadata.metadataBase?.toString()).toBe('https://anyfilex.com/');
+    expect(rootMetadata.title).toMatchObject({ default: expect.stringContaining('AnyFileX'), template: '%s | AnyFileX' });
+    expect(rootMetadata.alternates?.canonical).toBe('/');
   });
 
-  it('passes through valid ISO values and reduces them to the date', () => {
-    expect(normalizeLastmod('2026-09-18')).toBe('2026-09-18');
-    expect(normalizeLastmod('2026-09-18T10:00:00Z')).toBe('2026-09-18');
+  it('defines home metadata and canonical URL in the App Router page', () => {
+    expect(homeMetadata.title).toContain('AnyFileX');
+    expect(homeMetadata.description).toContain('file formats');
+    expect(homeMetadata.alternates?.canonical).toBe('https://anyfilex.com');
+    expect(homeMetadata.openGraph?.url).toBe('https://anyfilex.com');
   });
 
-  it('falls back to the platform date for unparseable input', () => {
-    expect(normalizeLastmod('nonsense')).toBe('2026-09-18');
-    expect(normalizeLastmod(undefined)).toBe('2026-09-18');
+  it('generates metadata and canonical URL for a dynamic extension route', async () => {
+    const meta = await generateExtensionMetadata({ params: Promise.resolve({ ext: 'heic' }) });
+    expect(meta.title).toContain('.HEIC File Extension');
+    expect(meta.description).toContain('HEIC');
+    expect(meta.alternates?.canonical).toBe('https://anyfilex.com/file-extensions/heic');
+    expect(meta.openGraph?.url).toBe('https://anyfilex.com/file-extensions/heic');
   });
 
-  it('emits only valid W3C lastmod values in every content segment', () => {
-    for (const seg of contentSegments) {
-      const dates = datesOf(getSegmentedSitemapXml(seg.id));
-      expect(dates.length).toBeGreaterThan(0);
-      for (const d of dates) expect(d).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-    }
-  });
-});
-
-describe('Fix #12 — sitemap deduplication', () => {
-  it('emits no duplicate <loc> within any content segment', () => {
-    for (const seg of contentSegments) {
-      const locs = locsOf(getSegmentedSitemapXml(seg.id));
-      expect(new Set(locs).size).toBe(locs.length);
-    }
+  it('publishes unique sitemap URLs backed by the route manifest', () => {
+    const entries = sitemap();
+    const urls = entries.map((entry) => entry.url);
+    expect(new Set(urls).size).toBe(urls.length);
+    for (const url of urls) expect(getRouteManifestEntry(new URL(url).pathname)).toBeDefined();
   });
 
-  it('index references every content segment exactly once', () => {
-    const locs = locsOf(getSegmentedSitemapXml('index'));
-    expect(locs).toHaveLength(contentSegments.length);
-    expect(new Set(locs).size).toBe(locs.length);
-  });
-});
-
-describe('Fix #1 / #11 — SSR injected state escaping', () => {
-  it('escapes a </script> payload so it cannot break out of the script tag', () => {
-    const template = fs.readFileSync('index.html', 'utf-8');
-    const payload = '</script><script>alert(1)</script>';
-    const { html } = renderSsrPageHtml('/file-extensions', template, '?q=' + encodeURIComponent(payload));
-    const match = html.match(/window\.__INITIAL_ROUTE__ = ([\s\S]*?);<\/script>/);
-    expect(match).toBeTruthy();
-    const json = match![1];
-    expect(json).not.toContain('</script>');
-    expect(json).toContain('\\u003c');
-    expect(JSON.parse(json).query).toBe(payload);
+  it('publishes robots rules for the current canonical sitemap', () => {
+    const policy = robots();
+    expect(policy.sitemap).toBe('https://anyfilex.com/sitemap.xml');
+    expect(policy.rules).toEqual(expect.arrayContaining([
+      expect.objectContaining({ userAgent: '*', allow: '/', disallow: expect.arrayContaining(['/admin', '/workflows']) }),
+    ]));
   });
 });

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { MimeDetailRouteClient } from '@/components/routes/LegacyRouteClients';
+import { MimeDetailRouteClient } from '@/components/routes/RouteClients';
 import { EXPANDED_MIME_DATABASE } from '@/data/expandedMimeDatabase';
 import { getStaticParamsForRouteType, getMimeRouteSlug } from '@/lib/routes/routeManifest';
 export function generateStaticParams() { return getStaticParamsForRouteType('mime-detail'); }

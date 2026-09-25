@@ -36,6 +36,7 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ onSelectFeatur
   return (
     <section className="py-12 md:py-16 bg-slate-50/50 dark:bg-slate-950/50 border-b border-slate-200/60 dark:border-slate-800/60" id="features">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="sr-only">What You Can Do with AnyFileX</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {features.map((feature) => {
             const Icon = feature.icon;

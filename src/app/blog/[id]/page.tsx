@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { BlogRouteClient } from '@/components/routes/LegacyRouteClients';
+import { BlogRouteClient } from '@/components/routes/RouteClients';
 import { BLOG_POSTS } from '@/data/guidesData';
 import { notFound } from 'next/navigation';
 export function generateStaticParams() { return BLOG_POSTS.map((post) => ({ id: post.id })); }

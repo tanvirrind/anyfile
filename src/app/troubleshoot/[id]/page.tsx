@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { TroubleshootDetailClient } from '@/components/routes/RouteClients';
-import { RepairRouteClient } from '@/components/routes/LegacyRouteClients';
+import { RepairRouteClient } from '@/components/routes/RouteClients';
 import { TROUBLESHOOTING_GUIDES } from '@/lib/database/troubleshootingData';
 import { REPAIR_GUIDES } from '@/data/repairData';
 import { BASE_URL } from '@/lib/routes/routeManifest';

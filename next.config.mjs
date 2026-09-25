@@ -18,6 +18,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/legacy-sitemaps/sitemap.xml',
+        destination: '/sitemap.xml',
+        permanent: true,
+      },
+      {
         source: '/sitemap_index.xml',
         destination: '/sitemap.xml',
         permanent: true,

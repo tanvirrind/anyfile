@@ -6,6 +6,7 @@ import { Footer } from '../Footer';
 import { CommandPalette } from '../CommandPalette';
 import { AppRoute } from '../../types';
 import { parsePathToRoute, routeToPath } from '../../utils/router';
+import { resolveThemePreference } from '../../lib/theme/themePreference';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface AppLayoutClientProps {
@@ -33,7 +34,7 @@ export function AppLayoutClient({ children }: AppLayoutClientProps) {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    setDarkMode(savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+    setDarkMode(resolveThemePreference(savedTheme, window.matchMedia('(prefers-color-scheme: dark)').matches) === 'dark');
   }, []);
 
   useEffect(() => {

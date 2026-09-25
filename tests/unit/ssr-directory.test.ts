@@ -1,56 +1,44 @@
 import { describe, it, expect } from 'vitest';
-import { resolveRouteMetadata } from '../../src/lib/ssr/routeMetadataResolver';
+import { buildRouteManifest, getStaticParamsForRouteType } from '../../src/lib/routes/routeManifest';
 import { getAllFileTypeInfos } from '../../src/lib/database/extensionEngine';
 import { CURATED_COMPARISONS } from '../../src/lib/database/knowledgeGraph';
 import { EXPANDED_MIME_DATABASE } from '../../src/data/expandedMimeDatabase';
 
-const linksIn = (path: string, prefix: string) => {
-  const { prerenderedHtml } = resolveRouteMetadata(path);
-  return new Set(
-    [...prerenderedHtml.matchAll(/href="([^"]+)"/g)].map((m) => m[1]).filter((h) => h.startsWith(prefix))
-  );
-};
+describe('Next.js App Router route/data coverage', () => {
+  const manifest = buildRouteManifest();
 
-/**
- * The site audit flagged 960 orphan pages (no incoming internal links) and 99
- * low-word-count pages, because hub templates exposed only a handful of children.
- * These assertions protect the crawlable directories that fixed it.
- */
-describe('SSR hub directories (orphan + thin-content fix)', () => {
-  it('the extensions hub links every extension in the database', () => {
-    const all = getAllFileTypeInfos();
-    expect(all.length).toBeGreaterThan(200);
-    expect(linksIn('/file-extensions', '/file-extensions/').size).toBe(all.length);
-  });
-
-  it('the how-to-open hub links a guide for every extension', () => {
-    expect(linksIn('/how-to-open', '/how-to-open/').size).toBe(getAllFileTypeInfos().length);
-  });
-
-  it('a category page links its own extensions', () => {
-    const links = linksIn('/category/images', '/file-extensions/');
-    expect(links.size).toBeGreaterThan(10);
-  });
-
-  it('the comparison hub links every curated comparison', () => {
-    expect(linksIn('/compare', '/compare/').size).toBeGreaterThanOrEqual(CURATED_COMPARISONS.length);
-  });
-
-  it('the MIME checker exposes the full MIME directory', () => {
-    expect(linksIn('/tools/mime-checker', '/mime-type/').size).toBeGreaterThan(40);
-  });
-
-  it('hub pages actually contain substantive text (not a thin shell)', () => {
-    for (const path of ['/file-extensions', '/how-to-open', '/compare', '/converters']) {
-      const { prerenderedHtml } = resolveRouteMetadata(path);
-      const words = prerenderedHtml.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
-      expect(words, `${path} word count`).toBeGreaterThan(250);
+  it('contains a canonical manifest entry for every extension route', () => {
+    const extensions = getStaticParamsForRouteType('extension-detail');
+    expect(extensions.length).toBe(getAllFileTypeInfos().length);
+    for (const params of extensions) {
+      expect(manifest.some((entry) => entry.path === '/file-extensions/' + params.ext)).toBe(true);
     }
   });
 
-  it('every MIME record is reachable from the directory', () => {
-    const slugs = new Set(EXPANDED_MIME_DATABASE.map((m) => `mime-type/${m.mimeType.replace('/', '-').toLowerCase()}`));
-    const linked = new Set([...linksIn('/tools/mime-checker', '/mime-type/')].map((h) => decodeURIComponent(h.slice(1))));
-    for (const s of slugs) expect(linked.has(s), s).toBe(true);
+  it('contains every curated comparison as an App Router route', () => {
+    const comparisons = getStaticParamsForRouteType('compare-detail');
+    expect(comparisons.length).toBe(CURATED_COMPARISONS.length);
+    for (const params of comparisons) {
+      expect(manifest.some((entry) => entry.path === '/compare/' + params.slug)).toBe(true);
+    }
+  });
+
+  it('contains every MIME record as a canonical route', () => {
+    const mimeRoutes = new Set(getStaticParamsForRouteType('mime-detail').map((params) => '/mime-type/' + params.slug));
+    const expectedRoutes = new Set(EXPANDED_MIME_DATABASE.map((item) => '/mime-type/' + item.mimeType.replace('/', '-').replace(/\+/g, '-plus-').toLowerCase()));
+    expect(mimeRoutes.size).toBe(expectedRoutes.size);
+    for (const item of EXPANDED_MIME_DATABASE) {
+      const slug = item.mimeType.replace('/', '-').replace(/\+/g, '-plus-').toLowerCase();
+      expect(mimeRoutes.has('/mime-type/' + slug)).toBe(true);
+    }
+  });
+
+  it('keeps route manifest entries substantive and unique', () => {
+    expect(manifest.length).toBeGreaterThan(100);
+    expect(new Set(manifest.map((entry) => entry.path)).size).toBe(manifest.length);
+    for (const entry of manifest.filter((item) => item.isIndexable)) {
+      expect(entry.title.length).toBeGreaterThan(10);
+      expect(entry.description.length).toBeGreaterThan(20);
+    }
   });
 });

@@ -1,7 +1,7 @@
 /**
  * Types for deep, SEO-optimised per-format content profiles.
  *
- * The generated extension pages (see extensionGenerator / dynamicPageSeo) are
+ * The generated extension pages (see extensionGenerator and App Router metadata) are
  * built from compact data records, which keeps ~250 formats consistent but makes
  * any single page too thin to compete for a high-value keyword cluster. A deep
  * profile lets one format carry genuinely long-form, terminology-dense content —

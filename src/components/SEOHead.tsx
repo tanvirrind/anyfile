@@ -148,7 +148,6 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       '@type': 'WebSite',
       '@id': `${BASE_URL}/#website`,
       name: 'AnyFileX',
-      alternateName: ['anyfilex.com'],
       url: `${BASE_URL}/`,
       description: 'Open Any File in Seconds with AnyFileX. Universal file extension intelligence, magic bytes inspection, converters, and repair tools.',
       publisher: {
@@ -303,4 +302,3 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
 
   return null;
 };
-

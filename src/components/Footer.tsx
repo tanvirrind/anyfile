@@ -41,6 +41,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer className="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800 shrink-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="sr-only">Footer Navigation</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 pb-12 border-b border-slate-800 text-left">
           {/* Brand Column */}
           <div className="col-span-1 sm:col-span-2 space-y-4 text-left">
@@ -93,7 +94,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
           {/* Primary links */}
           <div className="text-left">
-            <h4 className="text-xs font-heading font-bold uppercase tracking-wider text-white mb-4">Explore</h4>
+            <h3 className="text-xs font-heading font-bold uppercase tracking-wider text-white mb-4">Explore</h3>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>{renderAnchor({ view: 'extensions' }, 'hover:text-blue-400 transition-colors', 'File Extensions')}</li>
               <li>{renderAnchor({ view: 'guides' }, 'hover:text-blue-400 transition-colors', 'Guides')}</li>
@@ -107,7 +108,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
           {/* Company and legal links */}
           <div className="text-left">
-            <h4 className="text-xs font-heading font-bold uppercase tracking-wider text-white mb-4">Company</h4>
+            <h3 className="text-xs font-heading font-bold uppercase tracking-wider text-white mb-4">Company</h3>
             <ul className="space-y-2.5 text-xs text-slate-400">
               <li>{renderAnchor({ view: 'about' }, 'hover:text-blue-400 transition-colors', 'About AnyFileX')}</li>
               <li>{renderAnchor({ view: 'contact' }, 'hover:text-blue-400 transition-colors', 'Contact')}</li>
