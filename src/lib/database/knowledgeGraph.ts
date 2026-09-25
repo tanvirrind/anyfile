@@ -63,6 +63,7 @@ export const CURATED_COMPARISONS: ComparisonPairMeta[] = [
   { slug: 'odt-vs-docx', ext1: 'ODT', ext2: 'DOCX', category: 'Documents', title: 'ODT vs DOCX', highlight: 'OpenDocument standard vs Microsoft Office Open XML' },
   { slug: 'txt-vs-pdf', ext1: 'TXT', ext2: 'PDF', category: 'Documents', title: 'TXT vs PDF', highlight: 'Minimalist unformatted plain text vs styled vector document layout' },
   { slug: 'json-vs-xml', ext1: 'JSON', ext2: 'XML', category: 'Documents', title: 'JSON vs XML', highlight: 'Lightweight key-value data interchange vs extensible tagged markup' },
+  { slug: 'awbs-vs-pdf', ext1: 'AWBS', ext2: 'PDF', category: 'Databases', title: 'AWBS vs PDF', highlight: 'Application-specific aviation records vs portable fixed-layout document export' },
 
   // Archives
   { slug: 'zip-vs-rar', ext1: 'ZIP', ext2: 'RAR', category: 'Archives', title: 'ZIP vs RAR', highlight: 'Universal OS-native compression vs Roshal Archive proprietary high-ratio' },

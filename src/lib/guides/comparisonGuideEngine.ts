@@ -1316,6 +1316,7 @@ export function isValidComparisonPair(ext1Input: string, ext2Input: string): { i
     ['txt', 'pdf'],
     ['json', 'xml'],
     ['md', 'html'],
+    ['awbs', 'pdf'],
   ];
 
   const isExplicitCross = validCrossPairs.some(

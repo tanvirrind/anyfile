@@ -50,6 +50,8 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
   const isHeic = extUpper === 'HEIC' || extUpper === 'HEIF';
   const isDwg = extUpper === 'DWG';
   const isElg = extUpper === 'ELG';
+  const isCamrec = extUpper === 'CAMREC';
+  const isAwbs = extUpper === 'AWBS';
 
   const formatGuide = getOrGenerateFormatGuide(extUpper);
   const bestComparison = getBestComparisonForExtension(item.extension, item.category);
@@ -168,6 +170,61 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
       };
     }
 
+    if (isCamrec) {
+      return {
+        os: [
+          { name: 'Windows', supported: true, notes: 'Legacy Windows Camtasia installations are the primary way to open CAMREC recordings', badge: 'Native Legacy App' },
+          { name: 'macOS', supported: false, notes: 'CAMREC belongs to the Windows Camtasia workflow; older Mac recordings used CMREC', badge: 'Use CMREC / Export' },
+          { name: 'Linux', supported: false, notes: 'No general native CAMREC editor; inspect the container or use a Windows Camtasia environment', badge: 'No Native App' },
+          { name: 'Android / iOS', supported: false, notes: 'Mobile platforms do not provide a general CAMREC decoder', badge: 'Unsupported' },
+        ],
+        browsers: [
+          { name: 'Any modern browser', supported: true, notes: 'AnyFileX can inspect the container header and file evidence locally', badge: 'Inspect Only' },
+          { name: 'HTML5 video playback', supported: false, notes: 'Browsers cannot directly play the proprietary CAMREC container; export to MP4 first', badge: 'Requires Export' },
+          { name: 'Online CAMREC conversion', supported: false, notes: 'Generic online conversion is unreliable for embedded Camtasia streams and project metadata', badge: 'Not Recommended' },
+        ],
+        software: [
+          { name: 'TechSmith Camtasia Studio', supported: true, notes: 'Primary application for opening and exporting legacy CAMREC recordings', badge: 'Native Legacy' },
+          { name: 'AnyFileX File Identifier', supported: true, notes: 'Checks the OLE2 signature and identifies the container without editing it', badge: 'Local Inspect' },
+          { name: 'VLC Media Player', supported: false, notes: 'VLC does not generally decode CAMREC directly; use a Camtasia export instead', badge: 'Needs Export' },
+        ],
+        platforms: [
+          { name: 'Camtasia Windows workflow', supported: true, notes: 'Open, edit, and produce CAMREC recordings through a compatible Camtasia version', badge: 'Primary' },
+          { name: 'Camtasia for Mac', supported: false, notes: 'Uses different historical extensions such as CMREC and newer TREC workflows', badge: 'Different Format' },
+          { name: 'YouTube / web publishing', supported: true, notes: 'Publish after exporting CAMREC to a standard format such as MP4', badge: 'After Export' },
+          { name: 'AnyFileX browser tools', supported: true, notes: 'Inspect the file locally without uploading the recording', badge: 'Zero Upload' },
+        ],
+      };
+    }
+
+    if (isAwbs) {
+      return {
+        os: [
+          { name: 'Windows', supported: true, notes: 'Primary platform for AWBS and related aviation weight-and-balance software', badge: 'Primary' },
+          { name: 'macOS', supported: false, notes: 'No general native AWBS application; use an approved Windows environment if authorized', badge: 'No Native App' },
+          { name: 'Linux', supported: false, notes: 'Generic database tools may inspect some variants but do not provide AWBS semantics', badge: 'Inspect Only' },
+          { name: 'Android / iOS', supported: false, notes: 'No general mobile AWBS viewer', badge: 'Unsupported' },
+        ],
+        browsers: [
+          { name: 'Any modern browser', supported: true, notes: 'AnyFileX can inspect the file locally and look for SQLite, XML, or binary evidence', badge: 'Inspect Only' },
+          { name: 'Browser database viewers', supported: false, notes: 'A generic viewer cannot validate aircraft weight-and-balance calculations or application relationships', badge: 'Not AWBS-Aware' },
+          { name: 'Online conversion services', supported: false, notes: 'Do not upload operational aviation records to an unapproved conversion service', badge: 'Not Recommended' },
+        ],
+        software: [
+          { name: 'Automated Weight and Balance System (AWBS)', supported: true, notes: 'Primary application for interpreting and maintaining AWBS records', badge: 'Native' },
+          { name: 'AWBS Hangar', supported: true, notes: 'Known Windows opener for some AWBS workflows', badge: 'Workflow App' },
+          { name: 'SQLite Database Browser', supported: true, notes: 'Useful only if the file header confirms SQLite; it does not understand AWBS aviation fields', badge: 'Structure Only' },
+          { name: 'AnyFileX File Identifier', supported: true, notes: 'Local header and content inspection without changing the source file', badge: 'Zero Upload' },
+        ],
+        platforms: [
+          { name: 'AWBS aviation workflow', supported: true, notes: 'Use the originating installation and version for calculations and form generation', badge: 'Primary' },
+          { name: 'Aircraft maintenance / logistics systems', supported: true, notes: 'May exchange exported records, but compatibility depends on the approved integration', badge: 'Integration Dependent' },
+          { name: 'Cloud storage', supported: true, notes: 'Suitable for controlled backup only when organizational policy permits', badge: 'Policy Dependent' },
+          { name: 'AnyFileX browser tools', supported: true, notes: 'Inspect locally without uploading sensitive aviation data', badge: 'Zero Upload' },
+        ],
+      };
+    }
+
     // Dynamic Generic Fallback for Other Formats
     const firstApp = item.popularApps[0]?.name || 'Standard Viewer';
     const secondApp = item.popularApps[1]?.name || 'Universal Viewer';
@@ -259,6 +316,20 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
       ];
     }
 
+    if (isCamrec) {
+      return [
+        { target: 'MP4', badge: 'Recommended Export', speed: 'Camtasia Required', description: 'Export the legacy screen recording to MP4 from a compatible Camtasia installation for browser, mobile, and web publishing support.', buttonText: 'Browse Video Conversion Tools', buttonColor: 'bg-blue-600 hover:bg-blue-700 text-white', converterId: null },
+        { target: 'AVI', badge: 'Legacy Workflow', speed: 'Version Dependent', description: 'Some older Camtasia workflows can render the recording to AVI, but support depends on the source version and embedded streams.', buttonText: 'View Conversion Options', buttonColor: 'bg-slate-900 hover:bg-black dark:bg-slate-800 dark:hover:bg-slate-700 text-white', converterId: null },
+      ];
+    }
+
+    if (isAwbs) {
+      return [
+        { target: 'CSV', badge: 'Controlled Export', speed: 'AWBS Required', description: 'Export approved tables to CSV only through AWBS or a schema-aware workflow that preserves units, relationships, and aviation-specific fields.', buttonText: 'Browse Data Tools', buttonColor: 'bg-blue-600 hover:bg-blue-700 text-white', converterId: null },
+        { target: 'XML', badge: 'Structured Exchange', speed: 'Schema Dependent', description: 'Some AWBS workflows may exchange structured XML, but conversion is version-dependent and should stay within an approved aviation workflow.', buttonText: 'View Conversion Options', buttonColor: 'bg-slate-900 hover:bg-black dark:bg-slate-800 dark:hover:bg-slate-700 text-white', converterId: null },
+      ];
+    }
+
     // Generic Fallback
     const target1 = bestComparison.targetExt;
     const target2 = target1 === 'PDF' ? 'JPG' : 'PDF';
@@ -315,6 +386,21 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
         { mime: 'application/octet-stream', usage: 'Safe generic type when the ELG producer and internal format are unknown', ext: '.elg' },
         { mime: 'text/plain', usage: 'Use only when the specific ELG variant is verified as plain text', ext: '.elg' },
         { mime: 'application/xml', usage: 'Use only for a verified XML-based ELG variant', ext: '.elg' },
+      ];
+    }
+
+    if (isCamrec) {
+      return [
+        { mime: 'application/octet-stream', usage: 'Generic type for the proprietary CAMREC container; no broadly registered CAMREC MIME type', ext: '.camrec' },
+        { mime: 'video/x-msvideo', usage: 'Possible type for an extracted AVI stream, not the CAMREC container itself', ext: '.avi' },
+      ];
+    }
+
+    if (isAwbs) {
+      return [
+        { mime: 'application/octet-stream', usage: 'Generic type for application-specific AWBS data when the internal structure is unknown', ext: '.awbs' },
+        { mime: 'application/vnd.sqlite3', usage: 'Use only if the file header confirms a SQLite database', ext: '.awbs' },
+        { mime: 'application/xml', usage: 'Use only for a verified XML-based AWBS export', ext: '.awbs' },
       ];
     }
 
@@ -377,6 +463,36 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
           { label: 'Signature Status', value: 'Not universal', color: 'text-amber-600 dark:text-amber-400' },
           { label: 'Possible Structures', value: 'Text / XML / GZIP / Binary', color: 'text-emerald-600 dark:text-emerald-400' },
           { label: 'Best Evidence', value: 'Producer + header + strings', color: 'text-slate-900 dark:text-white' },
+        ],
+      };
+    }
+
+    if (isCamrec) {
+      return {
+        hexString: 'D0 CF 11 E0 A1 B1 1A E1',
+        asciiString: 'Compound File / OLE2',
+        offsetLabel: 'Offset 0x00',
+        explanation: 'Most CAMREC files identified by format databases use the Microsoft Compound File / OLE2 container signature at byte offset 0x00. This header confirms the outer container; it does not by itself guarantee that every embedded stream is a valid Camtasia recording.',
+        boxes: [
+          { label: 'Byte Offset', value: '0x00000000 (Byte 0)', color: 'text-slate-900 dark:text-white' },
+          { label: 'Compound Header', value: 'D0 CF 11 E0 A1 B1 1A E1', color: 'text-blue-600 dark:text-blue-400' },
+          { label: 'Container Type', value: 'Microsoft Compound File', color: 'text-emerald-600 dark:text-emerald-400' },
+          { label: 'Expected Streams', value: 'AVI / CAMXML / WAV / events', color: 'text-amber-600 dark:text-amber-400' },
+        ],
+      };
+    }
+
+    if (isAwbs) {
+      return {
+        hexString: 'Variant dependent (SQLite / XML / proprietary binary)',
+        asciiString: 'SQLite format 3. / XML / binary',
+        offsetLabel: 'Offset 0x00 (variant dependent)',
+        explanation: 'AWBS has no single documented magic-byte signature across all installations. A file may begin with the SQLite text “SQLite format 3”, an XML declaration, or a proprietary binary header. Inspect a copy and confirm the producing AWBS version before choosing a viewer or repair method.',
+        boxes: [
+          { label: 'Possible SQLite Header', value: '53 51 4C 69 74 65 20 66 6F 72 6D 61 74 20 33', color: 'text-blue-600 dark:text-blue-400' },
+          { label: 'Possible XML Header', value: '3C 3F 78 6D 6C (<?xml)', color: 'text-emerald-600 dark:text-emerald-400' },
+          { label: 'Signature Status', value: 'Not universal', color: 'text-amber-600 dark:text-amber-400' },
+          { label: 'Best Evidence', value: 'Source app + header + schema', color: 'text-slate-900 dark:text-white' },
         ],
       };
     }
@@ -800,13 +916,17 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
               .{extUpper} MIME Types & HTTP Server Headers
             </h2>
           </div>
-          <span className="text-xs font-mono font-bold text-slate-400">{isElg ? 'Producer Dependent' : 'IANA Standard'}</span>
+          <span className="text-xs font-mono font-bold text-slate-400">{isElg || isCamrec || isAwbs ? 'Format Dependent' : 'IANA Standard'}</span>
         </div>
 
         <div className="space-y-4">
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
             {isElg
               ? <>There is no single official MIME type for <code>.{extLower}</code> because the extension is shared by unrelated log producers. Use <code>application/octet-stream</code> when the source format is unknown, or the producer&apos;s documented type when one exists:</>
+              : isCamrec
+                ? <>CAMREC is a proprietary legacy container rather than a broadly registered media type. Use <code>application/octet-stream</code> for the original file, and use the target format&apos;s MIME type only after exporting the recording:</>
+                : isAwbs
+                  ? <>AWBS is application-specific data rather than a broadly registered interchange format. Use <code>application/octet-stream</code> unless the internal SQLite or XML structure has been verified:</>
               : <>When serving <code>.{extLower}</code> files over HTTP or configuring REST APIs, web servers must send the official IANA registered Content-Type headers:</>}
           </p>
 

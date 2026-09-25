@@ -112,13 +112,66 @@ const SECONDARY_CATALOG: SecondarySoftwareDef[] = [
 // Helper to convert SecondarySoftwareDef into a complete SoftwareInfo object
 function catalogDefToSoftwareInfo(def: SecondarySoftwareDef): SoftwareInfo {
   const upperExts = def.exts.map((e) => e.toUpperCase());
+  const primaryExtension = upperExts[0] || 'DAT';
+  const platformNames = def.os.map((o) => o.charAt(0).toUpperCase() + o.slice(1)).join(', ');
+  const categoryWorkflow: Record<string, string> = {
+    'Graphics & Design': `Use ${def.name} to open a copy of the source artwork, confirm fonts and linked assets, then export a delivery format only after checking dimensions, color profile, transparency, and layer behavior.`,
+    'CAD & Engineering': `For CAD work, confirm drawing units, model version, external references, and supported objects before editing. Export a review copy such as PDF or STL only after validating scale and geometry.`,
+    'Productivity & Office': `For office files, open a copy first and check formulas, fonts, comments, external links, and tracked changes before saving. Preserve the original when converting between editable and fixed-layout formats.`,
+    'Media & Audio': `For media projects, inspect the container and internal codecs before converting. Keep the original recording, check audio channels and frame dimensions, and export a delivery copy for the target player or platform.`,
+    'Developer Tools': `For source and data files, validate syntax and encoding before editing. Use version control or a backup, confirm the expected schema, and avoid changing line endings or formats when an automated tool consumes the file.`,
+    'Utilities & Compression': `For archives and system utilities, verify the source and checksum, inspect contents before extraction, and keep sensitive or executable files isolated until they have been scanned.`,
+    'Science & Data': `For scientific data, confirm units, coordinate systems, metadata, and instrument or analysis version before editing. Preserve the original dataset and document any export or lossy conversion.`,
+    '3D & Animation': `For 3D assets, check scene scale, units, materials, linked textures, and coordinate orientation before export. Validate the resulting mesh or scene in the application that will consume it.`,
+    'Specialized & Utilities': `Use the application’s native workflow when possible, keep original project or save files backed up, and verify that exported data can be reopened before removing the source.`,
+  };
+  const alternativesByCategory: Record<string, { name: string; slug: string; description: string }[]> = {
+    'Graphics & Design': [
+      { name: 'GIMP', slug: 'gimp', description: 'Free raster editor for common image formats and layer-based workflows.' },
+      { name: 'Inkscape', slug: 'inkscape', description: 'Open-source vector editor with strong SVG support.' }
+    ],
+    'CAD & Engineering': [
+      { name: 'FreeCAD', slug: 'freecad', description: 'Open-source parametric CAD tool for parts and assemblies.' },
+      { name: 'LibreCAD', slug: 'librecad', description: 'Free 2D CAD application for compatible drafting workflows.' }
+    ],
+    'Productivity & Office': [
+      { name: 'LibreOffice', slug: 'libreoffice', description: 'Free office suite for documents, spreadsheets, and presentations.' },
+      { name: 'OnlyOffice', slug: 'onlyoffice', description: 'Office suite focused on modern Microsoft-format compatibility.' }
+    ],
+    'Media & Audio': [
+      { name: 'VLC Media Player', slug: 'vlc', description: 'Broad codec support for playback and media inspection.' },
+      { name: 'HandBrake', slug: 'handbrake', description: 'Transcoder for creating compatible delivery video files.' }
+    ],
+    'Developer Tools': [
+      { name: 'Visual Studio Code', slug: 'vscode', description: 'Extensible editor with language tooling and format validation.' },
+      { name: 'Sublime Text', slug: 'sublime-text', description: 'Fast editor for code, markup, and structured text.' }
+    ],
+    'Utilities & Compression': [
+      { name: '7-Zip', slug: '7-zip', description: 'Open-source archive manager for extraction and compression.' },
+      { name: 'PeaZip', slug: 'peazip', description: 'Cross-platform archive utility with broad format support.' }
+    ],
+    'Science & Data': [
+      { name: 'RStudio', slug: 'rstudio', description: 'Analysis environment for statistical and scientific datasets.' },
+      { name: 'Python', slug: 'python', description: 'Programmable data workflow for inspection and transformation.' }
+    ],
+    '3D & Animation': [
+      { name: 'Blender', slug: 'blender', description: 'Open-source 3D modeling, animation, and rendering suite.' },
+      { name: 'MeshLab', slug: 'meshlab', description: 'Mesh inspection and cleanup utility for 3D assets.' }
+    ],
+    'Specialized & Utilities': [
+      { name: 'VLC Media Player', slug: 'vlc', description: 'General-purpose viewer for common media and data workflows.' },
+      { name: '7-Zip Utility', slug: '7-zip', description: 'Free archive and file inspection utility.' }
+    ]
+  };
+  const workflow = categoryWorkflow[def.category] || `Use ${def.name} with a copy of the source file, confirm the application version and supported format, and verify the exported result before replacing the original.`;
+  const alternatives = alternativesByCategory[def.category] || alternativesByCategory['Specialized & Utilities'];
   return {
     id: def.id,
     name: def.name,
     developer: def.developer,
     category: def.category,
     description: def.description,
-    longDescription: `${def.name} is a software application developed by ${def.developer} in the ${def.category} category. It provides native support for opening, editing, and managing .${upperExts.join(', .')} file formats across ${def.os.map((o) => o.charAt(0).toUpperCase() + o.slice(1)).join(', ')} operating systems.`,
+    longDescription: `${def.name} is a ${def.category.toLowerCase()} application developed by ${def.developer}. It is available on ${platformNames} and is associated with ${upperExts.slice(0, 6).map((ext) => `.${ext}`).join(', ')} workflows. ${workflow} ${def.priceType === 'Free' || def.priceType === 'Open Source' ? `The listed edition is ${def.priceType.toLowerCase()}, but confirm the publisher’s current requirements and license before installing it.` : `Check the publisher’s current edition, license, and system requirements before installing it.`}`,
     supportedOS: def.os,
     priceType: def.priceType,
     priceText: def.priceText,
@@ -128,20 +181,23 @@ function catalogDefToSoftwareInfo(def: SecondarySoftwareDef): SoftwareInfo {
     rating: Number((4.6 + (def.name.length % 4) * 0.1).toFixed(1)),
     reviewCount: 10000 + (def.name.charCodeAt(0) * 350) % 45000,
     features: [
-      `Native support for .${upperExts[0] || 'DAT'} and .${upperExts[1] || 'FILE'} file formats`,
-      `Optimized multi-platform performance for ${def.os.join(', ')}`,
-      `Integrated metadata viewing and format conversion utilities`,
-      `Verified application provider (${def.developer})`
+      `Opens or works with .${primaryExtension} files in its ${def.category.toLowerCase()} workflow`,
+      `Available for ${platformNames} with the edition and license shown above`,
+      `Supports related formats including ${upperExts.slice(1, 4).map((ext) => `.${ext}`).join(', ') || 'application-specific data'}`,
+      'Use a copy of important files before saving or converting between formats',
+      `Published or maintained by ${def.developer}`
     ],
-    alternatives: [
-      { name: 'VLC Media Player', slug: 'vlc', description: 'Universal file and media player.' },
-      { name: '7-Zip Utility', slug: '7-zip', description: 'Universal archive and file manager.' }
-    ],
+    alternatives,
     tutorials: [
       {
         title: `How to Open Files using ${def.name}`,
-        description: `Learn how to install ${def.name} and associate it as the default viewer for .${upperExts[0] || 'DAT'} files on your computer.`,
+        description: `Install the official ${def.name} release, open a copy of the .${primaryExtension} file, confirm the file version and source, and associate the extension only after the first test succeeds.`,
         readTime: '3 min'
+      },
+      {
+        title: `Troubleshoot .${primaryExtension} Files in ${def.name}`,
+        description: `Check the application version, required plugins or codecs, file permissions, and the file signature before attempting conversion or repair.`,
+        readTime: '4 min'
       }
     ],
     frequentlyOpenedTypes: upperExts.slice(0, 3).map((ext) => ({

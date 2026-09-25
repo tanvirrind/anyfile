@@ -1,6 +1,6 @@
 import { ConverterInfo } from '../types';
 
-export const CONVERTERS_LIST: ConverterInfo[] = [
+const BASE_CONVERTERS_LIST: ConverterInfo[] = [
   {
     id: 'heic-to-jpg',
     fromExt: 'HEIC',
@@ -524,3 +524,134 @@ export const CONVERTERS_LIST: ConverterInfo[] = [
     faqs: [{ question: 'Are RAR files uploaded while extracting?', answer: 'No. Extraction runs locally in your browser.' }]
   }
 ];
+
+const CONVERTER_ENRICHMENTS: Record<string, Partial<ConverterInfo>> = {
+  'zip-extractor': {
+    description: 'Extract files from ZIP archives while checking archive integrity, encrypted entries, and incomplete downloads before extraction.',
+    steps: [
+      { title: 'Inspect the archive', desc: 'Confirm the source, file size, and extension before extracting. Scan unknown archives and review the file list first.' },
+      { title: 'Choose an output folder', desc: 'Extract into a new folder so existing files are not silently overwritten.' },
+      { title: 'Review errors and checksums', desc: 'If CRC or end-of-archive errors appear, preserve the original and try a fresh download or archive repair workflow.' }
+    ],
+    commonIssues: ['A missing central directory usually indicates truncation.', 'Encrypted entries require the correct password and may not be readable by every extractor.', 'Executable files inside an archive should be scanned before they are opened.'],
+    faqs: [
+      { question: 'Can I extract a ZIP without installing software?', answer: 'Many operating systems can extract basic ZIP files. A dedicated utility is useful for encryption, multi-part archives, and recovery diagnostics.' },
+      { question: 'Why does ZIP extraction fail?', answer: 'Common causes include an incomplete download, a damaged central directory, CRC errors, missing archive parts, or an unsupported encryption method.' },
+      { question: 'Is extracting a ZIP safe?', answer: 'Extraction is not the same as opening a file. Scan the archive and inspect its contents before running programs or opening macro-enabled documents.' },
+      { question: 'Can ZIP extraction repair a corrupt archive?', answer: 'It may recover readable entries, but extraction cannot recreate bytes that are missing or damaged.' }
+    ]
+  },
+  'rar-extractor': {
+    description: 'Extract RAR archives and multi-part volumes while identifying missing parts, password protection, and CRC failures.',
+    steps: [
+      { title: 'Keep all RAR volumes together', desc: 'Place .part files or .r00-style volumes in one folder and start from the first volume.' },
+      { title: 'List contents before extraction', desc: 'Review filenames and scan the archive before extracting unknown programs or scripts.' },
+      { title: 'Extract and verify', desc: 'Check CRC results and preserve the original set if a volume is damaged or missing.' }
+    ],
+    commonIssues: ['A missing volume cannot be replaced by renaming another file.', 'Solid archives may make several entries depend on the same damaged block.', 'Encrypted RAR entries require the correct password.'],
+    faqs: [
+      { question: 'Which file should I open in a multi-part RAR archive?', answer: 'Start extraction from the first part, usually named part1.rar or the file with the .rar extension. Keep every volume in the same folder.' },
+      { question: 'Can a RAR archive be extracted on macOS?', answer: 'Yes. The Unarchiver, Keka, and other maintained tools support many RAR variants.' },
+      { question: 'Why is a RAR volume missing?', answer: 'The archive set is incomplete, a part was renamed, or the download source did not provide every volume.' },
+      { question: 'Can I convert RAR directly to ZIP?', answer: 'The normal workflow is to extract the RAR and create a new ZIP. Repackaging cannot repair missing archive data.' }
+    ]
+  },
+  'png-to-webp': {
+    description: 'Convert PNG images to efficient WebP assets while choosing quality, transparency handling, and browser delivery trade-offs.',
+    steps: [
+      { title: 'Select PNG assets', desc: 'Choose the source PNG files and check whether they contain transparency, text, or pixel art.' },
+      { title: 'Choose WebP settings', desc: 'Use lossless WebP for exact graphics or a quality setting for smaller photographic assets.' },
+      { title: 'Check the result', desc: 'Compare edges, transparent regions, animation requirements, and dimensions before replacing the original.' }
+    ],
+    commonIssues: ['Lossy WebP can create halos around text and sharp graphic edges.', 'Transparent PNG pixels may appear with an unintended matte color if alpha handling is incorrect.', 'Older software may not display WebP even when modern browsers do.'],
+    faqs: [
+      { question: 'Does PNG to WebP preserve transparency?', answer: 'Yes, WebP supports alpha transparency. Confirm the output in the target browser or design application.' },
+      { question: 'Should I use lossless WebP for logos?', answer: 'Lossless WebP is a good choice for logos, UI graphics, and text when exact edges matter; lossy WebP may be better for photographs.' },
+      { question: 'Is WebP smaller than PNG?', answer: 'Often, especially for photographs and web graphics, but the result depends on image content and encoder settings.' },
+      { question: 'Can PNG animation be converted to WebP?', answer: 'Only with a frame-aware workflow. A simple still-image conversion may keep only the first frame.' }
+    ]
+  },
+  'psd-to-jpg': {
+    description: 'Flatten Photoshop PSD artwork into shareable JPG images while understanding layers, transparency, color profiles, and quality settings.',
+    steps: [
+      { title: 'Check the PSD before flattening', desc: 'Confirm the visible layers, canvas size, color profile, and whether hidden layers need to be included.' },
+      { title: 'Choose a background', desc: 'Transparent PSD areas require a background color because JPG has no alpha channel.' },
+      { title: 'Export and inspect', desc: 'Review text, sharp edges, color, and compression artifacts at the intended display size.' }
+    ],
+    commonIssues: ['JPG cannot preserve layers, transparency, vector editability, or Photoshop adjustment controls.', 'CMYK and wide-gamut profiles may look different after conversion to RGB.', 'Very large PSD files may need to be flattened before rendering.'],
+    faqs: [
+      { question: 'Will PSD to JPG keep Photoshop layers?', answer: 'No. JPG is a flattened bitmap. Keep the PSD or PSB as the editable master.' },
+      { question: 'What happens to transparent PSD areas?', answer: 'They are filled with a chosen background color because JPG does not support transparency.' },
+      { question: 'What JPG quality should I use?', answer: 'Use a high quality setting for print or archival previews and a lower setting only when smaller web size is more important.' },
+      { question: 'Can PSD to JPG conversion fix a corrupt PSD?', answer: 'Only if the PSD can still be decoded. A converter cannot reconstruct missing layer records.' }
+    ]
+  },
+  'svg-to-png': {
+    description: 'Rasterize SVG vector artwork into PNG images with controlled dimensions, background transparency, and rendering quality.',
+    steps: [
+      { title: 'Check SVG assets', desc: 'Confirm fonts, linked images, CSS, filters, and viewBox settings are available before rendering.' },
+      { title: 'Set output dimensions', desc: 'Choose pixel dimensions based on the target screen, thumbnail, or print density rather than relying only on the SVG canvas size.' },
+      { title: 'Inspect transparent edges', desc: 'Review anti-aliasing, background color, text rendering, and clipped paths in the PNG result.' }
+    ],
+    commonIssues: ['Missing fonts can change text wrapping and dimensions.', 'External images and CSS may not load in an isolated converter.', 'PNG output loses vector editability and may be much larger than the source SVG.'],
+    faqs: [
+      { question: 'Does SVG to PNG reduce quality?', answer: 'The SVG remains scalable, but PNG is rasterized at the chosen dimensions. Render at a larger size if the image will be displayed or printed larger.' },
+      { question: 'Can PNG preserve SVG transparency?', answer: 'Yes, if the renderer preserves the SVG alpha channel and the output is configured with a transparent background.' },
+      { question: 'Why does the PNG look different from the SVG?', answer: 'Font availability, CSS, filters, external resources, and renderer differences can affect the rasterized result.' },
+      { question: 'Should I keep the original SVG?', answer: 'Yes. Keep the SVG as the editable, resolution-independent master and use PNG for fixed-size delivery.' }
+    ]
+  },
+  'eml-to-pdf': {
+    description: 'Render email messages as PDF while preserving readable headers, message text, and selected attachments for archiving or sharing.',
+    steps: [
+      { title: 'Review the email source', desc: 'Confirm sender, recipients, dates, attachments, and whether remote images should be loaded before rendering.' },
+      { title: 'Choose a layout', desc: 'Decide whether the PDF should show full headers, quoted replies, inline images, or attachment references.' },
+      { title: 'Verify the exported PDF', desc: 'Check page breaks, missing fonts, timestamps, links, and sensitive information before sharing.' }
+    ],
+    commonIssues: ['Remote images may be unavailable or may reveal a reader’s IP address when loaded.', 'Attachments are not automatically converted into a single PDF unless the workflow explicitly supports them.', 'Long HTML emails can produce unexpected page breaks.'],
+    faqs: [
+      { question: 'Does EML to PDF preserve attachments?', answer: 'The message body and headers can be rendered, but attachments may need to be saved separately or appended through a dedicated mail-archiving workflow.' },
+      { question: 'Will the PDF prove that an email is authentic?', answer: 'A rendered PDF is a visual copy, not a replacement for the original EML headers and server-side evidence. Preserve the original message for investigations.' },
+      { question: 'Can I convert multiple EML files at once?', answer: 'Batch conversion is possible when the converter supports it, but review filenames, dates, and privacy before creating an archive.' },
+      { question: 'Are remote email images safe to load?', answer: 'Not always. External images can track opens or contain unsafe content. Prefer preserving the original source and loading remote content cautiously.' }
+    ]
+  },
+  'zip-creator': {
+    description: 'Create ZIP archives locally with predictable filenames, compression, and privacy for sharing or storage.',
+    steps: [
+      { title: 'Select files and folders', desc: 'Choose the files to include and remove temporary or sensitive data that should not be shared.' },
+      { title: 'Review archive names', desc: 'Use stable relative paths and clear filenames so recipients can understand the archive structure.' },
+      { title: 'Create and test the ZIP', desc: 'Open the resulting archive or verify its checksum before sending it to another person or system.' }
+    ],
+    commonIssues: ['Files with duplicate names may overwrite each other depending on the archive tool.', 'Absolute paths can expose local folder names and should not be included in shared archives.', 'Compression does not protect confidential data unless encryption is separately applied.'],
+    faqs: [
+      { question: 'Does creating a ZIP delete the original files?', answer: 'No. Creating an archive normally copies selected data into a new container and leaves the originals unchanged.' },
+      { question: 'Can a ZIP archive be password protected?', answer: 'Some ZIP tools support encryption, but the encryption method varies. Use a strong password and share it through a separate channel.' },
+      { question: 'Why did the ZIP become larger?', answer: 'Already-compressed media, encrypted data, and some binary formats may not compress further and can gain a small container overhead.' },
+      { question: 'How do I verify a ZIP after creating it?', answer: 'List or extract the archive, compare expected filenames and sizes, and record a checksum when the archive is important.' }
+    ]
+  },
+  'step-to-stl': {
+    description: 'Convert STEP solid CAD models into STL meshes for 3D printing, slicing, and mesh-based inspection.',
+    steps: [
+      { title: 'Check units and model orientation', desc: 'Confirm the STEP model’s units, coordinate system, visible bodies, and intended manufacturing scale.' },
+      { title: 'Set mesh tolerances', desc: 'Choose chordal deviation, angular tolerance, and binary or ASCII STL based on the required surface accuracy and file size.' },
+      { title: 'Validate the mesh', desc: 'Run a manifold, hole, normal, and self-intersection check in the target slicer before printing.' }
+    ],
+    commonIssues: ['STL does not retain CAD feature history, materials, assemblies, or exact parametric surfaces.', 'Incorrect units can make the exported mesh thousands of times too large or too small.', 'Coarse tolerances create faceted curves while very fine meshes increase file size and processing time.'],
+    faqs: [
+      { question: 'Does STEP to STL preserve CAD dimensions?', answer: 'It can, if the exporter and slicer use the same units. Verify scale after import because STL does not store units consistently.' },
+      { question: 'Should I use binary or ASCII STL?', answer: 'Binary STL is usually smaller and faster for printing. ASCII is human-readable but substantially larger and is rarely necessary for normal slicing.' },
+      { question: 'Why does the STL have holes?', answer: 'The source may contain open surfaces, or tessellation may have produced gaps and invalid normals. Repair and validate the mesh before manufacturing.' },
+      { question: 'Can STL be converted back to editable STEP?', answer: 'Not faithfully. STL stores triangles, not the original CAD surfaces or feature history. Reverse engineering can create a new model but cannot restore the original design intent.' }
+    ]
+  }
+};
+
+export const CONVERTERS_LIST: ConverterInfo[] = BASE_CONVERTERS_LIST.map((converter) => ({
+  ...converter,
+  ...(CONVERTER_ENRICHMENTS[converter.id] || {}),
+  steps: [...converter.steps, ...(CONVERTER_ENRICHMENTS[converter.id]?.steps || [])],
+  commonIssues: [...converter.commonIssues, ...(CONVERTER_ENRICHMENTS[converter.id]?.commonIssues || [])],
+  faqs: [...converter.faqs, ...(CONVERTER_ENRICHMENTS[converter.id]?.faqs || [])]
+}));

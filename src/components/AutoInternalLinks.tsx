@@ -10,7 +10,6 @@ import {
   GitCompare,
   Layers,
   BookOpen,
-  Search,
   HelpCircle,
   Clock,
   Download,
@@ -95,19 +94,7 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
   // 7. Category Pages
   const categoryPages = CATEGORIES_LIST;
 
-  // 8. People Also Search For queries
-  const searchQueries = [
-    `how to open .${ext} file`,
-    `.${ext} file viewer online free`,
-    `.${ext} to pdf converter`,
-    `.${ext} file corrupt header fix`,
-    `what is .${ext} file format`,
-    `best software for .${ext}`,
-    `.${ext} magic bytes hex signature`,
-    `is .${ext} file safe to open`
-  ];
-
-  // 9. Related Questions
+  // 8. Related Questions
   const relatedQuestions = [
     {
       q: `What is a .${extUpper} file and what is it used for?`,
@@ -129,7 +116,7 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
     }
   ];
 
-  // 10. Popular Downloads (utilities)
+  // 9. Popular Downloads (utilities)
   const popularDownloads = [
     { name: '7-Zip Archiver', ext: 'ZIP, 7Z, RAR', id: '7-zip', os: 'Windows, Mac, Linux' },
     { name: 'VLC Media Player', ext: 'MP4, MKV, AVI', id: 'vlc', os: 'All Platforms' },
@@ -308,28 +295,8 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
         </div>
       </div>
 
-      {/* Grid Block 3: People Also Search For & Related Questions */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4 border-t border-slate-800 text-xs">
-        {/* People Also Search For */}
-        <div className="space-y-3">
-          <h3 className="font-bold text-sm text-teal-400 flex items-center gap-1.5 uppercase tracking-wide">
-            <Search className="w-4 h-4" />
-            <span>People Also Search For</span>
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {searchQueries.map((query, idx) => (
-              <button
-                key={idx}
-                onClick={() => onNavigate({ view: 'tools', toolId: 'identifier' })}
-                className="px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-teal-950/80 border border-slate-700 hover:border-teal-500 text-slate-300 hover:text-teal-300 transition-all cursor-pointer text-xs font-mono flex items-center gap-1.5"
-              >
-                <Search className="w-3 h-3 text-slate-500" />
-                <span>{query}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
+      {/* Grid Block 3: Related Questions */}
+      <div className="grid grid-cols-1 gap-6 pt-4 border-t border-slate-800 text-xs">
         {/* Related Questions Accordion */}
         <div className="space-y-3">
           <h3 className="font-bold text-sm text-rose-400 flex items-center gap-1.5 uppercase tracking-wide">

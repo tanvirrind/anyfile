@@ -252,6 +252,29 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
           </div>
         </div>
 
+        {/* Practical workflow */}
+        {soft.tutorials && soft.tutorials.length > 0 && (
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
+            <div className="space-y-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Practical File Workflow</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Use a copy of important files, confirm the format before editing, and verify the exported result before replacing the original.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {soft.tutorials.map((tutorial) => (
+                <div key={tutorial.title} className="rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/80 p-5 space-y-2">
+                  <div className="flex items-center justify-between gap-3">
+                    <h3 className="font-bold text-slate-900 dark:text-white">{tutorial.title}</h3>
+                    {tutorial.readTime && <span className="text-[11px] font-semibold text-slate-400 whitespace-nowrap">{tutorial.readTime}</span>}
+                  </div>
+                  <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">{tutorial.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Supported Extensions Matrix */}
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
           <div className="space-y-1">

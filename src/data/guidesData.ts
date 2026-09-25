@@ -1,7 +1,7 @@
 import { GuideInfo, BlogPost } from '../types';
 import { AUTHOR_AVATARS, TECHNICAL_STANDARDS_CITATIONS } from '../lib/content/editorialTeam';
 
-export const GUIDES_LIST: GuideInfo[] = [
+const BASE_GUIDES_LIST: GuideInfo[] = [
   {
     id: 'heic-guide',
     title: 'The Definitive Guide to Opening and Converting HEIC Files on Windows 11 and Mac',
@@ -164,7 +164,25 @@ export const GUIDES_LIST: GuideInfo[] = [
   }
 ];
 
-export const BLOG_POSTS: BlogPost[] = [
+const GUIDE_ENRICHMENTS: Record<string, GuideInfo['contentSections']> = {
+  'dwg-guide': [
+    { heading: 'Choosing the Right DWG Viewer', body: 'A viewer is enough when you need to measure, print, or review a drawing, but editing and recovery require an application that understands the drawing version and proxy objects. Autodesk DWG TrueView is useful on Windows for inspection and plotting. Web viewers are convenient for quick review, while LibreCAD and other open tools may be better for simple 2D workflows. Always confirm that external references, fonts, line weights, and layouts are present before approving a drawing.' },
+    { heading: 'Converting DWG to PDF Without Losing Context', body: 'Plot the intended paper-space layout rather than exporting only the model view. Check page size, scale, orientation, plot style, layer visibility, fonts, and XREF paths. A PDF is excellent for review and distribution, but it does not preserve the full editable CAD database. Keep the original DWG and a record of the application and plot settings used to create the PDF.' },
+    { heading: 'Safe DWG Recovery Workflow', body: 'Work on a copy and try RECOVER, AUDIT, and PURGE in that order where appropriate. Compare BAK and SV$ files before rebuilding geometry manually. If the drawing opens partially, export healthy layers into a new file and record missing blocks, proxy objects, XREFs, and annotation data. Do not overwrite the only copy during recovery.' }
+  ],
+  'zip-guide': [
+    { heading: 'Diagnose the ZIP Error Before Repairing', body: 'An unexpected end-of-archive message usually points to truncation, while a CRC error identifies a member whose decompressed data does not match its recorded checksum. A missing volume means the archive set is incomplete. Compare the file size with the source and keep the original untouched before trying repair or force-extraction commands.' },
+    { heading: 'Recover Readable Files Safely', body: 'Try listing the archive first, then extract into an empty destination. Some tools can recover local file entries even when the central directory is damaged. Prioritize documents and media that can be validated independently, and treat recovered executables as untrusted until scanned. Recovery cannot recreate bytes that were never downloaded or were overwritten.' },
+    { heading: 'Prevent Future Archive Corruption', body: 'Use checksums for important downloads, keep multi-part volumes together, and eject removable storage only after compression has finished. For critical backups, maintain a second copy and consider parity recovery data. Password protection and compression are separate concerns: encryption can protect confidentiality but does not prevent storage corruption.' }
+  ]
+};
+
+export const GUIDES_LIST: GuideInfo[] = BASE_GUIDES_LIST.map((guide) => ({
+  ...guide,
+  contentSections: [...guide.contentSections, ...(GUIDE_ENRICHMENTS[guide.id] || [])]
+}));
+
+const BASE_BLOG_POSTS: BlogPost[] = [
   {
     id: 'magic-bytes-explained',
     title: 'Why Extension Names Lie: Understanding Magic Bytes & Raw Header Inspection',
@@ -234,7 +252,64 @@ When you upload a file to AnyFileX's File Identifier, our WebAssembly engine che
     tags: ['Web Performance', 'Image Codecs', 'Optimization'],
     relatedExtensions: ['HEIC', 'WEBP', 'JPG', 'PNG', 'AVIF'],
     content: `Choosing the right image format can drastically improve website speed and reduce server bandwidth costs. In this guide, we break down the performance tradeoffs between JPEG, WebP, AVIF, and HEIC.`
+  },
+  {
+    id: 'how-to-open-unknown-files',
+    title: 'How to Open Unknown Files Safely: A Practical File Identification Guide',
+    slug: 'how-to-open-unknown-files-safely',
+    summary: 'Learn how to identify an unfamiliar file, verify its header, choose a compatible application, and avoid malware disguised with a misleading extension.',
+    category: 'Tips',
+    date: 'September 2026',
+    lastAuditedDate: 'September 2026',
+    readTime: '6 min read',
+    author: {
+      name: 'David Chen',
+      role: 'Systems Security Architect & Threat Forensics Researcher',
+      avatar: AUTHOR_AVATARS.davidChen,
+      credentials: 'CISSP, GCIH',
+      bio: 'Specialist in file-signature analysis, extension spoofing, and safe local inspection workflows.'
+    },
+    reviewedBy: {
+      name: 'Dr. Alistair Vance',
+      role: 'Principal Systems Architect',
+      credentials: 'Ph.D., CompEng'
+    },
+    citations: TECHNICAL_STANDARDS_CITATIONS.magicBytes.map(c => ({
+      standard: c.standard,
+      title: c.title,
+      url: c.url
+    })),
+    tags: ['File Safety', 'Magic Bytes', 'Troubleshooting', 'Privacy'],
+    relatedExtensions: ['DAT', 'EXE', 'ZIP', 'PDF', 'CAMREC', 'AWBS'],
+    content: `An unfamiliar filename is not enough to identify a file. The extension is only a label used by the operating system; the internal header, structure, and application that created the file provide stronger evidence.
+
+Start with the source. Ask where the file came from, which device or application created it, and whether the sender expected a document, image, archive, recording, or database. This context helps distinguish a legitimate proprietary file from a renamed or incomplete download.
+
+Next, inspect the file locally before opening it in a full application. AnyFileX File Identifier and Magic Byte Detector can read the opening bytes in your browser without uploading the file. Compare the detected signature with the filename extension. Common examples include %PDF- for PDF documents, PK for ZIP-based containers, MZ for Windows executables, and SQLite format 3 for SQLite databases.
+
+If the header and extension disagree, do not force the file open by changing its name. A renamed executable can still run as an executable, and renaming a proprietary database to .txt does not make it readable. Keep the original unchanged and work from a copy.
+
+Choose software from the producing vendor or a well-known, maintained viewer. For specialized formats, a generic application may show raw bytes but cannot interpret the file’s relationships, metadata, or calculations. Avoid unofficial cracked viewers and browser uploads when the file contains private, financial, medical, aviation, or work-related information.
+
+Scan files from untrusted sources with current security software, especially archives, executable formats, office documents with macros, and files that ask you to install a codec or viewer. If a file is corrupted, re-download or request a fresh export before attempting repair. Preserve a backup and record a checksum when the file matters.
+
+The safest workflow is: identify the source, inspect the header, verify the detected format, open a copy with trusted software, and keep the original available for comparison. This approach resolves most “Windows cannot open this file” errors without guessing or exposing the file to an unnecessary online service.`
   }
 ];
+
+const BLOG_ENRICHMENTS: Record<string, string> = {
+  'next-gen-image-codecs': `Choosing an image format starts with the delivery requirement, not with a single compression score. JPEG remains useful when compatibility with older software, cameras, and publishing systems matters. WebP is a practical web format with lossy, lossless, transparency, and animation support. AVIF can deliver excellent compression and modern color features, but encoding cost, editing support, and browser or application compatibility should be checked for the intended audience. HEIC and HEIF are especially common in Apple and mobile-camera workflows, where they can preserve photo features and reduce storage compared with JPEG.
+
+For website images, compare the actual files at the dimensions users will receive. A large source image that is resized in CSS still transfers more bytes than necessary. Generate responsive sizes, choose a meaningful quality setting, preserve important metadata only when needed, and test the result on text, gradients, skin tones, transparency, and fine detail. A visually small file is not automatically better if it introduces ringing or destroys readable edges.
+
+Transparency and animation narrow the choice. PNG is dependable for lossless graphics and alpha channels, WebP supports both transparency and animation, and AVIF can support modern image features but may need fallback handling. HEIC is efficient for personal photo storage but is not always the safest public-web delivery format because older browsers and editing tools may not decode it.
+
+The best workflow is usually adaptive: keep an original or archival master, create appropriately sized delivery variants, serve a widely supported fallback, and measure real page performance. Format selection should balance bytes, decode time, browser support, visual quality, accessibility, and the cost of maintaining multiple assets rather than optimizing one laboratory image in isolation.`
+};
+
+export const BLOG_POSTS: BlogPost[] = BASE_BLOG_POSTS.map((post) => ({
+  ...post,
+  ...(BLOG_ENRICHMENTS[post.id] ? { content: BLOG_ENRICHMENTS[post.id] } : {})
+}));
 
 export const GUIDES_DATA = GUIDES_LIST;

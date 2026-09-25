@@ -1,6 +1,6 @@
 import { FileTypeInfo } from '../types';
 
-export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
+const BASE_POPULAR_FILE_TYPES: FileTypeInfo[] = [
   // --- IMAGES ---
   {
     extension: 'HEIC',
@@ -589,6 +589,101 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
 
   // --- AUDIO & VIDEO ---
   {
+    extension: 'AWBS',
+    name: 'Automated Weight and Balance System Data File',
+    category: 'Databases',
+    description: 'AWBS is a specialized data-storage extension associated with Lockheed Martin’s Automated Weight and Balance System, used to maintain aircraft weight, balance, loading, and related aviation records.',
+    detailedOverview: 'An .awbs file is generally associated with Automated Weight and Balance System (AWBS) software used by aviation weight-and-balance personnel. The application supports record keeping, tracking, calculations, and generation of weight-and-balance forms. AWBS is an application-specific data file rather than a broadly standardized interchange format: depending on the software version, the contents may be SQLite-like, XML-based, or proprietary binary data. Do not confuse .awbs with .awb, the AMR-WB audio format.',
+    mimeType: 'application/octet-stream',
+    magicBytesHex: 'No universal signature; inspect for “SQLite format 3”, XML, or proprietary binary data',
+    typicalSize: 'Varies by aircraft records and database history',
+    dangerRating: 'Medium Risk',
+    dangerExplanation: 'AWBS files are normally data containers, but they may contain operational aviation records and should be handled as sensitive data. The extension is application-specific, so verify the source and scan unknown files before opening them in privileged software.',
+    exampleUse: 'Aircraft weight-and-balance records, loading calculations, aviation forms and fleet data',
+    popularityScore: 48,
+    developer: 'Lockheed Martin Corporation',
+    firstReleased: 'Application-dependent',
+    osSupport: { windows: true, mac: false, linux: false, android: false, ios: false },
+    popularApps: [
+      { name: 'Automated Weight and Balance System (AWBS)', os: ['windows'], isFree: false, developer: 'Lockheed Martin Corporation', slug: 'awbs' },
+      { name: 'AWBS Hangar', os: ['windows'], isFree: false, developer: 'AWBS ecosystem', slug: 'awbs-hangar' },
+      { name: 'SQLite Database Browser', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'SQLiteBrowser.org', slug: 'sqlite-browser' },
+      { name: 'AnyFileX File Identifier', os: ['windows', 'mac', 'linux', 'android', 'ios'], isFree: true, developer: 'AnyFileX', slug: 'file-identifier' }
+    ],
+    openingSteps: [
+      { title: 'Confirm the source and aviation workflow', desc: 'If the file came from an aircraft weight-and-balance or hangar workflow, confirm which AWBS installation and version created it before opening the file.' },
+      { title: 'Open it with the original AWBS software', desc: 'Use Automated Weight and Balance System or the associated AWBS Hangar workflow. Application-specific files may not be portable between versions or installations.' },
+      { title: 'Inspect the header without editing', desc: 'A copy can be examined with a hex viewer or AnyFileX. “SQLite format 3”, XML tags, or high-entropy binary data can help identify the underlying structure, but do not rewrite the original.' },
+      { title: 'Protect operational records', desc: 'Treat aircraft configuration, loading, and balance data as sensitive. Keep the original backed up and share only through approved aviation or organizational channels.' }
+    ],
+    conversions: [
+      { targetExtension: 'CSV', description: 'Export tables to CSV only through AWBS or a verified database workflow that understands the file schema. Do not import unknown AWBS data into a spreadsheet blindly.', difficulty: 'Advanced', onlinePossible: false },
+      { targetExtension: 'XML', description: 'Some application workflows may exchange structured data as XML, but conversion is version- and schema-dependent.', difficulty: 'Advanced', onlinePossible: false },
+      { targetExtension: 'SQLITE', description: 'If the header confirms SQLite, a database tool may inspect or export it; the AWBS application remains the safest way to interpret aviation fields.', difficulty: 'Advanced', onlinePossible: false }
+    ],
+    repairTips: [
+      'Never repair or resave an AWBS file in a generic database editor until a verified backup exists and the file structure is known.',
+      'Check whether the file begins with SQLite format 3, an XML declaration, or a proprietary binary header before choosing a recovery method.',
+      'If AWBS cannot open the file, ask the source organization for a fresh export from the same software version rather than changing the extension.',
+      'Keep a checksum and an untouched copy when transferring operational weight-and-balance records.'
+    ],
+    faqs: [
+      { question: 'What is an AWBS file?', answer: 'AWBS is an application-specific data-storage file associated with Lockheed Martin’s Automated Weight and Balance System. It can contain aircraft weight-and-balance records, calculations, tracking data, and form information.' },
+      { question: 'How do I open an AWBS file?', answer: 'Use the Automated Weight and Balance System software or the AWBS Hangar workflow that created the file. Generic viewers may identify its underlying structure but cannot reliably interpret the aviation data.' },
+      { question: 'Is AWBS the same as AWB audio?', answer: 'No. .AWB is commonly an AMR-WB speech-audio file, while .AWBS is associated with Automated Weight and Balance System data. They are unrelated formats.' },
+      { question: 'Does AWBS have a standard MIME type or magic number?', answer: 'No universal MIME type or signature is established for AWBS. Use application/octet-stream until the internal structure is confirmed. Some files may identify themselves as SQLite, XML, or proprietary binary data.' },
+      { question: 'Can I convert AWBS to CSV or Excel?', answer: 'Only use an AWBS-supported export or a verified schema-aware database workflow. Converting an unknown file generically can lose relationships, units, validation rules, or aviation-specific meaning.' },
+      { question: 'Are AWBS files safe to share?', answer: 'They may contain sensitive aircraft and operational records. Share them only with authorized recipients, preserve the original, and use approved secure transfer channels.' }
+    ]
+  },
+  {
+    extension: 'CAMREC',
+    name: 'Camtasia Studio Screen Recording',
+    category: 'Audio & Video',
+    description: 'CAMREC is a legacy TechSmith Camtasia screen-recording container used by older Windows releases. It can hold captured screen video, microphone or system audio, cursor assets, keyboard and event data, and recording metadata.',
+    detailedOverview: 'A .camrec file is the raw recording produced by the Windows version of Camtasia Studio, especially Camtasia 8.3 and earlier. It is not a normal standalone video stream: common files use a Microsoft Compound File / OLE2 container with internal assets such as Screen_Stream.avi, manifest.camxml, cursor icons, Events.dat, Keyboard.dat, and SysAudio.wav. Editing changes belong in a Camtasia project file, while newer Camtasia versions use .trec instead. macOS Camtasia historically used .cmrec.',
+    mimeType: 'application/octet-stream',
+    magicBytesHex: 'D0 CF 11 E0 A1 B1 1A E1 (Microsoft Compound File / OLE2)',
+    typicalSize: '15 MB – 280 MB for common recordings; varies with duration and quality',
+    dangerRating: 'Medium Risk',
+    dangerExplanation: 'CAMREC is normally a recording container rather than an executable program, but it is a legacy Compound File container and may contain multiple embedded streams. Open files from unknown sources only after scanning them and verifying the OLE2 header.',
+    exampleUse: 'Software demos, product tutorials, training recordings, narrated presentations',
+    popularityScore: 62,
+    developer: 'TechSmith',
+    firstReleased: 'Camtasia Studio legacy Windows releases',
+    osSupport: { windows: true, mac: false, linux: false, android: false, ios: false },
+    popularApps: [
+      { name: 'TechSmith Camtasia Studio', os: ['windows'], isFree: false, developer: 'TechSmith', slug: 'camtasia' },
+      { name: 'Microsoft Compound File Viewer / OLE Tools', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'Various', slug: 'ole-viewer' },
+      { name: 'AnyFileX File Identifier', os: ['windows', 'mac', 'linux', 'android', 'ios'], isFree: true, developer: 'AnyFileX', slug: 'file-identifier' }
+    ],
+    openingSteps: [
+      { title: 'Use the legacy Windows Camtasia installation', desc: 'Open the file with the Camtasia Studio version that created it, or a compatible older Windows release. CAMREC support is not available in every current Camtasia version.' },
+      { title: 'Import it into Camtasia before editing', desc: 'Camtasia can use the recording as source media and then export a modern video. Project edits belong in the Camtasia project rather than inside the CAMREC container.' },
+      { title: 'Convert it to a standard video', desc: 'Use Camtasia to produce MP4 or another supported delivery format. This is the most reliable route because the CAMREC container can include proprietary event and cursor streams.' },
+      { title: 'Inspect an unknown file locally', desc: 'Use AnyFileX to check the OLE2 header, embedded text, and container evidence without changing the original file.' }
+    ],
+    conversions: [
+      { targetExtension: 'MP4', description: 'Export the screen recording to a broadly compatible H.264/AAC video using Camtasia or another tool that can read the specific CAMREC variant.', difficulty: 'Medium', onlinePossible: false },
+      { targetExtension: 'AVI', description: 'Some older Camtasia workflows can render the internal screen stream or recording to AVI, but compatibility depends on the source version.', difficulty: 'Medium', onlinePossible: false },
+      { targetExtension: 'TREC', description: 'Re-recording or migrating to TREC is a Camtasia-version workflow, not a simple file rename or generic container conversion.', difficulty: 'Advanced', onlinePossible: false }
+    ],
+    repairTips: [
+      'Preserve the original CAMREC and work on a copy; repairing or re-saving a Compound File can remove streams that Camtasia expects.',
+      'Check for the OLE2 signature D0 CF 11 E0 A1 B1 1A E1 at byte offset 0 before treating the file as a valid CAMREC recording.',
+      'If Camtasia reports a damaged recording, try the Camtasia version that created it and look for the original CAMPROJ project or backup copy.',
+      'Do not rename .camrec to .mp4 or .avi. The extension change does not decode the embedded screen, audio, cursor, and event streams.'
+    ],
+    faqs: [
+      { question: 'What is a CAMREC file?', answer: 'CAMREC is a legacy TechSmith Camtasia screen-recording container for Windows. It can store screen video, audio, cursor graphics, keyboard and event data, and recording metadata.' },
+      { question: 'How do I open a CAMREC file?', answer: 'Open it with a compatible Windows installation of TechSmith Camtasia Studio, preferably the version that created it. Current Camtasia releases may not support every legacy CAMREC recording.' },
+      { question: 'Can I open CAMREC on Mac?', answer: 'CAMREC was used by the Windows version of Camtasia. Older Mac Camtasia recordings used CMREC, and newer Camtasia releases use TREC. A Windows Camtasia environment is usually required for a CAMREC file.' },
+      { question: 'How do I convert CAMREC to MP4?', answer: 'Import the CAMREC recording into a compatible Camtasia installation and export or produce it as MP4. Online conversion is unreliable because CAMREC is a proprietary container with embedded recording streams.' },
+      { question: 'What is the CAMREC magic number?', answer: 'Most CAMREC files identified in format databases begin with the Microsoft Compound File signature D0 CF 11 E0 A1 B1 1A E1. This identifies the OLE2 container, not every internal Camtasia stream.' },
+      { question: 'Is CAMREC the same as CAMPROJ or TREC?', answer: 'No. CAMREC is the raw recording container, CAMPROJ stores editing-project information, and TREC replaced CAMREC in newer Camtasia workflows.' }
+    ]
+  },
+  {
     extension: 'MOV',
     name: 'Apple QuickTime Movie',
     category: 'Audio & Video',
@@ -838,3 +933,293 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
     repairTips: ['If winmail.dat from Outlook, use AnyFileX Winmail Extractor to retrieve embedded attachments.']
   }
 ];
+
+/**
+ * Editorial enrichment for the first thin-content remediation batch.
+ * These additions are intentionally format-specific so the shared extension
+ * template has useful source material instead of relying on generic copy.
+ */
+const EDITORIAL_ENRICHMENTS: Record<string, Partial<FileTypeInfo>> = {
+  PDF: {
+    detailedOverview: 'PDF is a page-description container designed to preserve layout, fonts, vector artwork, raster images, annotations, forms, and document metadata across operating systems. A PDF may be digitally born, scanned, encrypted, signed, or assembled from several source files, so two PDFs can behave very differently even though they share the same extension. Look for the %PDF- header before assuming a file is a readable document.',
+    openingSteps: [
+      { title: 'Check whether the PDF is protected', desc: 'Open a copy in a trusted viewer and check for a password prompt, certificate requirement, or permissions that restrict printing and editing.' },
+      { title: 'View a damaged PDF safely', desc: 'Use a local PDF viewer or AnyFileX inspection tools first. Avoid repeatedly saving a damaged file because some viewers may overwrite recoverable object data.' }
+    ],
+    repairTips: [
+      'If the file begins with %PDF- but will not open, try downloading it again and compare its byte size with the source before attempting repair.',
+      'For scanned PDFs, OCR can recover searchable text but cannot restore missing image pixels or a truncated cross-reference table.',
+      'Preserve the original file and work on a duplicate when repairing encrypted, signed, or business-critical documents.'
+    ],
+    faqs: [
+      { question: 'Why does a PDF open as a blank page?', answer: 'A blank display can result from a damaged cross-reference table, missing fonts, a rendering issue, or a page containing only an image layer. Try another trusted viewer and inspect the file header before concluding that the content is missing.' },
+      { question: 'Can I edit every PDF?', answer: 'No. Some PDFs contain selectable text and editable objects, while scanned PDFs contain page images. A password, digital signature, or permissions flag may also limit editing.' },
+      { question: 'What is the first signature of a PDF file?', answer: 'Most PDF files begin with the ASCII header %PDF-, represented by the hexadecimal bytes 25 50 44 46 2D.' },
+      { question: 'Is converting PDF to Word always accurate?', answer: 'Conversion quality depends on whether the PDF contains real text, embedded fonts, tables, columns, or scanned images. OCR-based conversion can introduce recognition and layout errors.' }
+    ]
+  },
+  ZIP: {
+    detailedOverview: 'ZIP is an archive container that groups one or more files with a central directory describing names, offsets, compression methods, timestamps, and optional encryption. The familiar PK header is common but not sufficient to prove that an archive is complete; the end-of-central-directory record must also be readable. ZIP archives may contain ordinary files, application packages, backups, or nested archives.',
+    openingSteps: [
+      { title: 'Inspect the archive before extracting', desc: 'Check the source, filename, size, and security software status. List its contents before opening unknown executables, scripts, or macro-enabled documents.' },
+      { title: 'Open a multi-part ZIP set', desc: 'Keep every numbered segment in one folder and start extraction from the first segment. Missing parts cannot be recreated by renaming a file.' }
+    ],
+    repairTips: [
+      'A ZIP can contain readable entries even when its central directory is damaged; try listing or extracting individual files before discarding it.',
+      'CRC errors usually identify a damaged member, while an end-of-central-directory error often indicates truncation or an incomplete download.',
+      'Do not repair an archive by changing its extension. Re-download it or ask the sender for a fresh export when the source is available.'
+    ],
+    faqs: [
+      { question: 'What does the PK signature mean in a ZIP file?', answer: 'PK identifies the ZIP format through the initials of Phil Katz, whose PKZIP software popularized the format. Common local-file headers begin with hexadecimal 50 4B 03 04.' },
+      { question: 'Why does Windows say a ZIP folder is invalid?', answer: 'The archive may be incomplete, corrupted, encrypted in an unsupported way, or split into parts. Compare the downloaded size with the source and try a maintained archive utility.' },
+      { question: 'Can a ZIP file contain malware?', answer: 'Yes. ZIP is a container and may carry executable files, scripts, shortcuts, or malicious documents. Scan it and inspect its file list before extracting or running anything.' },
+      { question: 'Does converting ZIP to RAR improve damaged files?', answer: 'No. Repackaging cannot restore missing bytes. It may create a new archive only when the original contents can still be extracted.' }
+    ]
+  },
+  DOCX: {
+    detailedOverview: 'DOCX is an Office Open XML package stored as a ZIP-based collection of XML parts and media files. Its document text, styles, relationships, headers, footers, comments, charts, and images are stored in separate package members. This structure makes DOCX portable but also means that a damaged relationship or missing XML part can affect only one feature of an otherwise readable document.',
+    openingSteps: [
+      { title: 'Open in a compatible editor', desc: 'Use Microsoft Word, LibreOffice Writer, or a trusted browser office suite. Confirm the document source before enabling macros or external links.' },
+      { title: 'Inspect a damaged DOCX', desc: 'Make a copy, then try opening it with another compatible editor. Because DOCX is a ZIP package, a ZIP listing can reveal whether core document parts are still present.' }
+    ],
+    repairTips: [
+      'Use Word’s Open and Repair option before manually editing the package contents.',
+      'If only images are needed, inspect the media folder in a copy of the DOCX package; this may recover embedded assets even when the document body is damaged.',
+      'Keep track changes, comments, and external relationships in mind when removing damaged package parts because they may change the document layout.'
+    ],
+    faqs: [
+      { question: 'Is DOCX the same as DOC?', answer: 'No. DOC is the older binary Word format, while DOCX is an XML-based package introduced with newer versions of Microsoft Office.' },
+      { question: 'Can I open DOCX without Microsoft Word?', answer: 'Yes. LibreOffice, Google Docs, Apple Pages, and several browser-based editors can open DOCX, although advanced layout and feature compatibility may vary.' },
+      { question: 'Why is a DOCX file actually a ZIP archive?', answer: 'DOCX uses ZIP compression to package XML document parts, relationships, styles, images, and metadata into one portable file.' },
+      { question: 'Are DOCX files safe to open?', answer: 'DOCX files can contain macros, external links, and embedded objects. Keep macros disabled for untrusted documents and scan files before opening them.' }
+    ]
+  },
+  XLSX: {
+    detailedOverview: 'XLSX is an Office Open XML workbook package containing worksheets, shared strings, styles, formulas, charts, pivot metadata, relationships, and optional external connections. The visible spreadsheet is only one part of the package. Formula recalculation, unsupported features, hidden sheets, and linked workbooks can change how the same XLSX behaves in Excel, LibreOffice, and browser editors.',
+    openingSteps: [
+      { title: 'Open without refreshing external data', desc: 'When opening an unfamiliar workbook, keep external links, data connections, and macros disabled until the source is verified.' },
+      { title: 'Recover a damaged workbook', desc: 'Try Excel’s Open and Repair command, then test a copy in LibreOffice Calc. If the package is readable, individual worksheets or shared strings may still be recoverable.' }
+    ],
+    repairTips: [
+      'A workbook that opens with a repair log may have a damaged worksheet, style table, drawing, or relationship rather than a completely lost file.',
+      'Do not overwrite the original after a repair attempt; Excel may remove unsupported or damaged objects when saving.',
+      'If formulas show stale values, check calculation mode and external links before assuming the numeric data itself is corrupted.'
+    ],
+    faqs: [
+      { question: 'What is the difference between XLS and XLSX?', answer: 'XLS is the older binary Excel workbook format. XLSX is the newer XML-based package and normally does not contain VBA macros.' },
+      { question: 'Can XLSX files contain viruses?', answer: 'XLSX files can carry risky external links, embedded objects, and formula-based attacks even though standard XLSX does not support VBA macros. Treat unexpected workbooks cautiously.' },
+      { question: 'Why does XLSX show different values in different programs?', answer: 'Differences can come from formula engines, unsupported functions, date systems, formatting, locale settings, or external data connections.' },
+      { question: 'How can I open XLSX without Excel?', answer: 'LibreOffice Calc, Apple Numbers, Google Sheets, and compatible browser editors can open XLSX files. Complex workbooks should be checked in the original application when possible.' }
+    ]
+  },
+  MP4: {
+    detailedOverview: 'MP4 is a media container based on ISO Base Media File Format. It can hold video, audio, subtitles, metadata, timed text, and multiple codec tracks; the .mp4 extension alone does not identify the exact video codec or playback requirements. Common combinations include H.264 video with AAC audio, but HEVC, AV1, alternate audio tracks, and fragmented streaming layouts are also possible.',
+    openingSteps: [
+      { title: 'Check codec compatibility', desc: 'If the file opens with sound but no picture, or picture but no sound, inspect its video and audio codecs rather than changing the extension.' },
+      { title: 'Play an incomplete recording', desc: 'A partially downloaded MP4 may fail because its metadata is stored at the end of the file. Re-download the source when possible before attempting a repair.' }
+    ],
+    repairTips: [
+      'A valid MP4 commonly begins with an ftyp box, but a correct header does not guarantee that every media sample or the moov index is intact.',
+      'Screen recordings and camera files may need their metadata index rebuilt after an interrupted write; use a tool designed for the specific codec and recording device.',
+      'Avoid repeatedly re-encoding a damaged video because conversion can discard recoverable streams and reduce quality.'
+    ],
+    faqs: [
+      { question: 'Is MP4 a video codec?', answer: 'No. MP4 is a container. The actual video and audio codecs are stored as tracks inside it, so two MP4 files may require different playback support.' },
+      { question: 'Why does an MP4 have no sound?', answer: 'The audio track may use an unsupported codec, be muted or damaged, or be missing from the container. Media inspection can distinguish these cases.' },
+      { question: 'Can I play MP4 files in a browser?', answer: 'Most current browsers support common MP4 combinations such as H.264 video with AAC audio. Less common codecs may require a desktop player or conversion.' },
+      { question: 'Will converting MP4 to another format repair it?', answer: 'Only if the source contains a readable media stream. Conversion cannot recover frames that were never written or were lost through truncation.' }
+    ]
+  },
+  RAR: {
+    detailedOverview: 'RAR is a compressed archive format designed for packing files into one container while reducing storage and transfer size. It supports solid compression, recovery records, encryption, comments, and multi-volume archives. A RAR file may be one part of a larger set, so the presence of a single .rar file does not always mean the archive is complete.',
+    openingSteps: [
+      { title: 'Check for numbered archive parts', desc: 'Look for files such as .part1.rar, .part2.rar, or .r00 in the same folder. Start extraction from the first volume and keep every part together.' },
+      { title: 'Preview contents before extraction', desc: 'Use a maintained archive utility to list files first, especially when the archive came from an unknown source or contains programs and scripts.' }
+    ],
+    repairTips: [
+      'Recovery records can reconstruct some damaged RAR data, but they cannot replace an entirely missing volume.',
+      'If extraction reports a CRC error, identify the specific member and try repairing or re-downloading that archive part.',
+      'Never rename a RAR file to ZIP as a repair; the compression structures are different.'
+    ],
+    faqs: [
+      { question: 'How do I open a RAR file?', answer: 'Use a compatible archive utility such as WinRAR, 7-Zip, The Unarchiver, or another maintained tool. Multi-part archives must be kept together.' },
+      { question: 'Why does my RAR archive say a volume is missing?', answer: 'The archive is split across several files and one or more parts are absent, renamed, or stored in another folder. Obtain the complete set from the source.' },
+      { question: 'Can a RAR file contain malware?', answer: 'Yes. Archives can contain executable files, scripts, and malicious documents. Scan the archive and inspect its contents before extracting or running anything.' },
+      { question: 'Can a damaged RAR file be repaired?', answer: 'Sometimes. RAR recovery records may restore damaged blocks, but success depends on the archive settings and the amount of missing or corrupted data.' }
+    ]
+  },
+  '7Z': {
+    detailedOverview: '7Z is the native archive format of 7-Zip. It supports strong LZMA and LZMA2 compression, solid archives, AES-256 encryption, Unicode filenames, and multiple compression methods. Solid compression can produce excellent size reduction but may require more processing when extracting a single file or recovering from damage.',
+    openingSteps: [
+      { title: 'Open with 7-Zip or a compatible utility', desc: 'Use 7-Zip, PeaZip, or another maintained archive program. Keep the original archive unchanged while testing extraction.' },
+      { title: 'Inspect encrypted archives carefully', desc: 'A password is required for encrypted entries, and filenames may also be encrypted. Do not upload sensitive archives to an unknown online extractor.' }
+    ],
+    repairTips: [
+      'A 7Z header can be valid even when compressed data later in the archive is damaged; try extracting unaffected entries first.',
+      'Solid archives may make one damaged block affect several files, so re-downloading is often more reliable than repeated repair attempts.',
+      'Verify the checksum supplied by the source before diagnosing a 7Z archive as corrupt.'
+    ],
+    faqs: [
+      { question: 'What is a 7Z file used for?', answer: '7Z stores one or more files in a compressed archive, often providing better compression than ZIP for large collections and technical data.' },
+      { question: 'Can Windows open 7Z files?', answer: 'Windows does not provide universal native 7Z extraction in every version. 7-Zip, PeaZip, and similar utilities can open them.' },
+      { question: 'Is 7Z more secure than ZIP?', answer: '7Z can use strong AES-256 encryption, but security depends on the password, software, and how the archive is shared. Encryption does not make untrusted contents safe.' },
+      { question: 'Why is extracting one file from a 7Z archive slow?', answer: 'The archive may use solid compression, which requires reading earlier compressed data before reaching the requested file.' }
+    ]
+  },
+  FLAC: {
+    detailedOverview: 'FLAC is a lossless audio codec and container that reduces PCM audio size without discarding information. It stores stream metadata such as sample rate, channel count, bit depth, Vorbis comments, embedded pictures, and seek points. Unlike lossy formats, decoding a valid FLAC reproduces the original PCM samples exactly.',
+    openingSteps: [
+      { title: 'Play FLAC in a compatible player', desc: 'Use VLC, foobar2000, MusicBee, Audacity, or a current mobile and desktop player with FLAC support.' },
+      { title: 'Check tags separately from audio', desc: 'If the sound plays but album art or artist information is missing, inspect the Vorbis comments and embedded-picture metadata rather than re-encoding the track.' }
+    ],
+    repairTips: [
+      'Use a FLAC verification or test-decode command to detect corrupted audio frames without changing the file.',
+      'If only metadata is damaged, recover tags from the original library or a trusted music database before converting the audio.',
+      'Avoid converting a damaged FLAC to another lossless format and back; conversion cannot recreate missing frames.'
+    ],
+    faqs: [
+      { question: 'Is FLAC better quality than MP3?', answer: 'FLAC is lossless, so it preserves the source PCM samples. MP3 is lossy and normally produces smaller files by removing audio information.' },
+      { question: 'Can I play FLAC on an iPhone or Mac?', answer: 'macOS applications and many third-party iOS players support FLAC. Apple’s built-in music workflows may prefer ALAC, so conversion can be useful for library compatibility.' },
+      { question: 'Does converting FLAC to WAV improve quality?', answer: 'No. Both can preserve the audio samples, but WAV is usually larger and may carry less convenient metadata.' },
+      { question: 'How do I know if a FLAC file is corrupted?', answer: 'A decoder or integrity test can verify the stream. Playback interruptions, checksum failures, or a truncated STREAMINFO block are common signs of corruption.' }
+    ]
+  },
+  CSV: {
+    detailedOverview: 'CSV is a text interchange format for tabular data, but it has no single universal dialect. Files differ in delimiter, quoting rules, line endings, character encoding, header conventions, and handling of embedded newlines. A CSV that looks correct in one spreadsheet may shift columns or reinterpret dates and leading zeros in another application.',
+    openingSteps: [
+      { title: 'Inspect encoding and delimiter first', desc: 'Open a copy in a text editor or import wizard. Confirm UTF-8 versus another encoding, comma versus semicolon delimiters, and whether the first row contains headers.' },
+      { title: 'Import instead of double-clicking', desc: 'Use the spreadsheet import dialog for identifiers, ZIP codes, dates, and large numbers so the application does not silently reformat values.' }
+    ],
+    repairTips: [
+      'A malformed quote can make the rest of a CSV appear in one column; locate unmatched quotation marks before changing delimiters.',
+      'Preserve leading zeros and long identifiers as text during import because spreadsheet auto-formatting can permanently change their displayed values.',
+      'Keep the original encoding and line endings when repairing a CSV used by an automated data pipeline.'
+    ],
+    faqs: [
+      { question: 'What does CSV stand for?', answer: 'CSV means comma-separated values. In practice, many CSV files use semicolons, tabs, or another delimiter, so the separator should be detected rather than assumed.' },
+      { question: 'Why does a CSV open in one column?', answer: 'The spreadsheet selected the wrong delimiter, encoding, or quoting mode. Re-import the file and choose the separator used by the source.' },
+      { question: 'Can CSV store formatting or multiple worksheets?', answer: 'No. CSV primarily stores text values in rows and columns. Formatting, formulas, charts, and multiple sheets require a workbook format such as XLSX.' },
+      { question: 'Is CSV safe to open?', answer: 'CSV is plain text, but spreadsheet programs may interpret values beginning with characters such as =, +, -, or @ as formulas. Import untrusted CSV files carefully.' }
+    ]
+  },
+  JSON: {
+    detailedOverview: 'JSON is a structured text format built from objects, arrays, strings, numbers, booleans, and null. It is widely used for APIs, configuration, exports, and application data. Standard JSON requires double-quoted property names and does not allow comments or trailing commas, although many tools support non-standard JSON variants such as JSON5.',
+    openingSteps: [
+      { title: 'Validate before editing', desc: 'Use a JSON-aware editor or validator to identify the exact line and character where parsing fails. Preserve a copy before applying automatic formatting.' },
+      { title: 'Check the expected schema', desc: 'Valid syntax does not guarantee valid application data. Confirm required keys, value types, nesting, and version fields with the producing application or API documentation.' }
+    ],
+    repairTips: [
+      'Look for an unmatched brace, bracket, quote, or trailing comma near the parser’s reported location.',
+      'Do not remove unknown fields blindly; they may be required for forward compatibility even if an older application does not use them.',
+      'For large JSON files, stream or parse a copy rather than opening it in a text editor that may truncate or reformat the file.'
+    ],
+    faqs: [
+      { question: 'Is JSON a programming language?', answer: 'No. JSON is a text data-interchange format. Programming languages provide parsers and serializers for reading and writing it.' },
+      { question: 'Why is my JSON invalid?', answer: 'Common causes include single quotes, missing commas, unmatched braces, comments, trailing commas, and unescaped control characters.' },
+      { question: 'What is the difference between JSON and JSON5?', answer: 'JSON5 is a relaxed extension that may allow comments, trailing commas, and unquoted keys. A strict JSON parser may reject those features.' },
+      { question: 'Can JSON contain binary files?', answer: 'JSON has no native binary type. Applications commonly encode binary data as Base64 strings, but this increases size and requires an agreed schema.' }
+    ]
+  },
+  MOV: {
+    detailedOverview: 'MOV is the QuickTime File Format, a media container that can hold video, audio, timecode, subtitles, metadata, and editing references. It is closely related to ISO Base Media File Format, but compatibility depends on the codecs and track structures inside the container. Professional cameras and editors may use MOV for high-quality or metadata-rich recordings.',
+    openingSteps: [
+      { title: 'Inspect the tracks and codecs', desc: 'If a player reports an unsupported format, identify the video and audio codecs inside the MOV rather than assuming the container itself is damaged.' },
+      { title: 'Open camera or editing MOV files carefully', desc: 'Use the application that created the file when possible; professional MOV files may contain timecode, proxy, alpha, or edit-list data that simpler players ignore.' }
+    ],
+    repairTips: [
+      'An interrupted recording may have a missing or incomplete moov index. Rebuild metadata only on a copy and with a tool suited to the camera or recorder.',
+      'Do not change .mov to .mp4 by renaming; the tracks may remain incompatible even when both use related container structures.',
+      'Preserve timecode and original metadata when the MOV is part of a professional editing workflow.'
+    ],
+    faqs: [
+      { question: 'What is the difference between MOV and MP4?', answer: 'Both are media containers, but MOV is associated with QuickTime and Apple editing workflows. Actual compatibility depends on the codecs, tracks, and metadata inside each file.' },
+      { question: 'Why will a MOV play on Mac but not Windows?', answer: 'The Windows player may lack the required codec, support for a professional track, or a compatible renderer. Try a current cross-platform player or transcode the file.' },
+      { question: 'Can MOV contain audio only?', answer: 'Yes. MOV can contain different media tracks, including audio, video, timecode, and metadata.' },
+      { question: 'Will converting MOV to MP4 reduce quality?', answer: 'It can if the video is re-encoded with lossy settings. A compatible remux may preserve streams, but not every MOV track can be copied directly into MP4.' }
+    ]
+  },
+  SVG: {
+    detailedOverview: 'SVG is an XML-based vector graphics format built from paths, shapes, text, gradients, filters, masks, and reusable symbols. Because it is text and can contain external references or scripting, SVG combines the benefits of resolution-independent graphics with security and compatibility considerations that do not apply to a simple bitmap image.',
+    openingSteps: [
+      { title: 'Preview untrusted SVG as text first', desc: 'Inspect a copy for scripts, event handlers, external references, and unexpected links before rendering it in a browser or design application.' },
+      { title: 'Choose an editor for the intended task', desc: 'Use Inkscape or Illustrator for vector editing, a browser for previewing, and a code editor for controlled XML or CSS changes.' }
+    ],
+    repairTips: [
+      'Validate XML and check for an unclosed svg, path, style, or defs element when the image renders blank.',
+      'External fonts, linked images, and filters may fail when an SVG is moved; embed required assets when portability matters.',
+      'Sanitize scripts and external references before publishing an SVG supplied by an unknown source.'
+    ],
+    faqs: [
+      { question: 'Is SVG better than PNG?', answer: 'SVG is usually better for logos, icons, and diagrams that need to scale. PNG is better for pixel-based screenshots, photographs, and guaranteed bitmap rendering.' },
+      { question: 'Can SVG files contain malware?', answer: 'SVG can contain scripts, event handlers, and external references. Treat untrusted SVG as active content and sanitize it before opening or publishing it.' },
+      { question: 'Why does my SVG look different in different apps?', answer: 'Applications can differ in CSS, font availability, filter support, scripting, and external-resource handling. Converting text to paths can improve consistency but reduces editability.' },
+      { question: 'How do I convert SVG to PNG?', answer: 'Use a vector editor, browser-based converter, or image tool and choose the required output dimensions and background transparency.' }
+    ]
+  },
+  WEBP: {
+    detailedOverview: 'WebP is a modern image format that supports lossy and lossless compression, alpha transparency, animation, and metadata. It is based on RIFF and uses VP8-family image coding. The same extension may represent a static lossy image, a lossless image, or an animated WebP, so the internal chunks matter when diagnosing compatibility.',
+    openingSteps: [
+      { title: 'Open in a current browser or image viewer', desc: 'Chrome, Edge, Firefox, Safari, and many current image applications support WebP. Update the viewer if thumbnails or animation do not appear.' },
+      { title: 'Check animation and transparency', desc: 'Before converting, confirm whether the file contains animation or an alpha channel so the chosen output format can preserve the required features.' }
+    ],
+    repairTips: [
+      'Verify RIFF at the beginning and WEBP at the expected chunk position; a truncated RIFF size field can prevent decoding.',
+      'If only a thumbnail is needed, extract or regenerate it without repeatedly re-encoding the original image.',
+      'Keep an animated WebP as a copy before converting because JPEG and ordinary PNG do not preserve animation.'
+    ],
+    faqs: [
+      { question: 'Is WebP smaller than JPG?', answer: 'WebP can be smaller at similar visual quality, but the result depends on image content, encoder settings, and whether the image uses lossy or lossless compression.' },
+      { question: 'Does WebP support transparency?', answer: 'Yes. WebP supports alpha transparency in both lossless and lossy workflows.' },
+      { question: 'Can WebP be animated?', answer: 'Yes. Animated WebP can store multiple frames, timing, and transparency. Check the file before converting it to a single-frame format.' },
+      { question: 'Why will an older program not open WebP?', answer: 'Older software may not include a WebP decoder. Convert it to PNG or JPEG, or install a maintained image plugin or viewer.' }
+    ]
+  },
+  TIFF: {
+    detailedOverview: 'TIFF is a flexible tagged-image container used for scans, publishing, photography, and scientific or medical imagery. It can store multiple pages, high bit depths, color profiles, alpha channels, and several compression methods including uncompressed, LZW, Deflate, and JPEG. Compatibility depends on the tags and compression used by the producing application.',
+    openingSteps: [
+      { title: 'Check whether the TIFF is multi-page', desc: 'Some viewers show only the first image. Use a TIFF-aware application when the file is a scanned document or image stack.' },
+      { title: 'Preserve color and bit depth', desc: 'For print or scientific work, confirm the color profile, channel depth, and compression before converting to a simpler image format.' }
+    ],
+    repairTips: [
+      'The byte order and 42 marker in the TIFF header help identify the container, but they do not prove that every image directory is intact.',
+      'If one page is damaged, extract readable pages to a new TIFF or PDF while preserving the original multi-page file.',
+      'Avoid opening and resaving archival TIFFs in applications that silently reduce bit depth or discard metadata.'
+    ],
+    faqs: [
+      { question: 'Is TIFF lossless?', answer: 'TIFF can be lossless or uncompressed, but it can also contain JPEG-compressed image data. The compression tag must be checked.' },
+      { question: 'Why is a TIFF file so large?', answer: 'TIFF is often used for high-resolution images, multiple pages, high bit depth, or uncompressed data. Lossless compression can reduce size without discarding pixels.' },
+      { question: 'Can TIFF store multiple pages?', answer: 'Yes. Multi-page TIFF is commonly used for scanned documents and image sequences, although not every viewer displays every page.' },
+      { question: 'Should I convert TIFF to JPG?', answer: 'Convert when broad sharing or smaller size matters. Keep the TIFF as the master when preserving print quality, layers of metadata, or high bit depth is important.' }
+    ]
+  },
+  EPUB: {
+    detailedOverview: 'EPUB is a reflowable electronic-publication package built from XHTML or HTML content, CSS, images, fonts, metadata, and navigation files. EPUB 2 and EPUB 3 differ in supported features, and a book may include fixed-layout pages, audio, JavaScript, DRM, or accessibility metadata. The extension alone does not indicate whether a device can render every feature.',
+    openingSteps: [
+      { title: 'Open with an EPUB reader', desc: 'Use Apple Books, Thorium, Calibre, Kobo software, or another maintained reader. Keep DRM restrictions in mind when moving books between devices.' },
+      { title: 'Inspect the package contents', desc: 'An EPUB is a ZIP-based package. Work on a copy and inspect its metadata and content files when diagnosing missing chapters, fonts, or navigation.' }
+    ],
+    repairTips: [
+      'Validate the EPUB package structure before editing XHTML or CSS; a missing mimetype or broken container relationship can prevent the whole book from opening.',
+      'If only one chapter is missing, recover the relevant XHTML and media files from a backup rather than rebuilding the entire book.',
+      'Do not remove DRM or alter protected publications without authorization from the rights holder.'
+    ],
+    faqs: [
+      { question: 'What is an EPUB file used for?', answer: 'EPUB is an electronic-book format that packages text, layout, images, fonts, metadata, and navigation for compatible reading applications.' },
+      { question: 'Can Kindle open EPUB files?', answer: 'Many Kindle workflows accept EPUB through supported transfer or conversion services, but device support and DRM handling vary. Check the current requirements for the target device.' },
+      { question: 'Why does an EPUB open with missing images?', answer: 'The package may contain broken paths, missing media files, unsupported formats, or an invalid content relationship. Validate a copy of the package.' },
+      { question: 'Can I convert EPUB to PDF?', answer: 'Yes, but PDF uses fixed pages while EPUB is usually reflowable. Conversion may change pagination, fonts, navigation, and accessibility features.' }
+    ]
+  }
+};
+
+export const POPULAR_FILE_TYPES: FileTypeInfo[] = BASE_POPULAR_FILE_TYPES.map((format) => {
+  const enrichment = EDITORIAL_ENRICHMENTS[format.extension];
+  if (!enrichment) return format;
+  return {
+    ...format,
+    ...enrichment,
+    openingSteps: [...format.openingSteps, ...(enrichment.openingSteps || [])],
+    repairTips: [...format.repairTips, ...(enrichment.repairTips || [])],
+    faqs: [...(format.faqs || []), ...(enrichment.faqs || [])]
+  };
+});

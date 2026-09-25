@@ -1,6 +1,6 @@
 import { CategoryInfo } from '../types';
 
-export const CATEGORIES_LIST: CategoryInfo[] = [
+const BASE_CATEGORIES_LIST: CategoryInfo[] = [
   {
     id: 'images',
     name: 'Images & Raster Graphics',
@@ -120,3 +120,57 @@ export const CATEGORIES_LIST: CategoryInfo[] = [
     ]
   }
 ];
+
+const CATEGORY_ENRICHMENTS: Record<string, Partial<CategoryInfo>> = {
+  'email-comm': {
+    description: 'Email messages, mailbox archives, calendar invitations, contact cards, and communication exports that preserve headers, attachments, and routing metadata.',
+    faqs: [
+      { question: 'Which file stores a single email message?', answer: 'EML commonly stores one RFC 822-style message, including headers, body parts, and attachments. MSG is an Outlook-specific message container.' },
+      { question: 'Can I open email files without an email client?', answer: 'Many EML files can be inspected in a text editor or browser viewer, but an email client is better for rendering HTML, attachments, and conversation relationships.' },
+      { question: 'Why should I preserve email headers?', answer: 'Headers contain timestamps, routing information, message IDs, and authentication clues that may be lost when an email is printed or converted to PDF.' },
+      { question: 'Are email attachments safe to open?', answer: 'Treat attachments as untrusted files. Scan them, inspect their true signatures, and avoid enabling macros or scripts from unexpected messages.' }
+    ]
+  },
+  archives: {
+    description: 'Compressed containers and disk images used to package files for transfer, backup, software distribution, encryption, and long-term storage.',
+    faqs: [
+      { question: 'Which archive format should I use?', answer: 'ZIP is broadly compatible, 7Z often provides strong compression and encryption, and TAR is common for Unix workflows. Choose based on recipient compatibility and required features.' },
+      { question: 'Why does an archive fail to extract?', answer: 'The download may be incomplete, a volume may be missing, the central directory may be damaged, or the archive may use an unsupported encryption method.' },
+      { question: 'Are compressed archives secure?', answer: 'Compression does not provide security by itself. Archives can contain malware, and encrypted archives can hide contents from scanners. Verify the source and inspect files before opening them.' },
+      { question: 'Should I keep archives as ZIP or 7Z?', answer: 'Keep the source format when reproducibility matters. Use ZIP for compatibility and 7Z when compression or strong encryption is more important.' }
+    ]
+  },
+  'system-executables': {
+    description: 'Executable binaries, installers, libraries, drivers, application data, and generic containers that require signature inspection before opening or running.',
+    faqs: [
+      { question: 'Can a file extension identify an executable?', answer: 'No. Extensions are labels and can be changed. Inspect magic bytes and the source before running an unfamiliar file.' },
+      { question: 'What should I do with an unknown DAT file?', answer: 'Identify where it came from, inspect its header and printable strings on a copy, and open it only with the application that created it.' },
+      { question: 'Are installers safe if they have a familiar extension?', answer: 'Not automatically. Check the publisher, digital signature, download source, and malware scan before installation.' },
+      { question: 'Why is binary inspection useful?', answer: 'A header can distinguish a genuine document, archive, image, or executable from a renamed file before the operating system launches it.' }
+    ]
+  },
+  documents: {
+    description: 'Portable documents, office packages, spreadsheets, plain-text data, presentations, and electronic books used for reading, editing, collaboration, and archival workflows.',
+    faqs: [
+      { question: 'Which document format is best for sharing?', answer: 'PDF is useful when layout must remain fixed, while DOCX, XLSX, and ODT are better when recipients need to edit the source content.' },
+      { question: 'Why does a document look different in another application?', answer: 'Fonts, layout engines, unsupported features, embedded objects, and version differences can change rendering between programs.' },
+      { question: 'How can I recover a damaged office document?', answer: 'Work on a copy, try the application’s repair command, test a compatible alternative editor, and inspect the package structure when the format is ZIP-based.' },
+      { question: 'Are documents safe to open?', answer: 'Office documents can contain macros, external links, and embedded objects. Keep active content disabled for untrusted files.' }
+    ]
+  },
+  'audio-video': {
+    description: 'Audio recordings, video captures, streaming containers, camera media, and lossless or compressed codecs used for playback, editing, publishing, and archiving.',
+    faqs: [
+      { question: 'Why does a media file play without sound or video?', answer: 'The container may be supported while the internal audio or video codec is not. Inspect the tracks before converting the file.' },
+      { question: 'Is converting media the same as repairing it?', answer: 'Conversion can copy or re-encode readable streams, but it cannot restore frames, samples, or metadata that were never written or are damaged.' },
+      { question: 'Which media format should I use for the web?', answer: 'Choose a browser-compatible container and codec combination, then test playback, captions, dimensions, and file size in the target browsers.' },
+      { question: 'How should I preserve original recordings?', answer: 'Keep the original camera or recorder file, record its checksum, and create delivery copies rather than repeatedly re-encoding the master.' }
+    ]
+  }
+};
+
+export const CATEGORIES_LIST: CategoryInfo[] = BASE_CATEGORIES_LIST.map((category) => ({
+  ...category,
+  ...(CATEGORY_ENRICHMENTS[category.id] || {}),
+  faqs: [...category.faqs, ...(CATEGORY_ENRICHMENTS[category.id]?.faqs || [])]
+}));
