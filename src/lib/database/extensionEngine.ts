@@ -11,6 +11,7 @@ import { SOFTWARE_LIST } from '../../data/softwareData';
 import { COMPREHENSIVE_SIGNATURES } from '../analyzer/signatures';
 import { EXPANDED_MIME_DATABASE } from '../../data/expandedMimeDatabase';
 import { FILE_SIGNATURES } from '../../data/fileSignaturesData';
+import { PRIORITY_EXTENSIONS_DATA } from '../../data/priorityExtensionsData';
 
 export interface ExtensionSchema {
   slug: string;
@@ -166,7 +167,16 @@ export function validateExtensionRecord(data: Partial<ExtensionSchema>): {
 function initializeExtensionDatabase() {
   if (EXTENSION_INDEX.size > 0) return;
 
-  const rawDataset = [...(extensionsData as Partial<ExtensionSchema>[]), ...IMAGE_EXTENSIONS_DATA, ...DOCUMENT_EXTENSIONS_DATA, ...MEDIA_AND_ARCHIVE_EXTENSIONS_DATA, ...CAD_AND_ENGINEERING_EXTENSIONS_DATA, ...DEVELOPER_EXTENSIONS_DATA, ...SPECIALIZED_EXTENSIONS_DATA];
+  const rawDataset = [
+    ...(extensionsData as Partial<ExtensionSchema>[]),
+    ...IMAGE_EXTENSIONS_DATA,
+    ...DOCUMENT_EXTENSIONS_DATA,
+    ...MEDIA_AND_ARCHIVE_EXTENSIONS_DATA,
+    ...CAD_AND_ENGINEERING_EXTENSIONS_DATA,
+    ...DEVELOPER_EXTENSIONS_DATA,
+    ...SPECIALIZED_EXTENSIONS_DATA,
+    ...PRIORITY_EXTENSIONS_DATA,
+  ];
 
   rawDataset.forEach((item) => {
     const { normalized } = validateExtensionRecord(item);
@@ -295,6 +305,18 @@ function resolveFormatIntelligence(cleanExt: string, category: CategoryType): {
   detailedOverview: string;
 } {
   const extUpper = cleanExt.toUpperCase();
+
+  // CONT is used by multiple camera ecosystems and does not have one
+  // reliable public signature. Keep the page explicit about that ambiguity.
+  if (extUpper === 'CONT') {
+    return {
+      magicBytesHex: 'No universal signature; camera- and variant-dependent binary or metadata structure',
+      magicBytesAscii: 'Variant-dependent',
+      mimeType: 'application/octet-stream',
+      typicalSize: 'Varies by camera and companion recording',
+      detailedOverview: 'CONT is an ambiguous camera-related extension. Panasonic camcorders use CONT files for extra metadata associated with recordings, while other camera software has used CONT for proprietary video or surveillance data. The camera, folder layout, companion media, and internal header are more reliable than the extension alone.',
+    };
+  }
 
   // FRX is an overloaded extension: Visual Basic form resources, Visual FoxPro
   // reports, and XML report definitions do not share one reliable magic number.
