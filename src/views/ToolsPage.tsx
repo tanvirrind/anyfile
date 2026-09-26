@@ -16,7 +16,6 @@ import {
   Lock,
   Sparkles,
   Sliders,
-  Maximize,
   FolderArchive,
   Image as ImageIcon,
   Layers,
@@ -87,18 +86,6 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       icon: Sliders,
       tags: ['Quality Slider', 'Before/After Metrics', 'Batch ZIP', 'RAM Only'],
       badge: 'Popular Image Tool',
-      processingType: 'local',
-      isPopular: true
-    },
-    {
-      id: 'image-resizer',
-      name: 'Precision Image Resizer',
-      category: 'Images',
-      desc: 'Scale, crop, and resize images to exact pixel dimensions or percentage presets with aspect ratio lock and batch export.',
-      route: { view: 'tool-detail', slug: 'image-resizer' } as any,
-      icon: Maximize,
-      tags: ['Aspect Ratio Lock', 'Preset Scales', 'Pixel Precise', 'RAM Only'],
-      badge: 'Precision Sizing',
       processingType: 'local',
       isPopular: true
     },

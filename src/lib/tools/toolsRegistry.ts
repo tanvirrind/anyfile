@@ -73,50 +73,10 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
         answer: 'Yes! Batch compression is fully supported. You can drop multiple images or entire folders and download all compressed files individually or packaged in a single ZIP.'
       }
     ],
-    relatedToolSlugs: ['image-resizer', 'heic-to-jpg', 'png-to-webp', 'webp-to-jpg', 'jpg-to-png', 'metadata-viewer'],
+    relatedToolSlugs: ['heic-to-jpg', 'png-to-webp', 'webp-to-jpg', 'jpg-to-png', 'metadata-viewer'],
     relatedExtensionSlugs: ['jpg', 'png', 'webp', 'heic'],
     comparisonSlugs: ['png-vs-webp', 'heic-vs-jpg'],
     howToOpenSlugs: ['heic', 'webp']
-  },
-
-  'image-resizer': {
-    slug: 'image-resizer',
-    name: 'Precision Image Resizer',
-    category: 'image',
-    categoryLabel: 'Image Tools',
-    tagline: 'Resize image dimensions in pixels or percentages with aspect ratio lock and batch export',
-    description: 'Scale, crop, and resize images to exact width and height dimensions with aspect ratio constraints, preset scales, and format transcoding.',
-    processingType: 'local',
-    supportedInputFormats: ['jpg', 'jpeg', 'png', 'webp', 'heic', 'bmp', 'svg'],
-    supportedOutputFormats: ['jpg', 'png', 'webp'],
-    isPopular: true,
-    badge: 'Precision Sizing',
-    features: [
-      'Custom pixel dimensions (Width & Height) with Aspect Ratio Lock',
-      'One-click percentage scaling presets (25%, 50%, 75%, 150%, 200%)',
-      'Crop, Contain, and Exact-Stretch scaling modes',
-      'Batch resizing and ZIP export in browser memory'
-    ],
-    steps: [
-      { title: 'Add Images to Resize', desc: 'Drag and drop one or multiple image files into the resizing workspace.' },
-      { title: 'Set Target Dimensions', desc: 'Input desired width/height or select a percentage scaling preset with locked ratio.' },
-      { title: 'Export Resized Images', desc: 'Download resized images with clean, predictable filenames or as a bundled ZIP.' }
-    ],
-    technicalDetails: 'Image resizing uses HTML5 Canvas 2D image smoothing algorithms (bilinear and bicubic sub-pixel interpolation) to ensure crisp edges, text readability, and sharp downsampling without artifacts.',
-    faqs: [
-      {
-        question: 'Will resizing distort my images?',
-        answer: 'Not when the Aspect Ratio Lock is enabled. The tool automatically recalculates the corresponding height or width to prevent stretching.'
-      },
-      {
-        question: 'Can I resize transparent PNG logos?',
-        answer: 'Yes! PNG alpha transparency is fully preserved when exporting to PNG or WebP.'
-      }
-    ],
-    relatedToolSlugs: ['image-compressor', 'heic-to-jpg', 'png-to-jpg', 'jpg-to-webp'],
-    relatedExtensionSlugs: ['jpg', 'png', 'webp', 'svg'],
-    comparisonSlugs: ['svg-vs-png', 'png-vs-webp'],
-    howToOpenSlugs: ['png', 'jpg']
   },
 
   'heic-to-jpg': {
@@ -153,7 +113,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
         answer: 'Yes. Processing occurs 100% inside your browser memory on your device.'
       }
     ],
-    relatedToolSlugs: ['image-compressor', 'heic-to-png', 'image-resizer', 'metadata-viewer'],
+    relatedToolSlugs: ['image-compressor', 'heic-to-png', 'metadata-viewer'],
     relatedExtensionSlugs: ['heic', 'jpg', 'png'],
     comparisonSlugs: ['heic-vs-jpg'],
     howToOpenSlugs: ['heic']
@@ -189,7 +149,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
         answer: 'Many desktop graphic programs (like older versions of Photoshop or Corel) and document systems cannot open WebP files directly.'
       }
     ],
-    relatedToolSlugs: ['webp-to-png', 'jpg-to-webp', 'image-compressor', 'image-resizer'],
+    relatedToolSlugs: ['webp-to-png', 'jpg-to-webp', 'image-compressor'],
     relatedExtensionSlugs: ['webp', 'jpg', 'png'],
     comparisonSlugs: ['png-vs-webp'],
     howToOpenSlugs: ['webp']
@@ -225,7 +185,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
         answer: 'Yes! WebP fully supports 8-bit alpha channels just like PNG, but at a fraction of the file size.'
       }
     ],
-    relatedToolSlugs: ['image-compressor', 'png-to-jpg', 'webp-to-png', 'image-resizer'],
+    relatedToolSlugs: ['image-compressor', 'png-to-jpg', 'webp-to-png'],
     relatedExtensionSlugs: ['png', 'webp', 'jpg'],
     comparisonSlugs: ['png-vs-webp'],
     howToOpenSlugs: ['png', 'webp']
@@ -261,7 +221,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
         answer: 'It does not invent new pixel details from compression artifacts, but it prevents further compression loss during subsequent edits.'
       }
     ],
-    relatedToolSlugs: ['png-to-jpg', 'image-compressor', 'jpg-to-webp', 'image-resizer'],
+    relatedToolSlugs: ['png-to-jpg', 'image-compressor', 'jpg-to-webp'],
     relatedExtensionSlugs: ['jpg', 'png', 'webp'],
     comparisonSlugs: ['jpg-vs-jpeg', 'png-vs-webp'],
     howToOpenSlugs: ['jpg', 'png']
@@ -297,7 +257,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
         answer: 'JPEG does not support alpha transparency, so transparent areas are filled with a clean solid background color.'
       }
     ],
-    relatedToolSlugs: ['jpg-to-png', 'image-compressor', 'png-to-webp', 'image-resizer'],
+    relatedToolSlugs: ['jpg-to-png', 'image-compressor', 'png-to-webp'],
     relatedExtensionSlugs: ['png', 'jpg'],
     comparisonSlugs: ['png-vs-webp'],
     howToOpenSlugs: ['png', 'jpg']
@@ -369,7 +329,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
         answer: 'PNG uses lossless compression, preserving maximum detail without introducing JPEG compression artifacts.'
       }
     ],
-    relatedToolSlugs: ['heic-to-jpg', 'image-compressor', 'image-resizer'],
+    relatedToolSlugs: ['heic-to-jpg', 'image-compressor'],
     relatedExtensionSlugs: ['heic', 'png'],
     comparisonSlugs: ['heic-vs-jpg'],
     howToOpenSlugs: ['heic']
@@ -405,7 +365,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
         answer: 'Yes! Vector graphics scale infinitely without pixelation before being rendered into PNG.'
       }
     ],
-    relatedToolSlugs: ['svg-to-jpg', 'png-to-webp', 'image-resizer'],
+    relatedToolSlugs: ['svg-to-jpg', 'png-to-webp'],
     relatedExtensionSlugs: ['svg', 'png'],
     comparisonSlugs: ['svg-vs-png'],
     howToOpenSlugs: ['svg', 'png']

@@ -129,10 +129,10 @@ export const StlRepairWorkspace: React.FC<StlRepairWorkspaceProps> = ({ onNaviga
 
             <div className="space-y-1.5">
               <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                Upload STL file to diagnose & repair
+                Upload STL file to diagnose & normalize
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                Detects non-manifold boundary holes, inverted face normals, and degenerate facets. Prepares watertight meshes for 3D slicers.
+                Diagnoses non-manifold edges, inverted normals, and degenerate facets. The available normalization removes degenerate facets and recalculates normals; it does not fill holes or make meshes watertight.
               </p>
             </div>
 
@@ -200,7 +200,7 @@ export const StlRepairWorkspace: React.FC<StlRepairWorkspaceProps> = ({ onNaviga
                   className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <Wrench className="w-4 h-4" />
-                  <span>Execute Auto-Repair</span>
+                  <span>Normalize Supported Defects</span>
                 </button>
               ) : (
                 <button
@@ -208,7 +208,7 @@ export const StlRepairWorkspace: React.FC<StlRepairWorkspaceProps> = ({ onNaviga
                   className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <Download className="w-4 h-4" />
-                  <span>Download Repaired STL</span>
+                    <span>Download Normalized STL</span>
                 </button>
               )}
 
@@ -313,10 +313,10 @@ export const StlRepairWorkspace: React.FC<StlRepairWorkspaceProps> = ({ onNaviga
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-emerald-900 dark:text-emerald-300">
-                    Repair Complete: Normalized {repairResult.recalculatedNormalsCount} Normals
+                    Normalization Complete: Recalculated {repairResult.recalculatedNormalsCount} Normals
                   </h4>
                   <p className="text-xs text-emerald-700 dark:text-emerald-400">
-                    Filtered {repairResult.removedDegenerateCount} degenerate facets. Output is packaged as standardized IEEE 754 Binary STL.
+                    Filtered {repairResult.removedDegenerateCount} degenerate facets. Open or non-manifold edges were not filled and must be repaired in a mesh editor.
                   </p>
                 </div>
               </div>
@@ -326,7 +326,7 @@ export const StlRepairWorkspace: React.FC<StlRepairWorkspaceProps> = ({ onNaviga
                 className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-2 cursor-pointer"
               >
                 <Download className="w-4 h-4" />
-                <span>Save Repaired STL</span>
+                <span>Save Normalized STL</span>
               </button>
             </div>
           )}

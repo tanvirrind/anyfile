@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Mail,
   MailCheck,
@@ -37,6 +37,7 @@ import {
   ParsedEmail,
   EmailAttachment,
   MboxSummaryItem,
+  createEmailSandboxDocument,
 } from '../../lib/email/emailEngine';
 import { AppRoute } from '../../types';
 
@@ -58,6 +59,10 @@ export const EmailViewerWorkspace: React.FC<EmailViewerWorkspaceProps> = ({ init
   const [copiedHeader, setCopiedHeader] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (initialFile) void processFile(initialFile);
+  }, [initialFile]);
 
   // Parse dropped or selected file
   const processFile = async (file: File) => {
@@ -507,10 +512,13 @@ export const EmailViewerWorkspace: React.FC<EmailViewerWorkspaceProps> = ({ init
               </div>
 
               {email.htmlBody ? (
-                <div className="border border-slate-200 dark:border-slate-800 rounded-2xl p-6 bg-slate-50/50 dark:bg-slate-950/50 min-h-[350px] overflow-auto">
-                  <div
-                    dangerouslySetInnerHTML={{ __html: email.htmlBody }}
-                    className="prose prose-slate max-w-none text-slate-800 dark:text-slate-200"
+                <div className="border border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50/50 dark:bg-slate-950/50 min-h-[350px] overflow-hidden">
+                  <iframe
+                    title="Sanitized email HTML preview"
+                    sandbox=""
+                    referrerPolicy="no-referrer"
+                    srcDoc={createEmailSandboxDocument(email.htmlBody)}
+                    className="w-full min-h-[350px] border-0 bg-white"
                   />
                 </div>
               ) : (

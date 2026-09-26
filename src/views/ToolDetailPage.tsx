@@ -23,7 +23,6 @@ import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
 import { generateFAQSchema } from '../lib/seo/faqGenerator';
 import { ImageCompressorWorkspace } from '../components/tools/ImageCompressorWorkspace';
-import { ImageResizerWorkspace } from '../components/tools/ImageResizerWorkspace';
 import { StlViewerWorkspace } from '../components/tools/StlViewerWorkspace';
 import { ThreeMfViewerWorkspace } from '../components/tools/ThreeMfViewerWorkspace';
 import { StlRepairWorkspace } from '../components/tools/StlRepairWorkspace';
@@ -147,8 +146,6 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
       <div className="max-w-5xl mx-auto">
         {toolSlug === 'image-compressor' ? (
           <ImageCompressorWorkspace />
-        ) : toolSlug === 'image-resizer' ? (
-          <ImageResizerWorkspace />
         ) : toolSlug === 'stl-viewer' ? (
           <StlViewerWorkspace onNavigate={onNavigate} />
         ) : toolSlug === '3mf-viewer' ? (

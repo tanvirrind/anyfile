@@ -4,15 +4,19 @@ import React from 'react';
 import { ConvertersClient } from '@/components/routes/RouteClients';
 import { CONVERTERS_LIST } from '@/data/convertersData';
 import { isValidConverterId, BASE_URL } from '@/lib/routes/routeManifest';
+import { getAllSupportedConversionSlugs } from '@/lib/guides/conversionGuideEngine';
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
 export async function generateStaticParams() {
-  return CONVERTERS_LIST.map((conv) => ({
-    id: conv.id,
-  }));
+  const ids = new Set([
+    ...CONVERTERS_LIST.map((conv) => conv.id),
+    ...getAllSupportedConversionSlugs(),
+  ]);
+
+  return [...ids].map((id) => ({ id }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

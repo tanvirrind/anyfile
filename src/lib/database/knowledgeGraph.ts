@@ -56,6 +56,7 @@ export const CURATED_COMPARISONS: ComparisonPairMeta[] = [
   { slug: 'jpg-vs-jpeg', ext1: 'JPG', ext2: 'JPEG', category: 'Images', title: 'JPG vs JPEG', highlight: 'File extension difference, DOS 8.3 history, and identical binary specs' },
 
   // Documents
+  { slug: 'eml-vs-msg', ext1: 'EML', ext2: 'MSG', category: 'Email & Comm', title: 'EML vs MSG', highlight: 'Open RFC 822 email text and MIME parts vs Outlook’s proprietary MAPI compound document' },
   { slug: 'pdf-vs-docx', ext1: 'PDF', ext2: 'DOCX', category: 'Documents', title: 'PDF vs DOCX', highlight: 'Fixed layout digital document publishing vs editable word processing' },
   { slug: 'csv-vs-xlsx', ext1: 'CSV', ext2: 'XLSX', category: 'Documents', title: 'CSV vs XLSX', highlight: 'Raw comma-delimited data streams vs multi-sheet workbooks with formulas' },
   { slug: 'doc-vs-docx', ext1: 'DOC', ext2: 'DOCX', category: 'Documents', title: 'DOC vs DOCX', highlight: 'Legacy Word binary format vs modern open XML zip package' },

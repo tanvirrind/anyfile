@@ -462,10 +462,12 @@ export interface StlRepairResult {
 }
 
 /**
- * Analyzes and repairs common STL defects:
+ * Normalizes the subset of STL defects this engine can safely change:
  * 1. Strips zero-area degenerate triangles
- * 2. Re-computes accurate face normals adhering to vertex winding
- * 3. Normalizes coordinate scale if anomalous
+ * 2. Re-computes face normals from vertex winding
+ *
+ * This does not fill holes, resolve non-manifold edges, or make an open mesh
+ * watertight. Those conditions remain visible in the returned diagnostics.
  */
 export function repairStl(buffer: ArrayBuffer): StlRepairResult {
   const parsed = parseStl(buffer);
@@ -493,7 +495,7 @@ export function repairStl(buffer: ArrayBuffer): StlRepairResult {
     validFacets.push({ normal, v1, v2, v3 });
   }
 
-  const repairedBlob = exportBinaryStl(validFacets, 'AnyFileX Repaired & Watertight STL');
+  const repairedBlob = exportBinaryStl(validFacets, 'AnyFileX STL Normalized: degenerate facets removed and normals recalculated');
   const repairedBlobUrl = URL.createObjectURL(repairedBlob);
 
   return {

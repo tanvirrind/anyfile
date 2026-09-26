@@ -20,7 +20,6 @@ import {
   Wrench,
   Grid,
   Sliders,
-  Maximize
 } from 'lucide-react';
 import { AppRoute } from '../types';
 import { routeToPath } from '../utils/router';
@@ -66,18 +65,6 @@ export const Navbar: React.FC<NavbarProps> = ({
       desc: 'Compress JPG, PNG & WEBP with live metrics',
       route: { view: 'tool-detail', slug: 'image-compressor' } as any,
       icon: Sliders,
-    },
-    {
-      label: 'Image Resizer',
-      desc: 'Scale dimensions with aspect ratio lock',
-      route: { view: 'tool-detail', slug: 'image-resizer' } as any,
-      icon: Maximize,
-    },
-    {
-      label: 'File Analyzer',
-      desc: 'Inspect binary headers & identify true format',
-      route: { view: 'file-analyzer' },
-      icon: Cpu,
     },
     {
       label: 'File Identifier',
@@ -500,4 +487,3 @@ export const Navbar: React.FC<NavbarProps> = ({
     </header>
   );
 };
-

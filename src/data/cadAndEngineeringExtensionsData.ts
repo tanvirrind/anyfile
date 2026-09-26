@@ -250,14 +250,14 @@ export const CAD_AND_ENGINEERING_EXTENSIONS_DATA: ExtensionSchema[] = [
     category: 'CAD & 3D',
     mime: 'application/octet-stream',
     developer: 'Dassault Systèmes / SolidWorks Corp',
-    software: ['Dassault Systèmes SolidWorks', 'eDrawings Viewer (Free)', 'Autodesk Fusion 360', 'Autodesk Inventor', 'Onshape', 'FreeCAD'],
+    software: ['Dassault Systèmes SolidWorks', 'eDrawings Viewer', 'Autodesk Fusion 360', 'Autodesk Inventor', 'Onshape'],
     related_extensions: ['SLDASM', 'SLDDRW', 'STEP', 'IGES'],
     related_guides: ['how-to-open-unknown-files'],
     related_converters: ['sldprt-to-stl', 'sldprt-to-step', 'sldprt-to-dwg', 'sldprt-to-obj'],
     security: {
       dangerRating: 'Low Risk',
       canContainMalware: false,
-      tips: ['View .SLDPRT models without a SolidWorks license using the free eDrawings Viewer application']
+      tips: ['eDrawings Viewer may provide read-only access for compatible SolidWorks part versions; verify current vendor support and licensing before relying on it.']
     },
     keywords: ['sldprt file', 'open sldprt', 'how to open sldprt file', 'how to view sldprt files', 'sldprt viewer', 'solidworks part file', 'edrawings viewer', 'convert sldprt to stl', 'sldprt to step']
   },

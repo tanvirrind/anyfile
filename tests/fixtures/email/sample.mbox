@@ -1,0 +1,16 @@
+From sender-one@example.invalid Tue Jan  1 00:00:00 2030
+From: sender-one@example.invalid
+To: recipient@example.invalid
+Subject: First fixture message
+Date: Tue, 01 Jan 2030 00:00:00 +0000
+Content-Type: text/plain
+
+First fixture body.
+From sender-two@example.invalid Wed Jan  2 00:00:00 2030
+From: sender-two@example.invalid
+To: recipient@example.invalid
+Subject: Second fixture message
+Date: Wed, 02 Jan 2030 00:00:00 +0000
+Content-Type: text/plain
+
+Second fixture body.

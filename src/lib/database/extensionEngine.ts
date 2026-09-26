@@ -607,15 +607,22 @@ export function getExtensionAsFileTypeInfo(extRaw: string): FileTypeInfo | null 
   const cleanExt = extRaw.trim().toUpperCase().replace(/^\./, '') || schema.extension;
   const resolved = resolveFormatIntelligence(cleanExt, schema.category);
 
-  const matchedApps: SoftwareApp[] = schema.software.map((s) => ({
-    name: s,
-    os: ['windows', 'mac', 'linux'],
-    isFree: true,
-    developer: schema.developer
-  }));
+  const matchedApps: SoftwareApp[] = schema.software.map((name) => {
+    const normalizedName = name.toLowerCase();
+    const catalogApp = SOFTWARE_LIST.find((software) => {
+      const candidate = software.name.toLowerCase();
+      return candidate === normalizedName || candidate.includes(normalizedName) || normalizedName.includes(candidate);
+    });
+    return {
+      name,
+      os: (catalogApp?.supportedOS as SoftwareApp['os']) || [],
+      isFree: catalogApp ? catalogApp.priceType === 'Free' || catalogApp.priceType === 'Freemium' : false,
+      developer: catalogApp?.developer || schema.developer,
+      slug: catalogApp?.id,
+    };
+  });
 
-  const app1 = schema.software[0] || 'Default Operating System Viewer';
-  const app2 = schema.software[1] || 'AnyFileX Browser Viewer';
+  const listedApps = schema.software.length > 0 ? schema.software.join(' or ') : 'a verified application';
 
   return {
     extension: cleanExt,
@@ -631,20 +638,26 @@ export function getExtensionAsFileTypeInfo(extRaw: string): FileTypeInfo | null 
     exampleUse: schema.keywords.slice(0, 3).join(', '),
     popularityScore: 85,
     developer: schema.developer,
-    osSupport: { windows: true, mac: true, linux: true, android: true, ios: true },
+    osSupport: {
+      windows: matchedApps.some((app) => app.os.includes('windows')),
+      mac: matchedApps.some((app) => app.os.includes('mac')),
+      linux: matchedApps.some((app) => app.os.includes('linux')),
+      android: matchedApps.some((app) => app.os.includes('android')),
+      ios: matchedApps.some((app) => app.os.includes('ios')),
+    },
     popularApps: matchedApps,
     openingSteps: [
       {
-        title: `Open .${cleanExt} on Windows 11 & 10`,
-        desc: `Locate the .${cleanExt} file in File Explorer. Right-click the file, select "Open with", and choose ${app1}. To set this application as the permanent default, check "Always use this app to open .${cleanExt} files" and click OK.`
+        title: `Verify an application for .${cleanExt}`,
+        desc: `Confirm that ${listedApps} supports this exact format version and your operating system before opening the file. Do not assume that a listed application can edit or fully render every file.`
       },
       {
-        title: `Open .${cleanExt} on macOS (Apple Silicon & Intel)`,
-        desc: `In Finder, hold Control and click the .${cleanExt} file, then hover over "Open With" to select ${app2} or your preferred desktop application. To associate all .${cleanExt} files, press Command+I (Get Info), expand "Open with", and click "Change All".`
+        title: 'Preserve referenced files',
+        desc: `If this ${schema.category} format references external assets, assemblies, fonts, or linked data, keep those files together and make a backup before opening or converting.`
       },
       {
-        title: `Open .${cleanExt} on Linux & Unix Desktops`,
-        desc: `Open your file manager (Nautilus, Dolphin, or Thunar), right-click the .${cleanExt} file, and choose "Open With Other Application". Select ${app1} from the list or launch via terminal using native viewer commands.`
+        title: `Inspect .${cleanExt} before conversion`,
+        desc: `Use the AnyFileX File Identifier to compare the extension with the detected signature and inspect the file before attempting a conversion or repair.`
       },
       {
         title: `Inspect .${cleanExt} in AnyFileX In-Browser Viewer`,
@@ -679,7 +692,7 @@ export function getExtensionAsFileTypeInfo(extRaw: string): FileTypeInfo | null 
       },
       {
         question: `How can I convert a .${cleanExt} file to another format?`,
-        answer: `You can convert .${cleanExt} files to standard formats using AnyFileX in-browser converters or compatible desktop software like ${app1}. In-browser conversion ensures 100% privacy with zero data transfer to external servers.`
+        answer: `You can convert .${cleanExt} files to standard formats using AnyFileX in-browser converters or compatible software listed for this format. In-browser conversion ensures 100% privacy with zero data transfer to external servers.`
       }
     ]
   };

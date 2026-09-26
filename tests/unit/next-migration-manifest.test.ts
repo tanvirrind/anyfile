@@ -101,6 +101,11 @@ describe('Next.js Migration & Content Manifest Verification', () => {
     expect(isValidCategoryId('fakecategory')).toBe(false);
 
     expect(isValidConverterId('heic-to-jpg')).toBe(true);
+    expect(isValidConverterId('heic-to-jpeg')).toBe(true);
+    expect(isValidConverterId('zip-creator')).toBe(true);
+    expect(isValidConverterId('zip-extractor')).toBe(true);
+    expect(isValidConverterId('rar-extractor')).toBe(true);
+    expect(isValidConverterId('3mf-to-stl')).toBe(true);
     expect(isValidConverterId('invalid-converter-id')).toBe(false);
 
     expect(isValidComparisonSlug('jpg-vs-png')).toBe(true);

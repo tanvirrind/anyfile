@@ -20,6 +20,12 @@ export interface ThreeMfObject {
   triangleCount: number;
   vertices: StlVertex[];
   triangles: [number, number, number][];
+  components: ThreeMfComponent[];
+}
+
+export interface ThreeMfComponent {
+  objectId: string;
+  transformMatrix?: number[];
 }
 
 export interface ThreeMfBuildItem {
@@ -34,7 +40,7 @@ export interface ThreeMfPackageInfo {
   application?: string;
   copyright?: string;
   creationDate?: string;
-  unit: string; // 'millimeter' | 'micron' | 'inch' | 'foot' | 'meter'
+  unit: 'millimeter' | 'micron' | 'centimeter' | 'inch' | 'foot' | 'meter';
   unitScaleFactorToMm: number;
   objects: ThreeMfObject[];
   buildItems: ThreeMfBuildItem[];
@@ -107,30 +113,20 @@ export async function parse3mf(buffer: ArrayBuffer): Promise<ThreeMfPackageInfo>
 
   // Model root attributes
   const modelElement = doc.documentElement;
-  const unitAttr = modelElement.getAttribute('unit')?.toLowerCase() || 'millimeter';
-
-  let unitScaleFactor = 1.0;
-  switch (unitAttr) {
-    case 'micron':
-      unitScaleFactor = 0.001;
-      break;
-    case 'centimeter':
-      unitScaleFactor = 10.0;
-      break;
-    case 'meter':
-      unitScaleFactor = 1000.0;
-      break;
-    case 'inch':
-      unitScaleFactor = 25.4;
-      break;
-    case 'foot':
-      unitScaleFactor = 304.8;
-      break;
-    case 'millimeter':
-    default:
-      unitScaleFactor = 1.0;
-      break;
+  const unitAttr = (modelElement.getAttribute('unit')?.toLowerCase() || 'millimeter') as ThreeMfPackageInfo['unit'];
+  const unitScales: Record<ThreeMfPackageInfo['unit'], number> = {
+    micron: 0.001,
+    millimeter: 1,
+    centimeter: 10,
+    inch: 25.4,
+    foot: 304.8,
+    meter: 1000,
+  };
+  if (!(unitAttr in unitScales)) {
+    throw new Error(`Unsupported 3MF unit "${unitAttr}". Expected one of micron, millimeter, centimeter, inch, foot, or meter.`);
   }
+
+  const unitScaleFactor = unitScales[unitAttr];
 
   // Metadata tags
   let title: string | undefined;
@@ -159,6 +155,7 @@ export async function parse3mf(buffer: ArrayBuffer): Promise<ThreeMfPackageInfo>
 
   // Resources -> Objects
   const objects: ThreeMfObject[] = [];
+  const objectIds = new Set<string>();
   const objectNodes = doc.querySelectorAll('resources > object, object');
 
   let totalTriangles = 0;
@@ -166,6 +163,8 @@ export async function parse3mf(buffer: ArrayBuffer): Promise<ThreeMfPackageInfo>
 
   objectNodes.forEach((objNode) => {
     const id = objNode.getAttribute('id') || `obj-${objects.length + 1}`;
+    if (objectIds.has(id)) throw new Error(`Invalid 3MF model: duplicate object id "${id}".`);
+    objectIds.add(id);
     const name = objNode.getAttribute('name') || objNode.getAttribute('partnumber') || `Part ${id}`;
     const type = objNode.getAttribute('type') || 'model';
 
@@ -173,9 +172,10 @@ export async function parse3mf(buffer: ArrayBuffer): Promise<ThreeMfPackageInfo>
     const vertexNodes = objNode.querySelectorAll('mesh > vertices > vertex, vertices > vertex');
     const vertices: StlVertex[] = [];
     vertexNodes.forEach((vNode) => {
-      const x = (parseFloat(vNode.getAttribute('x') || '0') || 0) * unitScaleFactor;
-      const y = (parseFloat(vNode.getAttribute('y') || '0') || 0) * unitScaleFactor;
-      const z = (parseFloat(vNode.getAttribute('z') || '0') || 0) * unitScaleFactor;
+      const x = Number(vNode.getAttribute('x')) * unitScaleFactor;
+      const y = Number(vNode.getAttribute('y')) * unitScaleFactor;
+      const z = Number(vNode.getAttribute('z')) * unitScaleFactor;
+      if (![x, y, z].every(Number.isFinite)) throw new Error(`Invalid 3MF vertex in object "${id}".`);
       vertices.push({ x, y, z });
     });
 
@@ -186,10 +186,20 @@ export async function parse3mf(buffer: ArrayBuffer): Promise<ThreeMfPackageInfo>
       const v1 = parseInt(tNode.getAttribute('v1') || '0', 10);
       const v2 = parseInt(tNode.getAttribute('v2') || '0', 10);
       const v3 = parseInt(tNode.getAttribute('v3') || '0', 10);
+      if (![v1, v2, v3].every(Number.isInteger) || [v1, v2, v3].some((index) => index < 0 || index >= vertices.length)) {
+        throw new Error(`Invalid 3MF triangle index in object "${id}".`);
+      }
       triangles.push([v1, v2, v3]);
     });
 
-    if (triangles.length > 0) {
+    const components: ThreeMfComponent[] = [];
+    objNode.querySelectorAll(':scope > components > component').forEach((componentNode) => {
+      const objectId = componentNode.getAttribute('objectid');
+      if (!objectId) throw new Error(`Invalid 3MF component in object "${id}": missing objectid.`);
+      components.push({ objectId, transformMatrix: parseTransform(componentNode.getAttribute('transform'), `component ${objectId}`) });
+    });
+
+    if (triangles.length > 0 || components.length > 0) {
       objects.push({
         id,
         name,
@@ -199,6 +209,7 @@ export async function parse3mf(buffer: ArrayBuffer): Promise<ThreeMfPackageInfo>
         triangleCount: triangles.length,
         vertices,
         triangles,
+        components,
       });
 
       totalTriangles += triangles.length;
@@ -213,13 +224,19 @@ export async function parse3mf(buffer: ArrayBuffer): Promise<ThreeMfPackageInfo>
     const objectId = itemNode.getAttribute('objectid');
     if (objectId) {
       const transformAttr = itemNode.getAttribute('transform');
-      let transformMatrix: number[] | undefined;
-      if (transformAttr) {
-        transformMatrix = transformAttr.trim().split(/\s+/).map(v => parseFloat(v) || 0);
-      }
-      buildItems.push({ objectId, transformMatrix });
+      buildItems.push({ objectId, transformMatrix: parseTransform(transformAttr, `build item ${objectId}`) });
     }
   });
+
+  const objectIdSet = new Set(objects.map((object) => object.id));
+  for (const object of objects) {
+    for (const component of object.components) {
+      if (!objectIdSet.has(component.objectId)) throw new Error(`Invalid 3MF component reference "${component.objectId}".`);
+    }
+  }
+  for (const item of buildItems) {
+    if (!objectIdSet.has(item.objectId)) throw new Error(`Invalid 3MF build item reference "${item.objectId}".`);
+  }
 
   return {
     title,
@@ -239,6 +256,15 @@ export async function parse3mf(buffer: ArrayBuffer): Promise<ThreeMfPackageInfo>
   };
 }
 
+function parseTransform(value: string | null, context: string): number[] | undefined {
+  if (!value) return undefined;
+  const matrix = value.trim().split(/\s+/).map(Number);
+  if (matrix.length !== 12 || !matrix.every(Number.isFinite)) {
+    throw new Error(`Invalid 3MF transform for ${context}: expected exactly 12 finite numbers.`);
+  }
+  return matrix;
+}
+
 /**
  * Transforms a 3D vertex using a 3MF 4x3 affine transform matrix:
  * [ m00 m01 m02 ]
@@ -253,6 +279,10 @@ function applyTransform(v: StlVertex, m?: number[]): StlVertex {
     y: v.x * m[1] + v.y * m[4] + v.z * m[7] + m[10],
     z: v.x * m[2] + v.y * m[5] + v.z * m[8] + m[11],
   };
+}
+
+function applyTransformChain(vertex: StlVertex, transforms: (number[] | undefined)[]): StlVertex {
+  return transforms.reduce((current, transform) => applyTransform(current, transform), vertex);
 }
 
 /**
@@ -302,20 +332,22 @@ export async function convert3mfToStl(
   let minX = Infinity, minY = Infinity, minZ = Infinity;
   let maxX = -Infinity, maxY = -Infinity, maxZ = -Infinity;
 
-  for (const obj of targetObjects) {
-    // Check if there are build item transforms for this object
-    const instances = packageInfo.buildItems.filter(b => b.objectId === obj.id);
-    const transformsToApply = instances.length > 0 ? instances.map(i => i.transformMatrix) : [undefined];
+  const objectById = new Map(packageInfo.objects.map((object) => [object.id, object]));
+  const appendObjectGeometry = (obj: ThreeMfObject, transforms: (number[] | undefined)[], visiting: Set<string>) => {
+    if (visiting.has(obj.id)) throw new Error(`Invalid 3MF component cycle involving object "${obj.id}".`);
+    const nextVisiting = new Set(visiting).add(obj.id);
 
-    for (const transform of transformsToApply) {
+    for (const component of obj.components) {
+      const child = objectById.get(component.objectId);
+      if (!child) throw new Error(`3MF component "${component.objectId}" is missing.`);
+      appendObjectGeometry(child, [...transforms, component.transformMatrix], nextVisiting);
+    }
+
+    for (const transform of [transforms]) {
       for (const [i1, i2, i3] of obj.triangles) {
-        if (i1 >= obj.vertices.length || i2 >= obj.vertices.length || i3 >= obj.vertices.length) {
-          continue; // Skip out of range vertex index
-        }
-
-        const v1 = applyTransform(obj.vertices[i1], transform);
-        const v2 = applyTransform(obj.vertices[i2], transform);
-        const v3 = applyTransform(obj.vertices[i3], transform);
+        const v1 = applyTransformChain(obj.vertices[i1], transform);
+        const v2 = applyTransformChain(obj.vertices[i2], transform);
+        const v3 = applyTransformChain(obj.vertices[i3], transform);
 
         minX = Math.min(minX, v1.x, v2.x, v3.x);
         minY = Math.min(minY, v1.y, v2.y, v3.y);
@@ -328,6 +360,12 @@ export async function convert3mfToStl(
         facets.push({ normal, v1, v2, v3 });
       }
     }
+  };
+
+  for (const obj of targetObjects) {
+    const instances = packageInfo.buildItems.filter((buildItem) => buildItem.objectId === obj.id);
+    const transformsToApply = instances.length > 0 ? instances.map((instance) => [instance.transformMatrix]) : [[]];
+    for (const transforms of transformsToApply) appendObjectGeometry(obj, transforms, new Set());
   }
 
   const stlBlob = exportBinaryStl(facets, `AnyFileX from 3MF: ${packageInfo.title || 'Model'}`);

@@ -209,10 +209,14 @@ export function getAllSupportedConversionSlugs(): string[] {
   const slugs: string[] = [];
   for (const [from, toList] of Object.entries(SUPPORTED_CONVERSION_MAP)) {
     for (const to of toList) {
+      // Archive/file workflows have named workspace routes in the catalog
+      // (zip-creator, zip-extractor, and rar-extractor), not format-pair
+      // routes such as files-to-zip or zip-to-extract.
+      if (from === 'files' || to === 'extract') continue;
       slugs.push(`${from}-to-${to}`);
     }
   }
-  return slugs;
+  return [...new Set(slugs)];
 }
 
 /**

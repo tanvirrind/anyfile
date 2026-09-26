@@ -495,13 +495,6 @@ class SearchEngine {
         keywords: ['image compressor', 'compress image', 'reduce image size', 'compress jpg', 'compress png', 'compress webp', 'photo compression', 'batch compress']
       },
       {
-        id: 'image-resizer',
-        title: 'Image Resizer',
-        desc: 'Scale and resize images to exact pixel dimensions with aspect ratio lock and percentage presets',
-        route: { view: 'tool-detail', slug: 'image-resizer' } as any,
-        keywords: ['image resizer', 'resize image', 'scale image', 'change dimensions', 'photo resize', 'batch resize', 'aspect ratio']
-      },
-      {
         id: 'heic-to-jpg',
         title: 'HEIC to JPG Converter',
         desc: 'Convert Apple iPhone HEIC photos to universal JPG format with zero cloud uploads',

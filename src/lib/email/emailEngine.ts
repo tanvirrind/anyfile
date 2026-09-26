@@ -445,16 +445,62 @@ function parseMultipartBody(
 /**
  * Strips malicious script tags, iframes, and dangerous external event attributes
  */
+const BLOCKED_EMAIL_ELEMENTS = new Set([
+  'base', 'embed', 'form', 'iframe', 'link', 'meta', 'object', 'script', 'style', 'svg',
+]);
+
+function isAllowedEmailUrl(value: string, kind: 'src' | 'href'): boolean {
+  const trimmed = value.trim().toLowerCase();
+  if (!trimmed || trimmed.startsWith('#')) return kind === 'href';
+  if (trimmed.startsWith('cid:')) return kind === 'src';
+  if (/^data:image\/(?:png|jpe?g|gif|webp|bmp|avif);/i.test(trimmed)) return kind === 'src';
+  if (trimmed.startsWith('mailto:') || trimmed.startsWith('tel:')) return kind === 'href';
+  return false;
+}
+
+function fallbackSanitizeEmailHtml(html: string): string {
+  return html
+    .replace(/<(script|iframe|object|embed|style|svg)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, '')
+    .replace(/<\/?(?:base|embed|form|iframe|link|meta|object|script|style|svg)\b[^>]*>/gi, '')
+    .replace(/\s+on[a-z0-9-]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+    .replace(/\s+(src|href|action|poster|background|srcset)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi, (_match, attribute, doubleQuoted, singleQuoted, bare) => {
+      const value = doubleQuoted || singleQuoted || bare || '';
+      const kind = attribute === 'href' ? 'href' : 'src';
+      return isAllowedEmailUrl(value, kind) ? ` ${kind}="${value.replace(/"/g, '&quot;')}"` : '';
+    })
+    .replace(/\b(?:javascript|vbscript|data:text\/html):/gi, '')
+    .replace(/\s+style\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '');
+}
+
+/** Sanitizes email markup before it reaches a browser renderer. */
 export function sanitizeEmailHtml(html: string): string {
   if (!html) return '';
-  return html
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
-    .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
-    .replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '')
-    .replace(/on\w+="[^"]*"/gi, '')
-    .replace(/on\w+='[^']*'/gi, '')
-    .replace(/javascript:[^"']*/gi, '#blocked-script');
+  if (typeof DOMParser === 'undefined') return fallbackSanitizeEmailHtml(html);
+
+  const doc = new DOMParser().parseFromString(`<div>${html}</div>`, 'text/html');
+  const root = doc.body.firstElementChild;
+  if (!root) return '';
+
+  root.querySelectorAll('*').forEach((element) => {
+    if (BLOCKED_EMAIL_ELEMENTS.has(element.tagName.toLowerCase())) {
+      element.remove();
+      return;
+    }
+    [...element.attributes].forEach((attribute) => {
+      const name = attribute.name.toLowerCase();
+      if (name.startsWith('on') || ['action', 'background', 'formaction', 'poster', 'srcset', 'xlink:href'].includes(name) || name === 'style') {
+        element.removeAttribute(attribute.name);
+      } else if ((name === 'src' || name === 'href') && !isAllowedEmailUrl(attribute.value, name)) {
+        element.removeAttribute(attribute.name);
+      }
+    });
+  });
+  return root.innerHTML;
+}
+
+/** Wraps sanitized markup in a script-free, network-denying preview document. */
+export function createEmailSandboxDocument(html: string): string {
+  return `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: blob:; style-src 'unsafe-inline'; font-src 'none'; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none';"><style>body{margin:0;padding:1rem;font:14px/1.5 system-ui,sans-serif;color:#1e293b;overflow-wrap:anywhere}img{max-width:100%;height:auto}a{color:#2563eb}</style></head><body>${sanitizeEmailHtml(html)}</body></html>`;
 }
 
 // ============================================================================
@@ -827,7 +873,8 @@ export function parseMbox(rawContent: string): MboxSummaryItem[] {
 
   function flushMessage() {
     if (currentLines.length === 0) return;
-    const msgText = currentLines.join('\n');
+    const messageLines = currentLines[0].startsWith('From ') ? currentLines.slice(1) : currentLines;
+    const msgText = messageLines.join('\n');
     const headerEnd = msgText.indexOf('\n\n');
     const headerBlock = headerEnd !== -1 ? msgText.substring(0, headerEnd) : msgText;
     const bodyBlock = headerEnd !== -1 ? msgText.substring(headerEnd + 2) : '';

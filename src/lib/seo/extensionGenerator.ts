@@ -273,11 +273,11 @@ export function getOrGenerateExtensionInfo(extRaw: string): ExtensionInfoResult 
       isVerified: true,
       faqs: generateExtensionFAQs(existing),
       osSupport: existing.osSupport || {
-        windows: true,
-        mac: true,
-        linux: true,
-        android: true,
-        ios: true,
+        windows: false,
+        mac: false,
+        linux: false,
+        android: false,
+        ios: false,
       },
     };
   }
@@ -317,6 +317,7 @@ export function getOrGenerateExtensionInfo(extRaw: string): ExtensionInfoResult 
   const conversions: ConversionPath[] = findConversionsForExtension(extClean, category);
 
   // Opening steps
+  const appNames = popularApps.map((app) => app.name).slice(0, 2);
   const openingSteps = [
     {
       title: `Step 1: Check native support on your operating system`,
@@ -324,7 +325,9 @@ export function getOrGenerateExtensionInfo(extRaw: string): ExtensionInfoResult 
     },
     {
       title: `Step 2: Use recommended ${category} software`,
-      desc: `If no application opens .${extUpper}, install a free software suite like ${popularApps.map((a) => a.name).slice(0, 2).join(' or ')}.`,
+      desc: appNames.length > 0
+        ? `Check the current vendor requirements for ${appNames.join(' or ')} before opening the file; licensing, platform, and version support may vary.`
+        : `No compatible application is verified in the catalog for this extension. Identify the creating application before opening or converting it.`,
     },
     {
       title: `Step 3: Convert or view online with AnyFileX`,
@@ -354,13 +357,7 @@ export function getOrGenerateExtensionInfo(extRaw: string): ExtensionInfoResult 
     conversions,
     repairTips,
     exampleUse: `Used in ${category} workflows across desktop and cloud environments.`,
-    osSupport: {
-      windows: true,
-      mac: true,
-      linux: true,
-      android: category !== 'System & Executables',
-      ios: category !== 'System & Executables',
-    },
+    osSupport: { windows: false, mac: false, linux: false, android: false, ios: false },
   };
 
   generated.faqs = generateExtensionFAQs(generated);
@@ -446,25 +443,7 @@ function findAppsForExtension(ext: string, category: CategoryType): SoftwareApp[
   if (matchingFromDb.length > 0) return matchingFromDb;
 
   // Defaults per category
-  if (category === 'Images') {
-    return [
-      { name: 'GIMP', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'GIMP Team', slug: 'gimp' },
-      { name: 'Photopea Web', os: ['windows', 'mac', 'linux', 'android', 'ios'], isFree: true, developer: 'Photopea', slug: 'photopea' },
-      { name: 'Adobe Photoshop', os: ['windows', 'mac'], isFree: false, developer: 'Adobe', slug: 'adobe-photoshop' },
-    ];
-  }
-  if (category === 'CAD & 3D') {
-    return [
-      { name: 'FreeCAD', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'FreeCAD Project', slug: 'freecad' },
-      { name: 'Autodesk Fusion 360', os: ['windows', 'mac'], isFree: false, developer: 'Autodesk', slug: 'autodesk-fusion360' },
-      { name: 'Blender', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'Blender Foundation', slug: 'blender' },
-    ];
-  }
-  return [
-    { name: 'VLC Media Player', os: ['windows', 'mac', 'linux', 'android', 'ios'], isFree: true, developer: 'VideoLAN', slug: 'vlc-media-player' },
-    { name: 'LibreOffice Suite', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'The Document Foundation', slug: 'libreoffice' },
-    { name: '7-Zip', os: ['windows', 'linux'], isFree: true, developer: 'Igor Pavlov', slug: '7zip' },
-  ];
+  return [];
 }
 
 function findConversionsForExtension(ext: string, category: CategoryType): ConversionPath[] {
@@ -499,4 +478,3 @@ function findConversionsForExtension(ext: string, category: CategoryType): Conve
 }
 
 export const getExtensionInfo = getOrGenerateExtensionInfo;
-

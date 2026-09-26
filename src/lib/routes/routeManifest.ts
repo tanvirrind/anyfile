@@ -25,6 +25,8 @@ import { EXPANDED_MIME_DATABASE } from '../../data/expandedMimeDatabase';
 import { getPrioritizedFormatList } from '../guides/formatGuideEngine';
 import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine';
 
+const SUPPORTED_CONVERTER_IDS = new Set(getAllSupportedConversionSlugs());
+
 export const BASE_URL = 'https://anyfilex.com';
 export const PLATFORM_RELEASE_DATE = '2026-09-18';
 
@@ -78,6 +80,8 @@ export interface RouteManifestEntry {
   isIndexable: boolean;
   params?: Record<string, string>;
 }
+
+let routeManifestCache: RouteManifestEntry[] | null = null;
 
 /**
  * Checks if a path should strictly be excluded from the sitemap and crawler indexes.
@@ -170,7 +174,10 @@ export function isValidToolSlug(slug: string): boolean {
 export function isValidConverterId(id: string): boolean {
   if (!id) return false;
   const clean = id.trim().toLowerCase();
-  return CONVERTERS_LIST.some((c) => c.id.toLowerCase() === clean);
+  return (
+    CONVERTERS_LIST.some((c) => c.id.toLowerCase() === clean) ||
+    SUPPORTED_CONVERTER_IDS.has(clean)
+  );
 }
 
 /**
@@ -178,6 +185,7 @@ export function isValidConverterId(id: string): boolean {
  * All entries are verified against real catalog data with no hallucinated formats.
  */
 export function buildRouteManifest(): RouteManifestEntry[] {
+  if (routeManifestCache) return routeManifestCache;
   const entries: RouteManifestEntry[] = [];
   const seenPaths = new Set<string>();
 
@@ -669,6 +677,7 @@ export function buildRouteManifest(): RouteManifestEntry[] {
     });
   }
 
+  routeManifestCache = entries;
   return entries;
 }
 
