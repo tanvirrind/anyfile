@@ -55,9 +55,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   const pathname = usePathname() || '/';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const [mobileToolsExpanded, setMobileToolsExpanded] = useState(true);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const desktopLanguageRef = useRef<HTMLDivElement>(null);
+  const mobileLanguageRef = useRef<HTMLDivElement>(null);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const subTools: ToolMenuItem[] = [
@@ -215,11 +218,18 @@ export const Navbar: React.FC<NavbarProps> = ({
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setToolsDropdownOpen(false);
       }
+      if (
+        !desktopLanguageRef.current?.contains(e.target as Node) &&
+        !mobileLanguageRef.current?.contains(e.target as Node)
+      ) {
+        setLanguageDropdownOpen(false);
+      }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setToolsDropdownOpen(false);
+        setLanguageDropdownOpen(false);
       }
     };
 
@@ -255,10 +265,27 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const switchLocale = (targetLocale: AppLocale) => {
+    setLanguageDropdownOpen(false);
     const currentPath = pathname.replace(/^\/(?:nl|es)(?=\/|$)/, '') || '/';
     const targetPath = hasLocalizedContent(currentPath, targetLocale) ? localizedPath(currentPath, targetLocale) : targetLocale === 'en' ? '/' : localizedPath('/', targetLocale);
     window.location.assign(`${targetPath}${window.location.search}${window.location.hash}`);
   };
+
+  const languageOptions = (['en', 'nl', 'es'] as AppLocale[]).map((option) => (
+    <button
+      key={option}
+      type="button"
+      role="menuitem"
+      onClick={() => switchLocale(option)}
+      className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-xs font-semibold transition-colors ${
+        locale === option
+          ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300'
+          : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
+      }`}
+    >
+      <span>{option.toUpperCase()}</span>
+    </button>
+  ));
 
   const renderAnchor = (
     route: AppRoute,
@@ -417,36 +444,52 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Action Controls */}
         <div className="flex items-center gap-3">
-          {/* Quick Command Palette Button */}
+          {/* Search Button */}
           <button
+            type="button"
             onClick={onOpenSearch}
-            className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/80 text-xs text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
-            id="navbar-cmd-k-btn"
+            className="hidden sm:inline-flex items-center justify-center p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/80 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
+            id="navbar-search-btn"
+            aria-label={locale === 'nl' ? 'Bestandsextensies zoeken' : locale === 'es' ? 'Buscar extensiones' : 'Search extensions'}
+            title={locale === 'nl' ? 'Zoeken' : locale === 'es' ? 'Buscar' : 'Search'}
           >
-            <Search className="w-3.5 h-3.5" />
-            <span>{t('search')}</span>
-            <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-slate-900 border rounded text-slate-400">
-              Ctrl K
-            </kbd>
+            <Search className="w-4 h-4" />
           </button>
 
           <button
+            type="button"
             onClick={onOpenSearch}
             className="sm:hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
             title={locale === 'nl' ? 'Bestandsextensies zoeken' : locale === 'es' ? 'Buscar extensiones' : 'Search extensions'}
+            aria-label={locale === 'nl' ? 'Bestandsextensies zoeken' : locale === 'es' ? 'Buscar extensiones' : 'Search extensions'}
             id="navbar-mobile-search-btn"
           >
             <Search className="w-5 h-5" />
           </button>
 
-          {/* Dark Mode Toggle */}
-          <div className="hidden sm:flex items-center gap-1 rounded-xl border border-slate-200/60 dark:border-slate-800 p-1 text-[11px] font-bold" aria-label={t('language')}>
-            <button type="button" onClick={() => switchLocale('en')} className={`px-2 py-1 rounded-lg transition-colors ${locale === 'en' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'}`}>EN</button>
-            <button type="button" onClick={() => switchLocale('nl')} className={`px-2 py-1 rounded-lg transition-colors ${locale === 'nl' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'}`}>NL</button>
-            <button type="button" onClick={() => switchLocale('es')} className={`px-2 py-1 rounded-lg transition-colors ${locale === 'es' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'}`}>ES</button>
+          {/* Language Switcher */}
+          <div ref={desktopLanguageRef} className="relative hidden sm:block">
+            <button
+              type="button"
+              onClick={() => setLanguageDropdownOpen((open) => !open)}
+              className="flex items-center gap-2 rounded-xl border border-slate-200/60 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-600 transition-colors hover:border-blue-300 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-800/80 dark:text-slate-300 dark:hover:border-blue-700 dark:hover:text-white"
+              aria-haspopup="menu"
+              aria-expanded={languageDropdownOpen}
+              aria-label={t('language')}
+              id="navbar-language-select"
+            >
+              <span>{locale.toUpperCase()}</span>
+              <ChevronDown className={`h-3.5 w-3.5 text-slate-400 transition-transform ${languageDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {languageDropdownOpen && (
+              <div role="menu" className="absolute right-0 top-full z-50 mt-2 w-max min-w-[4.5rem] rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl ring-1 ring-black/5 dark:border-slate-800 dark:bg-slate-900 dark:ring-white/10">
+                {languageOptions}
+              </div>
+            )}
           </div>
 
           <button
+            type="button"
             onClick={() => setDarkMode((prev) => !prev)}
             className="p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-800"
             aria-label={darkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
@@ -458,9 +501,12 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Mobile Menu Toggle Button */}
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
             aria-label="Toggle Navigation Menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation-drawer"
             id="mobile-menu-toggle-btn"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -470,13 +516,27 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-4 space-y-3 max-h-[85vh] overflow-y-auto shadow-xl">
+          <div id="mobile-navigation-drawer" className="lg:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-4 space-y-3 max-h-[85vh] overflow-y-auto shadow-xl">
           <div className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-800">
             <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{t('language')}</span>
-            <div className="flex gap-1">
-              <button type="button" onClick={() => switchLocale('en')} className="px-2 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-900">{t('english')}</button>
-              <button type="button" onClick={() => switchLocale('nl')} className="px-2 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-900">{t('dutch')}</button>
-              <button type="button" onClick={() => switchLocale('es')} className="px-2 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-900">{t('spanish')}</button>
+            <div ref={mobileLanguageRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setLanguageDropdownOpen((open) => !open)}
+                className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 transition-colors hover:border-blue-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-blue-700"
+                aria-haspopup="menu"
+                aria-expanded={languageDropdownOpen}
+                aria-label={t('language')}
+                id="mobile-language-select"
+              >
+                <span>{locale.toUpperCase()}</span>
+                <ChevronDown className={`h-3.5 w-3.5 text-slate-400 transition-transform ${languageDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {languageDropdownOpen && (
+                <div role="menu" className="absolute right-0 top-full z-50 mt-2 w-max min-w-[4.5rem] rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl ring-1 ring-black/5 dark:border-slate-800 dark:bg-slate-900 dark:ring-1 dark:ring-white/10">
+                  {languageOptions}
+                </div>
+              )}
             </div>
           </div>
           {/* Mobile Dark / Light Theme Toggle Row */}

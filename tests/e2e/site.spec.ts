@@ -185,6 +185,51 @@ test.describe('page rendering', () => {
   });
 });
 
+test.describe('responsive navbar controls', () => {
+  test('search, theme, and mobile menu controls work on phone and tablet widths', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+
+    await page.locator('#navbar-mobile-search-btn').click();
+    await expect(page.locator('#command-palette-input')).toBeVisible();
+    await page.locator('#command-palette-close-btn').click();
+
+    await page.locator('#dark-mode-toggle-btn').click();
+    await expect(page.locator('html')).toHaveClass(/dark/);
+
+    await page.locator('#mobile-menu-toggle-btn').click();
+    await expect(page.locator('#mobile-navigation-drawer')).toBeVisible();
+    await expect(page.locator('#mobile-menu-toggle-btn')).toHaveAttribute('aria-expanded', 'true');
+    await page.locator('#mobile-language-select').click();
+    await page.getByRole('menuitem', { name: 'NL', exact: true }).click();
+    await expect(page).toHaveURL(/\/nl\/?$/);
+
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await page.goto('/');
+    await expect(page.locator('#mobile-menu-toggle-btn')).toBeVisible();
+    await page.locator('#mobile-menu-toggle-btn').click();
+    await expect(page.locator('#mobile-navigation-drawer')).toBeVisible();
+    await page.locator('#mobile-menu-toggle-btn').click();
+    await expect(page.locator('#mobile-navigation-drawer')).toHaveCount(0);
+    await page.locator('#navbar-search-btn').click();
+    await expect(page.locator('#command-palette-input')).toBeVisible();
+  });
+});
+
+test.describe('Spanish homepage localization', () => {
+  test('renders the homepage sections in Spanish', async ({ page }) => {
+    await page.goto('/es');
+
+    await expect(page.getByRole('heading', { name: /Abre cualquier archivo en segundos/i })).toBeVisible();
+    await expect(page.locator('#popular-extensions')).toContainText('Extensiones populares');
+    await expect(page.locator('#tools-section')).toContainText('Diagnóstico y herramientas para archivos');
+    await expect(page.locator('#guides-section')).toContainText('Últimas guías técnicas');
+    await expect(page.locator('#newsletter-email-input')).toHaveAttribute('placeholder', 'Escribe tu correo electrónico...');
+    await expect(page.locator('body')).not.toContainText('Popular File Extensions');
+    await expect(page.locator('body')).not.toContainText('Latest Technical Guides');
+  });
+});
+
 test.describe('Fix #11 — SearchAction ?q= target', () => {
   test('a ?q= URL pre-fills the extensions search and filters results', async ({ page }) => {
     await page.goto('/file-extensions?q=pdf');

@@ -39,15 +39,9 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     setSelectedIndex(-1);
   }, [query]);
 
-  // Handle Cmd+K global shortcut
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        if (isOpen) {
-          onClose();
-        }
-      } else if (e.key === 'Escape' && isOpen) {
+      if (e.key === 'Escape' && isOpen) {
         onClose();
       }
     };

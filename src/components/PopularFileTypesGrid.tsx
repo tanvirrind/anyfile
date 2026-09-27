@@ -11,6 +11,29 @@ interface PopularFileTypesGridProps {
   onSelectExtension: (ext: string) => void;
 }
 
+const SPANISH_FILE_TYPE_COPY: Record<string, { name: string; category: string; description: string }> = {
+  HEIC: { name: 'Contenedor de imágenes de alta eficiencia', category: 'Imágenes', description: 'Formato de cámara de alta eficiencia de Apple que utiliza compresión HEVC.' },
+  PSD: { name: 'Documento de Adobe Photoshop', category: 'Imágenes', description: 'Archivo de proyecto gráfico por capas creado en Adobe Photoshop.' },
+  WEBP: { name: 'Formato de imagen WebP de Google', category: 'Imágenes', description: 'Formato de imagen web moderno desarrollado por Google con compresión avanzada.' },
+  SVG: { name: 'Gráficos vectoriales escalables', category: 'Imágenes', description: 'Formato vectorial basado en XML que se escala sin perder resolución.' },
+  TIFF: { name: 'Formato de archivo de imagen etiquetado', category: 'Imágenes', description: 'Formato de gráficos rasterizados de alta calidad para impresión y fotografía.' },
+  CR3: { name: 'Imagen RAW Canon versión 3', category: 'Imágenes', description: 'Formato de datos RAW sin procesar creado por cámaras digitales Canon EOS.' },
+  DWG: { name: 'Base de datos de dibujos de AutoCAD', category: 'CAD y 3D', description: 'Formato CAD binario estándar para diseños arquitectónicos y de ingeniería en 2D y 3D.' },
+  STEP: { name: 'Modelo CAD ISO 10303 STEP', category: 'CAD y 3D', description: 'Formato universal de intercambio CAD para geometría sólida y estructuras de ensamblaje.' },
+  STL: { name: 'Malla 3D de estereolitografía', category: 'CAD y 3D', description: 'Formato de malla de superficie 3D compuesto por facetas triangulares para impresión 3D.' },
+  BLEND: { name: 'Archivo de escena 3D de Blender', category: 'CAD y 3D', description: 'Escena completa de animación 3D con mallas, rigging, sombreadores y fotogramas clave.' },
+  PDF: { name: 'Formato de documento portátil', category: 'Documentos', description: 'Formato universal que conserva fuentes, diseño y maquetación vectorial.' },
+  DOCX: { name: 'Documento XML abierto de Microsoft Word', category: 'Documentos', description: 'Formato de documento XML comprimido creado por Microsoft Word.' },
+  XLSX: { name: 'Hoja de cálculo XML abierto de Microsoft Excel', category: 'Documentos', description: 'Formato de hoja de cálculo XML comprimido creado por Microsoft Excel.' },
+  EPUB: { name: 'Libro electrónico de publicación electrónica', category: 'Documentos', description: 'Formato abierto de libro electrónico con tipografía adaptable y estructura XHTML.' },
+  ZIP: { name: 'Archivo comprimido ZIP', category: 'Archivos', description: 'Formato universal de compresión sin pérdida y contenedor de archivos.' },
+  RAR: { name: 'Archivo comprimido Roshal', category: 'Archivos', description: 'Formato propietario de archivos comprimidos creado por Eugene Roshal.' },
+  '7Z': { name: 'Archivo comprimido 7-Zip', category: 'Archivos', description: 'Formato de código abierto con compresión LZMA y LZMA2 de alta eficiencia.' },
+  AWBS: { name: 'Archivo de datos del sistema AWBS', category: 'Bases de datos', description: 'Archivo especializado para datos de peso, equilibrio y carga de aeronaves.' },
+  CAMREC: { name: 'Grabación de pantalla de Camtasia', category: 'Audio y vídeo', description: 'Contenedor de grabación de pantalla utilizado por versiones antiguas de Camtasia.' },
+  MOV: { name: 'Película QuickTime', category: 'Audio y vídeo', description: 'Contenedor multimedia de Apple para vídeo, audio, subtítulos y metadatos.' },
+};
+
 export const PopularFileTypesGrid: React.FC<PopularFileTypesGridProps> = ({ onSelectExtension }) => {
   const locale = useLocale();
   const [activeCategory, setActiveCategory] = useState<string>('All');
@@ -64,6 +87,7 @@ export const PopularFileTypesGrid: React.FC<PopularFileTypesGridProps> = ({ onSe
         {/* Extensions Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {filteredItems.map((item) => {
+            const localizedItem = locale === 'es' ? { ...item, ...SPANISH_FILE_TYPE_COPY[item.extension] } : item;
             const topApp = item.popularApps[0]?.name || item.exampleUse;
             return (
               <div
@@ -79,17 +103,17 @@ export const PopularFileTypesGrid: React.FC<PopularFileTypesGridProps> = ({ onSe
                       .{item.extension}
                     </span>
                     <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-                      {item.category}
+                      {localizedItem.category}
                     </span>
                   </div>
 
                   {/* Title & Short Description */}
                   <h3 className="font-heading font-bold text-base text-slate-900 dark:text-white line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {item.name}
+                    {localizedItem.name}
                   </h3>
 
                   <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
-                    {item.description}
+                    {localizedItem.description}
                   </p>
                 </div>
 
