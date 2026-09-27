@@ -2,8 +2,17 @@
 
 import React, { useState } from 'react';
 import { Mail, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 export const NewsletterSection: React.FC = () => {
+  const locale = useLocale();
+  const copy = locale === 'nl' ? {
+    label: 'AnyFileX-nieuwsbrief', title: 'Blijf op de hoogte met AnyFileX', description: 'Ontvang elke maand nieuwe handleidingen, software-updates en diagnostische tools. Geen spam.', placeholder: 'Vul je e-mailadres in...', button: 'Inschrijven', success: 'Bedankt! Je bent aangemeld voor de AnyFileX-nieuwsbrief.', audience: 'Voor ontwikkelaars, systeembeheerders en digitale archivarissen. Afmelden kan altijd.',
+  } : locale === 'es' ? {
+    label: 'Boletín de AnyFileX', title: 'Mantente al día con AnyFileX', description: 'Recibe cada mes nuevas guías, actualizaciones de software y herramientas de diagnóstico. Sin spam.', placeholder: 'Escribe tu correo electrónico...', button: 'Suscribirme', success: '¡Gracias! Te has suscrito al boletín de AnyFileX.', audience: 'Para desarrolladores, administradores de sistemas y archivistas digitales. Puedes cancelar cuando quieras.',
+  } : {
+    label: 'AnyFileX Newsletter', title: 'Stay Updated with AnyFileX', description: 'Get new AnyFileX file guides, software updates, and diagnostic tools delivered monthly. Zero spam.', placeholder: 'Enter your email address...', button: 'Subscribe', success: 'Thank you! You have been subscribed to the AnyFileX newsletter.', audience: 'Join developers, system administrators, and digital archivists receiving the AnyFileX monthly bulletin. Unsubscribe at any time with 1 click.',
+  };
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -24,15 +33,15 @@ export const NewsletterSection: React.FC = () => {
           </div>
 
           <span className="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-            AnyFileX Newsletter
+            {copy.label}
           </span>
 
           <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white mt-1">
-            Stay Updated with AnyFileX
+            {copy.title}
           </h2>
 
           <p className="mt-3 text-base text-slate-600 dark:text-slate-300 max-w-xl mx-auto">
-            Get new AnyFileX file guides, software updates, and diagnostic tools delivered monthly. Zero spam.
+            {copy.description}
           </p>
 
           {!subscribed ? (
@@ -42,7 +51,7 @@ export const NewsletterSection: React.FC = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email address..."
+                placeholder={copy.placeholder}
                 className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500 shadow-xs"
                 id="newsletter-email-input"
               />
@@ -51,19 +60,19 @@ export const NewsletterSection: React.FC = () => {
                 className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md shadow-blue-600/20 shrink-0 cursor-pointer flex items-center justify-center gap-2"
                 id="newsletter-subscribe-btn"
               >
-                <span>Subscribe</span>
+                <span>{copy.button}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>
           ) : (
             <div className="mt-6 p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 text-sm font-semibold flex items-center justify-center gap-2 animate-in fade-in">
               <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-              <span>Thank you! You have been subscribed to the AnyFileX newsletter.</span>
+              <span>{copy.success}</span>
             </div>
           )}
 
           <p className="mt-4 text-xs text-slate-600 dark:text-slate-400">
-            Join developers, system administrators, and digital archivists receiving the AnyFileX monthly bulletin. Unsubscribe at any time with 1 click.
+            {copy.audience}
           </p>
         </div>
       </div>

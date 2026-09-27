@@ -8,12 +8,16 @@ import { AppRoute } from '../../types';
 import { parsePathToRoute, routeToPath } from '../../utils/router';
 import { resolveThemePreference } from '../../lib/theme/themePreference';
 import { usePathname, useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
+import { hasLocalizedContent, localizedPath } from '../../i18n/paths';
+import type { AppLocale } from '../../i18n/routing';
 
 interface AppLayoutClientProps {
   children: React.ReactNode;
 }
 
 export function AppLayoutClient({ children }: AppLayoutClientProps) {
+  const locale = useLocale() as AppLocale;
   const router = useRouter();
   const pathname = usePathname();
   // Keep the server and first client render identical. Browser theme
@@ -58,7 +62,8 @@ export function AppLayoutClient({ children }: AppLayoutClientProps) {
   }, []);
 
   const handleNavigate = (route: AppRoute) => {
-    const path = routeToPath(route);
+    const routePath = routeToPath(route);
+    const path = hasLocalizedContent(routePath, locale) ? localizedPath(routePath, locale) : routePath;
     router.push(path);
     setCurrentRoute(route);
     window.scrollTo(0, 0);

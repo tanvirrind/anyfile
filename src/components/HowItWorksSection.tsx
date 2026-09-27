@@ -1,28 +1,40 @@
 import React from 'react';
 import { Search, BookOpenCheck, Download, ArrowRight } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 export const HowItWorksSection: React.FC = () => {
+  const locale = useLocale();
+  const translations = locale === 'nl' ? {
+    eyebrow: 'Eenvoudig proces in 3 stappen', title: 'Zo werkt AnyFileX', intro: 'Van onbekend bestand naar duidelijkheid in minder dan 5 seconden.',
+    steps: [['Zoek een bestandsextensie', 'Voer bijvoorbeeld .heic, .dwg of .dat in, of sleep een onbekend bestand naar onze checker.'], ['Ontdek hoe je het opent', 'Bekijk direct de bestandsindeling, magic bytes, MIME-types, veiligheidsrisico’s en hersteltips.'], ['Gebruik aanbevolen software', 'Vind betrouwbare gratis, open source of ingebouwde apps voor Windows, macOS, Linux, iOS en Android.']],
+  } : locale === 'es' ? {
+    eyebrow: 'Proceso sencillo en 3 pasos', title: 'Cómo funciona AnyFileX', intro: 'Pasa de un archivo desconocido a una respuesta clara en menos de 5 segundos.',
+    steps: [['Busca una extensión', 'Escribe .heic, .dwg o .dat, o arrastra tu archivo desconocido al analizador.'], ['Descubre cómo abrirlo', 'Consulta el formato, magic bytes, tipos MIME, riesgos de seguridad y pasos de reparación.'], ['Usa el software recomendado', 'Encuentra aplicaciones gratuitas, verificadas o nativas para Windows, macOS, Linux, iOS y Android.']],
+  } : {
+    eyebrow: 'Simple 3-Step Process', title: 'How AnyFileX Works', intro: 'From unknown file prompt to full clarity in less than 5 seconds.',
+    steps: [['Search a file extension', 'Enter any extension like .heic, .dwg, or .dat into the search box, or drop your unknown file directly onto our inspector.'], ['Learn how to open it', 'Get immediate answers about the format, magic byte signatures, MIME types, danger/security rating, and repair walkthroughs.'], ['Use recommended software', 'Download verified free, open-source, or native software for Windows, macOS, Linux, iOS, and Android to open or convert the file.']],
+  };
   const steps = [
     {
       stepNumber: '1',
-      title: 'Search a file extension',
-      description: 'Enter any extension like .heic, .dwg, or .dat into the search box, or drop your unknown file directly onto our inspector.',
+      title: translations.steps[0][0],
+      description: translations.steps[0][1],
       icon: Search,
       badgeColor: 'bg-blue-600 text-white',
       accentBorder: 'border-blue-500',
     },
     {
       stepNumber: '2',
-      title: 'Learn how to open it',
-      description: 'Get immediate answers about the format, magic byte signatures, MIME types, danger/security rating, and repair walkthroughs.',
+      title: translations.steps[1][0],
+      description: translations.steps[1][1],
       icon: BookOpenCheck,
       badgeColor: 'bg-emerald-600 text-white',
       accentBorder: 'border-emerald-500',
     },
     {
       stepNumber: '3',
-      title: 'Use recommended software',
-      description: 'Download verified free, open-source, or native software for Windows, macOS, Linux, iOS, and Android to open or convert the file.',
+      title: translations.steps[2][0],
+      description: translations.steps[2][1],
       icon: Download,
       badgeColor: 'bg-violet-600 text-white',
       accentBorder: 'border-violet-500',
@@ -35,13 +47,13 @@ export const HowItWorksSection: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto mb-14">
           <span className="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-            Simple 3-Step Process
+            {translations.eyebrow}
           </span>
           <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white mt-1">
-            How AnyFileX Works
+            {translations.title}
           </h2>
           <p className="mt-2 text-base text-slate-600 dark:text-slate-400">
-            From unknown file prompt to full clarity in less than 5 seconds.
+            {translations.intro}
           </p>
         </div>
 

@@ -2,12 +2,15 @@ import React from 'react';
 import { BookOpen, Clock, ArrowRight, User, Sparkles } from 'lucide-react';
 import { GuideInfo } from '../types';
 import { GUIDES_DATA } from '../data/guidesData';
+import { useLocale } from 'next-intl';
 
 interface LatestGuidesSectionProps {
   onSelectGuide: (guide: GuideInfo) => void;
 }
 
 export const LatestGuidesSection: React.FC<LatestGuidesSectionProps> = ({ onSelectGuide }) => {
+  const locale = useLocale();
+  const copy = locale === 'nl' ? { label: 'Kennisbank en handleidingen', title: 'Nieuwste technische handleidingen', description: 'Uitgebreide stapsgewijze uitleg, beoordeeld op technische nauwkeurigheid.', read: 'Handleiding lezen' } : locale === 'es' ? { label: 'Base de conocimiento y tutoriales', title: 'Últimas guías técnicas', description: 'Guías paso a paso, revisadas para garantizar su precisión técnica.', read: 'Leer guía' } : { label: 'Knowledge Base & Tutorials', title: 'Latest Technical Guides', description: 'Comprehensive step-by-step walkthroughs authored by credentialed systems architects and digital media engineers, peer-reviewed for technical accuracy.', read: 'Read Guide' };
   return (
     <section className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/60 dark:border-slate-800/60" id="guides-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,13 +18,13 @@ export const LatestGuidesSection: React.FC<LatestGuidesSectionProps> = ({ onSele
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider mb-2">
               <BookOpen className="w-3.5 h-3.5" />
-              <span>Knowledge Base & Tutorials</span>
+              <span>{copy.label}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Latest Technical Guides
+              {copy.title}
             </h2>
             <p className="mt-2 text-base text-slate-600 dark:text-slate-400 max-w-xl">
-              Comprehensive step-by-step walkthroughs authored by credentialed systems architects and digital media engineers, peer-reviewed for technical accuracy.
+              {copy.description}
             </p>
           </div>
         </div>
@@ -76,7 +79,7 @@ export const LatestGuidesSection: React.FC<LatestGuidesSectionProps> = ({ onSele
                 </div>
 
                 <div className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">
-                  <span>Read Guide</span>
+                  <span>{copy.read}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </div>

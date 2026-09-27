@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const conv = CONVERTERS_LIST.find((c) => c.id.toLowerCase() === cleanId);
   const locale = (await getRequestLocale()) as AppLocale;
   if (locale === 'es' && cleanId === 'pdf-to-word') {
-    return localizedMetadata({ pathname: '/converters/pdf-to-word', locale, includeDutch: false, title: 'Convertir PDF a Word | AnyFileX', description: 'Convierte archivos PDF en documentos Word editables con un conversor privado en tu navegador.' });
+    return localizedMetadata({ pathname: '/converters/pdf-to-word', locale, includeDutch: false, title: 'Convertir PDF a Word', description: 'Convierte archivos PDF en documentos Word editables con un conversor privado en tu navegador.' });
   }
   const title = `${conv?.name || cleanId.toUpperCase()} – Free In-Browser Converter`;
   const description = conv?.onlineConversionSupported

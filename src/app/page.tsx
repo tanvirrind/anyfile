@@ -55,14 +55,13 @@ export default async function HomePage() {
   const locale = await getRequestLocale();
   return (
     <>
-      {locale === 'nl' ? <DutchHomePage /> : locale === 'es' ? <SpanishHomePage /> : null}
+      <HomeViewClient />
       <script
         key="json-ld-home"
         id="json-ld-home"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
       />
-      {locale === 'en' ? <HomeViewClient /> : null}
     </>
   );
 }

@@ -2,32 +2,35 @@
 
 import React, { useState } from 'react';
 import { ShieldCheck, Info, X, ExternalLink, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 export const SocialProofSection: React.FC = () => {
+  const locale = useLocale();
   const [showMethodology, setShowMethodology] = useState(false);
 
+  const labels = locale === 'nl' ? ['Doorzoekbare formaten', 'Geverifieerde handleidingen', 'Browsertools', 'Privé en lokaal'] : locale === 'es' ? ['Formatos buscables', 'Guías verificadas', 'Herramientas web', 'Privado y local'] : ['Searchable Formats', 'Verified Guides', 'In-Browser Tools', 'Private & Local'];
   const stats = [
     {
       value: '250+',
-      label: 'Searchable Formats',
+      label: labels[0],
       subtext: '43 byte-signature profiles • 250+ indexed',
       id: 'stat-formats',
     },
     {
       value: '316',
-      label: 'Verified Guides',
+      label: labels[1],
       subtext: 'Opening, repair & comparison manuals',
       id: 'stat-guides',
     },
     {
       value: '35+',
-      label: 'In-Browser Tools',
+      label: labels[2],
       subtext: '26 forensic utilities • 9 converters',
       id: 'stat-tools',
     },
     {
       value: '100%',
-      label: 'Private & Local',
+      label: labels[3],
       subtext: 'Zero server uploads • In-memory WASM',
       id: 'stat-privacy',
     },
@@ -62,7 +65,7 @@ export const SocialProofSection: React.FC = () => {
           >
             <Info className="w-3.5 h-3.5 text-blue-500" />
             <span className="underline decoration-slate-300 dark:decoration-slate-700 underline-offset-2">
-              Metrics Substantiation & Discrepancy Reconciliation Report
+              {locale === 'nl' ? 'Rapport over onderbouwing en afstemming van statistieken' : locale === 'es' ? 'Informe de verificación y conciliación de métricas' : 'Metrics Substantiation & Discrepancy Reconciliation Report'}
             </span>
           </button>
         </div>

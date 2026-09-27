@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Search, X, Upload, ArrowRight, CheckCircle2, Zap, ShieldCheck, FileCode, AppWindow, RefreshCw, Wrench, BookOpen, Layers } from 'lucide-react';
 import { searchEngine, SearchRecord } from '../lib/search/searchEngine';
 import { AppRoute } from '../types';
+import { useLocale } from 'next-intl';
 
 interface HeroSectionProps {
   onSearchSubmit: (query: string) => void;
@@ -18,12 +19,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onDropFile,
   onNavigate,
 }) => {
+  const locale = useLocale();
   const [searchQuery, setSearchQuery] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const POPULAR_CHIPS = ['HEIC', 'WEBP', 'PSD', 'DWG', 'STEP', 'JSON', 'DOCX', 'ZIP', 'PDF', 'AutoCAD', 'Photoshop'];
+  const copy = locale === 'nl' ? {
+    badge: 'NIEUW: DWG batchgewijs naar PDF converteren', title: 'Open elk bestand in seconden', withBrand: 'met AnyFileX', description: 'Ontdek wat een bestand is, hoe je het opent, welke software je nodig hebt, hoe je het converteert en hoe je veelvoorkomende problemen oplost.', placeholder: 'Zoek naar .heic, .dwg, Photoshop, HEIC naar JPG of ZIP herstellen...', search: 'Zoeken', matches: 'Snelle zoekresultaten', close: 'Sluiten', noResults: 'Geen resultaten voor', trySearch: 'Zoek bijvoorbeeld naar .heic, AutoCAD of een tool zoals Metadata Viewer.', popular: 'POPULAIRE ZOEKOPDRACHTEN:', drop: 'Sleep een bestand hierheen om het formaat te controleren', safe: 'Veilig en lokaal: bestandsheaders worden in je browser gecontroleerd. Bestanden worden niet opgeslagen of geüpload.',
+  } : locale === 'es' ? {
+    badge: 'NUEVO: convierte DWG a PDF por lotes', title: 'Abre cualquier archivo en segundos', withBrand: 'con AnyFileX', description: 'Descubre qué es un archivo, cómo abrirlo, qué software necesitas, cómo convertirlo y cómo resolver problemas habituales.', placeholder: 'Busca .heic, .dwg, Photoshop, HEIC a JPG o reparar ZIP...', search: 'Buscar', matches: 'Resultados rápidos', close: 'Cerrar', noResults: 'No se encontraron resultados para', trySearch: 'Prueba con una extensión como .heic, software como AutoCAD o una herramienta como Metadata Viewer.', popular: 'BÚSQUEDAS POPULARES:', drop: 'Arrastra un archivo aquí para analizar su formato', safe: 'Seguro y local: analizamos la cabecera en la memoria del navegador. No guardamos ni subimos archivos.',
+  } : {
+    badge: 'NEW: Batch convert DWG to PDF', title: 'Open Any File in Seconds', withBrand: 'with AnyFileX', description: 'Find out what any file is, how to open it, what software you need, how to convert it, and how to fix common errors.', placeholder: "Search '.heic', '.dwg', 'Photoshop', 'HEIC to JPG', 'Repair ZIP'...", search: 'Search', matches: 'Quick Search Matches', close: 'Close', noResults: 'No results found for', trySearch: 'Try searching for an extension like .heic, software like AutoCAD, or a tool like Metadata Viewer.', popular: 'POPULAR SEARCHES:', drop: 'Drag & drop any file to inspect format signature', safe: 'Safe & Client-Side: Header bytes analyzed in browser memory. Zero files saved or uploaded.',
+  };
 
   const searchResults = searchQuery.trim()
     ? searchEngine.search(searchQuery, { limit: 8 }).allSorted
@@ -131,17 +140,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* NEW Badge Pill */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 text-xs font-semibold mb-4 border border-blue-100 dark:border-blue-900/60">
           <span className="flex h-2 w-2 rounded-full bg-blue-600 animate-pulse"></span>
-          <span>NEW: Batch convert DWG to PDF</span>
+          <span>{copy.badge}</span>
         </div>
 
         {/* Hero Headline */}
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-4 font-heading">
-          Open Any File in Seconds <span className="text-blue-600 dark:text-blue-400">with AnyFileX</span>
+          {copy.title} <span className="text-blue-600 dark:text-blue-400">{copy.withBrand}</span>
         </h1>
 
         {/* Subtitle */}
         <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-2xl leading-relaxed">
-          Find out what any file is, how to open it, what software you need, how to convert it, and how to fix common errors.
+          {copy.description}
         </p>
 
         {/* Search Box */}
@@ -152,7 +161,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Search '.heic', '.dwg', 'Photoshop', 'HEIC to JPG', 'Repair ZIP'..."
+              placeholder={copy.placeholder}
               className="w-full h-16 pl-6 pr-32 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl shadow-blue-500/5 focus:outline-hidden focus:ring-2 focus:ring-blue-500 transition-all text-base sm:text-lg text-slate-900 dark:text-white placeholder:text-slate-400 font-medium"
               id="hero-search-input"
             />
@@ -162,7 +171,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               id="hero-search-submit-btn"
             >
               <Search className="w-4 h-4" />
-              <span>Search</span>
+              <span>{copy.search}</span>
             </button>
           </form>
 
@@ -170,16 +179,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {searchQuery.trim() && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden z-50 text-left divide-y divide-slate-100 dark:divide-slate-800 max-h-96 overflow-y-auto">
               <div className="px-4 py-2 bg-slate-50 dark:bg-slate-950/80 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 font-semibold sticky top-0 z-10 backdrop-blur-md">
-                <span>Quick Search Matches ({searchResults.length})</span>
+                <span>{copy.matches} ({searchResults.length})</span>
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
                   className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800 flex items-center gap-1 transition-colors cursor-pointer"
-                  title="Close search popup"
-                  aria-label="Close search dropdown"
+                  title={copy.close}
+                  aria-label={copy.close}
                   id="hero-dropdown-close-btn"
                 >
-                  <span className="text-[11px]">Close</span>
+                  <span className="text-[11px]">{copy.close}</span>
                   <X className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -248,9 +257,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 })
               ) : (
                 <div className="p-6 text-center text-sm text-slate-500">
-                  <p className="font-medium">No results found for "{searchQuery}"</p>
+                  <p className="font-medium">{copy.noResults} "{searchQuery}"</p>
                   <p className="text-xs text-slate-400 mt-1">
-                    Try searching for an extension like .heic, software like AutoCAD, or a tool like Metadata Viewer.
+                    {copy.trySearch}
                   </p>
                 </div>
               )}
@@ -260,7 +269,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         {/* Quick Chips */}
         <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
-          <span className="text-xs text-slate-400 font-medium mr-1">POPULAR SEARCHES:</span>
+          <span className="text-xs text-slate-400 font-medium mr-1">{copy.popular}</span>
           {POPULAR_CHIPS.map((chip) => (
             <button
               key={chip}
@@ -307,10 +316,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <Upload className="w-5 h-5" />
               </div>
               <div className="text-sm font-bold text-slate-900 dark:text-white">
-                Drag & drop any file to inspect format signature
+                {copy.drop}
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">
-                Safe & Client-Side: Header bytes analyzed in browser memory. Zero files saved or uploaded.
+                {copy.safe}
               </p>
             </div>
           </div>

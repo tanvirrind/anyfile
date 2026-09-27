@@ -204,6 +204,11 @@ export const Navbar: React.FC<NavbarProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const localizedRoutePath = (route: AppRoute) => {
+    const routePath = routeToPath(route);
+    return hasLocalizedContent(routePath, locale) ? localizedPath(routePath, locale) : routePath;
+  };
+
   const handleMouseEnter = () => {
     if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
     setToolsDropdownOpen(true);
@@ -228,8 +233,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     id?: string,
     key?: React.Key
   ) => {
-    const routePath = routeToPath(route);
-    const href = locale === 'nl' && hasLocalizedContent(routePath, 'nl') ? localizedPath(routePath, 'nl') : routePath;
+    const href = localizedRoutePath(route);
     return (
       <a
         key={key}

@@ -14,12 +14,16 @@ import { AppRoute } from '../../types';
 import { routeToPath } from '../../utils/router';
 import { useRouter } from 'next/navigation';
 import { setPendingFile } from '../../lib/fileTransferStore';
+import { useLocale } from 'next-intl';
+import type { AppLocale } from '../../i18n/routing';
+import { localizedPath } from '../../i18n/paths';
 
 export function HomeViewClient() {
+  const locale = useLocale() as AppLocale;
   const router = useRouter();
   const handleNavigate = (route: AppRoute) => {
     const path = routeToPath(route);
-    router.push(path);
+    router.push(locale === 'en' ? path : localizedPath(path, locale));
     window.scrollTo(0, 0);
   };
 

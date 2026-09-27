@@ -19,12 +19,15 @@ import {
 } from 'lucide-react';
 import { ToolTab, FileAnalysisResult } from '../types';
 import { POPULAR_FILE_TYPES } from '../data/fileTypesData';
+import { useLocale } from 'next-intl';
 
 interface ToolsSectionProps {
   initialFile?: File | null;
 }
 
 export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
+  const locale = useLocale();
+  const copy = locale === 'nl' ? { eyebrow: 'Interactieve browsertools', title: 'Diagnostiek en tools voor digitale bestanden', intro: 'Analyseer, controleer, hash en verwerk bestanden veilig in je browser.', tabs: ['Bestandsidentificatie', 'Metadata bekijken', 'MIME-type controleren', 'Magic-byte-detector', 'Hashgenerator', 'Bestandsconverter'], identifier: 'Bestandsidentificatie en formaatanalyse', choose: 'Kies een bestand om te analyseren', drop: 'Sleep een onbekend bestand hierheen om de details te bekijken', supports: 'Ondersteunt alle extensies (.dat, .heic, .dwg, .zip, .step, .eml, .bin, enz.)' } : locale === 'es' ? { eyebrow: 'Herramientas web interactivas', title: 'Diagnóstico y herramientas para archivos', intro: 'Analiza, verifica, calcula hashes y procesa formatos de forma segura en el navegador.', tabs: ['Identificar archivos', 'Ver metadatos', 'Comprobar tipo MIME', 'Detector de magic bytes', 'Generar hashes', 'Convertir archivos'], identifier: 'Identificador y analizador de formatos', choose: 'Elige un archivo para analizar', drop: 'Arrastra aquí un archivo desconocido para ver sus detalles', supports: 'Compatible con cualquier extensión (.dat, .heic, .dwg, .zip, .step, .eml, .bin, etc.)' } : { eyebrow: 'Interactive SaaS Utilities', title: 'Digital File Diagnostics & Tools', intro: 'Real-time, in-browser analysis tools to inspect, verify, hash, and process any file format securely.', tabs: ['File Identifier', 'Metadata Viewer', 'MIME Type Checker', 'Magic Byte Detector', 'Hash Generator', 'File Converter'], identifier: 'File Identifier & Format Analyzer', choose: 'Choose File to Analyze', drop: 'Drop any unknown file here to inspect format details', supports: 'Supports any extension (.dat, .heic, .dwg, .zip, .step, .eml, .bin, etc.)' };
   const [activeTab, setActiveTab] = useState<ToolTab>('identifier');
 
   // File Identifier & Inspector State
@@ -160,12 +163,12 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
   const mimeMatches = POPULAR_FILE_TYPES.filter((f) => f.mimeType.toLowerCase().includes(mimeQuery.toLowerCase().trim()));
 
   const toolTabsList: Array<{ id: string; label: string; icon: typeof FileSearch; desc: string; badge?: string }> = [
-    { id: 'identifier', label: 'File Identifier', icon: FileSearch, desc: 'Signature analysis & format detection' },
-    { id: 'metadata', label: 'Metadata Viewer', icon: FileCode, desc: 'EXIF, size, and header properties' },
-    { id: 'mime', label: 'MIME Type Checker', icon: Tag, desc: 'Instant MIME lookup database' },
-    { id: 'magic-bytes', label: 'Magic Byte Detector', icon: Binary, desc: 'Hex header signature matcher' },
-    { id: 'hash', label: 'Hash Generator', icon: Hash, desc: 'In-browser MD5 & SHA256 checksums' },
-    { id: 'converter', label: 'File Converter', icon: RefreshCw, desc: 'Format conversion tool' },
+    { id: 'identifier', label: copy.tabs[0], icon: FileSearch, desc: 'Signature analysis & format detection' },
+    { id: 'metadata', label: copy.tabs[1], icon: FileCode, desc: 'EXIF, size, and header properties' },
+    { id: 'mime', label: copy.tabs[2], icon: Tag, desc: 'Instant MIME lookup database' },
+    { id: 'magic-bytes', label: copy.tabs[3], icon: Binary, desc: 'Hex header signature matcher' },
+    { id: 'hash', label: copy.tabs[4], icon: Hash, desc: 'In-browser MD5 & SHA256 checksums' },
+    { id: 'converter', label: copy.tabs[5], icon: RefreshCw, desc: 'Format conversion tool' },
   ];
 
   return (
@@ -175,13 +178,13 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-50 dark:bg-violet-950 text-violet-600 dark:text-violet-400 text-xs font-semibold uppercase tracking-wider mb-2">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Interactive SaaS Utilities</span>
+            <span>{copy.eyebrow}</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Digital File Diagnostics & Tools
+            {copy.title}
           </h2>
           <p className="mt-2 text-base text-slate-600 dark:text-slate-400">
-            Real-time, in-browser analysis tools to inspect, verify, hash, and process any file format securely.
+            {copy.intro}
           </p>
         </div>
 
@@ -224,7 +227,7 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                 <div>
                   <h3 className="text-xl font-heading font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <FileSearch className="w-5 h-5 text-blue-600" />
-                    <span>File Identifier & Format Analyzer</span>
+                    <span>{copy.identifier}</span>
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                     Upload any file to read its magic byte header, MIME type, file hash, and safety score instantly.
@@ -235,7 +238,7 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                   className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs flex items-center gap-2 shadow-sm cursor-pointer self-start sm:self-auto"
                 >
                   <Upload className="w-4 h-4" />
-                  <span>Choose File to Analyze</span>
+                  <span>{copy.choose}</span>
                 </button>
                 <input
                   type="file"
@@ -260,10 +263,10 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                 >
                   <Upload className="w-10 h-10 text-blue-600 dark:text-blue-400 mx-auto mb-3 animate-pulse" />
                   <div className="text-base font-semibold text-slate-900 dark:text-white">
-                    Drop any unknown file here to inspect format details
+                    {copy.drop}
                   </div>
                   <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                    Supports any extension (.dat, .heic, .dwg, .zip, .step, .eml, .bin, etc.)
+                    {copy.supports}
                   </p>
                 </div>
               )}

@@ -9,14 +9,21 @@ export function localizedUrl(pathname: string, locale: AppLocale): string {
   return path === '/' ? SITE_URL : `${SITE_URL}${path}`;
 }
 
-export function localizedAlternates(pathname: string, canonicalLocale: AppLocale = 'en', includeDutch = true, includeSpanish = true): NonNullable<Metadata['alternates']> {
+export function localizedAlternates(
+  pathname: string,
+  canonicalLocale: AppLocale = 'en',
+  includeDutch = true,
+  includeSpanish = true,
+  includeEnglish = true,
+): NonNullable<Metadata['alternates']> {
+  const xDefaultLocale = includeEnglish ? 'en' : canonicalLocale;
   return {
     canonical: localizedUrl(pathname, canonicalLocale),
     languages: {
-      en: localizedUrl(pathname, 'en'),
+      ...(includeEnglish ? { en: localizedUrl(pathname, 'en') } : {}),
       ...(includeDutch ? { nl: localizedUrl(pathname, 'nl') } : {}),
       ...(includeSpanish ? { es: localizedUrl(pathname, 'es') } : {}),
-      'x-default': localizedUrl(pathname, 'en'),
+      'x-default': localizedUrl(pathname, xDefaultLocale),
     },
   };
 }
@@ -28,6 +35,7 @@ export function localizedMetadata({
   description,
   includeDutch = true,
   includeSpanish = true,
+  includeEnglish = true,
 }: {
   pathname: string;
   locale: AppLocale;
@@ -35,12 +43,15 @@ export function localizedMetadata({
   description: string;
   includeDutch?: boolean;
   includeSpanish?: boolean;
+  includeEnglish?: boolean;
 }): Metadata {
   const canonical = localizedUrl(pathname, locale);
   return {
     title,
     description,
-    alternates: includeDutch || includeSpanish ? localizedAlternates(pathname, locale, includeDutch, includeSpanish) : { canonical },
+    alternates: includeDutch || includeSpanish || includeEnglish
+      ? localizedAlternates(pathname, locale, includeDutch, includeSpanish, includeEnglish)
+      : { canonical },
     openGraph: {
       title,
       description,

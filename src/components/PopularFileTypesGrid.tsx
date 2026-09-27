@@ -4,19 +4,25 @@ import React, { useState } from 'react';
 import { ArrowRight, Layers, ShieldCheck, Sparkles, Filter, ExternalLink } from 'lucide-react';
 import { FileTypeInfo } from '../types';
 import { POPULAR_FILE_TYPES } from '../data/fileTypesData';
+import { useLocale } from 'next-intl';
+import Link from 'next/link';
 
 interface PopularFileTypesGridProps {
   onSelectExtension: (ext: string) => void;
 }
 
 export const PopularFileTypesGrid: React.FC<PopularFileTypesGridProps> = ({ onSelectExtension }) => {
+  const locale = useLocale();
   const [activeCategory, setActiveCategory] = useState<string>('All');
 
-  const categories = ['All', 'Images', 'CAD & 3D', 'Documents', 'Archives', 'Code & Data'];
+  const categories = locale === 'nl' ? ['Alles', 'Afbeeldingen', 'CAD en 3D', 'Documenten', 'Archieven', 'Code en data'] : locale === 'es' ? ['Todo', 'Imágenes', 'CAD y 3D', 'Documentos', 'Archivos', 'Código y datos'] : ['All', 'Images', 'CAD & 3D', 'Documents', 'Archives', 'Code & Data'];
+  const categoryKeys = ['All', 'Images', 'CAD & 3D', 'Documents', 'Archives', 'Code & Data'];
+  const copy = locale === 'nl' ? { directory: 'Bestandsformaatgids', title: 'Populaire bestandsextensies', intro: 'Bekijk software, uitleg voor het openen en veiligheidstips voor elk bestandsformaat.', software: 'Aanbevolen software', open: 'Openen' } : locale === 'es' ? { directory: 'Formatos de archivo', title: 'Extensiones populares', intro: 'Consulta software compatible, guías para abrir archivos y recomendaciones de seguridad.', software: 'Software recomendado', open: 'Abrir' } : { directory: 'Format Directory', title: 'Popular File Extensions', intro: 'Click any extension card to inspect software options, step-by-step opening guides, and safety checks.', software: 'Primary Software', open: 'Open' };
 
-  const filteredItems = activeCategory === 'All'
+  const activeCategoryKey = categoryKeys[categories.indexOf(activeCategory)] ?? 'All';
+  const filteredItems = activeCategoryKey === 'All'
     ? POPULAR_FILE_TYPES
-    : POPULAR_FILE_TYPES.filter((item) => item.category === activeCategory);
+    : POPULAR_FILE_TYPES.filter((item) => item.category === activeCategoryKey);
 
   return (
     <section className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/60 dark:border-slate-800/60" id="popular-extensions">
@@ -26,13 +32,13 @@ export const PopularFileTypesGrid: React.FC<PopularFileTypesGridProps> = ({ onSe
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-2">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Format Directory</span>
+              <span>{copy.directory}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Popular File Extensions
+              {copy.title}
             </h2>
             <p className="mt-2 text-base text-slate-600 dark:text-slate-400 max-w-xl">
-              Click any extension card to inspect software options, step-by-step opening guides, and safety checks.
+              {copy.intro}
             </p>
           </div>
 
@@ -91,7 +97,7 @@ export const PopularFileTypesGrid: React.FC<PopularFileTypesGridProps> = ({ onSe
                 <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
                   <div className="flex flex-col">
                     <span className="text-[10px] uppercase tracking-wider text-slate-600 dark:text-slate-400 font-semibold">
-                      Primary Software
+                      {copy.software}
                     </span>
                     <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[130px]">
                       {topApp}
@@ -106,7 +112,7 @@ export const PopularFileTypesGrid: React.FC<PopularFileTypesGridProps> = ({ onSe
                     }}
                     className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform"
                   >
-                    <span>Open</span>
+                    <span>{copy.open}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -114,6 +120,18 @@ export const PopularFileTypesGrid: React.FC<PopularFileTypesGridProps> = ({ onSe
             );
           })}
         </div>
+        {locale === 'es' && <div className="mt-10 rounded-2xl border border-blue-100 bg-blue-50/70 p-6 dark:border-blue-900/60 dark:bg-blue-950/30">
+          <h3 className="font-bold text-slate-900 dark:text-white">Convertidores populares</h3>
+          <div className="mt-3 flex flex-wrap gap-3">{[
+            ['Convertir HEIC a JPG', '/es/convertir/heic-a-jpg'],
+            ['Convertir WebP a JPG', '/es/convertir/webp-a-jpg'],
+            ['Convertir PDF a JPG', '/es/convertir/pdf-a-jpg'],
+            ['Convertir PDF a PNG', '/es/convertir/pdf-a-png'],
+            ['Convertir JPG a PDF', '/es/convertir/jpg-a-pdf'],
+            ['Convertir PNG a PDF', '/es/convertir/png-a-pdf'],
+            ['Convertir HEIC a PDF', '/es/convertir/heic-a-pdf'],
+          ].map(([label, href]) => <Link key={href} href={href} className="rounded-lg bg-white px-3 py-2 text-xs font-semibold text-blue-700 shadow-sm hover:text-blue-900 dark:bg-slate-900 dark:text-blue-300">{label}</Link>)}</div>
+        </div>}
       </div>
     </section>
   );

@@ -1,32 +1,47 @@
 import React from 'react';
 import { Search, RefreshCw, Wrench } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 interface FeaturesSectionProps {
   onSelectFeatureTab?: (tab: string) => void;
 }
 
 export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ onSelectFeatureTab }) => {
+  const locale = useLocale();
+  const translations = locale === 'nl' ? [
+    ['Identificeer elk bestand', 'Begrijp onbekende bestandsextensies met magic bytes en ruwe headeranalyse.'],
+    ['Converteer formaten', 'Leer bestanden veilig converteren zonder kwaliteitsverlies met ingebouwde browserconverters.'],
+    ['Herstel beschadigde bestanden', 'Volg praktische stappen om beschadigde documenten, media en archieven te herstellen.'],
+  ] : locale === 'es' ? [
+    ['Identifica cualquier archivo', 'Comprende extensiones desconocidas mediante magic bytes y el análisis de cabeceras.'],
+    ['Convierte formatos', 'Aprende a convertir archivos de forma segura y sin perder calidad con herramientas web.'],
+    ['Repara archivos dañados', 'Sigue pasos prácticos para reparar documentos, archivos multimedia y comprimidos.'],
+  ] : [
+    ['Identify Any File', 'Quickly understand unknown file extensions with magic bytes and raw header inspection.'],
+    ['Convert Formats', 'Learn how to convert files safely without losing quality using built-in web converters.'],
+    ['Repair Corrupt Files', 'Step-by-step guides to fixing broken documents, media headers, and unreadable archives.'],
+  ];
   const features = [
     {
       id: 'identify',
-      title: 'Identify Any File',
-      description: 'Quickly understand unknown file extensions with magic bytes and raw header inspection.',
+      title: translations[0][0],
+      description: translations[0][1],
       icon: Search,
       iconBg: 'bg-emerald-50 dark:bg-emerald-950/60',
       iconColor: 'text-emerald-500',
     },
     {
       id: 'convert',
-      title: 'Convert Formats',
-      description: 'Learn how to convert files safely without losing quality using built-in web converters.',
+      title: translations[1][0],
+      description: translations[1][1],
       icon: RefreshCw,
       iconBg: 'bg-blue-50 dark:bg-blue-950/60',
       iconColor: 'text-blue-500',
     },
     {
       id: 'repair',
-      title: 'Repair Corrupt Files',
-      description: 'Step-by-step guides to fixing broken documents, media headers, and unreadable archives.',
+      title: translations[2][0],
+      description: translations[2][1],
       icon: Wrench,
       iconBg: 'bg-amber-50 dark:bg-amber-950/60',
       iconColor: 'text-amber-500',
@@ -36,7 +51,7 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({ onSelectFeatur
   return (
     <section className="py-12 md:py-16 bg-slate-50/50 dark:bg-slate-950/50 border-b border-slate-200/60 dark:border-slate-800/60" id="features">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="sr-only">What You Can Do with AnyFileX</h2>
+        <h2 className="sr-only">{locale === 'nl' ? 'Wat je met AnyFileX kunt doen' : locale === 'es' ? 'Qué puedes hacer con AnyFileX' : 'What You Can Do with AnyFileX'}</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {features.map((feature) => {
             const Icon = feature.icon;

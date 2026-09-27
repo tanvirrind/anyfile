@@ -25,7 +25,7 @@ export function DutchNewsletter() {
           <p className="mx-auto mt-3 max-w-xl text-base text-slate-600 dark:text-slate-300">Ontvang maandelijks nieuwe bestandsgidsen, software-updates en praktische diagnostische tips. Geen spam.</p>
           {!subscribed ? <form onSubmit={submit} className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"><input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} placeholder="Vul je e-mailadres in..." className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 shadow-xs focus:outline-hidden focus:ring-2 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-white" /><button type="submit" className="shrink-0 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-blue-700">Inschrijven →</button></form> : <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200">Bedankt! Je bent ingeschreven voor de AnyFileX-nieuwsbrief.</div>}
           <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">Voor ontwikkelaars, systeembeheerders en digitale archivarissen. Uitschrijven kan altijd.</p>
-          <Link href="/guides" className="mt-5 inline-block text-xs font-bold text-blue-600 hover:underline dark:text-blue-400">Bekijk ondertussen de nieuwste gidsen →</Link>
+          <Link href="/nl/guides" className="mt-5 inline-block text-xs font-bold text-blue-600 hover:underline dark:text-blue-400">Bekijk ondertussen de nieuwste gidsen →</Link>
         </div>
       </div>
     </section>

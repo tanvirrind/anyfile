@@ -26,6 +26,16 @@ import { getPrioritizedFormatList } from '../guides/formatGuideEngine';
 import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine';
 
 const SUPPORTED_CONVERTER_IDS = new Set([...getAllSupportedConversionSlugs(), 'pdf-to-word']);
+export const SPANISH_CONVERSION_SLUGS = [
+  'heic-a-jpg',
+  'webp-a-jpg',
+  'pdf-a-jpg',
+  'pdf-a-png',
+  'jpg-a-pdf',
+  'png-a-pdf',
+  'heic-a-png',
+  'heic-a-pdf',
+] as const;
 
 export const BASE_URL = 'https://anyfilex.com';
 export const PLATFORM_RELEASE_DATE = '2026-09-18';
@@ -513,6 +523,21 @@ export function buildRouteManifest(): RouteManifestEntry[] {
       sitemapSegment: 'converters',
       isIndexable: true,
       params: { id: 'pdf-to-word' },
+    });
+  }
+
+  for (const slug of SPANISH_CONVERSION_SLUGS) {
+    add({
+      path: `/convertir/${slug}`,
+      canonicalUrl: `${BASE_URL}/convertir/${slug}`,
+      type: 'converter-detail',
+      title: `${slug.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase())} – Spanish Conversion Guide | AnyFileX`,
+      description: `Convert ${slug.replace(/-a-/i, ' to ')} files privately in your browser with the Spanish AnyFileX conversion guide.`,
+      priority: 0.8,
+      changefreq: 'weekly',
+      sitemapSegment: 'converters',
+      isIndexable: false,
+      params: { id: slug },
     });
   }
 

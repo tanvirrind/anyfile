@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { buildRouteManifest, isExcludedFromSitemap, PLATFORM_RELEASE_DATE } from '@/lib/routes/routeManifest';
+import { buildRouteManifest, isExcludedFromSitemap, PLATFORM_RELEASE_DATE, SPANISH_CONVERSION_SLUGS } from '@/lib/routes/routeManifest';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const manifest = buildRouteManifest();
@@ -20,7 +20,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: path === '/' ? ('daily' as const) : ('weekly' as const),
     priority: path === '/' ? 1 : 0.8,
   }));
-  const spanishEntries = [...dutchPaths, '/converters/pdf-to-word'].map((path) => ({
+  const spanishPaths = [...dutchPaths, '/converters/pdf-to-word', ...SPANISH_CONVERSION_SLUGS.map((slug) => `/convertir/${slug}`)];
+  const spanishEntries = spanishPaths.map((path) => ({
     url: `https://anyfilex.com/es${path === '/' ? '/' : path}`,
     lastModified: new Date(PLATFORM_RELEASE_DATE),
     changeFrequency: path === '/' ? ('daily' as const) : ('weekly' as const),
