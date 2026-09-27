@@ -5,6 +5,10 @@ import { ConvertersClient } from '@/components/routes/RouteClients';
 import { CONVERTERS_LIST } from '@/data/convertersData';
 import { isValidConverterId, BASE_URL } from '@/lib/routes/routeManifest';
 import { getAllSupportedConversionSlugs } from '@/lib/guides/conversionGuideEngine';
+import { getRequestLocale } from '@/lib/i18n/requestLocale';
+import { localizedMetadata } from '@/lib/i18n/seo';
+import type { AppLocale } from '@/i18n/routing';
+import { SpanishPdfToWordPage } from '@/components/i18n/SpanishPages';
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -14,6 +18,7 @@ export async function generateStaticParams() {
   const ids = new Set([
     ...CONVERTERS_LIST.map((conv) => conv.id),
     ...getAllSupportedConversionSlugs(),
+    'pdf-to-word',
   ]);
 
   return [...ids].map((id) => ({ id }));
@@ -31,6 +36,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const conv = CONVERTERS_LIST.find((c) => c.id.toLowerCase() === cleanId);
+  const locale = (await getRequestLocale()) as AppLocale;
+  if (locale === 'es' && cleanId === 'pdf-to-word') {
+    return localizedMetadata({ pathname: '/converters/pdf-to-word', locale, includeDutch: false, title: 'Convertir PDF a Word | AnyFileX', description: 'Convierte archivos PDF en documentos Word editables con un conversor privado en tu navegador.' });
+  }
   const title = `${conv?.name || cleanId.toUpperCase()} – Free In-Browser Converter`;
   const description = conv?.onlineConversionSupported
     ? `${conv.description} 100% private client-side conversion in your browser with zero server uploads.`
@@ -52,6 +61,8 @@ export default async function ConverterDetailPage({ params }: PageProps) {
   if (!isValidConverterId(cleanId)) {
     notFound();
   }
+
+  if ((await getRequestLocale()) === 'es' && cleanId === 'pdf-to-word') return <SpanishPdfToWordPage />;
 
   return <ConvertersClient converterId={cleanId} />;
 }

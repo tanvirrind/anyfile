@@ -3,6 +3,8 @@ import Script from 'next/script';
 import React from 'react';
 import '@/index.css';
 import { AppLayoutClient } from '@/components/layout/AppLayoutClient';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://anyfilex.com'),
@@ -27,20 +29,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <Script id="theme-bootstrap" strategy="beforeInteractive">
           {`try { var t = localStorage.getItem('theme'); if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark'); } catch (_) {}`}
         </Script>
       </head>
       <body className="antialiased selection:bg-blue-600 selection:text-white">
-        <AppLayoutClient>{children}</AppLayoutClient>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <AppLayoutClient>{children}</AppLayoutClient>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

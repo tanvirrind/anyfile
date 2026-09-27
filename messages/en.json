@@ -1,0 +1,24 @@
+{
+  "Navigation": {
+    "extensions": "Extensions",
+    "howToOpen": "How to Open",
+    "compare": "Compare",
+    "troubleshoot": "Troubleshoot",
+    "software": "Software",
+    "guides": "Guides",
+    "tools": "Tools",
+    "search": "Search extensions...",
+    "language": "Language",
+    "english": "English",
+    "dutch": "Nederlands"
+  },
+  "Home": {
+    "eyebrow": "File intelligence for everyone",
+    "title": "Open, understand, and work with any file",
+    "description": "Identify formats, inspect technical details, and use private browser-based file tools.",
+    "cta": "Explore file extensions"
+  },
+  "LanguageSwitcher": {
+    "label": "Change language"
+  }
+}

@@ -1,21 +1,20 @@
 import type { Metadata } from 'next';
 import React from 'react';
 import { HomeViewClient } from '@/components/home/HomeViewClient';
+import { DutchHomePage } from '@/components/i18n/DutchPages';
+import { localizedMetadata } from '@/lib/i18n/seo';
+import type { AppLocale } from '@/i18n/routing';
+import { getRequestLocale } from '@/lib/i18n/requestLocale';
+import { SpanishHomePage } from '@/components/i18n/SpanishPages';
 
-export const metadata: Metadata = {
-  title: 'AnyFileX – Universal File Format Intelligence & Tools',
-  description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 250+ file extensions.',
-  alternates: {
-    canonical: 'https://anyfilex.com',
-  },
-  openGraph: {
-    title: 'AnyFileX – Universal File Format Intelligence & Tools',
-    description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 250+ file extensions.',
-    url: 'https://anyfilex.com',
-    type: 'website',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = (await getRequestLocale()) as AppLocale;
+  return locale === 'nl'
+    ? localizedMetadata({ pathname: '/', locale, title: 'AnyFileX – Bestandsinformatie en hulpmiddelen', description: 'Identificeer bestandsformaten, bekijk technische details en gebruik privacyvriendelijke hulpmiddelen in je browser.' })
+    : locale === 'es'
+      ? localizedMetadata({ pathname: '/', locale, title: 'AnyFileX – Información y herramientas de archivos', description: 'Identifica formatos, consulta detalles técnicos y usa herramientas privadas directamente en tu navegador.' })
+    : localizedMetadata({ pathname: '/', locale, title: 'AnyFileX – Universal File Format Intelligence & Tools', description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 250+ file extensions.' });
+}
 
 const JSON_LD = {
   '@context': 'https://schema.org',
@@ -52,16 +51,18 @@ const JSON_LD = {
   ],
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const locale = await getRequestLocale();
   return (
     <>
+      {locale === 'nl' ? <DutchHomePage /> : locale === 'es' ? <SpanishHomePage /> : null}
       <script
         key="json-ld-home"
         id="json-ld-home"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
       />
-      <HomeViewClient />
+      {locale === 'en' ? <HomeViewClient /> : null}
     </>
   );
 }

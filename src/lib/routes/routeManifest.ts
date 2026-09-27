@@ -25,7 +25,7 @@ import { EXPANDED_MIME_DATABASE } from '../../data/expandedMimeDatabase';
 import { getPrioritizedFormatList } from '../guides/formatGuideEngine';
 import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine';
 
-const SUPPORTED_CONVERTER_IDS = new Set(getAllSupportedConversionSlugs());
+const SUPPORTED_CONVERTER_IDS = new Set([...getAllSupportedConversionSlugs(), 'pdf-to-word']);
 
 export const BASE_URL = 'https://anyfilex.com';
 export const PLATFORM_RELEASE_DATE = '2026-09-18';
@@ -498,6 +498,24 @@ export function buildRouteManifest(): RouteManifestEntry[] {
     });
   }
 
+  // PDF to Word is implemented by the converter route but is not part of the
+  // legacy converter catalog. Keep it in the shared manifest so localized
+  // pages and sitemap validation use the same public route inventory.
+  if (!CONVERTERS_LIST.some((conv) => conv.id === 'pdf-to-word')) {
+    add({
+      path: '/converters/pdf-to-word',
+      canonicalUrl: `${BASE_URL}/converters/pdf-to-word`,
+      type: 'converter-detail',
+      title: 'PDF to Word – Free In-Browser Converter | AnyFileX',
+      description: 'Convert PDF files to editable Word documents privately in your browser with zero server uploads.',
+      priority: 0.85,
+      changefreq: 'weekly',
+      sitemapSegment: 'converters',
+      isIndexable: true,
+      params: { id: 'pdf-to-word' },
+    });
+  }
+
   // 6. How to Open Guides
   const prioritizedFormats = getPrioritizedFormatList();
   for (const format of prioritizedFormats) {
@@ -699,5 +717,6 @@ export function getRouteManifestEntry(path: string): RouteManifestEntry | undefi
   try { decoded = decodeURIComponent(path); } catch { /* retain the raw path */ }
   const clean = decoded.replace(/\/+$/, '') || '/';
   const manifest = buildRouteManifest();
-  return manifest.find((e) => e.path === clean);
+  const canonicalPath = clean.replace(/^\/(?:nl|es)(?=\/|$)/, '') || '/';
+  return manifest.find((e) => e.path === canonicalPath);
 }

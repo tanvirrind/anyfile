@@ -23,6 +23,10 @@ import {
 } from 'lucide-react';
 import { AppRoute } from '../types';
 import { routeToPath } from '../utils/router';
+import { useLocale, useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
+import { hasLocalizedContent, localizedPath } from '../i18n/paths';
+import type { AppLocale } from '../i18n/routing';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -46,6 +50,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   onNavigate,
   currentRoute,
 }) => {
+  const locale = useLocale() as AppLocale;
+  const t = useTranslations('Navigation');
+  const pathname = usePathname() || '/';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
   const [mobileToolsExpanded, setMobileToolsExpanded] = useState(true);
@@ -135,12 +142,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   const mainNavLinks: { label: string; route: AppRoute; badge?: string }[] = [
-    { label: 'Extensions', route: { view: 'extensions' } },
-    { label: 'How to Open', route: { view: 'how-to-open' } },
-    { label: 'Compare', route: { view: 'compare-hub' } },
-    { label: 'Troubleshoot', route: { view: 'repair' } },
-    { label: 'Software', route: { view: 'software' } },
-    { label: 'Guides', route: { view: 'guides' } },
+    { label: t('extensions'), route: { view: 'extensions' } },
+    { label: t('howToOpen'), route: { view: 'how-to-open' } },
+    { label: t('compare'), route: { view: 'compare-hub' } },
+    { label: t('troubleshoot'), route: { view: 'repair' } },
+    { label: t('software'), route: { view: 'software' } },
+    { label: t('guides'), route: { view: 'guides' } },
   ];
 
   const toolViews = [
@@ -208,6 +215,12 @@ export const Navbar: React.FC<NavbarProps> = ({
     }, 150);
   };
 
+  const switchLocale = (targetLocale: AppLocale) => {
+    const currentPath = pathname.replace(/^\/(?:nl|es)(?=\/|$)/, '') || '/';
+    const targetPath = hasLocalizedContent(currentPath, targetLocale) ? localizedPath(currentPath, targetLocale) : targetLocale === 'en' ? '/' : localizedPath('/', targetLocale);
+    window.location.assign(targetPath);
+  };
+
   const renderAnchor = (
     route: AppRoute,
     className: string,
@@ -215,7 +228,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     id?: string,
     key?: React.Key
   ) => {
-    const href = routeToPath(route);
+    const routePath = routeToPath(route);
+    const href = locale === 'nl' && hasLocalizedContent(routePath, 'nl') ? localizedPath(routePath, 'nl') : routePath;
     return (
       <a
         key={key}
@@ -272,7 +286,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 aria-expanded={toolsDropdownOpen}
                 id="nav-dropdown-tools-btn"
               >
-                <span>Tools</span>
+                <span>{t('tools')}</span>
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-200 ${
                     toolsDropdownOpen ? 'rotate-180 text-blue-600 dark:text-blue-400' : 'text-slate-400'
@@ -372,7 +386,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             id="navbar-cmd-k-btn"
           >
             <Search className="w-3.5 h-3.5" />
-            <span>Search extensions...</span>
+            <span>{t('search')}</span>
             <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-slate-900 border rounded text-slate-400">
               Ctrl K
             </kbd>
@@ -388,6 +402,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {/* Dark Mode Toggle */}
+          <div className="hidden sm:flex items-center gap-1 rounded-xl border border-slate-200/60 dark:border-slate-800 p-1 text-[11px] font-bold" aria-label={t('language')}>
+            <button type="button" onClick={() => switchLocale('en')} className={`px-2 py-1 rounded-lg transition-colors ${locale === 'en' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'}`}>EN</button>
+            <button type="button" onClick={() => switchLocale('nl')} className={`px-2 py-1 rounded-lg transition-colors ${locale === 'nl' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'}`}>NL</button>
+            <button type="button" onClick={() => switchLocale('es')} className={`px-2 py-1 rounded-lg transition-colors ${locale === 'es' ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'}`}>ES</button>
+          </div>
+
           <button
             onClick={() => setDarkMode((prev) => !prev)}
             className="p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-800"
@@ -412,7 +432,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-4 space-y-3 max-h-[85vh] overflow-y-auto shadow-xl">
+          <div className="lg:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-4 space-y-3 max-h-[85vh] overflow-y-auto shadow-xl">
+          <div className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-800">
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{t('language')}</span>
+            <div className="flex gap-1">
+              <button type="button" onClick={() => switchLocale('en')} className="px-2 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-900">{t('english')}</button>
+              <button type="button" onClick={() => switchLocale('nl')} className="px-2 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-900">{t('dutch')}</button>
+              <button type="button" onClick={() => switchLocale('es')} className="px-2 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-900">{t('spanish')}</button>
+            </div>
+          </div>
           {/* Mobile Dark / Light Theme Toggle Row */}
           <div className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-800">
             <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -437,7 +465,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <span className="flex items-center gap-2">
                 <Wrench className="w-4 h-4 text-blue-600" />
-                <span>Tools & Utilities</span>
+                <span>{t('tools')} & Utilities</span>
               </span>
               <ChevronDown
                 className={`w-4 h-4 transition-transform duration-200 ${

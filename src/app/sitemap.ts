@@ -4,7 +4,7 @@ import { buildRouteManifest, isExcludedFromSitemap, PLATFORM_RELEASE_DATE } from
 export default function sitemap(): MetadataRoute.Sitemap {
   const manifest = buildRouteManifest();
 
-  return manifest
+  const englishEntries = manifest
     .filter((entry) => entry.isIndexable && !isExcludedFromSitemap(entry.path))
     .map((entry) => ({
       url: entry.canonicalUrl,
@@ -12,4 +12,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: entry.changefreq,
       priority: entry.priority,
     }));
+
+  const dutchPaths = ['/', '/file-extensions/heic', '/tools/file-identifier', '/how-to-open/heic'];
+  const dutchEntries = dutchPaths.map((path) => ({
+    url: `https://anyfilex.com/nl${path === '/' ? '/' : path}`,
+    lastModified: new Date(PLATFORM_RELEASE_DATE),
+    changeFrequency: path === '/' ? ('daily' as const) : ('weekly' as const),
+    priority: path === '/' ? 1 : 0.8,
+  }));
+  const spanishEntries = [...dutchPaths, '/converters/pdf-to-word'].map((path) => ({
+    url: `https://anyfilex.com/es${path === '/' ? '/' : path}`,
+    lastModified: new Date(PLATFORM_RELEASE_DATE),
+    changeFrequency: path === '/' ? ('daily' as const) : ('weekly' as const),
+    priority: path === '/' ? 1 : 0.8,
+  }));
+
+  return [...englishEntries, ...dutchEntries, ...spanishEntries];
 }

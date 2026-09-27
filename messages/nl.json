@@ -1,0 +1,24 @@
+{
+  "Navigation": {
+    "extensions": "Bestandsextensies",
+    "howToOpen": "Bestanden openen",
+    "compare": "Vergelijken",
+    "troubleshoot": "Problemen oplossen",
+    "software": "Software",
+    "guides": "Handleidingen",
+    "tools": "Hulpmiddelen",
+    "search": "Zoek bestandsextensies...",
+    "language": "Taal",
+    "english": "English",
+    "dutch": "Nederlands"
+  },
+  "Home": {
+    "eyebrow": "Bestandsinformatie voor iedereen",
+    "title": "Open, begrijp en bewerk elk bestand",
+    "description": "Identificeer bestandsformaten, bekijk technische details en gebruik privacyvriendelijke hulpmiddelen in je browser.",
+    "cta": "Bestandsextensies bekijken"
+  },
+  "LanguageSwitcher": {
+    "label": "Taal wijzigen"
+  }
+}

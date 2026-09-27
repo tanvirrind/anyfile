@@ -1,0 +1,25 @@
+{
+  "Navigation": {
+    "extensions": "Extensiones",
+    "howToOpen": "Cómo abrir archivos",
+    "compare": "Comparar",
+    "troubleshoot": "Solucionar problemas",
+    "software": "Software",
+    "guides": "Guías",
+    "tools": "Herramientas",
+    "search": "Buscar extensiones...",
+    "language": "Idioma",
+    "english": "English",
+    "dutch": "Nederlands",
+    "spanish": "Español"
+  },
+  "Home": {
+    "eyebrow": "Información de archivos para todos",
+    "title": "Abre, entiende y trabaja con cualquier archivo",
+    "description": "Identifica formatos, consulta detalles técnicos y usa herramientas privadas directamente en tu navegador.",
+    "cta": "Explorar extensiones"
+  },
+  "LanguageSwitcher": {
+    "label": "Cambiar idioma"
+  }
+}

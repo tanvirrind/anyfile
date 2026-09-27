@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { metadata as rootMetadata } from '../../src/app/layout';
-import { metadata as homeMetadata } from '../../src/app/page';
+import { generateMetadata as generateHomeMetadata } from '../../src/app/page';
 import { generateMetadata as generateExtensionMetadata } from '../../src/app/file-extensions/[ext]/page';
 import sitemap from '../../src/app/sitemap';
 import robots from '../../src/app/robots';
@@ -14,10 +14,12 @@ describe('Next.js App Router SEO', () => {
   });
 
   it('defines home metadata and canonical URL in the App Router page', () => {
-    expect(homeMetadata.title).toContain('AnyFileX');
-    expect(homeMetadata.description).toContain('file formats');
-    expect(homeMetadata.alternates?.canonical).toBe('https://anyfilex.com');
-    expect(homeMetadata.openGraph?.url).toBe('https://anyfilex.com');
+    return generateHomeMetadata().then((homeMetadata) => {
+      expect(homeMetadata.title).toContain('AnyFileX');
+      expect(homeMetadata.description).toContain('file formats');
+      expect(homeMetadata.alternates?.canonical).toBe('https://anyfilex.com');
+      expect(homeMetadata.openGraph?.url).toBe('https://anyfilex.com');
+    });
   });
 
   it('generates metadata and canonical URL for a dynamic extension route', async () => {
