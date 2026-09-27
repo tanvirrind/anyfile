@@ -9,29 +9,34 @@ export const SocialProofSection: React.FC = () => {
   const [showMethodology, setShowMethodology] = useState(false);
 
   const labels = locale === 'nl' ? ['Doorzoekbare formaten', 'Geverifieerde handleidingen', 'Browsertools', 'Privé en lokaal'] : locale === 'es' ? ['Formatos buscables', 'Guías verificadas', 'Herramientas web', 'Privado y local'] : ['Searchable Formats', 'Verified Guides', 'In-Browser Tools', 'Private & Local'];
+  const subtexts = locale === 'nl'
+    ? ['43 byte-handtekeningprofielen • 250+ geïndexeerd', 'Handleidingen voor openen, herstel en vergelijking', '26 forensische functies • 9 converters', 'Geen serveruploads • WASM in geheugen']
+    : locale === 'es'
+      ? ['43 perfiles de firmas • más de 250 indexados', 'Guías para abrir, reparar y comparar', '26 utilidades forenses • 9 convertidores', 'Sin subidas al servidor • WASM en memoria']
+      : ['43 byte-signature profiles • 250+ indexed', 'Opening, repair & comparison manuals', '26 forensic utilities • 9 converters', 'Zero server uploads • In-memory WASM'];
   const stats = [
     {
       value: '250+',
       label: labels[0],
-      subtext: '43 byte-signature profiles • 250+ indexed',
+      subtext: subtexts[0],
       id: 'stat-formats',
     },
     {
       value: '316',
       label: labels[1],
-      subtext: 'Opening, repair & comparison manuals',
+      subtext: subtexts[1],
       id: 'stat-guides',
     },
     {
       value: '35+',
       label: labels[2],
-      subtext: '26 forensic utilities • 9 converters',
+      subtext: subtexts[2],
       id: 'stat-tools',
     },
     {
       value: '100%',
       label: labels[3],
-      subtext: 'Zero server uploads • In-memory WASM',
+      subtext: subtexts[3],
       id: 'stat-privacy',
     },
   ];

@@ -11,6 +11,11 @@ interface LatestGuidesSectionProps {
 export const LatestGuidesSection: React.FC<LatestGuidesSectionProps> = ({ onSelectGuide }) => {
   const locale = useLocale();
   const copy = locale === 'nl' ? { label: 'Kennisbank en handleidingen', title: 'Nieuwste technische handleidingen', description: 'Uitgebreide stapsgewijze uitleg, beoordeeld op technische nauwkeurigheid.', read: 'Handleiding lezen' } : locale === 'es' ? { label: 'Base de conocimiento y tutoriales', title: 'Últimas guías técnicas', description: 'Guías paso a paso, revisadas para garantizar su precisión técnica.', read: 'Leer guía' } : { label: 'Knowledge Base & Tutorials', title: 'Latest Technical Guides', description: 'Comprehensive step-by-step walkthroughs authored by credentialed systems architects and digital media engineers, peer-reviewed for technical accuracy.', read: 'Read Guide' };
+  const formatReadTime = (value: string) => locale === 'nl'
+    ? value.replace(/\s*min\s*read/i, ' min lezen')
+    : locale === 'es'
+      ? value.replace(/\s*min\s*read/i, ' min de lectura')
+      : value;
   return (
     <section className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/60 dark:border-slate-800/60" id="guides-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -45,7 +50,7 @@ export const LatestGuidesSection: React.FC<LatestGuidesSectionProps> = ({ onSele
                   </span>
                   <div className="flex items-center gap-1 text-[11px] text-slate-600 dark:text-slate-400">
                     <Clock className="w-3 h-3" />
-                    <span>{guide.readTime}</span>
+                    <span>{formatReadTime(guide.readTime)}</span>
                   </div>
                 </div>
 

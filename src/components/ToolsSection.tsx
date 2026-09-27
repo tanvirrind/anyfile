@@ -28,6 +28,13 @@ interface ToolsSectionProps {
 export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
   const locale = useLocale();
   const copy = locale === 'nl' ? { eyebrow: 'Interactieve browsertools', title: 'Diagnostiek en tools voor digitale bestanden', intro: 'Analyseer, controleer, hash en verwerk bestanden veilig in je browser.', tabs: ['Bestandsidentificatie', 'Metadata bekijken', 'MIME-type controleren', 'Magic-byte-detector', 'Hashgenerator', 'Bestandsconverter'], identifier: 'Bestandsidentificatie en formaatanalyse', choose: 'Kies een bestand om te analyseren', drop: 'Sleep een onbekend bestand hierheen om de details te bekijken', supports: 'Ondersteunt alle extensies (.dat, .heic, .dwg, .zip, .step, .eml, .bin, enz.)' } : locale === 'es' ? { eyebrow: 'Herramientas web interactivas', title: 'Diagnóstico y herramientas para archivos', intro: 'Analiza, verifica, calcula hashes y procesa formatos de forma segura en el navegador.', tabs: ['Identificar archivos', 'Ver metadatos', 'Comprobar tipo MIME', 'Detector de magic bytes', 'Generar hashes', 'Convertir archivos'], identifier: 'Identificador y analizador de formatos', choose: 'Elige un archivo para analizar', drop: 'Arrastra aquí un archivo desconocido para ver sus detalles', supports: 'Compatible con cualquier extensión (.dat, .heic, .dwg, .zip, .step, .eml, .bin, etc.)' } : { eyebrow: 'Interactive SaaS Utilities', title: 'Digital File Diagnostics & Tools', intro: 'Real-time, in-browser analysis tools to inspect, verify, hash, and process any file format securely.', tabs: ['File Identifier', 'Metadata Viewer', 'MIME Type Checker', 'Magic Byte Detector', 'Hash Generator', 'File Converter'], identifier: 'File Identifier & Format Analyzer', choose: 'Choose File to Analyze', drop: 'Drop any unknown file here to inspect format details', supports: 'Supports any extension (.dat, .heic, .dwg, .zip, .step, .eml, .bin, etc.)' };
+  const detailCopy = locale === 'nl' ? {
+    identifierDesc: 'Upload een bestand om de magic bytes, het MIME-type, de hash en de veiligheidsscore direct te lezen.', reading: 'Binaire magic bytes lezen en checksum berekenen...', detected: 'Gedetecteerd formaat', size: 'Bestandsgrootte', mime: 'MIME-protocol', property: 'EIGENSCHAP', value: 'WAARDE / HANDTEKENING', magic: 'Magic bytes (hex-header):', checksum: 'SHA-256-checksum:', security: 'Beveiligingsbeoordeling', metadataTitle: 'Metadata- en EXIF-viewer voor documenten', metadataDesc: 'Bekijk camera-eigenschappen, auteurstags, afmetingen, kleurruimte en aanmaakdatums.', sample: 'Voorbeeld van foto-EXIF-inspectie', camera: 'Cameramodel:', lens: 'Lensmodel:', aperture: 'Diafragma / belichting:', resolution: 'Resolutie:', color: 'Kleurprofiel:', pdf: 'PDF- en documenteigenschappen', version: 'PDF-versie:', author: 'Titel / auteur:', encrypted: 'Versleuteld:', pages: 'Aantal pagina’s:', mimeTitle: 'MIME-type-database', mimeDesc: 'Zoek MIME-typen van webprotocollen (bijv. image/heic, application/pdf, video/mp4).', mimePlaceholder: 'Typ een MIME-string of extensie...', noMime: 'Geen MIME-type gevonden voor', magicTitle: 'Detector voor magic bytes en binaire handtekeningen', magicDesc: 'Identificeer echte bestandsformaten door de eerste hexadecimale bytes van een header in te voeren.', hex: 'Hexadecimale headerinvoer', matching: 'Overeenkomende handtekeningen', hashTitle: 'Realtime checksum- en hashgenerator', hashDesc: 'Genereer direct MD5-, SHA-1- en SHA-256-hashes in je browser via Web Crypto.', input: 'Invoerstring of tekst', converterTitle: 'Bestandsconverter in de browser', converterDesc: 'Converteer bijvoorbeeld HEIC naar JPG, WEBP naar PNG of SVG naar PDF direct in je browser.', preview: 'Interactief voorbeeld', source: 'Bronformaat', target: 'Doelformaat', processing: 'Lossless engine verwerkt...', simulate: 'Conversie naar', complete: '✓ Conversiesimulatie voltooid! In productie wordt het bestand lokaal gegenereerd via Canvas en WebAssembly.'
+  } : locale === 'es' ? {
+    identifierDesc: 'Sube un archivo para leer sus magic bytes, tipo MIME, hash y nivel de seguridad al instante.', reading: 'Leyendo magic bytes binarios y calculando el checksum...', detected: 'Formato detectado', size: 'Tamaño del archivo', mime: 'Protocolo MIME', property: 'PROPIEDAD', value: 'VALOR / FIRMA', magic: 'Magic bytes (cabecera hex):', checksum: 'Checksum SHA-256:', security: 'Evaluación de seguridad', metadataTitle: 'Visor de metadatos y EXIF de documentos', metadataDesc: 'Consulta propiedades de cámara, etiquetas de autor, dimensiones, espacio de color y fechas de creación.', sample: 'Inspector EXIF de foto de ejemplo', camera: 'Modelo de cámara:', lens: 'Modelo de lente:', aperture: 'Apertura / exposición:', resolution: 'Resolución:', color: 'Perfil de color:', pdf: 'Propiedades de PDF y documentos', version: 'Versión PDF:', author: 'Título / autor:', encrypted: 'Cifrado:', pages: 'Número de páginas:', mimeTitle: 'Base de datos de tipos MIME', mimeDesc: 'Busca tipos MIME de protocolos web (por ejemplo, image/heic, application/pdf o video/mp4).', mimePlaceholder: 'Escribe un MIME o una extensión...', noMime: 'No se encontró un tipo MIME para', magicTitle: 'Detector de magic bytes y firmas binarias', magicDesc: 'Identifica formatos reales introduciendo los primeros bytes hexadecimales de la cabecera.', hex: 'Entrada de cabecera hexadecimal', matching: 'Formatos con firma coincidente', hashTitle: 'Generador de checksum y hashes en tiempo real', hashDesc: 'Genera hashes MD5, SHA-1 y SHA-256 al instante en el navegador mediante Web Crypto.', input: 'Cadena o texto de entrada', converterTitle: 'Convertidor de archivos en el navegador', converterDesc: 'Convierte HEIC a JPG, WEBP a PNG o SVG a PDF directamente en el navegador.', preview: 'Vista previa interactiva', source: 'Formato de origen', target: 'Formato de destino', processing: 'Procesando con el motor sin pérdida...', simulate: 'Simular conversión a', complete: '✓ Simulación de conversión completada. En producción, el archivo se genera localmente mediante Canvas y WebAssembly.'
+  } : {
+    identifierDesc: 'Upload any file to read its magic byte header, MIME type, file hash, and safety score instantly.', reading: 'Reading binary magic bytes and calculating checksum...', detected: 'Detected Format', size: 'File Size', mime: 'MIME Protocol', property: 'PROPERTY', value: 'VALUE / SIGNATURE', magic: 'Magic Bytes (Hex Header):', checksum: 'SHA-256 Checksum:', security: 'Security Verification Assessment', metadataTitle: 'Metadata & Document EXIF Viewer', metadataDesc: 'Inspect embedded camera properties, author tags, dimensions, color space, and creation dates.', sample: 'Sample Photo EXIF Inspector', camera: 'Camera Model:', lens: 'Lens Model:', aperture: 'Aperture / Exposure:', resolution: 'Resolution:', color: 'Color Profile:', pdf: 'PDF & Document Properties', version: 'PDF Version:', author: 'Title / Author:', encrypted: 'Encrypted:', pages: 'Page Count:', mimeTitle: 'MIME Type Lookup Database', mimeDesc: 'Search web protocol MIME types (e.g. image/heic, application/pdf, video/mp4).', mimePlaceholder: 'Type a MIME string or extension...', noMime: 'No MIME type found matching', magicTitle: 'Magic Byte & Binary Signature Detector', magicDesc: 'Identify true file formats by entering the first few hexadecimal bytes of a file header.', hex: 'Hexadecimal Header Input', matching: 'Matching Signature Formats', hashTitle: 'Real-Time Checksum & Hash Generator', hashDesc: 'Generate cryptographic MD5, SHA-1, and SHA-256 hashes instantly in your browser via Web Crypto.', input: 'Input String or Text', converterTitle: 'In-Browser File Converter', converterDesc: 'Convert files like HEIC to JPG, WEBP to PNG, or SVG to PDF directly inside your browser.', preview: 'Interactive Preview', source: 'Source Format', target: 'Target Format', processing: 'Processing Lossless Engine...', simulate: 'Simulate Conversion to', complete: '✓ Conversion simulation complete! In production, the file is generated client-side via HTML5 Canvas and WebAssembly codecs.'
+  };
   const [activeTab, setActiveTab] = useState<ToolTab>('identifier');
 
   // File Identifier & Inspector State
@@ -163,12 +170,12 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
   const mimeMatches = POPULAR_FILE_TYPES.filter((f) => f.mimeType.toLowerCase().includes(mimeQuery.toLowerCase().trim()));
 
   const toolTabsList: Array<{ id: string; label: string; icon: typeof FileSearch; desc: string; badge?: string }> = [
-    { id: 'identifier', label: copy.tabs[0], icon: FileSearch, desc: 'Signature analysis & format detection' },
-    { id: 'metadata', label: copy.tabs[1], icon: FileCode, desc: 'EXIF, size, and header properties' },
-    { id: 'mime', label: copy.tabs[2], icon: Tag, desc: 'Instant MIME lookup database' },
-    { id: 'magic-bytes', label: copy.tabs[3], icon: Binary, desc: 'Hex header signature matcher' },
-    { id: 'hash', label: copy.tabs[4], icon: Hash, desc: 'In-browser MD5 & SHA256 checksums' },
-    { id: 'converter', label: copy.tabs[5], icon: RefreshCw, desc: 'Format conversion tool' },
+    { id: 'identifier', label: copy.tabs[0], icon: FileSearch, desc: detailCopy.identifierDesc },
+    { id: 'metadata', label: copy.tabs[1], icon: FileCode, desc: detailCopy.metadataDesc },
+    { id: 'mime', label: copy.tabs[2], icon: Tag, desc: detailCopy.mimeDesc },
+    { id: 'magic-bytes', label: copy.tabs[3], icon: Binary, desc: detailCopy.magicDesc },
+    { id: 'hash', label: copy.tabs[4], icon: Hash, desc: detailCopy.hashDesc },
+    { id: 'converter', label: copy.tabs[5], icon: RefreshCw, desc: detailCopy.converterDesc },
   ];
 
   return (
@@ -230,7 +237,7 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                     <span>{copy.identifier}</span>
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                    Upload any file to read its magic byte header, MIME type, file hash, and safety score instantly.
+                    {detailCopy.identifierDesc}
                   </p>
                 </div>
                 <button
@@ -275,7 +282,7 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                 <div className="py-12 text-center space-y-3">
                   <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
                   <div className="text-sm font-semibold text-slate-900 dark:text-white">
-                    Reading binary magic bytes and calculating checksum...
+                    {detailCopy.reading}
                   </div>
                 </div>
               )}
@@ -284,17 +291,17 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                 <div className="space-y-6 animate-in fade-in duration-300">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-                      <span className="text-[10px] font-semibold uppercase text-slate-600 dark:text-slate-400">Detected Format</span>
+                      <span className="text-[10px] font-semibold uppercase text-slate-600 dark:text-slate-400">{detailCopy.detected}</span>
                       <div className="text-lg font-bold text-slate-900 dark:text-white mt-1">{analyzedFile.fileTypeDetected}</div>
                     </div>
                     <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-                      <span className="text-[10px] font-semibold uppercase text-slate-600 dark:text-slate-400">File Size</span>
+                      <span className="text-[10px] font-semibold uppercase text-slate-600 dark:text-slate-400">{detailCopy.size}</span>
                       <div className="text-lg font-bold text-slate-900 dark:text-white mt-1">
                         {(analyzedFile.fileSize / 1024).toFixed(2)} KB
                       </div>
                     </div>
                     <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-                      <span className="text-[10px] font-semibold uppercase text-slate-600 dark:text-slate-400">MIME Protocol</span>
+                      <span className="text-[10px] font-semibold uppercase text-slate-600 dark:text-slate-400">{detailCopy.mime}</span>
                       <div className="text-sm font-mono font-semibold text-blue-600 dark:text-blue-400 mt-1 truncate">
                         {analyzedFile.mimeType}
                       </div>
@@ -303,15 +310,15 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
 
                   <div className="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs space-y-2 border border-slate-800">
                     <div className="flex justify-between text-slate-400 border-b border-slate-800 pb-1">
-                      <span>PROPERTY</span>
-                      <span>VALUE / SIGNATURE</span>
+                      <span>{detailCopy.property}</span>
+                      <span>{detailCopy.value}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">Magic Bytes (Hex Header):</span>
+                      <span className="text-slate-400">{detailCopy.magic}</span>
                       <span className="text-emerald-400 font-bold">{analyzedFile.magicBytesHex}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-400">SHA-256 Checksum:</span>
+                      <span className="text-slate-400">{detailCopy.checksum}</span>
                       <span className="text-amber-400 truncate max-w-[260px]">{analyzedFile.sha256Hash}</span>
                     </div>
                   </div>
@@ -323,7 +330,7 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                   }`}>
                     <ShieldCheck className="w-5 h-5 shrink-0 mt-0.5" />
                     <div>
-                      <div className="font-bold text-sm">Security Verification Assessment</div>
+                      <div className="font-bold text-sm">{detailCopy.security}</div>
                       <div className="text-xs mt-0.5">{analyzedFile.safetyCheck.message}</div>
                     </div>
                   </div>
@@ -338,57 +345,57 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
               <div className="pb-4 border-b border-slate-100 dark:border-slate-800">
                 <h3 className="text-xl font-heading font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <FileCode className="w-5 h-5 text-indigo-600" />
-                  <span>Metadata & Document EXIF Viewer</span>
+                  <span>{detailCopy.metadataTitle}</span>
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                  Inspect embedded camera properties, author tags, dimensions, color space, and creation dates.
+                  {detailCopy.metadataDesc}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <div className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">Sample Photo EXIF Inspector</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">{detailCopy.sample}</div>
                   <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2 text-xs font-mono">
                     <div className="flex justify-between py-1 border-b border-slate-200/60 dark:border-slate-800">
-                      <span className="text-slate-600 dark:text-slate-400">Camera Model:</span>
+                      <span className="text-slate-600 dark:text-slate-400">{detailCopy.camera}</span>
                       <span className="font-semibold text-slate-900 dark:text-white">Canon EOS R6 Mark II</span>
                     </div>
                     <div className="flex justify-between py-1 border-b border-slate-200/60 dark:border-slate-800">
-                      <span className="text-slate-600 dark:text-slate-400">Lens Model:</span>
+                      <span className="text-slate-600 dark:text-slate-400">{detailCopy.lens}</span>
                       <span className="font-semibold text-slate-900 dark:text-white">RF 24-70mm F2.8 L IS USM</span>
                     </div>
                     <div className="flex justify-between py-1 border-b border-slate-200/60 dark:border-slate-800">
-                      <span className="text-slate-600 dark:text-slate-400">Aperture / Exposure:</span>
+                      <span className="text-slate-600 dark:text-slate-400">{detailCopy.aperture}</span>
                       <span className="font-semibold text-slate-900 dark:text-white">f/2.8 @ 1/1000s, ISO 100</span>
                     </div>
                     <div className="flex justify-between py-1 border-b border-slate-200/60 dark:border-slate-800">
-                      <span className="text-slate-600 dark:text-slate-400">Resolution:</span>
+                      <span className="text-slate-600 dark:text-slate-400">{detailCopy.resolution}</span>
                       <span className="font-semibold text-slate-900 dark:text-white">6000 x 4000 (24 MP)</span>
                     </div>
                     <div className="flex justify-between py-1">
-                      <span className="text-slate-600 dark:text-slate-400">Color Profile:</span>
+                      <span className="text-slate-600 dark:text-slate-400">{detailCopy.color}</span>
                       <span className="font-semibold text-blue-600 dark:text-blue-400">Display P3 Wide Color</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <div className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">PDF & Document Properties</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">{detailCopy.pdf}</div>
                   <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2 text-xs font-mono">
                     <div className="flex justify-between py-1 border-b border-slate-200/60 dark:border-slate-800">
-                      <span className="text-slate-600 dark:text-slate-400">PDF Version:</span>
+                      <span className="text-slate-600 dark:text-slate-400">{detailCopy.version}</span>
                       <span className="font-semibold text-slate-900 dark:text-white">1.7 (Acrobat 8.x)</span>
                     </div>
                     <div className="flex justify-between py-1 border-b border-slate-200/60 dark:border-slate-800">
-                      <span className="text-slate-600 dark:text-slate-400">Title / Author:</span>
+                      <span className="text-slate-600 dark:text-slate-400">{detailCopy.author}</span>
                       <span className="font-semibold text-slate-900 dark:text-white">Architectural Blueprint v2</span>
                     </div>
                     <div className="flex justify-between py-1 border-b border-slate-200/60 dark:border-slate-800">
-                      <span className="text-slate-600 dark:text-slate-400">Encrypted:</span>
+                      <span className="text-slate-600 dark:text-slate-400">{detailCopy.encrypted}</span>
                       <span className="font-semibold text-emerald-600 dark:text-emerald-400">No (Public Read)</span>
                     </div>
                     <div className="flex justify-between py-1">
-                      <span className="text-slate-600 dark:text-slate-400">Page Count:</span>
+                      <span className="text-slate-600 dark:text-slate-400">{detailCopy.pages}</span>
                       <span className="font-semibold text-slate-900 dark:text-white">12 Pages</span>
                     </div>
                   </div>
@@ -403,10 +410,10 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
               <div className="pb-4 border-b border-slate-100 dark:border-slate-800">
                 <h3 className="text-xl font-heading font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Tag className="w-5 h-5 text-emerald-600" />
-                  <span>MIME Type Lookup Database</span>
+                  <span>{detailCopy.mimeTitle}</span>
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                  Search web protocol MIME types (e.g. `image/heic`, `application/pdf`, `video/mp4`).
+                  {detailCopy.mimeDesc}
                 </p>
               </div>
 
@@ -415,7 +422,7 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                   type="text"
                   value={mimeQuery}
                   onChange={(e) => setMimeQuery(e.target.value)}
-                  placeholder="Type a MIME string or extension..."
+                  placeholder={detailCopy.mimePlaceholder}
                   className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                   id="mime-search-input"
                 />
@@ -439,7 +446,7 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                   ))
                 ) : (
                   <div className="col-span-2 text-sm text-slate-600 dark:text-slate-400">
-                    No MIME type found matching "{mimeQuery}". Try searching "image", "application", or "video".
+                    {detailCopy.noMime} "{mimeQuery}".
                   </div>
                 )}
               </div>
@@ -452,16 +459,16 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
               <div className="pb-4 border-b border-slate-100 dark:border-slate-800">
                 <h3 className="text-xl font-heading font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Binary className="w-5 h-5 text-amber-600" />
-                  <span>Magic Byte & Binary Signature Detector</span>
+                  <span>{detailCopy.magicTitle}</span>
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                  Identify true file formats by entering the first few hexadecimal bytes of a file header.
+                  {detailCopy.magicDesc}
                 </p>
               </div>
 
               <div>
                 <label className="block text-xs font-semibold uppercase text-slate-600 dark:text-slate-400 mb-1">
-                  Hexadecimal Header Input
+                  {detailCopy.hex}
                 </label>
                 <input
                   type="text"
@@ -474,7 +481,7 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
               </div>
 
               <div className="space-y-3">
-                <div className="text-xs font-semibold uppercase text-slate-600 dark:text-slate-400">Matching Signature Formats</div>
+                <div className="text-xs font-semibold uppercase text-slate-600 dark:text-slate-400">{detailCopy.matching}</div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {magicByteMatches.map((f) => (
                     <div key={f.extension} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
@@ -501,16 +508,16 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
               <div className="pb-4 border-b border-slate-100 dark:border-slate-800">
                 <h3 className="text-xl font-heading font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Hash className="w-5 h-5 text-violet-600" />
-                  <span>Real-Time Checksum & Hash Generator</span>
+                  <span>{detailCopy.hashTitle}</span>
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                  Generate cryptographic MD5, SHA-1, and SHA-256 hashes instantly in your browser via Web Crypto.
+                  {detailCopy.hashDesc}
                 </p>
               </div>
 
               <div>
                 <label className="block text-xs font-semibold uppercase text-slate-600 dark:text-slate-400 mb-1">
-                  Input String or Text
+                  {detailCopy.input}
                 </label>
                 <textarea
                   value={hashText}
@@ -575,20 +582,20 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                 <div>
                   <h3 className="text-xl font-heading font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <RefreshCw className="w-5 h-5 text-blue-600" />
-                    <span>In-Browser File Converter</span>
+                    <span>{detailCopy.converterTitle}</span>
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                    Convert files like HEIC to JPG, WEBP to PNG, or SVG to PDF directly inside your browser.
+                    {detailCopy.converterDesc}
                   </p>
                 </div>
                 <span className="px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-xs font-bold">
-                  Interactive Preview
+                  {detailCopy.preview}
                 </span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                 <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
-                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">Source Format</span>
+                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">{detailCopy.source}</span>
                   <div className="text-xl font-extrabold font-mono text-slate-900 dark:text-white mt-1">.HEIC / .WEBP</div>
                 </div>
 
@@ -597,7 +604,7 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                 </div>
 
                 <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center">
-                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Target Format</label>
+                  <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">{detailCopy.target}</label>
                   <select
                     value={selectedTargetFormat}
                     onChange={(e) => setSelectedTargetFormat(e.target.value)}
@@ -623,13 +630,12 @@ export const ToolsSection: React.FC<ToolsSectionProps> = ({ initialFile }) => {
                   disabled={isConverting}
                   className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md shadow-blue-600/20 cursor-pointer disabled:opacity-50"
                 >
-                  {isConverting ? 'Processing Lossless Engine...' : `Simulate Conversion to .${selectedTargetFormat}`}
+                  {isConverting ? detailCopy.processing : `${detailCopy.simulate} .${selectedTargetFormat}`}
                 </button>
 
                 {conversionComplete && (
                   <div className="mt-4 p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 text-xs font-medium animate-in fade-in">
-                    ✓ Conversion simulation complete! In production, converted `.
-                    {selectedTargetFormat}` is generated client-side via HTML5 Canvas & WebAssembly codecs.
+                    {detailCopy.complete}
                   </div>
                 )}
               </div>

@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
 import React from 'react';
 import { HomeViewClient } from '@/components/home/HomeViewClient';
-import { DutchHomePage } from '@/components/i18n/DutchPages';
 import { localizedMetadata } from '@/lib/i18n/seo';
 import type { AppLocale } from '@/i18n/routing';
 import { getRequestLocale } from '@/lib/i18n/requestLocale';
-import { SpanishHomePage } from '@/components/i18n/SpanishPages';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = (await getRequestLocale()) as AppLocale;
@@ -16,15 +14,23 @@ export async function generateMetadata(): Promise<Metadata> {
     : localizedMetadata({ pathname: '/', locale, title: 'AnyFileX – Universal File Format Intelligence & Tools', description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 250+ file extensions.' });
 }
 
-const JSON_LD = {
+function getHomeJsonLd(locale: AppLocale) {
+  const localized = locale === 'nl'
+    ? { description: 'Identificeer bestandsformaten, bekijk technische details en gebruik privacyvriendelijke hulpmiddelen in je browser.', url: 'https://anyfilex.com/nl/', language: 'nl' }
+    : locale === 'es'
+      ? { description: 'Identifica formatos, consulta detalles técnicos y usa herramientas privadas directamente en tu navegador.', url: 'https://anyfilex.com/es/', language: 'es' }
+      : { description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 250+ file extensions.', url: 'https://anyfilex.com/', language: 'en' };
+
+  return {
   '@context': 'https://schema.org',
+  inLanguage: localized.language,
   '@graph': [
     {
       '@type': 'WebSite',
       '@id': 'https://anyfilex.com/#website',
-      url: 'https://anyfilex.com',
+      url: localized.url,
       name: 'AnyFileX',
-      description: 'Universal File Format Intelligence, Technical Specifications, and In-Browser Utilities',
+      description: localized.description,
       potentialAction: {
         '@type': 'SearchAction',
         target: 'https://anyfilex.com/file-extensions?q={search_term_string}',
@@ -49,10 +55,12 @@ const JSON_LD = {
       ],
     },
   ],
-};
+  };
+}
 
 export default async function HomePage() {
   const locale = await getRequestLocale();
+  const jsonLd = getHomeJsonLd(locale);
   return (
     <>
       <HomeViewClient />
@@ -60,7 +68,7 @@ export default async function HomePage() {
         key="json-ld-home"
         id="json-ld-home"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
     </>
   );

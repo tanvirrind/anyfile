@@ -1,38 +1,30 @@
 import type { AppLocale } from './routing';
 
-const SHARED_TRANSLATED_HUBS = [
-  '/file-extensions',
-  '/how-to-open',
-  '/compare',
-  '/troubleshoot',
-  '/software',
-  '/guides',
-  '/converters',
-  '/tools',
-  '/about',
-  '/contact',
-  '/privacy',
-  '/terms',
-];
-
 export const DUTCH_CONTENT_PATHS = new Set([
-  '/', ...SHARED_TRANSLATED_HUBS,
+  '/',
   '/file-extensions/heic', '/tools/file-identifier', '/how-to-open/heic',
 ]);
 export const SPANISH_CONTENT_PATHS = new Set([
-  '/', ...SHARED_TRANSLATED_HUBS, '/convertir',
+  '/', '/convertir',
   '/file-extensions/heic', '/tools/file-identifier', '/how-to-open/heic', '/converters/pdf-to-word',
 ]);
 
+function splitPath(pathname: string): { path: string; suffix: string } {
+  const match = pathname.match(/^([^?#]*)([?#].*)?$/);
+  return { path: match?.[1] || '/', suffix: match?.[2] || '' };
+}
+
 export function normalizePath(pathname: string): string {
-  const withoutLocale = pathname.replace(/^\/(?:nl|es)(?=\/|$)/, '') || '/';
+  const { path } = splitPath(pathname);
+  const withoutLocale = path.replace(/^\/(?:nl|es)(?=\/|$)/, '') || '/';
   return withoutLocale.length > 1 ? withoutLocale.replace(/\/$/, '') : withoutLocale;
 }
 
 export function localizedPath(pathname: string, locale: AppLocale): string {
+  const { suffix } = splitPath(pathname);
   const path = normalizePath(pathname);
-  if (locale !== 'en') return path === '/' ? `/${locale}/` : `/${locale}${path}`;
-  return path;
+  if (locale !== 'en') return `${path === '/' ? `/${locale}/` : `/${locale}${path}`}${suffix}`;
+  return `${path}${suffix}`;
 }
 
 export function hasLocalizedContent(pathname: string, locale: AppLocale): boolean {
