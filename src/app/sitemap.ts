@@ -20,7 +20,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: path === '/' ? ('daily' as const) : ('weekly' as const),
     priority: path === '/' ? 1 : 0.8,
   }));
-  const spanishPaths = [...dutchPaths, '/converters/pdf-to-word', ...SPANISH_CONVERSION_SLUGS.map((slug) => `/convertir/${slug}`)];
+  // Every indexable English route has a Spanish URL. The Spanish-only
+  // conversion landing pages are appended below because they are not part of
+  // the English route manifest.
+  const spanishPaths = [
+    ...manifest
+      .filter((entry) => entry.isIndexable && !isExcludedFromSitemap(entry.path))
+      .map((entry) => entry.path),
+    ...SPANISH_CONVERSION_SLUGS.map((slug) => `/convertir/${slug}`),
+  ];
   const spanishEntries = spanishPaths.map((path) => ({
     url: `https://anyfilex.com/es${path === '/' ? '/' : path}`,
     lastModified: new Date(PLATFORM_RELEASE_DATE),

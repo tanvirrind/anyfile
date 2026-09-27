@@ -40,6 +40,9 @@ import { AdminAuthGuard } from '../admin/AdminAuthGuard';
 import { AppRoute } from '../../types';
 import { routeToPath } from '../../utils/router';
 import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
+import { hasLocalizedContent, localizedPath } from '../../i18n/paths';
+import type { AppLocale } from '../../i18n/routing';
 
 const ConvertersPage = dynamic<ConvertersPageProps>(
   () => import('../../views/ConvertersPage').then((module) => module.ConvertersPage),
@@ -57,8 +60,10 @@ function RouteLoadingState({ label }: { label: string }) {
 
 function useAppNavigate() {
   const router = useRouter();
+  const locale = useLocale() as AppLocale;
   return (route: AppRoute) => {
-    const path = routeToPath(route);
+    const routePath = routeToPath(route);
+    const path = hasLocalizedContent(routePath, locale) ? localizedPath(routePath, locale) : routePath;
     router.push(path);
     window.scrollTo(0, 0);
   };

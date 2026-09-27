@@ -24,5 +24,8 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|.*\\..*).*)'],
+  // MIME slugs legitimately contain dots (for example
+  // `image/vnd.adobe.photoshop`). Locale-prefixed routes must still pass
+  // through Proxy even when they look like asset paths.
+  matcher: ['/es/:path*', '/nl/:path*', '/((?!api|_next|.*\\..*).*)'],
 };

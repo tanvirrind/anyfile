@@ -12,6 +12,7 @@ import { SEOHead } from '../SEOHead';
 import { generateFAQSchema } from '../../lib/seo/faqGenerator';
 import { AuthorBadge } from '../AuthorBadge';
 import { EditorialStandardsModal } from '../EditorialStandardsModal';
+import { useLocale } from 'next-intl';
 import {
   Clock,
   User,
@@ -36,6 +37,8 @@ interface ContentArticleViewProps {
 }
 
 export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, onNavigate }) => {
+  const locale = useLocale();
+  const faqLabel = locale === 'es' ? 'Preguntas frecuentes' : locale === 'nl' ? 'Veelgestelde vragen' : 'Frequently Asked Questions';
   const [activeToc, setActiveToc] = useState('art-sec-0');
   const [copiedLink, setCopiedLink] = useState(false);
   const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(0);
@@ -51,7 +54,7 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
   if (entity.faq && entity.faq.length > 0) {
     tocItems.push({
       id: 'art-sec-faq',
-      label: 'Frequently Asked Questions'
+      label: faqLabel
     });
   }
 
@@ -283,7 +286,7 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
             {entity.faq && entity.faq.length > 0 && (
               <div id="art-sec-faq" className="scroll-mt-24 pt-6 border-t border-slate-200 dark:border-slate-800 space-y-4">
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <HelpCircle className="w-5 h-5 text-blue-500" /> Frequently Asked Questions
+                  <HelpCircle className="w-5 h-5 text-blue-500" /> {faqLabel}
                 </h2>
 
                 <div className="space-y-3">

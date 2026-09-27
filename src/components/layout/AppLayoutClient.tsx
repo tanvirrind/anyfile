@@ -52,6 +52,40 @@ export function AppLayoutClient({ children }: AppLayoutClientProps) {
     }
   }, [darkMode]);
 
+  // A small last-mile guard for legacy view modules and generated data that
+  // still contain shared English UI labels. Content-specific technical names
+  // are intentionally preserved; only stable interface phrases are mapped.
+  useEffect(() => {
+    if (locale !== 'es' || typeof document === 'undefined') return;
+    const replacements: Array<[RegExp, string]> = [
+      [/Frequently Asked Questions/g, 'Preguntas frecuentes'],
+      [/Troubleshooting Guide/g, 'Guía de solución de problemas'],
+      [/Troubleshooting/g, 'Solución de problemas'],
+      [/Technical Specifications/g, 'Especificaciones técnicas'],
+      [/How to Open Any File/g, 'Cómo abrir cualquier archivo'],
+      [/Select Files/g, 'Seleccionar archivos'],
+      [/Privacy Policy/g, 'Política de privacidad'],
+      [/Terms of Service/g, 'Términos de servicio'],
+      [/Contact AnyFileX/g, 'Contactar con AnyFileX'],
+      [/\bExplore\b/g, 'Explorar'],
+    ];
+    const translate = () => {
+      const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      const nodes: Text[] = [];
+      let current: Node | null;
+      while ((current = walker.nextNode())) nodes.push(current as Text);
+      for (const node of nodes) {
+        if (!node.nodeValue || node.parentElement?.closest('script,style,noscript')) continue;
+        const translated = replacements.reduce((value, [pattern, replacement]) => value.replace(pattern, replacement), node.nodeValue);
+        if (translated !== node.nodeValue) node.nodeValue = translated;
+      }
+    };
+    translate();
+    const observer = new MutationObserver(translate);
+    observer.observe(document.body, { subtree: true, childList: true, characterData: true });
+    return () => observer.disconnect();
+  }, [locale]);
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const handlePopState = () => {

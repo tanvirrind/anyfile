@@ -1,4 +1,5 @@
 import type { AppLocale } from './routing';
+import { buildRouteManifest } from '../lib/routes/routeManifest';
 
 export const DUTCH_CONTENT_PATHS = new Set([
   '/',
@@ -30,6 +31,16 @@ export function localizedPath(pathname: string, locale: AppLocale): string {
 export function hasLocalizedContent(pathname: string, locale: AppLocale): boolean {
   if (locale === 'en') return true;
   const path = normalizePath(pathname);
+  // Spanish is now a complete mirror of the indexable English route surface.
+  // Keep the explicit list above as documentation for the originally hand-
+  // translated pages, but do not send users back to English when navigating
+  // from any generated extension, software, guide, or MIME route.
+  if (locale === 'es') {
+    if (SPANISH_CONTENT_PATHS.has(path) || [...SPANISH_CONTENT_PATHS].some((localizedPath) =>
+      localizedPath !== '/' && path.startsWith(`${localizedPath}/`),
+    )) return true;
+    return buildRouteManifest().some((entry) => entry.path === path && entry.isIndexable);
+  }
   const localizedPaths = locale === 'nl' ? DUTCH_CONTENT_PATHS : SPANISH_CONTENT_PATHS;
   return localizedPaths.has(path) || [...localizedPaths].some((localizedPath) =>
     localizedPath !== '/' && path.startsWith(`${localizedPath}/`),

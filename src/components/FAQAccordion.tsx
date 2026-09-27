@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 export interface FAQItem {
   question: string;
@@ -16,6 +17,9 @@ interface FAQAccordionProps {
 
 export const FAQAccordion: React.FC<FAQAccordionProps> = ({ faqs, title = 'Frequently Asked Questions', subtitle }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const locale = useLocale();
+  const localizedTitle = locale === 'es' ? 'Preguntas frecuentes' : locale === 'nl' ? 'Veelgestelde vragen' : title;
+  const localizedSubtitle = locale === 'es' && subtitle === undefined ? 'Respuestas claras a las preguntas más habituales.' : subtitle;
 
   const toggle = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
@@ -28,10 +32,10 @@ export const FAQAccordion: React.FC<FAQAccordionProps> = ({ faqs, title = 'Frequ
       {title && (
         <div className="flex items-center gap-2 mb-4">
           <HelpCircle className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">{title}</h3>
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">{localizedTitle}</h3>
         </div>
       )}
-      {subtitle && <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">{subtitle}</p>}
+      {localizedSubtitle && <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">{localizedSubtitle}</p>}
 
       <div className="space-y-3">
         {faqs.map((faq, idx) => {
