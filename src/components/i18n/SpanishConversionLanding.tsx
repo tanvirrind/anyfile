@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ConvertersClient } from '@/components/routes/RouteClients';
+import { SpanishConverterTool } from './SpanishConverterTool';
 
 const conversions = {
   'heic-a-jpg': {
@@ -78,7 +78,7 @@ export function SpanishConversionLanding({ slug }: { slug: string }) {
     </section>
 
     <section className="border-y border-slate-200 bg-white py-12 dark:border-slate-800 dark:bg-slate-950">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><h2 className="mb-8 text-center text-3xl font-extrabold text-slate-900 dark:text-white">Conversor de {page.from} a {page.to}</h2><ConvertersClient converterId={page.id} /></div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"><h2 className="mb-8 text-center text-3xl font-extrabold text-slate-900 dark:text-white">Conversor de {page.from} a {page.to}</h2><SpanishConverterTool converterId={page.id} /></div>
     </section>
 
     <section className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">

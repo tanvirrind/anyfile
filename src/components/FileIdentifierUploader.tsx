@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { analyzeUploadedFile, AnalysisReport } from '../utils/fileAnalyzer';
 import { AppRoute } from '../types';
+import { useLocale } from 'next-intl';
 
 interface FileIdentifierUploaderProps {
   onNavigate: (route: AppRoute) => void;
@@ -34,6 +35,7 @@ export const FileIdentifierUploader: React.FC<FileIdentifierUploaderProps> = ({
   onNavigate,
   onAnalysisComplete,
 }) => {
+  const isSpanish = useLocale() === 'es';
   const [dragActive, setDragActive] = useState(false);
   const [uploadState, setUploadState] = useState<'empty' | 'uploading' | 'analyzing' | 'success' | 'error'>('empty');
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -169,10 +171,10 @@ export const FileIdentifierUploader: React.FC<FileIdentifierUploaderProps> = ({
 
               <div className="space-y-2">
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                  Drop your file here
+                  {isSpanish ? 'Suelta tu archivo aquí' : 'Drop your file here'}
                 </h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  or <span className="text-blue-600 dark:text-blue-400 font-bold underline underline-offset-4 cursor-pointer" onClick={() => fileInputRef.current?.click()}>browse file</span> from your computer
+                  {isSpanish ? 'o ' : 'or '}<span className="text-blue-600 dark:text-blue-400 font-bold underline underline-offset-4 cursor-pointer" onClick={() => fileInputRef.current?.click()}>{isSpanish ? 'elige un archivo' : 'browse file'}</span>{isSpanish ? ' desde tu equipo' : ' from your computer'}
                 </p>
               </div>
 
@@ -191,13 +193,13 @@ export const FileIdentifierUploader: React.FC<FileIdentifierUploaderProps> = ({
               {/* Supported Format Pills */}
               <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
                 {[
-                  { label: 'Images', icon: ImageIcon },
-                  { label: 'Documents', icon: FileText },
-                  { label: 'Archives', icon: Archive },
+                  { label: isSpanish ? 'Imágenes' : 'Images', icon: ImageIcon },
+                  { label: isSpanish ? 'Documentos' : 'Documents', icon: FileText },
+                  { label: isSpanish ? 'Archivos comprimidos' : 'Archives', icon: Archive },
                   { label: 'Audio', icon: Music },
-                  { label: 'Video', icon: Film },
-                  { label: 'CAD & 3D', icon: Boxes },
-                  { label: 'Unknown Files', icon: HelpCircle },
+                  { label: 'Vídeo', icon: Film },
+                  { label: 'CAD y 3D', icon: Boxes },
+                  { label: isSpanish ? 'Archivos desconocidos' : 'Unknown Files', icon: HelpCircle },
                 ].map((item) => {
                   const Icon = item.icon;
                   return (
@@ -215,32 +217,32 @@ export const FileIdentifierUploader: React.FC<FileIdentifierUploaderProps> = ({
               {/* Sample Files Trigger Row */}
               <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
                 <span className="text-xs font-medium text-slate-400 uppercase tracking-wider block">
-                  Don't have a file handy? Try a test sample:
+                  {isSpanish ? '¿No tienes un archivo a mano? Prueba una muestra:' : "Don't have a file handy? Try a test sample:"}
                 </span>
                 <div className="flex flex-wrap justify-center gap-2">
                   <button
                     onClick={() => createSampleFile('heic')}
                     className="px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900 text-xs font-semibold hover:bg-blue-100 transition-colors cursor-pointer flex items-center gap-1"
                   >
-                    <span>Sample .HEIC</span>
+                    <span>{isSpanish ? 'Muestra .HEIC' : 'Sample .HEIC'}</span>
                   </button>
                   <button
                     onClick={() => createSampleFile('dwg')}
                     className="px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900 text-xs font-semibold hover:bg-emerald-100 transition-colors cursor-pointer flex items-center gap-1"
                   >
-                    <span>Sample .DWG</span>
+                    <span>{isSpanish ? 'Muestra .DWG' : 'Sample .DWG'}</span>
                   </button>
                   <button
                     onClick={() => createSampleFile('zip')}
                     className="px-3 py-1.5 rounded-lg bg-violet-50 dark:bg-violet-950/60 text-violet-700 dark:text-violet-300 border border-violet-200 dark:border-violet-900 text-xs font-semibold hover:bg-violet-100 transition-colors cursor-pointer flex items-center gap-1"
                   >
-                    <span>Sample .ZIP</span>
+                    <span>{isSpanish ? 'Muestra .ZIP' : 'Sample .ZIP'}</span>
                   </button>
                   <button
                     onClick={() => createSampleFile('pdf')}
                     className="px-3 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-900 text-xs font-semibold hover:bg-amber-100 transition-colors cursor-pointer flex items-center gap-1"
                   >
-                    <span>Sample .PDF</span>
+                    <span>{isSpanish ? 'Muestra .PDF' : 'Sample .PDF'}</span>
                   </button>
                 </div>
               </div>
@@ -248,7 +250,7 @@ export const FileIdentifierUploader: React.FC<FileIdentifierUploaderProps> = ({
               {/* Privacy Reassurance Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900 text-xs font-medium">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                <span>100% Client-Side RAM Processing • Zero Server Uploads</span>
+                <span>{isSpanish ? 'Procesamiento 100% local • Sin subir archivos' : '100% Client-Side RAM Processing • Zero Server Uploads'}</span>
               </div>
             </div>
           )}

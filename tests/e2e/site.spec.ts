@@ -230,6 +230,43 @@ test.describe('Spanish homepage localization', () => {
   });
 });
 
+test.describe('Spanish route localization', () => {
+  const conversionRoutes = [
+    'heic-a-jpg', 'webp-a-jpg', 'pdf-a-jpg', 'pdf-a-png',
+    'jpg-a-pdf', 'png-a-pdf', 'heic-a-png', 'heic-a-pdf',
+  ];
+
+  test('keeps the Spanish HEIC guide free of the English extension detail page', async ({ page }) => {
+    await page.goto('/es/file-extensions/heic');
+    await expect(page.getByRole('heading', { name: 'Compatibilidad y seguridad', exact: true })).toBeVisible();
+    await expect(page.locator('body')).not.toContainText('.HEIC File Extension Reference');
+    await expect(page.locator('body')).not.toContainText('Quick Specification & Metadata');
+  });
+
+  test('keeps the file identifier tool UI in Spanish', async ({ page }) => {
+    await page.goto('/es/tools/file-identifier');
+    await expect(page.getByRole('heading', { name: 'Suelta tu archivo aquí', exact: true })).toBeVisible();
+    await expect(page.locator('body')).not.toContainText('Drop your file here');
+    await expect(page.locator('body')).not.toContainText('File Identifier Engine');
+  });
+
+  for (const slug of conversionRoutes) {
+    test(`renders ${slug} with Spanish converter controls`, async ({ page }) => {
+      await page.goto(`/es/convertir/${slug}`);
+      await expect(page.getByRole('button', { name: 'Seleccionar archivos', exact: true })).toBeVisible();
+      await expect(page.locator('body')).not.toContainText('Select Files');
+      await expect(page.locator('body')).not.toContainText('Universal Online File Converters');
+    });
+  }
+
+  test('renders the Spanish PDF-to-Word page with Spanish converter controls', async ({ page }) => {
+    await page.goto('/es/converters/pdf-to-word');
+    await expect(page.getByRole('button', { name: 'Seleccionar archivos', exact: true })).toBeVisible();
+    await expect(page.locator('body')).not.toContainText('Select Files');
+    await expect(page.locator('body')).not.toContainText('Universal Online File Converters');
+  });
+});
+
 test.describe('Fix #11 — SearchAction ?q= target', () => {
   test('a ?q= URL pre-fills the extensions search and filters results', async ({ page }) => {
     await page.goto('/file-extensions?q=pdf');
