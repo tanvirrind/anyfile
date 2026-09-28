@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
 import { AppRoute } from '../types';
 import { routeToPath } from '../utils/router';
+import { useLocale } from 'next-intl';
+import { localizedPath } from '../i18n/paths';
+import type { AppLocale } from '../i18n/routing';
 
 export interface BreadcrumbItem {
   label: string;
@@ -15,16 +18,18 @@ interface BreadcrumbProps {
 }
 
 export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, onNavigate }) => {
+  const locale = useLocale() as AppLocale;
+  const homeLabel = locale === 'es' ? 'Inicio' : locale === 'nl' ? 'Startpagina' : 'Home';
   return (
     <nav aria-label="Breadcrumb" className="py-2.5 px-1 flex items-center overflow-x-auto text-xs font-medium text-slate-500 dark:text-slate-400 no-scrollbar">
       <ol className="flex items-center space-x-2 shrink-0">
         <li>
           <Link
-            href="/"
+            href={localizedPath('/', locale)}
             className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
           >
             <Home className="w-3.5 h-3.5" />
-            <span>Home</span>
+            <span>{homeLabel}</span>
           </Link>
         </li>
         {items.map((item, idx) => {
@@ -38,7 +43,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, onNavigate }) => 
                 </span>
               ) : (
                 <Link
-                  href={item.route ? routeToPath(item.route) : '#'}
+                  href={item.route ? localizedPath(routeToPath(item.route), locale) : '#'}
                   className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
                 >
                   {item.label}

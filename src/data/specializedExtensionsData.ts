@@ -717,5 +717,20 @@ export const SPECIALIZED_EXTENSIONS_DATA: ExtensionSchema[] = [
     related_converters: ['dta-to-csv', 'dta-to-excel'],
     security: { dangerRating: 'Low Risk', canContainMalware: false, tips: ['Read directly in Python using pandas: import pandas as pd; df = pd.read_stata("file.dta")'] },
     keywords: ['dta file', 'open dta stata', 'statacorp dta', 'read stata file']
+  },
+  {
+    slug: 'rpa',
+    extension: 'RPA',
+    title: '.RPA File Extension - Ren\'Py Archive File Guide',
+    description: 'RPA is the archive format used by the Ren\'Py visual novel engine to package game assets such as images, audio, scripts, and other resources. The archive is normally read by the Ren\'Py runtime or compatible extraction tools rather than opened as a standalone document.',
+    category: 'Archives',
+    mime: 'application/x-renpy-archive',
+    developer: 'Ren\'Py / PyTom',
+    software: ['Ren\'Py', 'Ren\'Py SDK tools', 'UnRPA', 'RPA Extract'],
+    related_extensions: ['RPY', 'RPYC', 'ZIP', '7Z', 'PAK'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: { dangerRating: 'Medium Risk', canContainMalware: true, tips: ['RPA archives may contain executable scripts or engine assets; only extract files from trusted sources', 'Open the archive with the Ren\'Py project or a dedicated extractor rather than renaming it to ZIP', 'Keep a backup of the original archive before extracting or modifying its contents'] },
+    keywords: ['rpa file', 'rpa file extension', 'renpy rpa', 'renpy archive', 'open rpa file', 'how to open rpa file', 'extract rpa archive', 'unrpa', 'rpa extractor']
   }
 ];

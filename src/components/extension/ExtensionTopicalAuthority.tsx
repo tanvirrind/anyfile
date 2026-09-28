@@ -52,6 +52,7 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
   const isElg = extUpper === 'ELG';
   const isCamrec = extUpper === 'CAMREC';
   const isAwbs = extUpper === 'AWBS';
+  const isRpa = extUpper === 'RPA';
 
   const formatGuide = getOrGenerateFormatGuide(extUpper);
   const bestComparison = getBestComparisonForExtension(item.extension, item.category);
@@ -73,6 +74,30 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
   // Compatibility Matrix Data Definition
   // ---------------------------------------------------------------------------
   const compatData = (() => {
+    if (isRpa) {
+      return {
+        os: [
+          { name: 'Windows 10 / 11', supported: true, notes: 'Use the Ren\'Py SDK or a compatible RPA extractor such as UnRPA; keep the source project available', badge: 'Extractor App' },
+          { name: 'macOS', supported: true, notes: 'Ren\'Py and compatible archive tools can extract RPA files locally', badge: 'Extractor App' },
+          { name: 'Linux', supported: true, notes: 'Use Ren\'Py tools or a Python-based RPA extractor from a trusted source', badge: 'Open Source Tools' },
+          { name: 'Android', supported: false, notes: 'No universal native RPA viewer; inspect online or extract the archive on a desktop first', badge: 'No General Viewer' },
+          { name: 'iOS / iPadOS', supported: false, notes: 'No universal native RPA viewer; use a trusted desktop extraction workflow', badge: 'No General Viewer' },
+          { name: 'ChromeOS', supported: true, notes: 'AnyFileX can inspect the file in Chrome, but browser inspection does not unpack or execute Ren\'Py content', badge: 'Inspect Only' },
+        ],
+        browsers: [
+          { name: 'AnyFileX online RPA viewer', supported: true, notes: 'Inspects the file locally in the browser and checks basic file evidence without uploading it', badge: 'Local Inspect' },
+          { name: 'Chrome / Edge / Firefox', supported: true, notes: 'Can run browser-based inspection tools, but browsers do not natively render RPA archive contents', badge: 'Inspect Only' },
+          { name: 'Direct browser archive preview', supported: false, notes: 'RPA is a Ren\'Py archive and requires extraction before its assets can be viewed', badge: 'Requires Extractor' },
+        ],
+        software: item.popularApps.slice(0, 6).map((app) => ({ name: app.name, supported: true, notes: 'Use for Ren\'Py archive extraction or project loading; support depends on archive version', badge: app.isFree ? 'Free' : 'Tool' })),
+        platforms: [
+          { name: 'Ren\'Py project workflow', supported: true, notes: 'Best option when the RPA archive belongs to a known Ren\'Py game or project', badge: 'Primary' },
+          { name: 'AnyFileX browser tools', supported: true, notes: 'Inspect the archive locally without server upload', badge: 'Zero Upload' },
+          { name: 'Google Drive / Dropbox', supported: true, notes: 'Useful for transferring the archive, but cloud services may not preview RPA contents', badge: 'File Transfer' },
+        ],
+      };
+    }
+
     if (isHeic) {
       return {
         os: [
@@ -263,6 +288,29 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
   // Conversion Hub Items
   // ---------------------------------------------------------------------------
   const conversionCards = (() => {
+    if (isRpa) {
+      return [
+        {
+          target: 'ZIP',
+          badge: 'Extract Archive',
+          speed: 'Local Tool',
+          description: 'RPA files are Ren\'Py archives. Extract the assets with Ren\'Py or a compatible RPA extractor, then package selected files as ZIP if you need to share them.',
+          buttonText: 'Browse File Tools',
+          buttonColor: 'bg-blue-600 hover:bg-blue-700 text-white',
+          converterId: null,
+        },
+        {
+          target: 'Assets',
+          badge: 'Format-Specific',
+          speed: 'After Extraction',
+          description: 'After extraction, convert the individual images, audio files, or text assets with the appropriate converter. There is no reliable generic RPA-to-media conversion.',
+          buttonText: 'Browse Conversion Tools',
+          buttonColor: 'bg-slate-900 hover:bg-black dark:bg-slate-800 dark:hover:bg-slate-700 text-white',
+          converterId: null,
+        },
+      ];
+    }
+
     if (isHeic) {
       return [
         {
@@ -365,6 +413,13 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
   // MIME Types & Headers
   // ---------------------------------------------------------------------------
   const mimeRows = (() => {
+    if (isRpa) {
+      return [
+        { mime: 'application/x-renpy-archive', usage: 'Common application-specific MIME label for Ren\'Py archive files', ext: '.rpa' },
+        { mime: 'application/octet-stream', usage: 'Generic binary type when the archive producer or version is unknown', ext: '.rpa' },
+      ];
+    }
+
     if (isHeic) {
       return [
         { mime: 'image/heic', usage: 'Single still image encoded with HEVC', ext: '.heic' },
@@ -422,6 +477,21 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
   // Magic Bytes & Forensics Information
   // ---------------------------------------------------------------------------
   const magicForensics = (() => {
+    if (isRpa) {
+      return {
+        hexString: '52 50 41 2D 33 2E 30 (RPA-3.0; version dependent)',
+        asciiString: 'RPA-3.0',
+        offsetLabel: 'Offset 0x00 (version dependent)',
+        explanation: 'Many Ren\'Py RPA v3 archives begin with the ASCII marker “RPA-3.0”. Archive versions and tools can differ, so use the full header and the producing Ren\'Py project together rather than relying on the filename extension alone.',
+        boxes: [
+          { label: 'Common ASCII Marker', value: 'RPA-3.0', color: 'text-blue-600 dark:text-blue-400' },
+          { label: 'Hex Representation', value: '52 50 41 2D 33 2E 30', color: 'text-emerald-600 dark:text-emerald-400' },
+          { label: 'Container Type', value: 'Ren\'Py archive', color: 'text-amber-600 dark:text-amber-400' },
+          { label: 'Signature Status', value: 'Version dependent', color: 'text-slate-900 dark:text-white' },
+        ],
+      };
+    }
+
     if (isHeic) {
       return {
         hexString: '00 00 00 18 66 74 79 70 68 65 69 63',
@@ -613,7 +683,13 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
             </div>
 
             <ol className="space-y-3 text-xs text-slate-600 dark:text-slate-300">
-              {isHeic ? (
+              {isRpa ? (
+                <>
+                  <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center shrink-0">1</span><span><strong>Ren'Py SDK:</strong> Open the project or use a trusted RPA extractor such as UnRPA on Windows.</span></li>
+                  <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center shrink-0">2</span><span><strong>Keep the project together:</strong> RPA archives often belong to a specific Ren'Py game version and may reference scripts or assets outside the archive.</span></li>
+                  <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center shrink-0">3</span><span><strong>Inspect before opening:</strong> Use AnyFileX to check the file locally before extracting an RPA archive from an untrusted source.</span></li>
+                </>
+              ) : isHeic ? (
                 <>
                   <li className="flex items-start gap-2">
                     <span className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center shrink-0">1</span>
@@ -690,7 +766,13 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
             </div>
 
             <ol className="space-y-3 text-xs text-slate-600 dark:text-slate-300">
-              {isHeic ? (
+              {isRpa ? (
+                <>
+                  <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold flex items-center justify-center shrink-0">1</span><span><strong>Use Ren'Py or a compatible extractor:</strong> Extract the archive locally on macOS or Linux when you know which project created it.</span></li>
+                  <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold flex items-center justify-center shrink-0">2</span><span><strong>Do not rely on Quick Look:</strong> Finder and iPhone preview do not provide a universal RPA archive viewer.</span></li>
+                  <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold flex items-center justify-center shrink-0">3</span><span><strong>Transfer extracted assets:</strong> Move images, audio, or text files to mobile only after extraction and security checks.</span></li>
+                </>
+              ) : isHeic ? (
                 <>
                   <li className="flex items-start gap-2">
                     <span className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold flex items-center justify-center shrink-0">1</span>
@@ -767,7 +849,13 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
             </div>
 
             <ol className="space-y-3 text-xs text-slate-600 dark:text-slate-300">
-              {isHeic ? (
+              {isRpa ? (
+                <>
+                  <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">1</span><span><strong>Inspect RPA online:</strong> Open this page in Chrome on Android and use the AnyFileX viewer to inspect the archive locally.</span></li>
+                  <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">2</span><span><strong>No universal Android app:</strong> Android does not natively open Ren'Py RPA archives, so avoid random “RPA viewer” apps.</span></li>
+                  <li className="flex items-start gap-2"><span className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">3</span><span><strong>Extract on desktop:</strong> For the actual game assets, extract the archive on a trusted Windows, macOS, or Linux computer first.</span></li>
+                </>
+              ) : isHeic ? (
                 <>
                   <li className="flex items-start gap-2">
                     <span className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-bold flex items-center justify-center shrink-0">1</span>

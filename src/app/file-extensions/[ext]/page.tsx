@@ -34,6 +34,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  if (cleanExt === 'rpa') {
+    const title = 'RPA File Viewer Online: How to Open .RPA Files';
+    const description = 'Inspect .RPA files online and learn how to open Ren\'Py archive files on Windows, macOS, Linux, and Android. Understand RPA format, extraction, and safe file conversion.';
+    const canonicalUrl = `${BASE_URL}/file-extensions/rpa`;
+    return {
+      title,
+      description,
+      alternates: { canonical: canonicalUrl },
+      openGraph: {
+        title,
+        description,
+        url: canonicalUrl,
+        type: 'article',
+        images: [{ url: '/og-image.png', width: 1200, height: 630, alt: title }],
+      },
+      robots: {
+        index: true,
+        follow: true,
+        'max-image-preview': 'large',
+      },
+    };
+  }
+
   const fileType = getOrGenerateExtensionInfo(cleanExt);
   const locale = (await getRequestLocale()) as AppLocale;
   if (locale === 'nl' && cleanExt === 'heic') {

@@ -62,6 +62,27 @@ export function generateExtensionFAQs(extInfo: FileTypeInfo): FAQItem[] {
     });
   }
 
+  if (ext === 'RPA') {
+    faqs.push(
+      {
+        question: 'Can I view an RPA file online?',
+        answer: 'You can inspect an RPA file online with AnyFileX to check its extension, file size, and binary header without uploading it. Browser inspection does not execute Ren\'Py scripts or unpack the archive contents.',
+      },
+      {
+        question: 'How do I open RPA files on Android?',
+        answer: 'Android does not provide a universal RPA viewer. Use AnyFileX in Chrome to inspect the file, or extract the archive on a trusted desktop with Ren\'Py or an RPA extractor before transferring the resulting assets to Android.',
+      },
+      {
+        question: 'How do I open RPA files on Windows?',
+        answer: 'On Windows, open an RPA archive with the Ren\'Py SDK or a compatible RPA extractor such as UnRPA. Use the same Ren\'Py project and version when possible because archive indexes and encryption settings can vary.',
+      },
+      {
+        question: 'Can I convert an RPA file online?',
+        answer: 'RPA is an archive, so the usual operation is extraction rather than conversion. Extract it with Ren\'Py or a compatible tool, then convert the individual images, audio files, or scripts as needed. AnyFileX can inspect the original archive locally.',
+      },
+    );
+  }
+
   return faqs;
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useLocale } from 'next-intl';
 
 interface PaginationProps {
   currentPage: number;
@@ -8,6 +9,9 @@ interface PaginationProps {
 }
 
 export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+  const locale = useLocale();
+  const previousLabel = locale === 'es' ? 'Página anterior' : locale === 'nl' ? 'Vorige pagina' : 'Previous Page';
+  const nextLabel = locale === 'es' ? 'Página siguiente' : locale === 'nl' ? 'Volgende pagina' : 'Next Page';
   if (totalPages <= 1) return null;
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -18,7 +22,7 @@ export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages,
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
-        aria-label="Previous Page"
+        aria-label={previousLabel}
         id="pagination-prev-btn"
       >
         <ChevronLeft className="w-4 h-4" />
@@ -43,7 +47,7 @@ export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages,
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
-        aria-label="Next Page"
+        aria-label={nextLabel}
         id="pagination-next-btn"
       >
         <ChevronRight className="w-4 h-4" />

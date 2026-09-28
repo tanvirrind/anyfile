@@ -301,7 +301,9 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
             </div>
 
             <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              .{item.extension} File Extension Reference
+              {item.extension.toUpperCase() === 'RPA'
+                ? 'RPA File Viewer Online & Ren\'Py Archive Guide'
+                : `.${item.extension} File Extension Reference`}
             </h1>
 
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
