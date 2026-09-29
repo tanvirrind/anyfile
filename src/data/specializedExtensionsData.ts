@@ -732,5 +732,484 @@ export const SPECIALIZED_EXTENSIONS_DATA: ExtensionSchema[] = [
     related_converters: [],
     security: { dangerRating: 'Medium Risk', canContainMalware: true, tips: ['RPA archives may contain executable scripts or engine assets; only extract files from trusted sources', 'Open the archive with the Ren\'Py project or a dedicated extractor rather than renaming it to ZIP', 'Keep a backup of the original archive before extracting or modifying its contents'] },
     keywords: ['rpa file', 'rpa file extension', 'renpy rpa', 'renpy archive', 'open rpa file', 'how to open rpa file', 'extract rpa archive', 'unrpa', 'rpa extractor']
+  },
+  {
+    slug: 'fla',
+    extension: 'FLA',
+    title: '.FLA File Extension - Adobe Animate Source Document Guide',
+    description: 'A .FLA file is the editable source document used by Adobe Animate, storing media assets, the timeline, library items, and script information for an animation. Learn how to open FLA files, work with linked assets, and export a finished project safely.',
+    category: 'Audio & Video',
+    mime: 'application/octet-stream',
+    developer: 'Adobe Inc. / Macromedia',
+    software: ['Adobe Animate', 'Adobe Creative Cloud', 'AnyFileX File Identifier'],
+    related_extensions: ['XFL', 'SWF', 'AS', 'FLV', 'F4V', 'MP4', 'GIF', 'HTML'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Open FLA files in a current, trusted version of Adobe Animate and keep the source document and asset folder backed up',
+        'Review ActionScript, imported media, and external links before publishing a project from an untrusted source',
+        'Do not rename .fla to .swf or .mp4; use Adobe Animate export or publish settings to create a playable or shareable output',
+        'Use uncompressed XFL when a team needs source-level collaboration across the document structure'
+      ]
+    },
+    keywords: [
+      'fla file',
+      'fla file extension',
+      'open fla file',
+      'how to open fla',
+      'adobe animate fla',
+      'flash fla source file',
+      'fla animation file',
+      'fla viewer',
+      'fla to swf',
+      'fla to mp4',
+      'convert fla file',
+      'xfl vs fla'
+    ]
+  },
+  {
+    slug: 'cir',
+    extension: 'CIR',
+    title: '.CIR File Extension - SPICE Circuit Netlist & Schematic Guide',
+    description: 'A .CIR file is commonly a plain-text circuit description used by SPICE simulators, but the extension is also used by tools such as Micro-Cap for circuit schematics. Learn how to identify, open, inspect, and simulate CIR files without confusing a netlist with a finished schematic or measurement output.',
+    category: 'CAD & 3D',
+    mime: 'text/plain',
+    developer: 'SPICE simulation ecosystem, Spectrum Software, and other electronics-software developers',
+    software: ['NI Multisim', 'LTspice', 'ngspice', 'PSpice', 'Micro-Cap', 'Visual Studio Code', 'AnyFileX File Identifier'],
+    related_extensions: ['CIRCUIT', 'CIRC', 'SCH', 'LIB', 'MOD', 'RAW', 'MS14', 'MS13'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: false,
+      tips: [
+        'Inspect a CIR file as plain text first and identify whether it is a SPICE netlist, a Micro-Cap schematic, or another tool-specific circuit file',
+        'Run simulations only with trusted model libraries and review directives that reference external files, behavioral sources, or automated commands',
+        'Keep the original CIR file and any referenced .LIB, .MOD, model, and measurement files together before opening or simulating it',
+        'Do not rename a CIR file to .SCH or .CIRC; use the originating application to save or export it in another circuit format'
+      ]
+    },
+    keywords: [
+      'cir file',
+      'cir file extension',
+      'open cir file',
+      'how to open cir file',
+      'spice cir file',
+      'spice netlist file',
+      'micro-cap cir file',
+      'multisim cir file',
+      'ltspice cir file',
+      'ngspice cir file',
+      'cir circuit file',
+      'cir file viewer'
+    ]
+  },
+  {
+    slug: 'mdf',
+    extension: 'MDF',
+    title: '.MDF File Extension - SQL Server, Measurement & Disc Image Guide',
+    description: 'An .MDF file can be a Microsoft SQL Server primary database file, an ASAM Measurement Data Format recording, or the data portion of an optical-disc image paired with .MDS. Learn how to identify the MDF variant before opening, mounting, repairing, or converting it.',
+    category: 'Code & Data',
+    mime: 'application/octet-stream',
+    developer: 'Microsoft, ASAM, and optical-disc imaging software developers',
+    software: ['Microsoft SQL Server', 'SQL Server Management Studio', 'asammdf', 'MATLAB', 'DAEMON Tools', 'PowerISO', 'UltraISO', 'AnyFileX File Identifier'],
+    related_extensions: ['MDS', 'MDF4', 'MF4', 'NDF', 'LDF', 'ISO', 'BIN', 'CUE', 'DAT'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'High Risk',
+      canContainMalware: true,
+      tips: [
+        'Identify the source first: SQL Server databases, ASAM measurement recordings, and optical-disc images require different software',
+        'Never attach an unknown MDF database directly to a production SQL Server instance; restore or inspect a verified copy in an isolated environment',
+        'For disc-image MDF files, keep the matching .MDS descriptor and scan the image before mounting or launching any included programs',
+        'Do not rename .mdf to .iso, .mf4, or another format; use the application that created it to export or convert the data'
+      ]
+    },
+    keywords: [
+      'mdf file',
+      'mdf file extension',
+      'open mdf file',
+      'how to open mdf file',
+      'sql server mdf file',
+      'master database file',
+      'asam mdf file',
+      'measurement data format mdf',
+      'mdf4 file',
+      'mdf mds disc image',
+      'mdf file viewer',
+      'convert mdf file'
+    ]
+  },
+  {
+    slug: 'pak',
+    extension: 'PAK',
+    title: '.PAK File Extension - Game Archive & Package File Guide',
+    description: 'A .PAK file is a game archive or package container used by engines and games to store assets such as textures, maps, models, audio, and scripts. There is no single universal PAK layout, so the correct extractor depends on the game or engine that created the file.',
+    category: 'Archives',
+    mime: 'application/octet-stream',
+    developer: 'Multiple game engines and software developers',
+    software: ['Unreal Engine', 'CryEngine', 'Steam', 'Epic Games Launcher', 'EA App', 'Ubisoft Connect', '7-Zip', 'AnyFileX File Identifier'],
+    related_extensions: ['PK3', 'PK4', 'VPK', 'WAD', 'ZIP', 'RAR', 'UASSET', 'UMAP', 'PAK2'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'High Risk',
+      canContainMalware: true,
+      tips: [
+        'Identify the game or engine first because tools that open one PAK variant may fail on another',
+        'Extract archives from trusted sources into a separate folder and scan the contents before opening scripts, executables, or mod tools',
+        'Back up original game files before replacing or repacking PAK archives because a malformed package can prevent a game from starting',
+        'Do not rename .pak to .zip; use the matching engine or game-specific archive tool unless the package format is confirmed compatible'
+      ]
+    },
+    keywords: [
+      'pak file',
+      'pak file extension',
+      'open pak file',
+      'how to open pak file',
+      'game pak archive',
+      'unreal pak file',
+      'cryengine pak file',
+      'quake pak file',
+      'pak extractor',
+      'pak archive viewer',
+      'extract pak files',
+      'pak vs zip'
+    ]
+  },
+  {
+    slug: 'pkg',
+    extension: 'PKG',
+    title: '.PKG File Extension - macOS Installer & Package File Guide',
+    description: 'A .PKG file is commonly a macOS Installer Package, but the extension is also used by PlayStation software packages and other platform-specific package formats. Learn how to identify the source, inspect a PKG safely, and install or extract it with the correct tool.',
+    category: 'Archives',
+    mime: 'application/octet-stream',
+    developer: 'Apple and other platform-specific software developers',
+    software: ['macOS Installer', 'Xcode pkgbuild/productbuild', 'Apple Installer', 'RPCS3', '7-Zip', 'AnyFileX File Identifier'],
+    related_extensions: ['MPKG', 'DMG', 'APP', 'DEB', 'RPM', 'PUP', 'SELF', 'EBOOT.BIN', 'ZIP'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'High Risk',
+      canContainMalware: true,
+      tips: [
+        'Identify the platform first: a macOS installer PKG and a PlayStation package are different formats and require different software',
+        'Install only PKG files from a trusted developer or verified distribution channel, and check signing or notarization where the platform supports it',
+        'Do not bypass operating-system security prompts simply to install an unknown package; inspect it in an isolated environment first',
+        'Do not rename .pkg to .zip or .dmg; use macOS Installer, pkgutil, or the platform-specific tool that matches the package'
+      ]
+    },
+    keywords: [
+      'pkg file',
+      'pkg file extension',
+      'open pkg file',
+      'how to open pkg file',
+      'mac pkg installer',
+      'macos installer package',
+      'pkgutil extract pkg',
+      'pkgbuild package',
+      'playstation pkg file',
+      'rpcs3 pkg file',
+      'pkg file viewer',
+      'install pkg file'
+    ]
+  },
+  {
+    slug: 'sps',
+    extension: 'SPS',
+    title: '.SPS File Extension - IBM SPSS Syntax File Guide',
+    description: 'An .SPS file is commonly a plain-text IBM SPSS Statistics syntax script used to import, transform, analyze, and document research data. The extension is also used by a few unrelated applications, so identify the file source before running or converting it.',
+    category: 'Medical & Science',
+    mime: 'text/plain',
+    developer: 'IBM / SPSS Inc. and other application developers',
+    software: ['IBM SPSS Statistics', 'GNU PSPP', 'R with haven or foreign packages', 'Python with pandas or pyreadstat', 'Visual Studio Code', 'AnyFileX File Identifier'],
+    related_extensions: ['SAV', 'POR', 'DTA', 'RDATA', 'RDS', 'SPV', 'SPO', 'CSV'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Open an SPS file in a text editor first and confirm that it is SPSS command syntax before executing it',
+        'Review commands that read, write, delete, or launch external files and verify every referenced dataset path before running the syntax',
+        'Keep the SPS script with the matching SAV, POR, CSV, or other input data so the analysis remains reproducible',
+        'Do not rename .sps to .sav; syntax scripts and SPSS datasets are different file types and must be saved or exported by the appropriate application'
+      ]
+    },
+    keywords: [
+      'sps file',
+      'sps file extension',
+      'open sps file',
+      'how to open sps file',
+      'spss syntax file',
+      'ibm spss sps file',
+      'spss command file',
+      'run sps file',
+      'sps file viewer',
+      'sps to sav',
+      'spss syntax editor',
+      'convert sps file'
+    ]
+  },
+  {
+    slug: 'vi',
+    extension: 'VI',
+    title: '.VI File Extension - LabVIEW Virtual Instrument Guide',
+    description: 'A .VI file is a LabVIEW Virtual Instrument, the proprietary binary source file used to build graphical measurement, automation, and control applications. Learn how to open VI files in LabVIEW, preserve linked dependencies, and distinguish VIs from templates and libraries.',
+    category: 'Medical & Science',
+    mime: 'application/octet-stream',
+    developer: 'National Instruments / Emerson',
+    software: ['NI LabVIEW', 'LabVIEW Runtime', 'LabVIEW NXG', 'AnyFileX File Identifier'],
+    related_extensions: ['VIT', 'CTL', 'LLB', 'LVLIB', 'LVCLASS', 'LVM', 'TDMS', 'GVI'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Open a VI file in a compatible LabVIEW version and keep its project, subVIs, libraries, drivers, and hardware dependencies together',
+        'Review block-diagram code and calls to files, system commands, networks, or instruments before running an unfamiliar VI',
+        'Use LabVIEW’s Save for Previous Version or export workflow when sharing with an older LabVIEW release; renaming the extension will not convert it',
+        'A LabVIEW Runtime installation can run built applications but generally cannot replace the full LabVIEW development environment for editing source VIs'
+      ]
+    },
+    keywords: [
+      'vi file',
+      'vi file extension',
+      'open vi file',
+      'how to open vi file',
+      'labview vi file',
+      'virtual instrument file',
+      'national instruments vi',
+      'labview source file',
+      'vi file viewer',
+      'vi vs vit labview',
+      'labview vi dependencies',
+      'convert vi file'
+    ]
+  },
+  {
+    slug: 'ipa',
+    extension: 'IPA',
+    title: '.IPA File Extension - iOS App Package Archive Guide',
+    description: 'An .IPA file is an Apple iOS Package Archive containing an app bundle for iPhone, iPad, Apple TV, Apple Watch, or Apple Vision Pro testing and distribution. Learn how to inspect IPA contents, verify signing and provisioning, and install it with the correct Apple development tool.',
+    category: 'Archives',
+    mime: 'application/octet-stream',
+    developer: 'Apple Inc. and iOS app developers',
+    software: ['Xcode', 'Apple Configurator', 'Device Hub', 'Apple Developer tools', 'AnyFileX File Identifier'],
+    related_extensions: ['APP', 'XCARCHIVE', 'MOBILEPROVISION', 'PLIST', 'ZIP', 'PKG', 'DEB'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'High Risk',
+      canContainMalware: true,
+      tips: [
+        'Install an IPA only from a trusted developer or authorized distribution channel, and verify its signing and provisioning profile',
+        'An IPA is an installable application package, not a normal document; review its contents and metadata before deploying it to a device',
+        'Use Xcode, Device Hub, or Apple Configurator with a compatible registered device and required Developer Mode settings',
+        'For inspection only, a copy can be treated as a ZIP archive with an internal Payload directory, but renaming it does not change its signing or eligibility for installation'
+      ]
+    },
+    keywords: [
+      'ipa file',
+      'ipa file extension',
+      'open ipa file',
+      'how to open ipa file',
+      'ios package archive',
+      'iphone ipa file',
+      'ipad app package',
+      'install ipa file',
+      'ipa extractor',
+      'ipa payload folder',
+      'ipa provisioning profile',
+      'ipa file viewer'
+    ]
+  },
+  {
+    slug: 'chls',
+    extension: 'CHLS',
+    title: '.CHLS File Extension - Charles Proxy Session File Guide',
+    description: 'A .CHLS file is a Charles Web Debugging Proxy session containing recorded HTTP and HTTPS traffic for later analysis. Learn how to open CHLS files in Charles, export request data to XML, CSV, or trace text, and protect sensitive captured credentials.',
+    category: 'Code & Data',
+    mime: 'application/x-charles-savedsession',
+    developer: 'XK72 / Charles Web Debugging Proxy',
+    software: ['Charles Web Debugging Proxy', 'Charles command-line tools', 'Visual Studio Code for exported text', 'AnyFileX File Identifier'],
+    related_extensions: ['SAZ', 'HAR', 'XML', 'CSV', 'JSON', 'PCAP', 'SER'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: false,
+      tips: [
+        'Open CHLS files in Charles Web Debugging Proxy; the format is a proprietary saved-session file rather than a generic ZIP or text log',
+        'Treat captured sessions as confidential because they may contain URLs, request bodies, cookies, authorization headers, tokens, and personal data',
+        'Redact credentials and sensitive payloads before sharing a session or exporting it to XML, CSV, or trace text',
+        'Do not rename .chls to .har or .json; use Charles export tools to create a standard exchange format'
+      ]
+    },
+    keywords: [
+      'chls file',
+      'chls file extension',
+      'open chls file',
+      'how to open chls file',
+      'charles session file',
+      'charles proxy session',
+      'charles web debugging proxy',
+      'chls viewer',
+      'chls to har',
+      'chls to xml',
+      'chls to csv',
+      'export charles session'
+    ]
+  },
+  {
+    slug: 'nl',
+    extension: 'NL',
+    title: '.NL File Extension - Multi-Format File Container Guide',
+    description: 'An .NL file is an ambiguous multi-format file container that may hold PDF documents, Matroska video, ZIP data, game data, or application-specific content. Because the extension does not identify one reliable format, inspect the file header and scan it before choosing software to open it.',
+    category: 'Archives',
+    mime: 'application/octet-stream',
+    developer: 'Multiple application developers',
+    software: ['Adobe Acrobat Reader', 'MKVToolNix', '7-Zip', 'Norton Desktop Icon Library', 'AnyFileX File Identifier'],
+    related_extensions: ['PDF', 'MKV', 'MKA', 'ZIP', 'NDS', 'NWD', 'BIN', 'DOCX', 'OBJ'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'High Risk',
+      canContainMalware: true,
+      tips: [
+        'Inspect the file header or magic bytes before opening it in an application',
+        'Scan files from untrusted sources with updated security software',
+        'Use a PDF, video, archive, or data tool only after the internal format is identified',
+        'Do not rename an NL file to PDF, MKV, or ZIP as a substitute for verified conversion'
+      ]
+    },
+    keywords: [
+      'nl file',
+      'nl file extension',
+      'open nl file',
+      'how to open nl file',
+      'nl file viewer',
+      'nl to pdf',
+      'nl to mkv',
+      'nl archive',
+      'identify nl file',
+      'nl multi format file'
+    ]
+  },
+  {
+    slug: 'anim',
+    extension: 'ANIM',
+    title: '.ANIM File Extension - Unity Animation Clip & 3D Animation Guide',
+    description: 'An .ANIM file is most commonly a Unity animation clip that stores keyframes, curves, events, and animation properties for 2D or 3D game objects. The extension is also used by Autodesk Maya, Amiga animation tools, and some games, so identify the creating application before opening, editing, or converting it.',
+    category: 'CAD & 3D',
+    mime: 'application/octet-stream',
+    developer: 'Unity Technologies, Autodesk, Amiga software developers, and game studios',
+    software: ['Unity', 'Autodesk Maya', 'Amiga Forever', 'Homeworld', 'AnyFileX File Identifier'],
+    related_extensions: ['META', 'MESH', 'FBX', 'DDS', 'ASSET', 'SKEL', 'ANI', 'ANM', 'IFF', 'JSON', 'YAML'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Open an ANIM file in the Unity project, Maya scene, or game tool that created it so referenced models, skeletons, and materials remain available',
+        'Unity ANIM files are often text-based YAML, but other ANIM variants are binary; inspect a copy and confirm the header before editing',
+        'Review external references and imported assets from untrusted game or project packages before loading them into development software',
+        'Do not rename .anim to .fbx, .mp4, or another format; export the animation through the compatible authoring application'
+      ]
+    },
+    keywords: [
+      'anim file',
+      'anim file extension',
+      'open anim file',
+      'how to open anim file',
+      'unity anim file',
+      'unity animation clip',
+      'maya anim file',
+      'amiga anim file',
+      'anim file viewer',
+      'anim to fbx',
+      'anim to mp4',
+      '3d animation file'
+    ]
+  },
+  {
+    slug: 'm4u',
+    extension: 'M4U',
+    title: '.M4U File Extension - Media Redirector and Playlist Guide',
+    description: 'An .M4U file is usually a small text-based media redirector or playlist that points a player to an online stream or local media file. It is associated with MPEG URL and Ogg Media workflows, but the extension is not a universal video container, so inspect its text contents and verify every referenced URL before opening it.',
+    category: 'Audio & Video',
+    mime: 'video/x-mpegurl',
+    developer: 'Ogg Media ecosystem and media player developers',
+    software: ['VLC media player', 'Winamp', 'Apple QuickTime', 'Text editors', 'AnyFileX File Identifier'],
+    related_extensions: ['M3U', 'M3U8', 'M4A', 'OGM', 'OGG', 'WVX', 'MP4'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Open an M4U copy in a text editor first and confirm whether it contains a URL, file path, or media playlist entry',
+        'Do not follow unknown streaming links automatically; verify the domain and scan any downloaded media before opening it',
+        'Use VLC or the player associated with the source workflow, and confirm that the referenced OGM or other media file is available',
+        'Do not rename .m4u to .mp4 or .m3u8; create a standard playlist or export a video with the appropriate media tool'
+      ]
+    },
+    keywords: [
+      'm4u file',
+      'm4u file extension',
+      'open m4u file',
+      'how to open m4u file',
+      'm4u playlist',
+      'm4u redirector file',
+      'mpeg url m4u',
+      'ogg media m4u',
+      'm4u file viewer',
+      'm4u to mp4',
+      'm4u to m3u',
+      'm4u streaming file'
+    ]
+  },
+  {
+    slug: 'dmw',
+    extension: 'DMW',
+    title: '.DMW File Extension - JetBrains Memory Snapshot and Microscopy Data Guide',
+    description: 'A .DMW file is commonly a JetBrains Rider or dotMemory memory snapshot used to investigate performance issues and memory leaks. The same extension can also identify DigitalMicrograph electron-microscopy data or other application-specific records, so inspect its signature and source before opening or extracting it.',
+    category: 'Code & Data',
+    mime: 'application/octet-stream',
+    developer: 'JetBrains, Gatan, and other application developers',
+    software: ['JetBrains Rider', 'JetBrains dotMemory', 'Gatan DigitalMicrograph', '7-Zip for verified ZIP variants', 'AnyFileX File Identifier'],
+    related_extensions: ['DMP', 'HPROF', 'DM3', 'DM4', 'DMV', 'ZIP', 'JSON', 'DWG', 'MMS'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Identify the creating tool first: JetBrains snapshots and DigitalMicrograph data require different software and workflows',
+        'Memory snapshots can contain sensitive strings, paths, credentials, or user data; protect them like confidential diagnostics before sharing',
+        'Inspect a copy for a ZIP signature or readable metadata before extracting it, and scan extracted contents from untrusted sources',
+        'Do not rename every DMW file to .zip; only use an archive tool after header inspection confirms that the file is ZIP-based'
+      ]
+    },
+    keywords: [
+      'dmw file',
+      'dmw file extension',
+      'open dmw file',
+      'how to open dmw file',
+      'jetbrains dmw',
+      'dotmemory snapshot',
+      'rider memory snapshot',
+      'digitalmicrograph dmw',
+      'dmw file viewer',
+      'dmw to zip',
+      'dmw snapshot file',
+      'dmw microscopy data'
+    ]
   }
 ];

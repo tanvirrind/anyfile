@@ -880,5 +880,77 @@ export const DOCUMENT_EXTENSIONS_DATA: ExtensionSchema[] = [
       tips: ['May contain malicious executable email attachments or phishing links; inspect before opening embedded files']
     },
     keywords: ['msg file', 'open msg file', 'outlook msg viewer', 'convert msg to pdf', 'msg to eml']
+  },
+  {
+    slug: 'tmdx',
+    extension: 'TMDX',
+    title: '.TMDX File Extension - TextMaker Document Guide',
+    description: 'A .TMDX file is the native TextMaker document format used by SoftMaker Office. Learn how to open TMDX files, preserve formatting, and save a TextMaker document as DOCX, PDF, or another sharing format.',
+    category: 'Documents',
+    mime: 'application/octet-stream',
+    developer: 'SoftMaker Software GmbH',
+    software: ['SoftMaker TextMaker', 'SoftMaker Office', 'AnyFileX File Identifier'],
+    related_extensions: ['TMD', 'TMVX', 'DOCX', 'DOC', 'ODT', 'RTF', 'PDF'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Open a TMDX file in a current, trusted version of SoftMaker TextMaker and keep the original file backed up',
+        'Treat documents from unknown senders as untrusted because they may contain links, embedded objects, or other content that should be reviewed before use',
+        'Use TextMaker or SoftMaker Office Save As or Export to create DOCX, PDF, RTF, or plain-text copies; renaming .tmdx does not convert it'
+      ]
+    },
+    keywords: [
+      'tmdx file',
+      'tmdx file extension',
+      'open tmdx file',
+      'how to open tmdx',
+      'textmaker document',
+      'softmaker tmdx',
+      'softmaker office document',
+      'tmdx viewer',
+      'tmdx to docx',
+      'tmdx to pdf',
+      'convert tmdx file'
+    ]
+  },
+  {
+    slug: 'odg',
+    extension: 'ODG',
+    title: '.ODG File Extension - OpenDocument Drawing Guide',
+    description: 'An .ODG file is an OpenDocument Drawing used for diagrams, technical illustrations, flowcharts, and vector artwork. Learn how to open ODG files in LibreOffice Draw, preserve editable objects, and export them to PDF, SVG, or image formats.',
+    category: 'Documents',
+    mime: 'application/vnd.oasis.opendocument.graphics',
+    developer: 'OASIS OpenDocument standard and LibreOffice community',
+    software: ['LibreOffice Draw', 'Apache OpenOffice Draw', 'Collabora Office', 'OpenOffice.org Draw', 'AnyFileX File Identifier'],
+    related_extensions: ['ODT', 'ODS', 'ODP', 'OTG', 'SVG', 'PDF', 'VSDX', 'CDR'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Low Risk',
+      canContainMalware: false,
+      tips: [
+        'Open ODG files in LibreOffice Draw or another application with OpenDocument graphics support',
+        'Keep a copy of the original when exporting because complex fonts, gradients, connectors, or embedded media may render differently in other formats',
+        'Use Export or Save As to create PDF, SVG, PNG, or another sharing format; renaming .odg does not convert the drawing',
+        'Review external links and embedded objects when opening a drawing received from an unknown source'
+      ]
+    },
+    keywords: [
+      'odg file',
+      'odg file extension',
+      'open odg file',
+      'how to open odg file',
+      'opendocument drawing',
+      'libreoffice draw odg',
+      'openoffice draw file',
+      'odg viewer',
+      'odg to pdf',
+      'odg to svg',
+      'odg to png',
+      'convert odg file'
+    ]
   }
 ];

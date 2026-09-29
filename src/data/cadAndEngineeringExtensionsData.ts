@@ -446,5 +446,77 @@ export const CAD_AND_ENGINEERING_EXTENSIONS_DATA: ExtensionSchema[] = [
     related_converters: ['3mf-to-stl', '3mf-to-obj'],
     security: { dangerRating: 'Low Risk', canContainMalware: false, tips: ['Modern multi-color 3D printing standard preserving model orientation and materials'] },
     keywords: ['3mf file', 'open 3mf', '3mf consortium', '3d printing 3mf']
+  },
+  {
+    slug: 'pdsprj',
+    extension: 'PDSPRJ',
+    title: '.PDSPRJ File Extension - Proteus Design Suite Project Guide',
+    description: 'A .PDSPRJ file is a Proteus Design Suite project container used for electronics design and microcontroller simulation. Learn how to open a PDSPRJ project, preserve its linked files, and export the finished schematic or PCB design safely.',
+    category: 'CAD & 3D',
+    mime: 'application/octet-stream',
+    developer: 'Labcenter Electronics',
+    software: ['Proteus Design Suite', 'Proteus VSM', 'Proteus Visual Designer', 'AnyFileX File Identifier'],
+    related_extensions: ['DSN', 'LYT', 'PDS', 'HEX', 'ELF', 'PCB', 'SCH'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Open a PDSPRJ project with a compatible Proteus installation and keep the original project folder backed up',
+        'A project may embed or reference source code, firmware, libraries, and other files; verify their source before opening or simulating',
+        'Do not rename a PDSPRJ file to a schematic or PCB format; export from Proteus when you need a different deliverable'
+      ]
+    },
+    keywords: [
+      'pdsprj file',
+      'pdsprj file extension',
+      'open pdsprj file',
+      'how to open pdsprj',
+      'proteus project file',
+      'proteus design suite project',
+      'proteus vsm project',
+      'pdsprj viewer',
+      'pdsprj to pdf',
+      'pdsprj to dsn',
+      'pdsprj schematic file'
+    ]
+  },
+  {
+    slug: 'sat',
+    extension: 'SAT',
+    title: '.SAT File Extension - ACIS 3D CAD Solid Model Guide',
+    description: 'A .SAT file is an ACIS 3D CAD geometry file used to exchange solid bodies, surfaces, and related model data between engineering applications. Learn how to open SAT files in CAD software, preserve model units, and choose between ASCII SAT and binary SAB exports.',
+    category: 'CAD & 3D',
+    mime: 'application/octet-stream',
+    developer: 'Spatial Corp. / ACIS modeling ecosystem',
+    software: ['AutoCAD', 'Autodesk Inventor', 'Autodesk Fusion', 'SolidWorks', 'ANSYS Workbench', 'Onshape', 'FreeCAD', 'AnyFileX File Identifier'],
+    related_extensions: ['SAB', 'STEP', 'STP', 'IGES', 'IGS', 'X_T', 'X_B', 'DWG', 'DXF'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: false,
+      tips: [
+        'Open SAT files in a trusted CAD application and verify the model units, tolerance, and geometry after import',
+        'Keep the original SAT file unchanged because older or newer ACIS versions may not be fully interchangeable across CAD tools',
+        'Use SAB when a binary ACIS export is required, and use STEP or IGES when a broader neutral exchange workflow is more appropriate',
+        'Treat CAD files from unknown sources cautiously and keep CAD software patched because complex geometry parsers can have security issues'
+      ]
+    },
+    keywords: [
+      'sat file',
+      'sat file extension',
+      'open sat file',
+      'how to open sat file',
+      'acis sat file',
+      'standard acis text',
+      '3d cad sat file',
+      'autocad sat file',
+      'sat to step',
+      'sat to stp',
+      'sat vs sab',
+      'sat 3d model viewer'
+    ]
   }
 ];

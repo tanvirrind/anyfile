@@ -774,5 +774,79 @@ export const DEVELOPER_EXTENSIONS_DATA: ExtensionSchema[] = [
     related_converters: ['kt-to-java'],
     security: { dangerRating: 'Low Risk', canContainMalware: false, tips: ['100% interoperable with Java JVM ecosystem'] },
     keywords: ['kt file', 'open kt file', 'kotlin source code', 'android studio kotlin']
+  },
+  {
+    slug: 'gd',
+    extension: 'GD',
+    title: '.GD File Extension - Godot GDScript Source File Guide',
+    description: 'A .GD file is a plain-text source file written in GDScript, Godot Engine’s scripting language for game logic, nodes, resources, and editor tools. Learn how to open GD files, identify their Godot project context, and run them safely.',
+    category: 'Code & Data',
+    mime: 'text/plain',
+    developer: 'Godot Engine community',
+    software: ['Godot Engine', 'Godot Editor', 'Visual Studio Code', 'JetBrains Rider', 'Sublime Text', 'AnyFileX File Identifier'],
+    related_extensions: ['GODOT', 'TSCN', 'TRES', 'CS', 'SH', 'JSON', 'CFG'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Open a GD file in Godot or a text editor to inspect its source; a script is not the same thing as a finished game or executable',
+        'Review code that loads files, starts processes, accesses the network, or runs as an editor tool before opening an untrusted Godot project',
+        'Keep the GD file inside its original Godot project when possible because res:// paths, scenes, resources, and project settings affect how it works',
+        'Do not rename .gd to .txt as a security measure if you later open it in Godot; inspect and edit a copy instead'
+      ]
+    },
+    keywords: [
+      'gd file',
+      'gd file extension',
+      'open gd file',
+      'how to open gd file',
+      'godot gdscript file',
+      'gdscript source code',
+      'godot script file',
+      'gd file viewer',
+      'run gdscript file',
+      'edit gd file',
+      'gd vs cs godot',
+      'godot project script'
+    ]
+  },
+  {
+    slug: 'nt',
+    extension: 'NT',
+    title: '.NT File Extension - RDF N-Triples & Apache Jena Data Guide',
+    description: 'An .NT file is commonly an RDF N-Triples data file used by Apache Jena and linked-data tools, with one subject-predicate-object statement per line. The extension can also identify Windows NT command scripts or unrelated application data, so inspect the contents before opening or executing it.',
+    category: 'Code & Data',
+    mime: 'application/n-triples',
+    developer: 'W3C RDF ecosystem, Apache Jena, and other application developers',
+    software: ['Apache Jena', 'RDF4J', 'Eclipse RDF4J Workbench', 'Protégé', 'Visual Studio Code', 'Windows Command Processor', 'AnyFileX File Identifier'],
+    related_extensions: ['RDF', 'TTL', 'JSONLD', 'OWL', 'XML', 'BAT', 'CMD', 'ZIP'],
+    related_guides: ['how-to-open-unknown-files'],
+    related_converters: [],
+    security: {
+      dangerRating: 'Medium Risk',
+      canContainMalware: true,
+      tips: [
+        'Open an NT file in a text editor first and confirm whether it contains RDF N-Triples data, a command script, or another application-specific format',
+        'Treat lines beginning with commands or shell syntax as executable content and never run an unknown NT file directly',
+        'Keep RDF datasets with their namespaces, linked resources, and source documentation so the graph remains interpretable',
+        'Do not rename .nt to .rdf, .ttl, or .bat; use an RDF tool or the originating application to convert the confirmed format'
+      ]
+    },
+    keywords: [
+      'nt file',
+      'nt file extension',
+      'open nt file',
+      'how to open nt file',
+      'rdf n triples file',
+      'apache jena nt file',
+      'n triples format',
+      'linked data nt file',
+      'nt to rdf',
+      'nt to ttl',
+      'windows nt command script',
+      'nt file viewer'
+    ]
   }
 ];
