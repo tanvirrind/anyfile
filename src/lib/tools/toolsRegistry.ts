@@ -883,6 +883,111 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
     howToOpenSlugs: ['iso']
   },
 
+  'pdf-preflight': {
+    slug: 'pdf-preflight',
+    name: 'PDF Preflight & Print Readiness Checker',
+    category: 'document',
+    categoryLabel: 'Document & Publishing Tools',
+    tagline: 'Inspect PDF structure, print boxes, fonts, embedded content, and risky actions before you share or print',
+    description: 'Run a fast, private PDF preflight scan in your browser. Check page objects, font references, TrimBox and BleedBox metadata, embedded files, encryption, and automatic actions without uploading the document.',
+    processingType: 'local',
+    supportedInputFormats: ['pdf'],
+    supportedOutputFormats: ['report'],
+    isPopular: false,
+    badge: 'Publishing Utility',
+    features: [
+      'Detects missing structural markers, page objects, and common PDF damage',
+      'Checks TrimBox, BleedBox, image resources, and font object references',
+      'Flags JavaScript, launch actions, embedded files, and encryption for review',
+      '100% local browser scan — the original PDF never leaves your device'
+    ],
+    steps: [
+      { title: 'Choose a PDF', desc: 'Drop a PDF into the local preflight workspace or select it from your device.' },
+      { title: 'Review the checks', desc: 'Inspect structure, page inventory, fonts, print boxes, embedded content, and security flags.' },
+      { title: 'Fix before delivery', desc: 'Use the findings to correct the source document or confirm it is ready for the next workflow.' }
+    ],
+    technicalDetails: 'The workspace reads a bounded slice of PDF bytes in browser memory and evaluates common PDF header, cross-reference, page, resource, print-box, encryption, and action markers. It is intentionally a fast diagnostic and does not upload or persist the document.',
+    faqs: [
+      { question: 'Does the PDF get uploaded?', answer: 'No. The scan runs in this browser tab and the file is not sent to AnyFileX servers.' },
+      { question: 'What does PDF preflight check?', answer: 'It checks common structural markers, page objects, font references, print-production boxes, embedded resources, automatic actions, and encryption flags.' },
+      { question: 'Does a pass guarantee that a printer will accept my PDF?', answer: 'No. This is a fast structural check. Printer-specific requirements such as color profiles, resolution, bleed dimensions, and PDF/X compliance may require a certified preflight workflow.' }
+    ],
+    relatedToolSlugs: ['metadata-viewer', 'file-analyzer', 'checksum-verifier'],
+    relatedExtensionSlugs: ['pdf'],
+    comparisonSlugs: ['pdf-vs-pdf-a'],
+    howToOpenSlugs: ['pdf']
+  },
+
+  'office-recovery': {
+    slug: 'office-recovery',
+    name: 'Corrupted Office File Diagnostic & Recovery Inspector',
+    category: 'document',
+    categoryLabel: 'Document Recovery Tools',
+    tagline: 'Inspect damaged DOCX, XLSX, and PPTX packages to find readable content and recoverable parts',
+    description: 'Diagnose corrupted Microsoft Office files locally in your browser. Inspect the underlying ZIP package, XML parts, relationships, media assets, and missing components before attempting recovery.',
+    processingType: 'local',
+    supportedInputFormats: ['docx', 'xlsx', 'pptx'],
+    supportedOutputFormats: ['report'],
+    isPopular: false,
+    badge: 'Recovery Utility',
+    features: [
+      'Checks Office Open XML package integrity without changing the original file',
+      'Detects missing [Content_Types].xml, relationships, and main document parts',
+      'Lists readable text, slide, workbook, document, and media entries for recovery',
+      '100% local browser inspection with zero file uploads'
+    ],
+    steps: [
+      { title: 'Choose the damaged file', desc: 'Drop a DOCX, XLSX, or PPTX file into the local diagnostic workspace.' },
+      { title: 'Inspect package health', desc: 'Review the ZIP container, XML parts, relationships, and embedded media checks.' },
+      { title: 'Plan recovery', desc: 'Use the readable package entries to decide whether XML or media extraction is possible.' }
+    ],
+    technicalDetails: 'Modern Office documents are OPC packages: ZIP containers holding XML parts, relationships, content types, and media. AnyFileX opens that package locally with JSZip, validates the expected parts for the selected format, and reports which entries remain readable.',
+    faqs: [
+      { question: 'Does this repair my original Office file?', answer: 'No. The first version is a diagnostic inspector. It never overwrites the original file and tells you which parts may still be recoverable.' },
+      { question: 'Which formats are supported?', answer: 'The workspace currently supports DOCX Word documents, XLSX Excel workbooks, and PPTX PowerPoint presentations.' },
+      { question: 'Can a damaged Office file still contain recoverable text?', answer: 'Yes. Office files are packages, so individual XML or media entries may remain readable even when the full document cannot be opened.' }
+    ],
+    relatedToolSlugs: ['pdf-preflight', 'file-analyzer', 'metadata-viewer'],
+    relatedExtensionSlugs: ['docx', 'xlsx', 'pptx'],
+    comparisonSlugs: ['docx-vs-pdf'],
+    howToOpenSlugs: ['docx', 'xlsx', 'pptx']
+  },
+
+  '3mf-preflight': {
+    slug: '3mf-preflight',
+    name: '3MF Print-Job Preflight Checker',
+    category: 'cad',
+    categoryLabel: '3D Printing & CAD Tools',
+    tagline: 'Check 3MF units, scale, build items, geometry, slicer origin, and package metadata before printing',
+    description: 'Run a private 3MF print-job preflight in your browser. Inspect geometry counts, declared units, bounding size, build items, preview assets, slicer metadata, and package health before opening your slicer.',
+    processingType: 'local',
+    supportedInputFormats: ['3mf'],
+    supportedOutputFormats: ['report'],
+    isPopular: false,
+    badge: 'Print Readiness Utility',
+    features: [
+      'Checks declared units and reports approximate model bounding dimensions',
+      'Counts build items, mesh objects, vertices, and triangles',
+      'Detects common slicer origins, thumbnails, and package metadata',
+      '100% local 3MF parsing with zero model uploads'
+    ],
+    steps: [
+      { title: 'Choose a 3MF job', desc: 'Drop a 3MF project or model package into the local preflight workspace.' },
+      { title: 'Review print readiness', desc: 'Check units, scale, geometry, object count, and slicer metadata.' },
+      { title: 'Open your slicer', desc: 'Continue in Bambu Studio, PrusaSlicer, OrcaSlicer, Cura, or another compatible workflow.' }
+    ],
+    technicalDetails: 'Uses the existing AnyFileX 3MF parser to read the ZIP-based 3D/3dmodel.model manifest, resolve mesh vertices and build items, identify declared units, and inspect package file names and metadata entirely in browser memory.',
+    faqs: [
+      { question: 'Does the 3MF model get uploaded?', answer: 'No. The package is parsed in your browser tab and is never sent to AnyFileX servers.' },
+      { question: 'Does this guarantee that my model will print?', answer: 'No. It checks package and geometry metadata. Slicer-specific settings such as supports, wall thickness, clearance, and filament profiles still need review.' },
+      { question: 'Which slicers are recognized?', answer: 'The report can identify common Bambu Studio, PrusaSlicer, OrcaSlicer, and Cura package markers, while generic 3MF files are still supported.' }
+    ],
+    relatedToolSlugs: ['3mf-viewer', '3mf-to-stl', 'stl-repair'],
+    relatedExtensionSlugs: ['3mf', 'stl', 'obj'],
+    comparisonSlugs: ['3mf-vs-stl'],
+    howToOpenSlugs: ['3mf']
+  },
+
   'mime-checker': {
     slug: 'mime-checker',
     name: 'MIME Type & Content-Type Checker',
