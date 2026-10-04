@@ -3,6 +3,14 @@ import JSZip from 'jszip';
 import { sha256Hex } from '../../src/utils/hashUtils';
 import { convertFileInBrowser } from '../../src/lib/converter/engine';
 import { detectFileFormat } from '../../src/lib/analyzer/detectionEngine';
+import { getAllTools } from '../../src/lib/tools/toolsRegistry';
+
+describe('Tool registry integrity', () => {
+  it('contains unique slugs for related-tool rendering keys', () => {
+    const slugs = getAllTools().map((tool) => tool.slug);
+    expect(new Set(slugs).size).toBe(slugs.length);
+  });
+});
 
 describe('Fix #6 — SHA-256 must be a real full digest (no truncation/fake)', () => {
   it('matches the published digest for "abc"', async () => {

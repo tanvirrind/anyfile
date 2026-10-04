@@ -21,7 +21,8 @@ import {
   Layers,
   ShieldCheck,
   Mail,
-  Box
+  Box,
+  Download
 } from 'lucide-react';
 import { AppRoute, ToolTab } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
@@ -264,6 +265,18 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       icon: CheckCircle2,
       tags: ['Hash Matcher', 'Integrity Test', 'Security'],
       processingType: 'local'
+    },
+    {
+      id: 'file-downloader',
+      name: 'Any File Downloader',
+      category: 'Developer & Security',
+      desc: 'Download files from direct HTTP or HTTPS links with an optional clean filename, entirely through your browser.',
+      route: { view: 'tool-detail', slug: 'file-downloader' } as any,
+      icon: Download,
+      tags: ['URL Download', 'Custom Filename', 'CORS Fallback', 'No Proxy'],
+      badge: 'Web Utility',
+      processingType: 'local',
+      isPopular: true
     },
 
     // Data & Privacy Tools

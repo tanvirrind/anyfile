@@ -704,7 +704,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
   },
 
   'file-analyzer': {
-    slug: 'file-identifier',
+    slug: 'file-analyzer',
     name: 'File Intelligence Engine & Deep Diagnostic',
     category: 'developer',
     categoryLabel: 'Developer & Security Tools',
@@ -881,6 +881,41 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
     relatedExtensionSlugs: ['iso', 'zip', 'exe'],
     comparisonSlugs: ['iso-vs-dmg'],
     howToOpenSlugs: ['iso']
+  },
+
+  'file-downloader': {
+    slug: 'file-downloader',
+    name: 'Any File Downloader',
+    category: 'developer',
+    categoryLabel: 'Developer & Web Tools',
+    tagline: 'Download any direct HTTP or HTTPS file link with a custom filename and browser-only transfer',
+    description: 'Download files from direct web URLs in your browser. AnyFileX fetches the response locally when the source allows browser access, preserves the server filename when available, and provides a direct-open fallback for CORS-protected sources.',
+    processingType: 'local',
+    supportedInputFormats: ['url'],
+    supportedOutputFormats: ['*'],
+    isPopular: true,
+    badge: 'Web Utility',
+    features: [
+      'Downloads direct HTTP and HTTPS file URLs with a browser-first transfer',
+      'Uses Content-Disposition or URL path names automatically',
+      'Supports an optional custom filename with unsafe characters removed',
+      'Uses a short-lived server fetch fallback when a source blocks CORS'
+    ],
+    steps: [
+      { title: 'Paste a file URL', desc: 'Enter a direct HTTP or HTTPS link to the file you want to save.' },
+      { title: 'Choose the filename', desc: 'Keep the suggested server or URL filename, or enter a custom name.' },
+      { title: 'Download locally', desc: 'Fetch the file in browser memory or open the source directly when CORS prevents a local fetch.' }
+    ],
+    technicalDetails: 'The workspace first uses the browser Fetch API and Blob URLs. If a source blocks CORS, the same-origin AnyFileX download endpoint streams the response without persisting or inspecting the downloaded bytes. Private and local network targets are blocked, and redirect targets are validated.',
+    faqs: [
+      { question: 'Does AnyFileX store my download?', answer: 'No. The browser-first path is direct, and the CORS fallback streams the file through AnyFileX without persisting it.' },
+      { question: 'Why did the download use the Open source fallback?', answer: 'The source likely blocks cross-origin browser fetches with CORS, requires authentication, or returned an HTTP error. Opening the source lets the browser handle its own download rules.' },
+      { question: 'Can I rename the downloaded file?', answer: 'Yes. Enter an optional filename. Path separators and other unsafe filename characters are replaced before the browser download begins.' }
+    ],
+    relatedToolSlugs: ['checksum-verifier', 'file-analyzer', 'mime-checker'],
+    relatedExtensionSlugs: [],
+    comparisonSlugs: [],
+    howToOpenSlugs: []
   },
 
   'pdf-preflight': {

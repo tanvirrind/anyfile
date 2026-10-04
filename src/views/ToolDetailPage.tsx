@@ -38,6 +38,7 @@ import { ThreeMfToStlWorkspace } from '../components/converter/ThreeMfToStlWorks
 import { PdfPreflightWorkspace } from '../components/tools/PdfPreflightWorkspace';
 import { OfficeRecoveryWorkspace } from '../components/tools/OfficeRecoveryWorkspace';
 import { ThreeMfPreflightWorkspace } from '../components/tools/ThreeMfPreflightWorkspace';
+import { FileDownloaderWorkspace } from '../components/tools/FileDownloaderWorkspace';
 import { getFormatKnowledgeNode } from '../lib/database/knowledgeGraph';
 
 export interface ToolDetailPageProps {
@@ -272,6 +273,8 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
           <OfficeRecoveryWorkspace />
         ) : toolSlug === '3mf-preflight' ? (
           <ThreeMfPreflightWorkspace />
+        ) : toolSlug === 'file-downloader' ? (
+          <FileDownloaderWorkspace />
         ) : toolSlug === 'magic-byte-detector' ? (
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
             <FileCode className="w-12 h-12 text-blue-600 mx-auto" />
