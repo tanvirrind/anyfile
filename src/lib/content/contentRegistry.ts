@@ -1,4 +1,5 @@
 import { ContentEntity } from './types';
+import { BATCH_OCT2026_ENTITIES } from './contentBatchOct2026';
 import { AUTHOR_AVATARS, TECHNICAL_STANDARDS_CITATIONS } from './editorialTeam';
 
 const STORAGE_KEY = 'anyfilex_content_entities_v6';
@@ -933,7 +934,8 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     readingTimeMinutes: 4,
     difficulty: 'Beginner',
     targetOS: ['windows', 'mac', 'linux']
-  }
+  },
+  ...BATCH_OCT2026_ENTITIES
 ];
 
 // Helper to load content entities with localStorage persistence
