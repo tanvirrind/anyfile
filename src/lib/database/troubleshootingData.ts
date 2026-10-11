@@ -1020,7 +1020,410 @@ export const TROUBLESHOOTING_GUIDES: TroubleshootingGuideItem[] = [
         answer: "PNG is `89 50 4E 47`, JPEG is `FF D8 FF`, PDF is `25 50 44 46` (%PDF), ZIP/DOCX/XLSX is `50 4B 03 04` (PK..), and GIF is `47 49 46 38` (GIF8)."
       }
     ]
-  }
+  },
+  {
+    id: 'repair-corrupted-zip',
+    title: 'How to Repair a Corrupted ZIP File (Without Installing Anything)',
+    subtitle:
+      'Corrupted ZIP file? Learn how to repair it step by step: WinRAR repair, re-download checks, and a no-install browser method for Windows and Mac.',
+    category: 'Archives',
+    problemSummary:
+      'A corrupted ZIP file always shows up at the worst possible moment: the download you need for work, the backup of your photos, the project archive a client just sent. Before you assume the data is gone, work through this guide in order. Most "corrupted" ZIPs are not badly damaged at all — the most common cause is simply an incomplete download, which no repair tool can fix but a fresh download solves in minutes. The second most common cause is structural damage to the archive\'s headers, which repair tools handle well. This guide walks you from the quick checks (re-download, verify the file is really a ZIP) through WinRAR\'s built-in repair for severe cases, to a no-install browser method for when you cannot or do not want to install software.',
+    commonErrorMessages: [
+      'Unexpected end of archive',
+      'The archive is either in unknown format or damaged',
+      'Cannot open file: it does not appear to be a valid archive',
+      'CRC failed in the encrypted file (wrong password?)',
+      'End-of-central-directory signature not found',
+    ],
+    symptoms: [
+      'Double-clicking the ZIP shows an error instead of the file list',
+      'The archive opens but extraction fails partway through with a CRC or "unexpected end" error',
+      'Only some files extract; others fail or come out as 0 bytes',
+      'The ZIP is much smaller than you expected (a sign the download was cut short)',
+      'The archive opens fine on one computer but not on another',
+      'You are asked for a password on a ZIP you do not remember encrypting',
+    ],
+    diagnosticFlow: {
+      problemStatement:
+        'A ZIP archive will not open or extract correctly, and it is unclear whether the file is truly damaged, merely incomplete, mislabeled, or password-protected.',
+      analysisTechnique:
+        'Rule out the cheap explanations before attempting repair. First, check the file size against what you expected — a ZIP that is much smaller than advertised is almost certainly a truncated download, and repair tools cannot rebuild data that was never downloaded. Second, confirm the file is actually a ZIP by reading its magic bytes (its file signature) rather than trusting the extension: a download that failed can leave you with an HTML error page named .zip. Third, test whether the archive is a multi-part set with missing pieces — a lone .z01 or .zip.001 without its siblings will always fail. Only when the file is complete, correctly labeled, and still will not extract is a repair tool the right next step.',
+      identifiedRootCause:
+        'In most cases, an interrupted or incomplete download — the archive is missing its tail end, which is why "Unexpected end of archive" is the single most common error. When the download is complete, the next most likely culprit is structural damage to the archive\'s central directory (the index at the end of the ZIP that lists its contents), often caused by bad storage sectors, a USB drive removed mid-write, or antivirus software quarantining part of the file mid-download.',
+      recommendedResolution:
+        'If the file is incomplete, re-download it from the original source — preferably over a stable connection — and compare sizes. If the file is complete but structurally damaged, run WinRAR\'s Repair archive function (Tools menu, or Alt+R), making sure to treat the archive as ZIP; it rebuilds the headers and writes a new file named rebuilt.<original>.zip. For partial damage, extract with "Keep broken files" enabled to salvage whatever is intact. If you cannot install software, use an in-browser repair tool that rebuilds the archive headers locally on your device.',
+    },
+    whyItHappens: [
+      {
+        cause: 'Incomplete or interrupted download (most common)',
+        explanation:
+          'Downloads get cut short more often than people realize: a flaky Wi-Fi connection, a browser tab closed too early, a VPN dropping, or a server timing out. The result is a ZIP that is missing its end — and because a ZIP stores its central directory (the index of everything inside) at the very end of the file, a truncated archive usually refuses to open at all, or fails with "Unexpected end of archive." No repair tool can reconstruct file data that never arrived; the fix is a fresh, complete download. If the source offers a checksum (a hash value) for the download, compare it after re-downloading to confirm the file arrived intact.',
+        technicalContext:
+          'The central directory sits at the tail of a ZIP file. Truncation almost always destroys it first, which is why truncated archives typically fail at the "open" stage rather than mid-extraction.',
+      },
+      {
+        cause: 'Damaged storage or interrupted writes',
+        explanation:
+          'Bad sectors on a hard drive, a USB stick pulled out while files were being copied, a phone running out of battery mid-transfer, or a cloud sync that only half-finished can all leave a ZIP with damaged bytes in the middle. Unlike a truncated download, these files are usually the right size — the damage is scattered, so some files inside extract fine while others fail with CRC errors. (A CRC error means the extracted data does not match the checksum stored when the file was archived — proof that bytes changed somewhere along the way.)',
+      },
+      {
+        cause: 'Antivirus or security software interference',
+        explanation:
+          'Security software sometimes quarantines a file inside an archive while it is being downloaded or extracted, or blocks the archiver from writing temp files. The visible symptom is an extraction that fails mysteriously, or an archive that worked yesterday and does not today. If extraction fails on a file you trust, try temporarily pausing real-time protection for the extraction only — and re-enable it immediately after. Never disable protection to open an archive from an untrusted source.',
+      },
+      {
+        cause: 'Multi-part archive with missing pieces',
+        explanation:
+          'Large archives are often split into parts (.zip.001, .zip.002, or .z01, .z02) for easier uploading. Every part must be present in the same folder before you open the first one — a single missing or renamed part makes the whole set unreadable, and the error looks exactly like corruption. Before repairing anything, check whether the sender split the archive and confirm you have all the pieces.',
+      },
+      {
+        cause: 'The file is not really a ZIP',
+        explanation:
+          'A failed download sometimes saves an HTML error page ("404 Not Found", a login page) with a .zip filename. Email attachments can be mangled by encoding problems in transit. And occasionally a different archive format (RAR, 7Z) is simply renamed to .zip. In all these cases the "corruption" is a labeling problem, not damaged data — renaming it back or re-downloading correctly is the fix, and no repair tool will help. Checking the file\'s magic bytes tells you what the file truly is in seconds.',
+      },
+      {
+        cause: 'Password protection mistaken for corruption',
+        explanation:
+          'An encrypted ZIP asks for a password before showing anything, and some archivers phrase this confusingly — a wrong or missing password can surface as a CRC failure ("CRC failed in the encrypted file") rather than a clear password prompt. If you see a CRC error specifically flagged as encrypted, stop and find the password: repair tools cannot and should not bypass encryption, and repeated guessing will not help.',
+      },
+    ],
+    howToConfirm: [
+      {
+        method: 'Size check and fresh-download comparison',
+        steps: [
+          'Right-click the ZIP and check its size. Compare it against the size stated on the download page or in the sender\'s message.',
+          'If the file is dramatically smaller than expected — or 0 bytes — it is incomplete. Re-download it; do not bother with repair tools.',
+          'Re-download over a stable connection (wired if possible), ideally from the original source rather than a mirror.',
+          'If the source publishes a checksum (MD5, SHA-1, or SHA-256 hash), verify the new download against it before extracting.',
+        ],
+        whatToLookFor:
+          'A size mismatch means truncation — re-download. A matching size with extraction failures means real structural damage — proceed to repair.',
+      },
+      {
+        method: 'Verify the file is genuinely a ZIP',
+        steps: [
+          'Use AnyFileX\'s free in-browser file identifier to read the file\'s magic bytes — the signature at the start of the file. Nothing is uploaded; the check runs on your device.',
+          'If the signature says HTML, text, RAR, or 7Z instead of ZIP, the extension is the problem, not the data.',
+          'An HTML signature means a failed download saved an error page — open it in a text editor to see the actual error message, then re-download correctly.',
+          'A RAR or 7Z signature means the file was misnamed — rename it to the correct extension and open it with the matching archiver.',
+        ],
+        whatToLookFor:
+          'A non-ZIP signature means relabel or re-download, not repair. Only a genuine ZIP signature with extraction failures warrants a repair attempt.',
+      },
+      {
+        method: 'Test the archive structure before repairing',
+        steps: [
+          'Open the archive in 7-Zip (free) or WinRAR and use the built-in test function to list which entries are damaged.',
+          'Check whether the archive is part of a split set: look for sibling files like .z01, .zip.001 in the same folder.',
+          'Note exactly which files fail — if only one file inside fails with a CRC error while the rest extract, the damage is localized and partial extraction will save the rest.',
+        ],
+        whatToLookFor:
+          'Localized damage (one bad entry) favors partial extraction; global failure to even list contents favors a full header repair.',
+      },
+    ],
+    osWorkflows: [
+      {
+        os: 'windows',
+        title: 'Windows: repair with WinRAR (best for severe damage)',
+        instructions: [
+          'Open WinRAR and navigate to the folder containing the corrupted ZIP (or right-click the file and open it with WinRAR).',
+          'Select the corrupted archive in the WinRAR file list.',
+          'Go to the Tools menu and choose "Repair archive" (or press Alt+R).',
+          'In the dialog, set "Archive type" to "Treat the corrupt archive as ZIP" — do not leave it on RAR for a ZIP file.',
+          'Choose the folder where the repaired archive should be saved, then click OK.',
+          'Wait for the repair to finish. WinRAR rebuilds the archive structure and writes a new file named rebuilt.<originalname>.zip in the folder you chose.',
+          'Open the rebuilt file and extract it. Depending on the damage, recovery may be complete or partial.',
+          'If extraction still fails on individual files, re-open the rebuilt archive and extract with the "Keep broken files" option enabled (in the extraction dialog under Miscellaneous) to salvage everything that is intact.',
+        ],
+        tips:
+          'WinRAR is paid software but the trial handles repairs fine. 7-Zip is a completely free alternative for opening and testing archives, though it has no dedicated repair function — for 7-Zip, the practical fallback is partial extraction of the undamaged entries.',
+      },
+      {
+        os: 'mac',
+        title: 'macOS: repair options without a Windows machine',
+        instructions: [
+          'First, rule out the easy causes: re-download the file and confirm it is a genuine ZIP using the magic-byte check above.',
+          'The built-in Archive Utility cannot repair archives, so install a third-party archiver: 7-Zip is not native to macOS, but the free apps Keka and The Unarchiver open ZIPs reliably for testing.',
+          'For a real repair on macOS, download RAR for macOS from rarlab.com, open Terminal, and run the command-line repair: drag the rar program into the Terminal window, type "r", drop the corrupted archive into the window, then type the destination folder path and press Return. The tool scans the archive and builds a repaired copy.',
+          'If the archive opens but some entries fail, extract with a tool that keeps partial results rather than aborting on the first error.',
+          'When none of the desktop options are available, use the no-install browser method below — it works identically on macOS.',
+        ],
+        tips:
+          'macOS quarantines files downloaded from the internet; if extraction fails with permission errors rather than corruption errors, right-click the ZIP and check for quarantine flags before assuming damage.',
+      },
+      {
+        os: 'all',
+        title: 'All platforms: no-install browser repair and partial salvage',
+        instructions: [
+          'Re-download the archive first if there is any chance the download was interrupted — repair cannot replace missing bytes.',
+          'Open AnyFileX\'s in-browser archive repair tool and drop the ZIP in. The repair runs entirely on your device — the file is never uploaded to a server, which matters when the archive contains private documents.',
+          'The tool rebuilds the archive\'s central directory headers from the intact local file headers and gives you a repaired archive to download.',
+          'Try extracting the repaired archive. Files whose compressed data survived will extract normally.',
+          'For archives where only a few entries are damaged, use the "Keep broken files" approach: extract everything, let the damaged entries fail, and keep the intact ones. A partial recovery beats starting over.',
+          'If the archive is password-protected and you do not have the password, stop here — no legitimate repair tool bypasses encryption.',
+          'When nothing works and the data matters, go back to the source and ask for a fresh copy or a different transfer method (cloud link instead of email attachment, for example).',
+        ],
+        tips:
+          'Browser-based repair fixes structural damage (broken headers and indexes). It cannot recover file content that was never downloaded or was overwritten — set expectations accordingly: headers yes, missing bytes no.',
+      },
+    ],
+    measurableSecurityNotes: {
+      verifiedAspects: [
+        'Magic-bytes signature check confirms whether the file is genuinely a ZIP archive or a mislabeled HTML page, RAR, or 7Z file.',
+        'File-size plausibility check flags truncated downloads before any repair is attempted.',
+        'Archive test listing identifies exactly which entries are damaged, so repair effort targets the real problem.',
+      ],
+      antivirusDistinction:
+        'These are structural integrity checks — they verify the archive\'s headers, indexes, and checksums. They do not scan for malware. A repaired archive from an untrusted source should still be scanned by your antivirus before you open the files inside it, and repair tools should only be downloaded from their official sites (rarlab.com for WinRAR/RAR).',
+    },
+    connectedTools: [
+      {
+        name: 'File Identifier',
+        description:
+          'Reads the file\'s magic bytes entirely in your browser (no upload) and reports what the file truly is — confirms whether your "ZIP" is really a ZIP or a mislabeled HTML error page, RAR, or 7Z file.',
+        route: { view: 'file-analyzer' },
+        iconType: 'analyzer',
+        primary: true,
+      },
+    ],
+    relatedExtensions: ['zip', 'rar', '7z'],
+    relatedGuideIds: [
+      'why-zip-file-not-opening',
+      'how-to-check-corrupted-file',
+      'how-to-identify-unknown-file',
+    ],
+    faqs: [
+      {
+        question: 'Can a corrupted ZIP file be repaired without WinRAR?',
+        answer:
+          'Yes. Start with a re-download, since most "corruption" is really an incomplete download. For genuine structural damage, an in-browser repair tool can rebuild the archive headers with nothing to install — the file never leaves your device. WinRAR\'s Repair archive function remains the strongest option for severe damage on Windows, and 7-Zip is a free alternative for testing and partial extraction.',
+      },
+      {
+        question: 'What does "Unexpected end of archive" mean?',
+        answer:
+          'It means the archive is cut short — the file ends before the ZIP\'s central directory (its index of contents) appears. This is the classic signature of an interrupted download. Re-download the file completely; repair tools cannot invent the missing bytes.',
+      },
+      {
+        question: 'Will repairing a ZIP file delete any of my data?',
+        answer:
+          'No — repair tools work on a copy. WinRAR writes a new file named rebuilt.<originalname>.zip and leaves your original untouched. Browser-based tools likewise produce a new repaired download. Your original file is never modified, so there is no risk in trying.',
+      },
+      {
+        question: 'Can I repair a password-protected ZIP without the password?',
+        answer:
+          'No, and you should be suspicious of any tool that claims otherwise. Encryption is doing its job when the contents stay locked. Repair tools fix damaged archive structure; they do not bypass passwords. Find the password first, then repair if needed.',
+      },
+      {
+        question: 'Why does my ZIP open on one computer but not another?',
+        answer:
+          'Usually one of three things: the two computers have different copies of the file (one download was truncated), one archiver is stricter about minor header damage than the other, or security software on one machine is interfering. Copy the exact same file to both machines and test — if it fails identically, the file is the problem; if not, the software or system is.',
+      },
+    ],
+  };,
+  {
+    id: 'pdf-wont-open',
+    title: "PDF Won't Open? How to Diagnose and Fix It",
+    subtitle:
+      "PDF won't open? Diagnose it in minutes — reader, download, password, or real corruption — then apply the matching fix. No guesswork.",
+    category: 'Documents',
+    problemSummary:
+      'A PDF that will not open is maddening because the error messages are vague: "could not open," "file is damaged," "not a supported file type." Most guides respond by telling you to download their repair software. Do not start there. In the majority of cases the file is perfectly fine and the problem is something simpler — a broken reader installation, an incomplete download, a password prompt disguised as an error, or a file that was never a PDF to begin with. This guide gives you a diagnosis ladder: six quick tests, ordered from most to least likely, that pinpoint the actual cause in a few minutes. You will learn how to tell a reader problem from a file problem in under a minute, how to verify a download actually completed, and how to confirm a file is genuinely a PDF before you trust any error message about it. Only at the end, if the file is genuinely corrupted, do we talk about repair — including a private in-browser option for documents you would rather not upload anywhere.',
+    commonErrorMessages: [
+      'Adobe Acrobat Reader could not open file because it is either not a supported file type or because the file has been damaged',
+      'There was an error opening this document. The file is damaged and could not be repaired',
+      'Adobe Reader cannot open file because it is not a valid PDF document',
+      'Failed to load PDF document',
+      'This file is password protected. Please enter the password',
+    ],
+    symptoms: [
+      'Double-clicking the PDF does nothing, or shows a generic error',
+      'The PDF opens in your browser but not in Adobe Reader (or vice versa)',
+      'The file opens but pages are blank, garbled, or cut off halfway',
+      'You get a "damaged" or "not a supported file type" message immediately',
+      'The PDF worked last week and now refuses to open',
+      'A password prompt appears on a document you do not remember protecting',
+      'The file size looks wrong — 0 bytes, or far smaller than the sender described',
+      'Other PDFs open normally, so the problem is clearly this one file',
+    ],
+    diagnosticFlow: {
+      problemStatement:
+        'A PDF file will not open, and the error message does not make clear whether the reader software, the download, a password, or genuine file corruption is at fault.',
+      analysisTechnique:
+        'Work the ladder from the outside in. First, isolate the reader: open the same PDF in a different reader — your web browser is the fastest test, since Chrome, Edge, and Firefox all render PDFs natively. If it opens in the browser, the file is fine and your desktop reader is the problem. Second, check the download: compare the file size with what you expected and re-download from the original source if anything looks off — an interrupted download is the most common source of genuinely broken PDFs. Third, read any prompt literally: a password dialog means encryption, not corruption. Fourth, check for a zero-byte file (nothing to repair — re-download). Fifth, verify the file is actually a PDF by checking that it begins with the %PDF- marker or by reading its magic bytes; a failed download often saves an HTML error page with a .pdf name. Sixth, consider provenance: PDFs transferred as email attachments are disproportionately affected by encoding damage in transit, so a file that arrived by email deserves extra suspicion. Only if all of these tests point to a real PDF that is complete yet unreadable should you attempt repair.',
+      identifiedRootCause:
+        'Most often, the reader software itself — an outdated, half-updated, or corrupted Adobe Reader installation fails on files that are perfectly valid. Adobe\'s own support path for this starts with updating Reader and running Help > Repair Installation, which tells you how common reader-side breakage is. The second most common cause is an incomplete or email-mangled download rather than true corruption.',
+      recommendedResolution:
+        'Match the fix to the rung of the ladder where the failure appeared: repair or reinstall the reader (Help > Repair Installation in Adobe Reader) when other readers open the file fine; re-download from the original source when the file is truncated or zero bytes; enter the password (or ask the sender) when encryption is confirmed; and for a complete, genuine PDF that still will not render, try a different reader first, restore a previous version of the file if your system kept one, and only then attempt repair — including an in-browser repair tool that never uploads your document.',
+    },
+    whyItHappens: [
+      {
+        cause: 'Broken or outdated reader installation (most common)',
+        explanation:
+          'Adobe Reader is a large, frequently updated program, and updates sometimes go wrong — leaving an installation that crashes on launch or rejects valid files. The telltale sign: the same PDF opens fine in your browser or another reader, but not in Adobe. Reader can also break silently after an operating system update changes shared components it depends on. Adobe\'s own recommended fix is telling: open Reader, go to Help, and choose Repair Installation, which restores damaged or missing program components without touching your documents. If repair does not help, updating to the latest version or doing a clean reinstall usually does. This cause is so common that "try a different reader" should always be your first test, not your last resort — it takes thirty seconds and eliminates the most likely culprit immediately.',
+      },
+      {
+        cause: 'Incomplete or interrupted download',
+        explanation:
+          'A PDF that stopped downloading halfway is missing its ending — and PDF readers need the file\'s cross-reference table, which lives near the end, to render anything. The reader reports this as "damaged," which is technically true but misleading: the file was never whole. Check the file size against the expected size (a 0-byte file is the extreme case — there is nothing to repair), then re-download from the original source over a stable connection. If the PDF came from cloud storage and the original was deleted or moved, re-download it fresh rather than trusting a cached copy.',
+      },
+      {
+        cause: 'The file was never a PDF',
+        explanation:
+          'This one fools everyone. A download that failed can save a "404 Not Found" or login page as an HTML file named .pdf. Email attachments can be damaged by encoding problems in transit, arriving as garbage that no reader recognizes. And sometimes a different document type is simply misnamed. A genuine PDF always begins with the characters %PDF- — you can verify this by opening the file in a plain text editor like Notepad and reading the first line, or faster, by checking the file\'s magic bytes with an identifier tool. If the signature says HTML or text, the fix is a correct re-download, not a repair.',
+      },
+      {
+        cause: 'Password protection mistaken for corruption',
+        explanation:
+          'An encrypted PDF demands its password before rendering a single page, and the prompt is not always obvious — some readers show a confusing error instead of a clean password dialog. If the file asks for credentials, or opens as a blank/garbled document in one reader but prompts in another, you are dealing with encryption, not damage. No repair tool removes a password you do not have; that is the encryption working as designed. Ask the sender for the password, check whether your organization uses a standard document password, and look for the password in the email or message the file arrived with.',
+      },
+      {
+        cause: 'Genuine file corruption',
+        explanation:
+          'Real corruption does happen: bad sectors on a drive, a USB stick removed mid-copy, a crash while the file was being saved, or an email client stripping data during transfer. It also happens when a PDF is generated by buggy software — some scanners and print drivers produce files with malformed internal structure that strict readers reject. The signature is a complete, correctly-named PDF — right size, %PDF- header present — that still will not render in any reader, or renders with missing pages and garbled text. For these files, try opening in a more tolerant reader first (browsers and some third-party readers render damaged PDFs that make Adobe give up), restore a previous version via your operating system\'s file history if available, and only then consider a dedicated repair step. Keep your expectations honest here: repair tools rebuild broken document structure, but they cannot recreate page content whose bytes are gone.',
+      },
+      {
+        cause: 'System-level issues: associations, permissions, interference',
+        explanation:
+          'Sometimes the PDF is fine and Windows is the problem: another program has hijacked the .pdf file association, the file sits in a folder your reader cannot access, or security software is blocking the reader from opening files from the internet. Symptoms that point here: no PDF opens at all (not just this one), or the reader launches and immediately closes. Fix the file association in Settings, move the file to your Documents folder and try again, and check whether antivirus is quarantining your reader\'s temp files.',
+      },
+    ],
+    howToConfirm: [
+      {
+        method: 'The two-reader test',
+        steps: [
+          'Drag the problem PDF into your web browser (Chrome, Edge, or Firefox) — all three render PDFs natively with no plugins.',
+          'If it opens in the browser, the file is fine: your desktop reader installation is broken. Repair or reinstall it.',
+          'If it fails in the browser too, try one more independent reader (such as SumatraPDF or Foxit Reader) to be thorough.',
+          'If no reader on the machine opens it, but the same readers open other PDFs normally, the problem is this specific file — move to the download check.',
+        ],
+        whatToLookFor:
+          'Opens anywhere = reader problem. Fails everywhere while other PDFs work = file problem. Fails everywhere including healthy PDFs = system/reader problem.',
+      },
+      {
+        method: 'Size, header, and true-type verification',
+        steps: [
+          'Check the file size: 0 bytes means an empty file — re-download, there is nothing to repair.',
+          'Compare the size with the expected size from the source; a big shortfall means a truncated download.',
+          'Open the file in Notepad or any plain text editor and read the very first characters: a real PDF starts with %PDF-.',
+          'For a faster, more reliable check, run the file through AnyFileX\'s free in-browser file identifier, which reads the magic bytes and reports the true format with nothing uploaded.',
+          'If the header says HTML or plain text, you downloaded an error page — open it in the text editor to read the actual error, then download correctly.',
+        ],
+        whatToLookFor:
+          'A %PDF- header with a plausible size means a genuine PDF; anything else means a download or labeling problem, not corruption.',
+      },
+      {
+        method: 'Password and provenance check',
+        steps: [
+          'Look carefully at the exact error or dialog: a password prompt, even a cryptic one, means encryption.',
+          'Ask yourself where the file came from — banks, HR departments, and legal firms routinely password-protect documents.',
+          'Search the email or message thread the file arrived in for a password; senders often include it separately.',
+          'If a password exists and works, the "corruption" is solved. If no password can be found, no repair tool will help — contact the sender.',
+        ],
+        whatToLookFor:
+          'Any credential prompt reframes the problem entirely: stop troubleshooting corruption and start hunting for the password.',
+      },
+    ],
+    osWorkflows: [
+      {
+        os: 'windows',
+        title: 'Windows: repair the reader before touching the file',
+        instructions: [
+          'Run the two-reader test above. If the PDF opens in your browser, the file is fine — fix the reader.',
+          'Open Adobe Acrobat Reader, go to the Help menu, and choose "Repair Installation." This restores damaged or missing program components automatically.',
+          'After the repair, check for updates (Help > Check for Updates) and install any pending ones — many "won\'t open" bugs are fixed versions behind.',
+          'If repair does not help, uninstall Reader completely and reinstall the latest version from Adobe\'s official site.',
+          'Right-click the problem PDF, choose "Restore previous versions," and see whether Windows kept an earlier, working copy.',
+          'If double-clicking opens the wrong program, right-click the file > Open with > choose your preferred reader and tick "Always use this app."',
+          'As a last resort for a genuinely damaged file, try opening it in your browser or a lightweight reader like SumatraPDF, which sometimes renders files Adobe rejects.',
+        ],
+        tips:
+          'Do a reader repair before downloading any third-party "PDF fixer" — most of those are paid software funnels, and the built-in repair solves the most common case for free.',
+      },
+      {
+        os: 'mac',
+        title: 'macOS: Preview, Adobe, and the re-download',
+        instructions: [
+          'Try opening the PDF in Preview (double-click it). If Preview renders it but Adobe does not, your Adobe installation is the problem — update or reinstall Adobe Reader.',
+          'If Preview also fails, the file itself is suspect: check its size and re-download it from the original source.',
+          'Verify the file is a real PDF with the %PDF- header check or an in-browser magic-byte identifier.',
+          'For a password-protected PDF, Preview will prompt for the password just like Adobe — find the password rather than troubleshooting further.',
+          'Use Time Machine or iCloud version history to recover an earlier copy if the file was damaged by a crashed save.',
+        ],
+        tips:
+          'Preview is surprisingly tolerant of minor PDF damage — a file that opens in Preview but not Adobe is almost never truly corrupted.',
+      },
+      {
+        os: 'all',
+        title: 'All platforms: the repair path for genuinely damaged PDFs',
+        instructions: [
+          'Confirm genuine damage first: the file has a %PDF- header, a plausible size, is not password-protected, and fails in every reader you try.',
+          'Re-download from the original source anyway — it costs two minutes and fixes more "corruption" than any tool.',
+          'Check for a previous version: Windows "Restore previous versions," macOS Time Machine, or your cloud drive\'s version history.',
+          'Try a tolerant reader (your web browser is the easiest) — many partially damaged PDFs render well enough to read or print even when Adobe refuses them.',
+          'For sensitive documents — contracts, medical records, financial statements — prefer an in-browser repair tool that processes the file on your device without uploading it anywhere.',
+          'If the document is not sensitive, a desktop repair utility is the next step; get it from the vendor\'s official site, not a download aggregator.',
+          'After any successful repair, save the recovered document under a new filename immediately — do not overwrite your only copy until you have confirmed every page renders.',
+          'When nothing works, accept the verdict and go back to the source for a fresh copy — a PDF with destroyed content streams cannot be rebuilt from nothing.',
+        ],
+        tips:
+          'Repair can fix broken structure (headers, cross-reference tables). It cannot restore pages whose content data is gone, and it cannot remove a password. Anyone promising otherwise is selling something.',
+      },
+    ],
+    measurableSecurityNotes: {
+      verifiedAspects: [
+        'The %PDF- header check (or magic-byte identification) confirms whether the file is genuinely a PDF or a mislabeled HTML/text file.',
+        'The two-reader test isolates reader-side breakage from file-side damage without modifying anything.',
+        'File-size plausibility flags truncated downloads and zero-byte files before any repair is attempted.',
+      ],
+      antivirusDistinction:
+        'These are structural checks — they verify what the file is and whether its container is intact. They do not scan for malware. PDFs can carry malicious scripts and embedded exploits, so a file from an untrusted source should be scanned by your antivirus even after it opens cleanly, and "repair" tools should only come from official vendor sites.',
+    },
+    connectedTools: [
+      {
+        name: 'File Identifier',
+        description:
+          'Reads the file\'s magic bytes entirely in your browser (no upload) and reports what the file truly is — confirms whether your "PDF" is really a PDF or a mislabeled HTML error page or text file.',
+        route: { view: 'file-analyzer' },
+        iconType: 'analyzer',
+        primary: true,
+      },
+    ],
+    relatedExtensions: ['pdf'],
+    relatedGuideIds: [
+      'why-pdf-not-opening',
+      'how-to-check-corrupted-file',
+      'why-wont-my-file-open',
+    ],
+    faqs: [
+      {
+        question: 'Why does my PDF open in Chrome but not in Adobe Reader?',
+        answer:
+          'Your Adobe Reader installation is broken or outdated — the file itself is fine. Run Help > Repair Installation inside Adobe Reader, then check for updates. If that fails, reinstall Reader from Adobe\'s official site. This is the single most common "PDF won\'t open" scenario.',
+      },
+      {
+        question: 'What does "not a supported file type or file has been damaged" mean?',
+        answer:
+          'It is Adobe\'s generic way of saying "I cannot read this file\'s structure." The two usual causes: the file is not actually a PDF (check for the %PDF- header or verify its magic bytes), or the download was interrupted and the file is incomplete. Re-download from the original source before assuming corruption.',
+      },
+      {
+        question: 'Can a PDF be repaired without uploading it to a website?',
+        answer:
+          'Yes. An in-browser repair tool processes the file locally on your device — nothing is sent to a server — which is the right choice for contracts, medical records, or financial documents. Desktop repair utilities are the alternative for non-sensitive files. Either way, repair fixes broken file structure; it cannot recover pages whose content is gone or remove a password.',
+      },
+      {
+        question: 'The PDF asks for a password I don\'t have. Is it corrupted?',
+        answer:
+          'No — it is encrypted, which is a completely different situation. The file is working exactly as designed. No repair tool will open it without the password. Check the email or message the file arrived with, ask the sender, or check whether your organization uses a standard document password.',
+      },
+      {
+        question: 'Should I download a PDF repair program?',
+        answer:
+          'Only as a last resort, and only from the vendor\'s official site. Most "PDF won\'t open" cases are solved by repairing your reader installation, updating it, re-downloading the file, or opening it in a different reader — all free. Paid repair software makes sense only for a genuinely damaged, irreplaceable document, and even then it cannot work miracles on destroyed content.',
+      },
+    ],
+  };
+
 ];
 
 export function getTroubleshootingGuide(idOrSlug: string): TroubleshootingGuideItem {
