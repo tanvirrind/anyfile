@@ -1220,7 +1220,7 @@ export const TROUBLESHOOTING_GUIDES: TroubleshootingGuideItem[] = [
           'Usually one of three things: the two computers have different copies of the file (one download was truncated), one archiver is stricter about minor header damage than the other, or security software on one machine is interfering. Copy the exact same file to both machines and test — if it fails identically, the file is the problem; if not, the software or system is.',
       },
     ],
-  };,
+  },
   {
     id: 'pdf-wont-open',
     title: "PDF Won't Open? How to Diagnose and Fix It",
@@ -1422,7 +1422,7 @@ export const TROUBLESHOOTING_GUIDES: TroubleshootingGuideItem[] = [
           'Only as a last resort, and only from the vendor\'s official site. Most "PDF won\'t open" cases are solved by repairing your reader installation, updating it, re-downloading the file, or opening it in a different reader — all free. Paid repair software makes sense only for a genuinely damaged, irreplaceable document, and even then it cannot work miracles on destroyed content.',
       },
     ],
-  };
+  },
 
 ];
 
