@@ -210,7 +210,7 @@ This convention goes back a long way. Early systems like CP/M and DOS used the "
       heading: 'How to show file extensions on Windows and Mac',
       body: `If your system is hiding extensions, turning them back on takes about ten seconds — and it's one of the most useful small changes you can make, especially for security. Here's how: Once they're visible, everyday troubleshooting gets faster too: when someone asks you to send the PDF, you can confirm at a glance that you grabbed the actual PDF and not the identically named Word document sitting next to it.`,
       bullets: [
-        '**Windows 11:** Open File Explorer, click **View** in the top menu, then **Show**, then check **File name extensions**. Every file immediately shows its full name, like 'photo.jpg' instead of just 'photo'.',
+        '**Windows 11:** Open File Explorer, click **View** in the top menu, then **Show**, then check **File name extensions**. Every file immediately shows its full name, like \'photo.jpg\' instead of just \'photo\'.',
         '**Windows 10:** Open File Explorer, click the **View** tab at the top, and check the **File name extensions** box.',
         "**Mac:** Open Finder, then open Finder Settings (from the Finder menu) and look for the option to show all filename extensions. Once enabled, every file in Finder displays its extension.",
       ],
@@ -241,8 +241,8 @@ When someone says "I need this in PDF format," they mean the format — the actu
       bullets: [
         '**Turn on extension visibility** using the steps above, and leave it on. It costs nothing and removes an entire category of nasty surprises.',
         "**When a file won't open, check the extension first.** If the extension looks wrong or is missing, don't keep double-clicking — identify the file's real type with [AnyFileX's file identifier](https://anyfilex.com/tools/file-identifier), then open it with the right program.",
-        '**Treat unexpected executables as guilty until proven innocent.** A '.exe' you weren\'t expecting — especially one wearing a double extension like '.pdf.exe' — deserves suspicion, not a double-click.',
-        '**Bookmark the extension hub.** AnyFileX maintains in-depth guides for 250+ extensions at our [file extensions directory](https://anyfilex.com/file-extensions) — what each format is, which programs open it, and how to convert it. The next time an unfamiliar suffix lands in your inbox, you'll know exactly where to look.',
+        '**Treat unexpected executables as guilty until proven innocent.** A \'.exe\' you weren\'t expecting — especially one wearing a double extension like \'.pdf.exe\' — deserves suspicion, not a double-click.',
+        '**Bookmark the extension hub.** AnyFileX maintains in-depth guides for 250+ extensions at our [file extensions directory](https://anyfilex.com/file-extensions) — what each format is, which programs open it, and how to convert it. The next time an unfamiliar suffix lands in your inbox, you\'ll know exactly where to look.',
       ],
     },
   ],
