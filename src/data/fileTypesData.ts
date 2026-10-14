@@ -1,4 +1,5 @@
 import { FileTypeInfo } from '../types';
+import { FILE_TYPES_BATCH_OCT2026 } from './fileTypesBatchOct2026';
 
 const BASE_POPULAR_FILE_TYPES: FileTypeInfo[] = [
   // --- IMAGES ---
@@ -1212,7 +1213,8 @@ const EDITORIAL_ENRICHMENTS: Record<string, Partial<FileTypeInfo>> = {
   }
 };
 
-export const POPULAR_FILE_TYPES: FileTypeInfo[] = BASE_POPULAR_FILE_TYPES.map((format) => {
+export const POPULAR_FILE_TYPES: FileTypeInfo[] = [
+  ...BASE_POPULAR_FILE_TYPES.map((format) => {
   const enrichment = EDITORIAL_ENRICHMENTS[format.extension];
   if (!enrichment) return format;
   return {
@@ -1222,4 +1224,6 @@ export const POPULAR_FILE_TYPES: FileTypeInfo[] = BASE_POPULAR_FILE_TYPES.map((f
     repairTips: [...format.repairTips, ...(enrichment.repairTips || [])],
     faqs: [...(format.faqs || []), ...(enrichment.faqs || [])]
   };
-});
+  }),
+  ...FILE_TYPES_BATCH_OCT2026,
+];
