@@ -5,6 +5,7 @@ import { CONVERTERS_LIST } from '../../data/convertersData';
 import { CURATED_COMPARISONS } from '../database/knowledgeGraph';
 import { getAllFileTypeInfos } from '../database/extensionEngine';
 import { getAllTools } from '../tools/toolsRegistry';
+import { HOW_TO_OPEN_BATCH_OCT2026 } from './howToOpenBatchOct2026';
 
 export interface StepInstruction {
   stepNumber: number;
@@ -198,7 +199,8 @@ const FORMAT_SPECIFIC_OVERRIDES: Record<string, Partial<HowToOpenGuideData>> = {
       type: 'hex',
       note: 'Inspect header versions (AC1032, AC1027, etc.) and convert DWG to PDF or DXF for universal viewing.'
     }
-  }
+  },
+  ...HOW_TO_OPEN_BATCH_OCT2026,
 };
 
 /**
