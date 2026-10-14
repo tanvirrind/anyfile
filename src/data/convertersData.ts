@@ -1,4 +1,5 @@
 import { ConverterInfo } from '../types';
+import { CONVERTERS_BATCH_OCT2026 } from './convertersBatchOct2026';
 
 const BASE_CONVERTERS_LIST: ConverterInfo[] = [
   {
@@ -648,10 +649,13 @@ const CONVERTER_ENRICHMENTS: Record<string, Partial<ConverterInfo>> = {
   }
 };
 
-export const CONVERTERS_LIST: ConverterInfo[] = BASE_CONVERTERS_LIST.map((converter) => ({
+export const CONVERTERS_LIST: ConverterInfo[] = [
+  ...BASE_CONVERTERS_LIST.map((converter) => ({
   ...converter,
   ...(CONVERTER_ENRICHMENTS[converter.id] || {}),
   steps: [...converter.steps, ...(CONVERTER_ENRICHMENTS[converter.id]?.steps || [])],
   commonIssues: [...converter.commonIssues, ...(CONVERTER_ENRICHMENTS[converter.id]?.commonIssues || [])],
   faqs: [...converter.faqs, ...(CONVERTER_ENRICHMENTS[converter.id]?.faqs || [])]
-}));
+  })),
+  ...CONVERTERS_BATCH_OCT2026,
+];
