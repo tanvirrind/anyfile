@@ -1,4 +1,5 @@
 import { CategoryType } from '../../types';
+import { TROUBLESHOOTING_BATCH_OCT2026 } from './troubleshootingBatchOct2026';
 
 export interface TroubleshootingStep {
   os: 'windows' | 'mac' | 'linux' | 'all' | 'mobile';
@@ -1424,6 +1425,7 @@ export const TROUBLESHOOTING_GUIDES: TroubleshootingGuideItem[] = [
     ],
   },
 
+  ...TROUBLESHOOTING_BATCH_OCT2026,
 ];
 
 export function getTroubleshootingGuide(idOrSlug: string): TroubleshootingGuideItem {
