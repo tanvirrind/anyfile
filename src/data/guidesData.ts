@@ -1,8 +1,9 @@
 import { GuideInfo, BlogPost } from '../types';
+import { GUIDES_BATCH_OCT2026C } from './guidesBatchOct2026c';
 import { AUTHOR_AVATARS, TECHNICAL_STANDARDS_CITATIONS } from '../lib/content/editorialTeam';
 
 const BASE_GUIDES_LIST: GuideInfo[] = [
-  {
+{
     id: 'heic-guide',
     title: 'The Definitive Guide to Opening and Converting HEIC Files on Windows 11 and Mac',
     slug: 'how-to-open-heic-files-windows-mac',
@@ -65,7 +66,7 @@ const BASE_GUIDES_LIST: GuideInfo[] = [
       }
     ]
   },
-  {
+{
     id: 'dwg-guide',
     title: 'How to View, Edit, and Convert AutoCAD DWG Drawings Without AutoCAD',
     slug: 'view-dwg-files-without-autocad',
@@ -116,7 +117,7 @@ const BASE_GUIDES_LIST: GuideInfo[] = [
       }
     ]
   },
-  {
+{
     id: 'zip-guide',
     title: 'Fixing Corrupted ZIP Archives and CRC Errors: Step-by-Step Recovery Guide',
     slug: 'fix-corrupted-zip-archives-crc-errors',
@@ -162,7 +163,7 @@ const BASE_GUIDES_LIST: GuideInfo[] = [
       }
     ]
   },
-  {
+{
     id: 'what-is-a-file-extension-guide',
     title: 'What Is a File Extension? The Complete Beginner\'s Guide',
     slug: 'what-is-a-file-extension',
@@ -247,7 +248,7 @@ When someone says "I need this in PDF format," they mean the format — the actu
     },
   ],
   },
-  {
+{
     id: 'open-file-no-extension-guide',
     title: 'How to Open a File With No Extension (4 Methods That Work)',
     slug: 'open-file-no-extension',
@@ -336,7 +337,7 @@ If the file is genuinely unidentifiable after all this, consider that it may be 
     },
   ],
   },
-  {
+{
     id: 'convert-files-without-uploading-guide',
     title: 'Convert Files Without Uploading: How Private In-Browser Conversion Works',
     slug: 'convert-files-without-uploading',
@@ -424,7 +425,7 @@ A few practical tips make the experience smoother. Convert from the highest-qual
     },
   ],
   },
-  {
+{
     id: 'are-online-file-converters-safe-guide',
     title: 'Are Online File Converters Safe? What Happens to Your Uploads',
     slug: 'are-online-file-converters-safe',
@@ -515,7 +516,7 @@ Then change the workflow going forward, not just the worry. The uncomfortable tr
     },
   ],
   },
-  {
+{
     id: 'png-vs-jpg-vs-webp-guide',
     title: 'PNG vs JPG vs WebP: Which Image Format Should You Use in 2026?',
     slug: 'png-vs-jpg-vs-webp',
@@ -625,7 +626,7 @@ When it's time to actually convert, you don't need to install anything or upload
     },
   ],
   },
-  {
+{
     id: 'mp3-vs-wav-vs-flac-guide',
     title: 'MP3 vs WAV vs FLAC: Which Audio Format Should You Use?',
     slug: 'mp3-vs-wav-vs-flac',
@@ -733,8 +734,7 @@ The pattern underneath all of these: lossless masters live in one safe place, an
     },
   ],
   },
-
-  {
+{
     id: 'what-is-exif-data-guide',
     title: 'What Is EXIF Data? How to Strip Metadata Before Sharing',
     slug: 'what-is-exif-data',
@@ -830,7 +830,7 @@ And keep a clean workflow: archive the original with its metadata intact, and ge
       ],
     },
   ]
-  },
+  }
 ];
 
 const GUIDE_ENRICHMENTS: Record<string, GuideInfo['contentSections']> = {
@@ -846,7 +846,7 @@ const GUIDE_ENRICHMENTS: Record<string, GuideInfo['contentSections']> = {
   ]
 };
 
-export const GUIDES_LIST: GuideInfo[] = BASE_GUIDES_LIST.map((guide) => ({
+export const GUIDES_LIST: GuideInfo[] = [...BASE_GUIDES_LIST, ...GUIDES_BATCH_OCT2026C].map((guide) => ({
   ...guide,
   contentSections: [...guide.contentSections, ...(GUIDE_ENRICHMENTS[guide.id] || [])]
 }));
