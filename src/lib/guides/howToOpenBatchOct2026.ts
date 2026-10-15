@@ -935,4 +935,936 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
     },
   ],
 },
+  numbers: {
+  extension: 'numbers',
+  upperExt: 'NUMBERS',
+  name: 'Apple Numbers Spreadsheet',
+  category: 'Spreadsheets',
+  mimeType: 'application/zip',
+  magicBytesHex: '50 4B 03 04',
+  dangerRating: 'Low Risk',
+
+  summary:
+    "A .numbers file is a spreadsheet made in Apple Numbers, Apple's spreadsheet app and part of the iWork suite alongside Pages and Keynote. Numbers is free on Mac, iPhone, and iPad — but Apple never released a Windows version, and Microsoft Excel cannot open .numbers files directly. So when a colleague on a Mac emails you a spreadsheet, double-clicking it on a Windows PC usually produces an error or an offer to pick a program that will not actually work. The reliable fixes are all free: open the file in Numbers for iCloud in your browser with a free Apple ID, ask the sender to export an Excel or PDF copy (thirty seconds on their Mac), or convert it with a trusted tool. This guide walks through each method for Windows, Mac, Linux, iPhone, and Android, explains where LibreOffice genuinely helps and where it does not, and shows how to convert to XLSX without mangling formulas. One warning up front, because spreadsheets are different from documents: they often hold payroll figures, client lists, and financial data, so the conversion method you pick matters for privacy as much as for convenience.",
+
+  whyItIsHardToOpen:
+    "Numbers files are hard to open on Windows for one simple reason: no native Windows program reads the format, and Excel will not touch it. Double-clicking a .numbers file on a PC typically triggers Excel, which responds with a corruption or invalid-format error — the file is fine, Excel just has no idea what it is. Renaming the extension to .xlsx changes nothing, because the inside of the file is not an Excel workbook. The second complication is version history: like the rest of iWork, the Numbers format has evolved, and third-party support is uneven — LibreOffice can open some Numbers files but fails on many modern ones, which is exactly where people waste an afternoon. What saves you is Apple's own free web app: Numbers for iCloud runs in any modern browser, opens the file properly, and exports a genuine Excel copy. Between that and asking the sender for an export, every Windows user has a free path — the only real decision is which one fits your file and your privacy comfort.",
+
+  inBrowserSupport: {
+    supported: false,
+    type: 'none',
+    note: "No browser renders a .numbers file directly, and Google Sheets cannot open the format either — it must be converted to XLSX first. Use AnyFileX's File Identifier in your browser to confirm the file is genuinely a Numbers spreadsheet, then open it in Numbers for iCloud or convert it with a trusted tool.",
+  },
+
+  osGuides: {
+    windows: {
+      isSupported: true,
+      title: 'Open NUMBERS files on Windows',
+      badge: 'Free methods',
+      defaultApp: 'Numbers for iCloud',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Open and convert with Numbers for iCloud (best method)',
+          detail: "Go to icloud.com in Chrome, Edge, or Firefox and sign in with an Apple ID — creating one is free and takes a couple of minutes. Click the Numbers icon, then upload your .numbers file using the upload button. The spreadsheet opens in the web version of Numbers, where you can view it, edit values, and recalculate. To get an Excel copy, use the download option and choose Excel: Numbers converts the file to a genuine .xlsx workbook you can open in Microsoft Excel, LibreOffice Calc, or Google Sheets. This is the only free method that handles every Numbers version correctly, because it is Apple's own converter doing the work.",
+          tip: 'Upload the file once and keep it in iCloud Drive — you can re-export it as Excel, PDF, or CSV any time without re-uploading.',
+        },
+        {
+          stepNumber: 2,
+          title: 'Ask the sender to export an Excel or PDF copy',
+          detail: "The fastest fix is often human: ask the Mac user to open the spreadsheet in Numbers, choose File > Export To > Excel (or PDF), and send you that instead. It takes them about thirty seconds. An Excel export gives you an editable workbook with formulas mostly intact; a PDF export freezes the layout exactly for reading and printing; a CSV export gives you raw values with no formatting. If you trade spreadsheets with this person regularly, ask them to export to Excel by default and the problem disappears permanently.",
+          tip: 'Excel export for editing, PDF for exact layout, CSV when you only need the raw numbers.',
+        },
+        {
+          stepNumber: 3,
+          title: 'Try LibreOffice Calc — with honest expectations',
+          detail: "LibreOffice is free and its Calc spreadsheet app can open some Numbers files — support for the format was added years ago, but it is incomplete and uneven across Numbers versions. Install LibreOffice, choose File > Open, and select the .numbers file. If your spreadsheet opens with data and formulas intact, you are done. If it errors out, opens blank, or shows a mangled layout, do not keep fighting it: the file is simply too new for LibreOffice's importer, and the iCloud method above will handle it. A practical rule: simple tables often survive LibreOffice; spreadsheets with complex formulas, charts, and interactive elements usually do not.",
+          tip: 'Treat LibreOffice as a quick experiment, not a plan — if the first try fails, switch to iCloud instead of troubleshooting the import.',
+        },
+        {
+          stepNumber: 4,
+          title: 'Open the converted file in Excel or Google Sheets',
+          detail: "Once you have an .xlsx copy (from iCloud, from the sender, or from a converter), open it in Microsoft Excel on Windows, or upload it to Google Drive and open it with Google Sheets for a free browser-based option. Google Sheets cannot open .numbers files directly — the conversion to XLSX must happen first, which is the step people miss. After opening, spot-check a few formula cells: most standard formulas translate cleanly, but Numbers-specific functions may arrive as static values or errors, which you can then fix by hand.",
+          tip: 'After conversion, compare totals on a few key rows against the original before trusting the workbook for decisions.',
+        },
+        {
+          stepNumber: 5,
+          title: 'Online converters work — but mind what is in the sheet',
+          detail: "Websites like CloudConvert and Zamzar convert .numbers to .xlsx or .pdf: upload the file, wait, download the result. It works and needs no account. But stop and think about what spreadsheets contain: budgets, salaries, client lists, invoices, bank details. Uploading that to a stranger's server is a different proposition than converting a holiday photo. For anything with financial or personal data, use the iCloud or sender-export methods above, which keep the file with Apple or on the sender's machine. Reserve upload converters for spreadsheets you would not mind a stranger reading.",
+          tip: 'Rule of thumb: if the spreadsheet holds money or names, do not upload it to a random converter.',
+        },
+      ],
+    },
+    mac: {
+      isSupported: true,
+      title: 'Open NUMBERS files on Mac',
+      badge: 'Built in',
+      defaultApp: 'Apple Numbers',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Open with Numbers (free)',
+          detail: "Numbers is a free download from the Mac App Store and ships with most new Macs. Double-click the .numbers file and it opens with full formatting, formulas, and charts. This is the zero-friction route — if you are on a Mac, you already have everything you need.",
+        },
+        {
+          stepNumber: 2,
+          title: 'Export a Windows-friendly copy for others',
+          detail: "If you are the Mac user sending the file, save your Windows colleagues the trouble: in Numbers choose File > Export To and pick Excel before attaching it. Excel keeps the workbook editable; PDF freezes the layout for reading; CSV strips it to raw values. One export from you replaces a troubleshooting session for them.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Use Numbers for iCloud as a backup',
+          detail: "Even on a Mac, the web version at icloud.com is handy when the installed app misbehaves or you are on someone else's machine. Upload the file and work in the browser — no install needed.",
+        },
+      ],
+    },
+    linux: {
+      isSupported: true,
+      title: 'Open NUMBERS files on Linux',
+      badge: 'Free methods',
+      defaultApp: 'Numbers for iCloud',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Use Numbers for iCloud in your browser',
+          detail: "There is no native Numbers app for Linux, but the web version does not care about your operating system. Sign in at icloud.com with a free Apple ID, open the Numbers web app, and upload the .numbers file. View and edit in Firefox or Chrome, then download an Excel, PDF, or CSV copy when finished.",
+        },
+        {
+          stepNumber: 2,
+          title: 'LibreOffice Calc for simple files',
+          detail: "Install LibreOffice from your distribution's package manager and use File > Open on the .numbers file. Simple tables may open fine; modern or complex spreadsheets often fail. If it fails, use the iCloud method above rather than hunting for another converter.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Google Sheets after conversion',
+          detail: "Google Sheets cannot open .numbers directly, but once you have exported an .xlsx copy (via iCloud), upload that to Google Drive and open it in Sheets for free browser-based editing on Linux.",
+        },
+      ],
+    },
+    ios: {
+      isSupported: true,
+      title: 'Open NUMBERS files on iPhone & iPad',
+      badge: 'Free',
+      defaultApp: 'Apple Numbers',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Install the free Numbers app',
+          detail: "Download Numbers free from the App Store. Open the .numbers file from the Files app, an email attachment, or Messages — tap it and choose Numbers. The spreadsheet opens with full formatting and you can edit it on the spot.",
+        },
+        {
+          stepNumber: 2,
+          title: 'Open files already in iCloud Drive',
+          detail: "If the file is in your iCloud Drive, it appears in the Numbers app's document browser automatically. Open it, edit it, and changes sync to your Mac and iCloud.com.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Send a Windows-friendly copy',
+          detail: "To share with a Windows user, open the spreadsheet in Numbers, tap the Share button, and export as Excel, PDF, or CSV — then send that file instead of the .numbers original.",
+        },
+      ],
+    },
+    android: {
+      isSupported: true,
+      title: 'Open NUMBERS files on Android',
+      badge: 'Free',
+      defaultApp: 'Numbers for iCloud',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Open it with Numbers for iCloud in Chrome',
+          detail: "There is no Numbers app for Android, but the web version works in Chrome. Go to icloud.com, sign in with a free Apple ID, open the Numbers web app, and upload the .numbers file. You can view and edit the spreadsheet in the browser and download an Excel or PDF copy.",
+        },
+        {
+          stepNumber: 2,
+          title: 'Convert once, then use Google Sheets',
+          detail: "For repeated access on your phone, use the iCloud web app once to download an Excel copy, move that file to Google Drive, and open it in Google Sheets. From then on you have a native-feeling spreadsheet on Android with no further conversion.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Ask the sender for an Excel export',
+          detail: "The simplest long-term fix: have the Mac user export to Excel before sending. One thirty-second export on their side saves you the conversion dance on every file.",
+        },
+      ],
+    },
+  },
+
+  // NOTE: ratings below are placeholders — verify before publishing
+  recommendedSoftware: [
+    {
+      id: 'apple-numbers',
+      name: 'Apple Numbers',
+      developer: 'Apple Inc.',
+      category: 'Spreadsheet',
+      supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
+      priceType: 'Free',
+      priceText: 'Free; Apple ID required for the iCloud web version',
+      rating: 4.6,
+      canOpen: true,
+      canView: true,
+      canEdit: true,
+      canConvert: true,
+      routeId: 'software',
+      websiteUrl: 'https://www.icloud.com',
+    },
+    {
+      id: 'libreoffice-calc',
+      name: 'LibreOffice Calc',
+      developer: 'The Document Foundation',
+      category: 'Spreadsheet',
+      supportedOS: ['windows', 'mac', 'linux'],
+      priceType: 'Open Source',
+      priceText: 'Free & open source',
+      rating: 4.4,
+      canOpen: true,
+      canView: true,
+      canEdit: true,
+      canConvert: true,
+      routeId: 'software',
+      websiteUrl: 'https://www.libreoffice.org',
+    },
+    {
+      id: 'google-sheets',
+      name: 'Google Sheets',
+      developer: 'Google LLC',
+      category: 'Spreadsheet',
+      supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
+      priceType: 'Free',
+      priceText: 'Free with a Google account',
+      rating: 4.6,
+      canOpen: false,
+      canView: true,
+      canEdit: true,
+      canConvert: false,
+      routeId: 'software',
+      websiteUrl: 'https://sheets.google.com',
+    },
+  ],
+
+  browserOptions: [
+    {
+      title: 'Numbers for iCloud — the real web version of Numbers',
+      description: "Sign in at icloud.com with a free Apple ID and open the Numbers web app: upload the .numbers file, view and edit it in your browser, then download a copy as Excel, PDF, or CSV. The only free method that handles every Numbers version correctly, because it is Apple's own format doing the conversion.",
+      badge: 'Free · Best option',
+      actionUrl: 'https://www.icloud.com',
+    },
+    {
+      title: 'Google Sheets — after converting to Excel',
+      description: "Google Sheets cannot open .numbers files directly, but it happily opens the .xlsx copy you export from iCloud. Upload that to Google Drive and you have free browser-based spreadsheet editing with no install.",
+      badge: 'Free',
+      actionUrl: 'https://sheets.google.com',
+    },
+    {
+      title: 'Online converters — check the contents first',
+      description: "Upload-to-convert sites handle .numbers to .xlsx fine, but spreadsheets are the worst file type to hand to a stranger's server: budgets, salaries, and client lists are exactly what these files hold. For sensitive sheets, use iCloud or a sender export instead of an upload converter.",
+      badge: 'Privacy warning',
+    },
+  ],
+
+  troubleshooting: [
+    {
+      id: 'numbers-excel-corrupt',
+      issue: 'Excel says the file is corrupt or invalid',
+      cause: 'The file is not corrupt — Excel simply cannot read the Numbers format. The error message is misleading: it means "I do not understand this format," not "this file is damaged."',
+      diagnostic: 'Double-clicking the .numbers file opens Excel (or prompts you to pick an app) and shows a corruption or invalid-format error.',
+      solution: 'Do not try to repair it — convert it instead. Open the file in Numbers for iCloud and download an Excel copy, or ask the sender to export one. The "corrupt" message disappears the moment Excel gets a genuine .xlsx file.',
+      toolAction: {
+        label: 'Identify the true file type',
+        route: { view: 'file-identifier' },
+      },
+    },
+    {
+      id: 'numbers-libreoffice-fails',
+      issue: "LibreOffice won't open it or shows a mangled sheet",
+      cause: "LibreOffice's Numbers importer is incomplete and version-sensitive: simple tables from older Numbers versions often open, while modern files with complex formulas, charts, or interactive elements fail or render badly.",
+      diagnostic: 'LibreOffice errors out, opens the file blank, or shows data in the wrong cells while the file opens fine on a Mac or in iCloud.',
+      solution: 'Use Numbers for iCloud for that file instead — it handles every Numbers version. Reserve LibreOffice for genuinely simple spreadsheets, and always compare a converted result against the original before trusting it.',
+    },
+    {
+      id: 'numbers-formulas-lost',
+      issue: 'Formulas broke or turned into static values after conversion',
+      cause: 'Numbers and Excel do not share an identical function library: Numbers-specific functions have no Excel equivalent, so converters either drop them, freeze them as values, or return errors. Complex charts and interactive controls rarely survive translation either.',
+      diagnostic: 'Cells that calculated on the Mac now show errors, zeros, or plain numbers in the converted Excel file.',
+      solution: 'After converting, scan the formula cells and re-enter any broken ones in Excel syntax. For formula-heavy workbooks, the sender exporting directly from Numbers on their Mac gives the cleanest result — ask for that before re-typing anything yourself.',
+    },
+    {
+      id: 'numbers-icloud-upload-fails',
+      issue: 'iCloud refuses the upload or the file will not open there',
+      cause: 'The usual culprits: a very large file hitting upload limits, an interrupted upload leaving a partial file, or a damaged download that was incomplete before it ever reached iCloud.',
+      diagnostic: 'The upload stalls, errors out, or the file appears in iCloud Drive but will not open in the Numbers web app.',
+      solution: 'Re-download the original attachment and check the file size looks sane, then upload again on a stable connection. If a second upload also fails, ask the sender to re-export and resend — the source file itself may be damaged.',
+    },
+  ],
+
+  internalLinks: {
+    // NOTE: /format/* URLs do not exist in the sitemap (verified) — omitted like file 37.
+    // /file-extensions/numbers, /how-to-open/pages, /file-extensions/pages verified in sitemap-urls.txt.
+    extensionUrl: '/file-extensions/numbers',
+    comparisons: [
+      {
+        slug: 'csv-vs-xlsx',
+        title: 'CSV vs XLSX: Which Spreadsheet Format Should You Use?',
+        highlight: 'Once converted, pick the right format for the job: editable workbook or raw data.',
+      },
+    ],
+    relatedExtensions: [
+      { ext: 'XLSX', name: 'Microsoft Excel Workbook', category: 'Spreadsheets' },
+      { ext: 'CSV', name: 'Comma-Separated Values', category: 'Data' },
+      { ext: 'PDF', name: 'Portable Document Format', category: 'Documents' },
+    ],
+    recommendedTools: [
+      {
+        name: 'File Identifier',
+        slug: 'file-identifier',
+        description: "Confirm the file's true type from its signature in your browser — nothing is uploaded.",
+      },
+      {
+        name: 'Magic Byte Detector',
+        slug: 'magic-byte-detector',
+        description: 'Verify the ZIP signature (50 4B 03 04) that a genuine modern .numbers file starts with.',
+      },
+    ],
+  },
+
+  faqs: [
+    {
+      question: 'Can Microsoft Excel open a Numbers file directly?',
+      answer: "No. Excel cannot read the .numbers format — it will show a corruption or invalid-format error, which really means 'I do not understand this file.' Convert the spreadsheet to .xlsx first: the reliable free route is uploading it to Numbers for iCloud and downloading an Excel copy, or asking the sender to export one from their Mac.",
+    },
+    {
+      question: 'Do I need an Apple ID to open a Numbers file on Windows?',
+      answer: "Only for the iCloud method. Numbers for iCloud needs a free Apple ID to sign in — creating one takes a couple of minutes and costs nothing. If you would rather not create an account, ask the sender to export an Excel or PDF copy, or try LibreOffice for simple files.",
+    },
+    {
+      question: 'Will converting a Numbers file to Excel keep my formulas?',
+      answer: "Mostly, but not always. Standard formulas usually translate cleanly; Numbers-specific functions may arrive as static values or errors, and complex charts or interactive elements often do not survive. After converting, spot-check formula cells against the original before trusting the workbook — and for formula-heavy sheets, ask the sender to export from their Mac for the cleanest result.",
+    },
+    {
+      question: 'Is it safe to upload my Numbers file to an online converter?',
+      answer: "Think about what is inside first. Spreadsheets are the most privacy-sensitive common file type — budgets, salaries, client lists, invoices. An upload converter's operator can read all of it. For anything with financial or personal data, use Numbers for iCloud or a sender export instead. Reserve upload converters for spreadsheets you would not mind a stranger reading.",
+    },
+    {
+      question: 'Why does LibreOffice open some Numbers files but not others?',
+      answer: "LibreOffice's Numbers support is incomplete and version-sensitive: simple tables, especially from older Numbers versions, often open fine, while modern files with complex formulas, charts, or interactive elements frequently fail. If LibreOffice chokes on your file, that is normal — use Numbers for iCloud, which handles every version.",
+    },
+  ],
+},
+  key: {
+  extension: 'key',
+  upperExt: 'KEY',
+  name: 'Apple Keynote Presentation',
+  category: 'Presentations',
+  mimeType: 'application/zip',
+  magicBytesHex: '50 4B 03 04',
+  dangerRating: 'Low Risk',
+
+  summary:
+    "A .key file is a presentation made in Apple Keynote, Apple's presentation app and part of the iWork suite alongside Pages and Numbers. Keynote is free on Mac, iPhone, and iPad — but Apple never released a Windows version, and Microsoft PowerPoint cannot open .key files directly. So when a Mac user sends you a deck, double-clicking it on a Windows PC usually produces an error or a repair prompt that goes nowhere. The reliable fixes are all free: open the presentation in Keynote for iCloud in your browser with a free Apple ID, ask the sender to export a PowerPoint or PDF copy (thirty seconds on their Mac), or convert it with a trusted tool. This guide walks through each method for Windows, Mac, Linux, iPhone, and Android, explains where LibreOffice genuinely helps and where it does not, and covers what survives the trip to PowerPoint — animations and transitions usually do not. It completes the iWork triangle with our guides to opening Pages and Numbers files on Windows, which share the same playbook.",
+
+  whyItIsHardToOpen:
+    "Keynote files are hard to open on Windows for one simple reason: no native Windows program reads the format, and PowerPoint will not touch it. Double-clicking a .key file on a PC typically triggers PowerPoint, which attempts a repair and fails — the file is fine, PowerPoint just has no idea what it is. Renaming the extension to .pptx changes nothing, because the inside of the file is not a PowerPoint deck. The second complication is version history: like the rest of iWork, the Keynote format has evolved, and third-party support is uneven — LibreOffice can open some Keynote files but fails on many modern ones, which is exactly where people waste an afternoon. What saves you is Apple's own free web app: Keynote for iCloud runs in any modern browser, opens the file properly, and exports a genuine PowerPoint copy. Between that and asking the sender for an export, every Windows user has a free path — the only real decision is which one fits your file.",
+
+  inBrowserSupport: {
+    supported: false,
+    type: 'none',
+    note: "No browser renders a .key file directly — no web-based Keynote viewer exists. Use AnyFileX's File Identifier in your browser to confirm the file is genuinely a Keynote presentation, then open it in Keynote for iCloud or convert it with a trusted tool.",
+  },
+
+  osGuides: {
+    windows: {
+      isSupported: true,
+      title: 'Open KEY files on Windows',
+      badge: 'Free methods',
+      defaultApp: 'Keynote for iCloud',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Open and convert with Keynote for iCloud (best method)',
+          detail: "Go to icloud.com in Chrome, Edge, or Firefox and sign in with an Apple ID — creating one is free and takes a couple of minutes. Click the Keynote icon, then upload your .key file using the upload button. The presentation opens in the web version of Keynote, where you can view every slide and even edit it. To get a PowerPoint copy, use the download option and choose PowerPoint: Keynote converts the deck to a genuine .pptx file you can open in Microsoft PowerPoint or Google Slides. This is the only free method that handles every Keynote version correctly, because it is Apple's own converter doing the work.",
+          tip: 'Upload once and keep it in iCloud Drive — you can re-export as PowerPoint or PDF any time without re-uploading.',
+        },
+        {
+          stepNumber: 2,
+          title: 'Ask the sender to export a PowerPoint or PDF copy',
+          detail: "The fastest fix is often human: ask the Mac user to open the presentation in Keynote, choose File > Export To > PowerPoint (or PDF), and send you that instead. It takes them about thirty seconds. A PowerPoint export gives you an editable deck; a PDF export freezes every slide exactly for presenting or printing. If you trade decks with this person regularly, ask them to export to PowerPoint by default and the problem disappears permanently. Exports made directly in Keynote on a Mac also tend to keep formatting more accurately than web conversions.",
+          tip: 'PowerPoint export for editing, PDF when the slides must look pixel-perfect.',
+        },
+        {
+          stepNumber: 3,
+          title: 'Try Google Slides for a quick view',
+          detail: "Google Slides can import some .key files directly: create a new presentation, choose File > Open, switch to the Upload tab, and select the .key file. Slides converts it on the fly and shows you the deck in your browser — no Apple ID needed, just a Google account. It works well enough for reading through slides, though complex transitions, animations, and unusual fonts may not survive. Think of it as the fastest free peek, not the highest-fidelity conversion.",
+          tip: 'If Slides mangles the layout, fall back to the iCloud method, which converts more faithfully.',
+        },
+        {
+          stepNumber: 4,
+          title: 'Try LibreOffice Impress — with honest expectations',
+          detail: "LibreOffice is free and its Impress presentation app can open some Keynote files — but support is incomplete and version-sensitive. Install LibreOffice, choose File > Open, and select the .key file. If the deck opens with slides and text intact, you are done. If it errors out or renders badly, do not keep fighting it: the file is simply too new for LibreOffice's importer, and the iCloud method above will handle it. Simple decks from older Keynote versions fare best; modern decks with fancy transitions and builds usually do not.",
+          tip: 'Treat LibreOffice as a quick experiment — if the first try fails, switch to iCloud instead of troubleshooting the import.',
+        },
+        {
+          stepNumber: 5,
+          title: 'Online converters work — but watch for confidential decks',
+          detail: "Websites like CloudConvert and Zamzar convert .key to .pptx or .pdf: upload the file, wait, download the result. It works and needs no account. But presentations are often the most confidential files people handle — investor decks, sales figures, unreleased product plans, HR reviews. Uploading that to a stranger's server deserves a second thought. For sensitive decks, use the iCloud or sender-export methods above. Reserve upload converters for decks you would not mind a stranger flipping through.",
+          tip: 'Rule of thumb: if the deck holds numbers or names you would not post publicly, do not upload it to a random converter.',
+        },
+      ],
+    },
+    mac: {
+      isSupported: true,
+      title: 'Open KEY files on Mac',
+      badge: 'Built in',
+      defaultApp: 'Apple Keynote',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Open with Keynote (free)',
+          detail: "Keynote is a free download from the Mac App Store and ships with most new Macs. Double-click the .key file and it opens with full slides, transitions, and builds. This is the zero-friction route — if you are on a Mac, you already have everything you need.",
+        },
+        {
+          stepNumber: 2,
+          title: 'Export a Windows-friendly copy for others',
+          detail: "If you are the Mac user sending the deck, save your Windows colleagues the trouble: in Keynote choose File > Export To and pick PowerPoint or PDF before attaching it. PowerPoint keeps the deck editable; PDF freezes every slide exactly. One export from you replaces a troubleshooting session for them.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Use Keynote for iCloud as a backup',
+          detail: "Even on a Mac, the web version at icloud.com is handy when the installed app misbehaves or you are on someone else's machine. Upload the file and present or edit in the browser — no install needed.",
+        },
+      ],
+    },
+    linux: {
+      isSupported: true,
+      title: 'Open KEY files on Linux',
+      badge: 'Free methods',
+      defaultApp: 'Keynote for iCloud',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Use Keynote for iCloud in your browser',
+          detail: "There is no native Keynote app for Linux, but the web version does not care about your operating system. Sign in at icloud.com with a free Apple ID, open the Keynote web app, and upload the .key file. View and edit in Firefox or Chrome, then download a PowerPoint or PDF copy when finished.",
+        },
+        {
+          stepNumber: 2,
+          title: 'LibreOffice Impress for simple decks',
+          detail: "Install LibreOffice from your distribution's package manager and use File > Open on the .key file. Simple decks may open fine; modern or transition-heavy presentations often fail. If it fails, use the iCloud method above rather than hunting for another converter.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Google Slides after upload',
+          detail: "Google Slides can import some .key files directly in the browser — create a new presentation, File > Open > Upload, and select the file. Good for a quick read-through on Linux with no installs.",
+        },
+      ],
+    },
+    ios: {
+      isSupported: true,
+      title: 'Open KEY files on iPhone & iPad',
+      badge: 'Free',
+      defaultApp: 'Apple Keynote',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Install the free Keynote app',
+          detail: "Download Keynote free from the App Store. Open the .key file from the Files app, an email attachment, or Messages — tap it and choose Keynote. The deck opens with full slides, and you can present straight from your phone or iPad.",
+        },
+        {
+          stepNumber: 2,
+          title: 'Open files already in iCloud Drive',
+          detail: "If the file is in your iCloud Drive, it appears in the Keynote app's document browser automatically. Open it, edit it, and changes sync to your Mac and iCloud.com.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Send a Windows-friendly copy',
+          detail: "To share with a Windows user, open the deck in Keynote, tap the Share button, and export as PowerPoint or PDF — then send that file instead of the .key original.",
+        },
+      ],
+    },
+    android: {
+      isSupported: true,
+      title: 'Open KEY files on Android',
+      badge: 'Free',
+      defaultApp: 'Keynote for iCloud',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Open it with Keynote for iCloud in Chrome',
+          detail: "There is no Keynote app for Android, but the web version works in Chrome. Go to icloud.com, sign in with a free Apple ID, open the Keynote web app, and upload the .key file. You can view the slides in the browser and download a PowerPoint or PDF copy.",
+        },
+        {
+          stepNumber: 2,
+          title: 'Convert once, then use Google Slides',
+          detail: "For repeated access on your phone, use the iCloud web app once to download a PowerPoint copy, move that file to Google Drive, and open it in Google Slides. From then on you have the deck on Android with no further conversion.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Ask the sender for a PowerPoint export',
+          detail: "The simplest long-term fix: have the Mac user export to PowerPoint before sending. One thirty-second export on their side saves you the conversion dance on every deck.",
+        },
+      ],
+    },
+  },
+
+  // NOTE: ratings below are placeholders — verify before publishing
+  recommendedSoftware: [
+    {
+      id: 'apple-keynote',
+      name: 'Apple Keynote',
+      developer: 'Apple Inc.',
+      category: 'Presentation',
+      supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
+      priceType: 'Free',
+      priceText: 'Free; Apple ID required for the iCloud web version',
+      rating: 4.7,
+      canOpen: true,
+      canView: true,
+      canEdit: true,
+      canConvert: true,
+      routeId: 'software',
+      websiteUrl: 'https://www.icloud.com',
+    },
+    {
+      id: 'libreoffice-impress',
+      name: 'LibreOffice Impress',
+      developer: 'The Document Foundation',
+      category: 'Presentation',
+      supportedOS: ['windows', 'mac', 'linux'],
+      priceType: 'Open Source',
+      priceText: 'Free & open source',
+      rating: 4.3,
+      canOpen: true,
+      canView: true,
+      canEdit: true,
+      canConvert: true,
+      routeId: 'software',
+      websiteUrl: 'https://www.libreoffice.org',
+    },
+    {
+      id: 'google-slides',
+      name: 'Google Slides',
+      developer: 'Google LLC',
+      category: 'Presentation',
+      supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
+      priceType: 'Free',
+      priceText: 'Free with a Google account',
+      rating: 4.5,
+      canOpen: false,
+      canView: true,
+      canEdit: true,
+      canConvert: false,
+      routeId: 'software',
+      websiteUrl: 'https://slides.google.com',
+    },
+  ],
+
+  browserOptions: [
+    {
+      title: 'Keynote for iCloud — the real web version of Keynote',
+      description: "Sign in at icloud.com with a free Apple ID and open the Keynote web app: upload the .key file, view and edit it in your browser, then download a copy as PowerPoint or PDF. The only free method that handles every Keynote version correctly, because it is Apple's own format doing the conversion.",
+      badge: 'Free · Best option',
+      actionUrl: 'https://www.icloud.com',
+    },
+    {
+      title: 'Google Slides — a quick free peek',
+      description: "Google Slides can import some .key files directly: new presentation, File > Open > Upload. No Apple ID needed. Good for reading through slides fast, though fancy transitions and unusual fonts may not survive the trip.",
+      badge: 'Free',
+      actionUrl: 'https://slides.google.com',
+    },
+    {
+      title: 'Online converters — check the contents first',
+      description: "Upload-to-convert sites handle .key to .pptx fine, but decks are often the most confidential files people handle — investor numbers, unreleased plans, HR material. For sensitive decks, use iCloud or a sender export instead of an upload converter.",
+      badge: 'Privacy warning',
+    },
+  ],
+
+  troubleshooting: [
+    {
+      id: 'key-powerpoint-repair-fails',
+      issue: 'PowerPoint tries to repair the file and fails',
+      cause: 'PowerPoint cannot read the Keynote format at all — the repair attempt is its generic response to any file it does not understand. The file is not broken; it is simply not a PowerPoint deck.',
+      diagnostic: 'Double-clicking the .key file opens PowerPoint, which shows a repair dialog and then an error.',
+      solution: 'Do not try to repair it — convert it instead. Open the file in Keynote for iCloud and download a PowerPoint copy, or ask the sender to export one. The repair dialog disappears the moment PowerPoint gets a genuine .pptx file.',
+      toolAction: {
+        label: 'Identify the true file type',
+        route: { view: 'file-identifier' },
+      },
+    },
+    {
+      id: 'key-libreoffice-fails',
+      issue: "LibreOffice won't open it or renders it badly",
+      cause: "LibreOffice's Keynote importer is incomplete and version-sensitive: simple decks, especially from older Keynote versions, often open, while modern decks with transitions, builds, and complex layouts frequently fail.",
+      diagnostic: 'LibreOffice errors out, opens the deck blank, or shows slides with broken layouts while the file opens fine on a Mac or in iCloud.',
+      solution: 'Use Keynote for iCloud for that file instead — it handles every Keynote version. Reserve LibreOffice for simple decks, and always compare the result against the original before presenting from it.',
+    },
+    {
+      id: 'key-animations-lost',
+      issue: 'Transitions and animations vanished after conversion',
+      cause: 'Keynote and PowerPoint do not share a transition library: Keynote-exclusive effects (Magic Move, Object Cube, and friends) have no PowerPoint equivalent, so converters drop them or substitute the closest match. Fonts unique to macOS get substituted too.',
+      diagnostic: 'The converted .pptx opens fine but slides that animated on the Mac now cut instantly, or text looks different.',
+      solution: 'If the deck must be presented exactly as designed, export or convert to PDF instead — PDF freezes every slide. When you need an editable file, accept that some effects will not survive and rebuild the key transitions in PowerPoint by hand.',
+    },
+    {
+      id: 'key-icloud-upload-fails',
+      issue: 'iCloud refuses the upload or the file will not open there',
+      cause: 'The usual culprits: a very large file hitting upload limits, an interrupted upload leaving a partial file, or a damaged download that was incomplete before it ever reached iCloud.',
+      diagnostic: 'The upload stalls, errors out, or the file appears in iCloud Drive but will not open in the Keynote web app.',
+      solution: 'Re-download the original attachment and check the file size looks sane, then upload again on a stable connection. If a second upload also fails, ask the sender to re-export and resend — the source file itself may be damaged.',
+    },
+  ],
+
+  internalLinks: {
+    // NOTE: /format/* URLs do not exist in the sitemap (verified) — omitted like file 37.
+    // /file-extensions/key, /file-extensions/numbers, /file-extensions/pages verified in sitemap-urls.txt.
+    extensionUrl: '/file-extensions/key',
+    comparisons: [],
+    relatedExtensions: [
+      { ext: 'PPTX', name: 'Microsoft PowerPoint Presentation', category: 'Presentations' },
+      { ext: 'PDF', name: 'Portable Document Format', category: 'Documents' },
+      { ext: 'NUMBERS', name: 'Apple Numbers Spreadsheet', category: 'Spreadsheets' },
+      { ext: 'PAGES', name: 'Apple Pages Document', category: 'Documents' },
+    ],
+    recommendedTools: [
+      {
+        name: 'File Identifier',
+        slug: 'file-identifier',
+        description: "Confirm the file's true type from its signature in your browser — nothing is uploaded.",
+      },
+      {
+        name: 'Magic Byte Detector',
+        slug: 'magic-byte-detector',
+        description: 'Verify the ZIP signature (50 4B 03 04) that a genuine modern .key file starts with.',
+      },
+    ],
+  },
+
+  faqs: [
+    {
+      question: 'Can PowerPoint open a Keynote file directly?',
+      answer: "No. PowerPoint cannot read the .key format — it will attempt a repair and fail, which really means 'I do not understand this file.' Convert the deck to .pptx first: the reliable free route is uploading it to Keynote for iCloud and downloading a PowerPoint copy, or asking the sender to export one from their Mac.",
+    },
+    {
+      question: 'Do I need an Apple ID to open a Keynote file on Windows?',
+      answer: "Only for the iCloud method. Keynote for iCloud needs a free Apple ID to sign in — creating one takes a couple of minutes and costs nothing. If you would rather not create an account, ask the sender to export a PowerPoint or PDF copy, or try Google Slides for a quick view.",
+    },
+    {
+      question: 'Will converting a Keynote file to PowerPoint keep the animations?',
+      answer: "Usually not all of them. Keynote-exclusive transitions and builds have no PowerPoint equivalent, so converters drop them or substitute the closest match, and macOS-only fonts get substituted too. For pixel-perfect presenting, convert to PDF instead — it freezes every slide exactly as designed.",
+    },
+    {
+      question: 'Is it safe to upload my Keynote file to an online converter?',
+      answer: "Consider what is in the deck first. Presentations often hold the most confidential material people handle — investor figures, sales data, unreleased plans, HR reviews. An upload converter's operator can read all of it. For sensitive decks, use Keynote for iCloud or a sender export instead. Reserve upload converters for decks you would not mind a stranger flipping through.",
+    },
+    {
+      question: 'Why does LibreOffice open some Keynote files but not others?',
+      answer: "LibreOffice's Keynote support is incomplete and version-sensitive: simple decks, especially from older Keynote versions, often open fine, while modern decks with transitions, builds, and complex layouts frequently fail. If LibreOffice chokes on your file, that is normal — use Keynote for iCloud, which handles every version.",
+    },
+  ],
+},
+  odt: {
+  extension: 'odt',
+  upperExt: 'ODT',
+  name: 'OpenDocument Text Document',
+  category: 'Documents',
+  mimeType: 'application/vnd.oasis.opendocument.text',
+  magicBytesHex: '50 4B 03 04',
+  dangerRating: 'Low Risk',
+
+  summary:
+    "An .odt file is a document in OpenDocument Text format — the open, royalty-free standard maintained by OASIS and the default format of LibreOffice Writer. Unlike the iWork formats, ODT is genuinely easy to open without Microsoft Office: LibreOffice opens it natively and free, Google Docs opens it in your browser, and even Microsoft Word itself can open ODT files (Word has supported the format since 2007). So why does anyone search for this? Usually because the file arrived from a LibreOffice or Linux user, double-clicking it opened the wrong program or showed a conversion prompt, or the document looks subtly wrong — fonts shifted, page breaks moved, tracked changes mangled. This guide covers the free ways to open ODT files on Windows, Mac, Linux, iPhone, and Android, explains what ODT actually is under the hood (a ZIP archive of XML files, which matters for recovery), and gives honest formatting-fidelity caveats for each method. Spoiler: for most documents, LibreOffice or Google Docs just works — the edge cases are where the details below earn their keep.",
+
+  whyItIsHardToOpen:
+    "ODT files are not hard to open the way iWork files are — the format is an open standard and half a dozen free programs read it. The difficulty is subtler: fidelity and defaults. On a Windows machine with no office suite installed, double-clicking an .odt may open it in the wrong app or trigger a download prompt for software you do not have. If you do have Microsoft Word, it opens ODT — but Word is not the format\'s native home, so complex documents can arrive with shifted fonts, moved page breaks, or mangled tracked changes, and Word warns you when saving back to ODT might drop Word-only features. The second wrinkle is expectation: people assume 'Word didn't open it perfectly, so the file must be broken,' when the file is fine and the converter is the weak link. The fix is picking the right opener for the job — LibreOffice Writer for full fidelity, Google Docs for quick browser access, Word Online for a free Microsoft-flavored route — and knowing which compromises each one makes.",
+
+  inBrowserSupport: {
+    supported: true,
+    type: 'text',
+    note: "Google Docs opens ODT files right in your browser: upload the file to Google Drive, right-click it, and open with Google Docs — it converts to an editable document while preserving most formatting. Word for the web (free with a Microsoft account) opens ODT from OneDrive too.",
+  },
+
+  osGuides: {
+    windows: {
+      isSupported: true,
+      title: 'Open ODT files on Windows',
+      badge: 'Free methods',
+      defaultApp: 'LibreOffice Writer',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Open with LibreOffice Writer (best fidelity, free)',
+          detail: "Download and install LibreOffice — it is free and open source — then double-click the .odt file. ODT is LibreOffice Writer's native format, so this is the reference implementation: full formatting, styles, tables, images, and tracked changes all render as intended. This is the method to use when the document must look exactly right, or when you need to edit and save back to ODT without losing anything.",
+          tip: 'If Windows asks which program to use, right-click the file, choose Open with, and pick LibreOffice Writer — then tick "always use this app" to stop the prompt.',
+        },
+        {
+          stepNumber: 2,
+          title: 'Open in Google Docs (no install)',
+          detail: "Go to Google Drive in your browser, upload the .odt file, right-click it, and choose Open with > Google Docs. Docs converts it into an editable document and preserves most formatting. You can edit it in the browser and download it back as .odt, .docx, or .pdf via File > Download. This is the fastest route when you cannot or do not want to install software — a library computer, a work machine, a borrowed laptop.",
+          tip: 'After Docs converts the file, skim through it once before editing — complex layouts sometimes need a touch-up after conversion.',
+        },
+        {
+          stepNumber: 3,
+          title: 'Open in Word for the web (free Microsoft route)',
+          detail: "Sign in to your Microsoft account, upload the .odt file to OneDrive, and open it with Word for the web. Microsoft's free online Word opens ODT files directly in the browser — handy if you live in the Microsoft ecosystem but do not have desktop Office installed. Like all conversions, very complex formatting may shift slightly, so check the document after opening.",
+        },
+        {
+          stepNumber: 4,
+          title: 'Use desktop Word if you already have it',
+          detail: "Recent versions of Microsoft Word open ODT files directly: use File > Open and select the file. Word has supported the format for years and handles the current OpenDocument standard reasonably well, including improvements to page numbers, headers, footers, and content controls in newer releases. Expect good — not perfect — fidelity: save a copy as .docx if you plan to keep working in Word, and note that Word warns you when saving back to ODT might drop Word-only features.",
+          tip: 'If the layout looks off in Word, try LibreOffice before assuming the file is damaged — the native app is the fairer test.',
+        },
+        {
+          stepNumber: 5,
+          title: 'Quick view without editing',
+          detail: "If you only need to read the document, lighter options exist: the free 'ODT, ODP, ODS Viewer' Chrome extension opens ODT files (up to size limits) in the browser and can export to PDF, and several free ODT viewer apps show the text without a full office install. Viewers are read-only — fine for checking what the document says, not for editing it.",
+          tip: 'For anything you need to change, use one of the full editors above instead of a viewer.',
+        },
+      ],
+    },
+    mac: {
+      isSupported: true,
+      title: 'Open ODT files on Mac',
+      badge: 'Free methods',
+      defaultApp: 'LibreOffice Writer',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Open with LibreOffice (free, native)',
+          detail: "Download LibreOffice for Mac (available for both Apple silicon and Intel) and double-click the .odt file. As the format's native application, Writer gives you the most faithful rendering and editing on macOS — free.",
+        },
+        {
+          stepNumber: 2,
+          title: 'Open in Word for Mac if you have it',
+          detail: "Microsoft Word for Mac opens ODT files like the Windows version: File > Open, select the file. Fidelity is good for typical documents; complex layouts may shift slightly.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Use Google Docs in the browser',
+          detail: "Upload the file to Google Drive and open it with Google Docs — no install, works in Safari or Chrome, and you can download it back as ODT, DOCX, or PDF.",
+        },
+      ],
+    },
+    linux: {
+      isSupported: true,
+      title: 'Open ODT files on Linux',
+      badge: 'Built in',
+      defaultApp: 'LibreOffice Writer',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Double-click it — LibreOffice is usually preinstalled',
+          detail: "Most Linux desktop distributions ship LibreOffice out of the box, and ODT is its native format. Double-click the file and it opens in Writer with full fidelity. This is the platform where ODT files cause the least trouble by far.",
+        },
+        {
+          stepNumber: 2,
+          title: 'Open from the terminal if you prefer',
+          detail: "You can also launch Writer directly on the file from a terminal. Replace the path with the actual location of your file on disk.",
+          command: 'libreoffice --writer /path/to/document.odt',
+          tip: 'Handy when scripting batch conversions or opening files on a headless setup via a remote session.',
+        },
+        {
+          stepNumber: 3,
+          title: 'AbiWord for lightweight viewing',
+          detail: "If you want something lighter than LibreOffice, AbiWord opens ODT files for quick viewing and editing. It is less complete than Writer on complex layouts, so treat it as a fast reader rather than a full replacement.",
+        },
+      ],
+    },
+    ios: {
+      isSupported: true,
+      title: 'Open ODT files on iPhone & iPad',
+      badge: 'Free apps',
+      defaultApp: 'Collabora Office',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Install Collabora Office (best fidelity)',
+          detail: "Collabora Office is the LibreOffice-based office suite for iOS, free on the App Store. Open the .odt from the Files app and it renders with desktop-grade fidelity — the highest-quality ODF editing available on iPhone or iPad.",
+        },
+        {
+          stepNumber: 2,
+          title: 'Open via Google Docs',
+          detail: "Upload the file to Google Drive and open it in the Google Docs app: Docs converts it for editing on the phone. Good for reading and light edits; heavy formatting is better handled in Collabora.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Quick view with a document reader',
+          detail: "Free ODT reader apps (OpenDocument Reader and similar) open the file for reading when you do not need to edit. Expect formatting and layout to be simplified on small screens — fine for checking content, not for presenting it.",
+        },
+      ],
+    },
+    android: {
+      isSupported: true,
+      title: 'Open ODT files on Android',
+      badge: 'Free apps',
+      defaultApp: 'Collabora Office',
+      steps: [
+        {
+          stepNumber: 1,
+          title: 'Install Collabora Office (best fidelity)',
+          detail: "Collabora Office on Android is the LibreOffice-based suite that opens and edits ODT with desktop-grade fidelity. Open the .odt from your file manager or the Files app and edit it properly — the best option on Android by a clear margin.",
+        },
+        {
+          stepNumber: 2,
+          title: 'Open via Google Docs',
+          detail: "Upload the file to Google Drive and open it in the Google Docs app, which converts it for editing. Convenient and free; complex layouts may simplify.",
+        },
+        {
+          stepNumber: 3,
+          title: 'Quick view with OpenDocument Reader',
+          detail: "The free OpenDocument Reader app opens ODT files for reading on Android. Formatting may be simplified, so use it for checking content rather than final review.",
+        },
+      ],
+    },
+  },
+
+  // NOTE: ratings below are placeholders — verify before publishing
+  recommendedSoftware: [
+    {
+      id: 'libreoffice-writer',
+      name: 'LibreOffice Writer',
+      developer: 'The Document Foundation',
+      category: 'Word Processor',
+      supportedOS: ['windows', 'mac', 'linux'],
+      priceType: 'Open Source',
+      priceText: 'Free & open source',
+      rating: 4.6,
+      canOpen: true,
+      canView: true,
+      canEdit: true,
+      canConvert: true,
+      routeId: 'software',
+      websiteUrl: 'https://www.libreoffice.org',
+    },
+    {
+      id: 'google-docs',
+      name: 'Google Docs',
+      developer: 'Google LLC',
+      category: 'Word Processor',
+      supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
+      priceType: 'Free',
+      priceText: 'Free with a Google account',
+      rating: 4.7,
+      canOpen: true,
+      canView: true,
+      canEdit: true,
+      canConvert: true,
+      routeId: 'software',
+      websiteUrl: 'https://docs.google.com',
+    },
+    {
+      id: 'collabora-office',
+      name: 'Collabora Office',
+      developer: 'Collabora Productivity',
+      category: 'Office Suite',
+      supportedOS: ['ios', 'android'],
+      priceType: 'Open Source',
+      priceText: 'Free & open source',
+      rating: 4.3,
+      canOpen: true,
+      canView: true,
+      canEdit: true,
+      canConvert: true,
+      routeId: 'software',
+      websiteUrl: 'https://www.collaboraoffice.com',
+    },
+  ],
+
+  browserOptions: [
+    {
+      title: 'Google Docs — no install, full editing',
+      description: "Upload the .odt to Google Drive, right-click it, and open with Google Docs. It converts to an editable document preserving most formatting, and you can download it back as ODT, DOCX, or PDF. The fastest free route on any computer with a browser.",
+      badge: 'Free · Best option',
+      actionUrl: 'https://docs.google.com',
+    },
+    {
+      title: 'Word for the web — the free Microsoft route',
+      description: "Sign in with a free Microsoft account, upload the ODT to OneDrive, and open it in Word for the web. Handy if you live in the Microsoft ecosystem but do not have desktop Office.",
+      badge: 'Free',
+      actionUrl: 'https://www.office.com',
+    },
+    {
+      title: 'Chrome ODT viewer extension — read-only peek',
+      description: "The free 'ODT, ODP, ODS Viewer' Chrome extension opens ODT files in the browser (within size limits) and can export to PDF. Read-only — fine for checking what a document says, not for editing it.",
+      badge: 'Read-only',
+    },
+  ],
+
+  troubleshooting: [
+    {
+      id: 'odt-word-formatting-shift',
+      issue: 'Word opened it but the formatting shifted',
+      cause: 'Word is not the format\'s native home: fonts unavailable on your system get substituted, and complex styles, page breaks, or tracked changes can translate imperfectly. Word also warns when saving back to ODT might drop Word-only features.',
+      diagnostic: 'The document opens and is readable, but fonts differ, pages break in new places, or tracked changes look wrong compared to how the sender saw it.',
+      solution: 'For the fairest rendering, open the file in LibreOffice Writer — the native application — and compare. If Writer shows it correctly, the file is fine and Word\'s conversion is the weak link. Save a .docx copy if you plan to keep working in Word.',
+      toolAction: {
+        label: 'Identify the true file type',
+        route: { view: 'file-identifier' },
+      },
+    },
+    {
+      id: 'odt-wont-open-default',
+      issue: 'Double-clicking opens the wrong program or nothing at all',
+      cause: 'Windows has no built-in ODT handler, so with no office suite installed the system does not know what to do with the file — it may prompt you to pick an app from the Store or fail silently.',
+      diagnostic: 'Double-clicking the .odt shows a "how do you want to open this file" prompt, opens an unrelated app, or does nothing.',
+      solution: 'Install LibreOffice (free) and set it as the default for .odt: right-click the file > Open with > choose LibreOffice Writer and tick "always use this app". Alternatively, use Google Docs in the browser with no install at all.',
+    },
+    {
+      id: 'odt-tracked-changes-mangled',
+      issue: 'Tracked changes or comments look wrong after opening in Word',
+      cause: 'Change-tracking markup is one of the trickier parts of the ODT specification to translate: Word usually preserves the text but can misrender who changed what, or flatten the markup into plain text.',
+      diagnostic: 'The document body looks right but the revision history, comment threads, or change colors differ from the original.',
+      solution: 'Review tracked changes in LibreOffice Writer, which implements the ODT change-tracking model natively. If you must work in Word, accept its version of the markup and confirm important edits with the document author.',
+    },
+    {
+      id: 'odt-corrupt-or-misnamed',
+      issue: 'Nothing opens the file, or it shows binary gibberish',
+      cause: 'A genuine ODT is a ZIP archive of XML files — if the download was interrupted, the ZIP structure breaks and no program can open it. Alternatively, the file may be misnamed and not an ODT at all.',
+      diagnostic: 'Every program refuses the file, or a text editor shows binary garbage instead of anything readable.',
+      solution: "Verify the file starts with the ZIP signature 50 4B 03 04 — if it does not, the file is corrupt or misnamed. Re-download the attachment and check the size looks sane. You can also try opening it with a ZIP tool: a healthy ODT extracts into folders including META-INF and a content.xml.",
+    },
+  ],
+
+  internalLinks: {
+    // NOTE: /format/* URLs do not exist in the sitemap (verified) — omitted like file 37.
+    // /file-extensions/odt, /file-extensions/docx, /file-extensions/pdf, /file-extensions/zip verified in sitemap-urls.txt.
+    extensionUrl: '/file-extensions/odt',
+    comparisons: [],
+    relatedExtensions: [
+      { ext: 'DOCX', name: 'Microsoft Word Open XML Document', category: 'Documents' },
+      { ext: 'PDF', name: 'Portable Document Format', category: 'Documents' },
+      { ext: 'ZIP', name: 'ZIP Compressed Archive', category: 'Archives' },
+    ],
+    recommendedTools: [
+      {
+        name: 'File Identifier',
+        slug: 'file-identifier',
+        description: "Confirm the file's true type from its signature in your browser — nothing is uploaded.",
+      },
+      {
+        name: 'Magic Byte Detector',
+        slug: 'magic-byte-detector',
+        description: 'Verify the ZIP signature (50 4B 03 04) — a genuine ODT starts with those bytes.',
+      },
+    ],
+  },
+
+  faqs: [
+    {
+      question: 'Can I open an ODT file without Microsoft Office?',
+      answer: "Yes — several free options exist. LibreOffice Writer opens ODT natively and is the most faithful choice; Google Docs opens it in your browser after uploading to Google Drive; Word for the web (free with a Microsoft account) opens it from OneDrive. You do not need desktop Office at all.",
+    },
+    {
+      question: 'Will Microsoft Word open an ODT file?',
+      answer: "Yes. Word has been able to open ODT files for years, and newer releases handle the current OpenDocument standard reasonably well, including page numbers, headers, footers, and content controls. Expect good but not perfect fidelity — for the most faithful rendering, use LibreOffice Writer.",
+    },
+    {
+      question: 'What is inside an ODT file?',
+      answer: "An ODT file is a ZIP archive containing XML files: the document text lives in content.xml, styles in styles.xml, and metadata in META-INF. That is why every genuine ODT starts with the ZIP signature 50 4B 03 04 — and why a healthy ODT can be opened with a ZIP tool to inspect its parts.",
+    },
+    {
+      question: 'Why does my ODT file look different in Word than in LibreOffice?',
+      answer: "LibreOffice Writer is the format's native application, so it renders ODT exactly as specified. Word translates the format on open, and font substitution plus style-translation differences can shift the layout. When fidelity matters, trust LibreOffice's rendering over Word's.",
+    },
+    {
+      question: 'Can I convert an ODT file to Word or PDF?',
+      answer: "Yes. In LibreOffice choose File > Export or Save As and pick DOCX or PDF; in Google Docs use File > Download after opening. PDF freezes the layout exactly; DOCX keeps it editable. For complex documents, convert from LibreOffice rather than Word for the cleanest result.",
+    },
+  ],
+}
 };
