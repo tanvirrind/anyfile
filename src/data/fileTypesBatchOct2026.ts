@@ -88,5 +88,132 @@ export const FILE_TYPES_BATCH_OCT2026: FileTypeInfo[] = [
     { question: 'Will converting a Pages file to Word keep the formatting?', answer: "Mostly. Text, tables, and images survive, but Apple-only fonts get substituted on Windows and layouts can shift. Convert to PDF instead when exact fidelity matters." },
     { question: 'Can LibreOffice open Pages files?', answer: "Only documents from iWork '09 and older. Modern Pages files (Pages 5.0 onward) fail in LibreOffice — use Pages for iCloud for those." },
   ],
+},,
+{
+  extension: 'NUMBERS',
+  name: 'Apple Numbers Spreadsheet',
+  category: 'Spreadsheets',
+  description:
+    'Spreadsheet created by Apple Numbers, stored as a ZIP package — the iWork counterpart to Excel workbooks.',
+  detailedOverview:
+    "Numbers is Apple's spreadsheet app, part of the iWork suite alongside Pages and Keynote, free on Mac, iPhone, and iPad. A modern .numbers file is a ZIP archive in disguise, which is why it starts with the same PK signature as any ZIP file. Apple never released a Windows version, and Microsoft Excel cannot read the format — the classic cross-platform headache when a Mac colleague emails you a spreadsheet. The reliable free routes on Windows are Numbers for iCloud in the browser (open, edit, and export to Excel/PDF/CSV with a free Apple ID) and asking the sender to export an Excel copy from their Mac. LibreOffice Calc can open some Numbers files, but its importer is incomplete and version-sensitive, so modern or complex spreadsheets often fail there.",
+  mimeType: 'application/zip',
+  magicBytesHex: '50 4B 03 04',
+  typicalSize: '20 KB – 30 MB',
+  dangerRating: 'Low Risk',
+  dangerExplanation:
+    "Numbers files themselves are safe — the format has no macro system like Excel. The real risk is privacy: spreadsheets routinely hold budgets, salaries, and client lists, so avoid uploading sensitive .numbers files to random online converters. Convert via iCloud or a sender export instead.",
+  exampleUse: 'Spreadsheets shared by Mac/iPhone users, iCloud-synced workbooks, iWork document archives',
+  developer: 'Apple Inc.',
+  osSupport: { windows: true, mac: true, linux: true, android: true, ios: true },
+  popularApps: [
+    { name: 'Apple Numbers', os: ['windows', 'mac', 'linux', 'ios', 'android'], isFree: true, developer: 'Apple Inc.', link: 'https://www.icloud.com', slug: 'apple-numbers' },
+    { name: 'LibreOffice Calc', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'The Document Foundation', link: 'https://www.libreoffice.org', slug: 'libreoffice-calc' },
+    { name: 'Google Sheets', os: ['windows', 'mac', 'linux', 'ios', 'android'], isFree: true, developer: 'Google LLC', link: 'https://sheets.google.com', slug: 'google-sheets' },
+  ],
+  openingSteps: [
+    { title: 'Open in Numbers for iCloud', desc: 'Sign in at icloud.com with a free Apple ID, open the Numbers web app, and upload the .numbers file. View, edit, and download an Excel, PDF, or CSV copy.' },
+    { title: 'Ask the sender to export', desc: 'Have the Mac user choose File > Export To > Excel (or PDF/CSV) in Numbers and resend. Excel keeps the workbook editable; PDF freezes the layout.' },
+    { title: 'Try LibreOffice for simple files', desc: 'LibreOffice Calc opens some Numbers files — simple tables often work, modern or complex ones frequently fail. If it fails, use iCloud instead.' },
+  ],
+  conversions: [
+    { targetExtension: 'XLSX', description: 'Convert Numbers to Excel format for editing in Microsoft Excel or Google Sheets; spot-check formulas after conversion.', difficulty: 'Easy', onlinePossible: true },
+    { targetExtension: 'CSV', description: 'Export raw values with no formatting — ideal when you only need the data, not the layout.', difficulty: 'Easy', onlinePossible: true },
+    { targetExtension: 'PDF', description: 'Freeze the spreadsheet layout exactly for reading, printing, and sharing anywhere.', difficulty: 'Easy', onlinePossible: true },
+  ],
+  repairTips: [
+    'Verify the file starts with the ZIP signature 50 4B 03 04 — a genuine modern .numbers archive begins with those bytes; anything else suggests a corrupt download or a misnamed file.',
+    'An Excel "corrupt file" error on a .numbers file means Excel cannot read the format, not that the file is damaged — convert it instead of trying to repair it.',
+    'If LibreOffice opens the file but formulas are wrong, the importer mangled them — re-export from Numbers (via iCloud) rather than fixing the import by hand.',
+  ],
+  faqs: [
+    { question: 'Can Microsoft Excel open a Numbers file directly?', answer: 'No — Excel cannot read the .numbers format. Convert to .xlsx first via Numbers for iCloud or a sender export.' },
+    { question: 'Do I need an Apple ID to open a Numbers file on Windows?', answer: 'Only for the iCloud method, and the Apple ID is free. Otherwise ask the sender to export an Excel copy or try LibreOffice for simple files.' },
+    { question: 'Is it safe to upload my Numbers file to an online converter?', answer: 'Spreadsheets often hold financial or personal data — avoid uploading sensitive ones to random converters. Use iCloud or a sender export instead.' },
+  ],
 },
+{
+  extension: 'KEY',
+  name: 'Apple Keynote Presentation',
+  category: 'Presentations',
+  description:
+    'Presentation created by Apple Keynote, stored as a ZIP package — the iWork counterpart to PowerPoint decks.',
+  detailedOverview:
+    "Keynote is Apple's presentation app, part of the iWork suite alongside Pages and Numbers, free on Mac, iPhone, and iPad. A modern .key file is a ZIP archive in disguise, which is why it starts with the same PK signature as any ZIP file. Apple never released a Windows version, and Microsoft PowerPoint cannot read the format — the classic cross-platform headache when a Mac colleague sends you a deck. The reliable free routes on Windows are Keynote for iCloud in the browser (open, edit, and export to PowerPoint or PDF with a free Apple ID) and asking the sender to export a PowerPoint copy from their Mac. LibreOffice Impress can open some Keynote files, but its importer is incomplete and version-sensitive, so modern or transition-heavy decks often fail there.",
+  mimeType: 'application/zip',
+  magicBytesHex: '50 4B 03 04',
+  typicalSize: '500 KB – 200 MB',
+  dangerRating: 'Low Risk',
+  dangerExplanation:
+    "Keynote files themselves are safe — the format has no macro system like PowerPoint. The real risk is privacy: decks often hold investor figures, sales data, and unreleased plans, so avoid uploading sensitive .key files to random online converters. Convert via iCloud or a sender export instead.",
+  exampleUse: 'Presentations shared by Mac/iPhone users, iCloud-synced decks, iWork document archives',
+  developer: 'Apple Inc.',
+  osSupport: { windows: true, mac: true, linux: true, android: true, ios: true },
+  popularApps: [
+    { name: 'Apple Keynote', os: ['windows', 'mac', 'linux', 'ios', 'android'], isFree: true, developer: 'Apple Inc.', link: 'https://www.icloud.com', slug: 'apple-keynote' },
+    { name: 'LibreOffice Impress', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'The Document Foundation', link: 'https://www.libreoffice.org', slug: 'libreoffice-impress' },
+    { name: 'Google Slides', os: ['windows', 'mac', 'linux', 'ios', 'android'], isFree: true, developer: 'Google LLC', link: 'https://slides.google.com', slug: 'google-slides' },
+  ],
+  openingSteps: [
+    { title: 'Open in Keynote for iCloud', desc: 'Sign in at icloud.com with a free Apple ID, open the Keynote web app, and upload the .key file. View, edit, and download a PowerPoint or PDF copy.' },
+    { title: 'Ask the sender to export', desc: 'Have the Mac user choose File > Export To > PowerPoint (or PDF) in Keynote and resend. PowerPoint keeps the deck editable; PDF freezes every slide.' },
+    { title: 'Try Google Slides or LibreOffice', desc: 'Google Slides can import some .key files for a quick view; LibreOffice Impress opens simple older decks. If either fails, use iCloud instead.' },
+  ],
+  conversions: [
+    { targetExtension: 'PPTX', description: 'Convert Keynote to PowerPoint format for editing in Microsoft PowerPoint or Google Slides; transitions and animations may not survive.', difficulty: 'Easy', onlinePossible: true },
+    { targetExtension: 'PDF', description: 'Freeze every slide exactly for presenting, printing, and sharing anywhere.', difficulty: 'Easy', onlinePossible: true },
+  ],
+  repairTips: [
+    'Verify the file starts with the ZIP signature 50 4B 03 04 — a genuine modern .key archive begins with those bytes; anything else suggests a corrupt download or a misnamed file.',
+    'A PowerPoint "repair" failure on a .key file means PowerPoint cannot read the format, not that the file is damaged — convert it instead of trying to repair it.',
+    'If iCloud opens the file but the layout looks off, the deck may use macOS-only fonts — export to PDF from iCloud to freeze the design as intended.',
+  ],
+  faqs: [
+    { question: 'Can PowerPoint open a Keynote file directly?', answer: 'No — PowerPoint cannot read the .key format. Convert to .pptx first via Keynote for iCloud or a sender export.' },
+    { question: 'Do I need an Apple ID to open a Keynote file on Windows?', answer: 'Only for the iCloud method, and the Apple ID is free. Otherwise ask the sender to export a PowerPoint copy or try Google Slides.' },
+    { question: 'Is it safe to upload my Keynote file to an online converter?', answer: 'Decks often hold confidential material — avoid uploading sensitive ones to random converters. Use iCloud or a sender export instead.' },
+  ],
+},
+{
+  extension: 'ODT',
+  name: 'OpenDocument Text Document',
+  category: 'Documents',
+  description:
+    'Text document in the open OpenDocument format — a ZIP package of XML files, the native format of LibreOffice Writer.',
+  detailedOverview:
+    "ODT (OpenDocument Text) is the open, royalty-free document standard maintained by OASIS, with ISO standardization as ISO/IEC 26300. It is the default format of LibreOffice Writer and Apache OpenOffice, and the format Google Docs can export. Technically, an .odt file is a ZIP archive: the document text lives in content.xml, styles in styles.xml, and metadata in META-INF — which is why every genuine ODT starts with the ZIP signature 50 4B 03 04, and why a healthy ODT can be inspected with any ZIP tool. Unlike the iWork formats, ODT is genuinely easy to open without paid software: LibreOffice opens it natively, Google Docs and Word for the web open it in the browser, and even desktop Microsoft Word has supported it for years. The honest caveat is fidelity: complex formatting, tracked changes, and unusual fonts can shift when moving between applications, so the native app (LibreOffice) is the fairest judge of what a document really looks like.",
+  mimeType: 'application/vnd.oasis.opendocument.text',
+  magicBytesHex: '50 4B 03 04',
+  typicalSize: '10 KB – 20 MB',
+  dangerRating: 'Low Risk',
+  dangerExplanation:
+    "ODT files are generally safe — the format has no macro system comparable to Office's. As with any document arriving unexpectedly, verify the sender before opening, and be cautious with files that ask you to enable anything or follow external links.",
+  exampleUse: 'LibreOffice Writer documents, Linux office documents, Google Docs exports, open-standards document archives',
+  developer: 'OASIS (standard); reference implementation by The Document Foundation (LibreOffice)',
+  osSupport: { windows: true, mac: true, linux: true, android: true, ios: true },
+  popularApps: [
+    { name: 'LibreOffice Writer', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'The Document Foundation', link: 'https://www.libreoffice.org', slug: 'libreoffice-writer' },
+    { name: 'Google Docs', os: ['windows', 'mac', 'linux', 'ios', 'android'], isFree: true, developer: 'Google LLC', link: 'https://docs.google.com', slug: 'google-docs' },
+    { name: 'Collabora Office', os: ['ios', 'android'], isFree: true, developer: 'Collabora Productivity', link: 'https://www.collaboraoffice.com', slug: 'collabora-office' },
+  ],
+  openingSteps: [
+    { title: 'Open in LibreOffice Writer', desc: 'Install LibreOffice (free) and double-click the .odt file — ODT is its native format, so fidelity is the best you will get anywhere.' },
+    { title: 'Open in Google Docs', desc: 'Upload the file to Google Drive, right-click it, and open with Google Docs. Edit in the browser and download back as ODT, DOCX, or PDF.' },
+    { title: 'Use Word or Word Online', desc: 'Desktop Word opens ODT directly; Word for the web (free with a Microsoft account) opens it from OneDrive. Expect minor formatting shifts on complex documents.' },
+  ],
+  conversions: [
+    { targetExtension: 'DOCX', description: 'Convert ODT to Word format for editing in Microsoft Word; convert from LibreOffice for the cleanest result on complex documents.', difficulty: 'Easy', onlinePossible: true },
+    { targetExtension: 'PDF', description: 'Freeze the document layout exactly for reading, printing, and sharing anywhere.', difficulty: 'Easy', onlinePossible: true },
+  ],
+  repairTips: [
+    'Verify the file starts with the ZIP signature 50 4B 03 04 — if it does not, the file is corrupt or misnamed; re-download it.',
+    'A healthy ODT opens as a ZIP archive: if a ZIP tool can list META-INF and content.xml, the container is intact and the problem is elsewhere.',
+    'When Word mangles formatting, open the file in LibreOffice Writer to see the true rendering before assuming the document is damaged.',
+  ],
+  faqs: [
+    { question: 'Can I open an ODT file without Microsoft Office?', answer: 'Yes — LibreOffice Writer (free, native), Google Docs (browser), and Word for the web (free Microsoft account) all open ODT without desktop Office.' },
+    { question: 'Will Microsoft Word open an ODT file?', answer: 'Yes, Word has supported ODT for years. Fidelity is good for typical documents; complex layouts may shift slightly.' },
+    { question: 'What is inside an ODT file?', answer: 'A ZIP archive of XML files — content.xml holds the text, styles.xml the styles, META-INF the metadata. Every genuine ODT starts with the ZIP signature 50 4B 03 04.' },
+  ],
+}
 ];

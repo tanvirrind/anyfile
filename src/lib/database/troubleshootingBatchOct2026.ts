@@ -183,5 +183,183 @@ export const TROUBLESHOOTING_BATCH_OCT2026: TroubleshootingGuideItem[] = [
         'Sometimes, but do not count on it. Compression only helps if the file\'s contents are compressible — documents and raw video often shrink a lot, but an already-compressed MP4 or ZIP barely shrinks at all. And even when it works, you are gambling on the exact byte count landing under 4,294,967,295. Splitting with 7-Zip at 3900M volumes is deterministic where compression is a coin flip — use splitting when it has to work the first time.',
     },
   ],
-},
+},,
+{
+  id: 'powerpoint-wont-open',
+  title: "PowerPoint Presentation Won't Open? Diagnose and Fix It",
+  subtitle:
+    "PowerPoint won't open your presentation? Diagnose it first: blocked file, Protected View, corruption, or wrong app — then apply the matching fix, including Open and Repair.",
+  category: 'Documents',
+  problemSummary:
+    'You double-click a presentation and PowerPoint refuses: an error about "a problem with content," a red Protected View banner, a file that opens as gibberish, or nothing happening at all. The instinct is to assume the file is corrupted — but corruption is only one of four common causes, and each demands a different fix. A file blocked by Windows security needs unblocking, not repair; a file in Protected View needs one click, not surgery; a file opened in the wrong program needs the right app, not recovery software. This guide diagnoses first: a two-minute ladder that identifies which of the four situations you are in, then walks the matching fix — including Microsoft\'s own Open and Repair, and a clever PPTX-is-a-ZIP check that tells you in seconds whether the file\'s container is intact.',
+  commonErrorMessages: [
+    'PowerPoint found a problem with content in <filename>. PowerPoint can attempt to repair the presentation.',
+    "Sorry, PowerPoint can't read <filename>.",
+    'PowerPoint can\'t open the file.',
+    'Protected View: Be careful — files from the Internet can contain viruses.',
+    'The file is corrupt and cannot be opened.',
+  ],
+  symptoms: [
+    'Double-clicking the .pptx shows an error offering to "repair" the presentation',
+    'The file opens but shows a red or yellow Protected View banner instead of editable slides',
+    'PowerPoint opens with a blank gray window and no slides load',
+    'The presentation opens on one computer but not another',
+    'A downloaded presentation will not open while ones you made yourself open fine',
+    'The file opens in a different program (or as a ZIP archive) instead of PowerPoint',
+  ],
+  diagnosticFlow: {
+    problemStatement:
+      'A PowerPoint presentation (.pptx or .ppt) fails to open normally: an error dialog, a Protected View banner that will not clear, a blank window, or the file opening in the wrong application.',
+    analysisTechnique:
+      'Work the four causes in order of likelihood for downloaded files: blocked-by-Windows first, Protected View second, genuine corruption third, wrong program fourth. Check the file\'s origin first — right-click the file, choose Properties, and look at the bottom of the General tab. If you see a Security note saying "This file came from another computer and might be blocked," with an "Unblock" checkbox, you have found it: Windows attached Mark-of-the-Web to the download and Office is refusing to fully trust it. No unblock note? Open PowerPoint and try File > Open > Browse — if the file opens with a Protected View banner, that is cause two, cleared with one click. If instead you get a "problem with content" error offering repair, you are in corruption territory (cause three) — and before reaching for recovery tools, run the PPTX-is-a-ZIP test below: copy the file, rename the copy\'s extension from .pptx to .zip, and try opening it. If the ZIP opens and shows folders like _rels, docProps, and ppt, the container is structurally intact and the damage is limited to internal XML — highly repairable. If the renamed ZIP will not open either, the file is truncated or was never a PPTX at all. Finally, if the file "opens" as gibberish text or launches another program, check what is actually opening it: right-click > Open with, and confirm the extension is really .pptx and not something like .pptx.exe hiding behind Windows\' hidden-extension default.',
+    identifiedRootCause:
+      'One of four distinct situations. (1) Mark-of-the-Web block: Windows flags internet downloads and Office treats them as untrusted — the file is almost certainly fine, it is just distrusted. (2) Protected View: Office opens internet files in a sandboxed read-only mode as a precaution; the file may be perfectly healthy. (3) Genuine corruption: interrupted downloads, failing drives, crashed saves, or email-attachment mangling damage the file\'s internal structure — the only case where repair is actually needed. (4) Wrong program or mislabeled file: the file opens in the wrong app, or is not a presentation at all (a renamed file, a download that failed partway and contains an HTML error page). Each cause has its own fix, and applying the wrong one wastes your time — unblocking cannot fix corruption, and repair cannot fix a block.',
+    recommendedResolution:
+      'Match the fix to the diagnosis. Blocked file: right-click > Properties > check "Unblock" > OK, then reopen. Protected View: click "Enable Editing" in the banner (only for files from senders you trust). Corruption: use Microsoft\'s built-in Open and Repair (File > Open > Browse > select the file > click the dropdown arrow on the Open button > "Open and Repair") before trying anything third-party — and use the PPTX-is-a-ZIP test first to see whether repair is even plausible. Wrong program: right-click > Open with > PowerPoint, and if the file is mislabeled, verify its real type with a magic-byte check before renaming anything.',
+  },
+  whyItHappens: [
+    {
+      cause: 'Windows blocked the file (Mark of the Web) — the #1 cause for downloads',
+      explanation:
+        'When Windows downloads a file from the internet — email attachment, browser download, chat app — it attaches an invisible tag called Mark of the Web (a Zone.Identifier alternate data stream recording ZoneId=3, the internet zone). Microsoft Office reads that tag and treats the file as untrusted: depending on version and policy, it either refuses to open it with a "blocked file" message or opens it in Protected View. The file itself is usually perfectly fine; the operating system is simply refusing to vouch for something that arrived from outside. This is why the symptom pattern is so distinctive: files you created open fine, files someone sent you do not. The fix is equally distinctive — unblocking the file (right-click > Properties > Unblock) removes the tag permanently, and the file behaves like a local one from then on. Note that some organizations enforce blocking via policy, in which case the Unblock checkbox may be absent and IT owns the decision.',
+    },
+    {
+      cause: 'Protected View sandboxing',
+      explanation:
+        'Protected View is Office\'s middle ground between blocking a file outright and trusting it: the presentation opens in a sandboxed, read-only mode with a banner explaining the file came from a potentially unsafe location (internet, email attachment, or an unsafe location on your network). Editing, macros, and active content are disabled until you click "Enable Editing." For files from trusted senders this is a one-click non-issue; for unexpected files it is a genuine safety feature doing its job. Confusion arises because users mistake the banner for an error — it is not an error, it is a precaution, and the presentation content is usually fully visible behind it. Only click through for files you were expecting from senders you trust; for anything else, the banner is telling you something worth hearing.',
+    },
+    {
+      cause: 'Genuine file corruption',
+      explanation:
+        'Sometimes the file really is damaged. The usual suspects: a download that was interrupted (the file is shorter than it should be), an email attachment mangled by an overzealous gateway, a save interrupted by a crash or power loss, or storage media starting to fail. A modern .pptx is a ZIP archive full of XML parts, and corruption can strike at two levels: the ZIP container itself (truncation, bad headers — the file will not open as a ZIP either) or individual XML parts inside it (one damaged slide\'s XML while the rest is fine). The PPTX-is-a-ZIP test distinguishes these in seconds and tells you whether Microsoft\'s Open and Repair has something to work with. Container intact but PowerPoint complaining usually means damaged XML inside — the most repairable scenario. Container broken means the file is truncated or was never a presentation, and no repair tool can conjure the missing bytes.',
+    },
+    {
+      cause: 'Wrong program, wrong extension, or wrong file entirely',
+      explanation:
+        'Not every "won\'t open" is a PowerPoint problem. If .pptx files have been associated with another program (an archive manager, a different office suite, a viewer that cannot handle the format), double-clicking launches the wrong app and the failure looks like file damage. Right-click > Open with > PowerPoint reasserts the association. Deeper: the file may not be a presentation at all. A download that failed partway often contains an HTML error page saved with a .pptx name; a file emailed through a mangling gateway may have been renamed; and with Windows hiding extensions by default, "presentation.pptx.exe" displays as "presentation.pptx" while being an executable. When the file behaves nothing like a presentation — opens as text gibberish, triggers a download prompt, or has a suspicious size (a few kilobytes for a "50-slide deck") — verify the real type with a magic-byte check before doing anything else.',
+    },
+    {
+      cause: 'Outdated PowerPoint or disabled add-ins (the rare cases)',
+      explanation:
+        'Two less common but real causes. First, very old PowerPoint versions can choke on newer files: the .pptx format has evolved (newer transitions, media embeddings, morph), and a PowerPoint from a decade ago may fail on a file made today — updating Office, or opening the file in the free PowerPoint web app as a test, resolves it. Second, misbehaving COM add-ins occasionally intercept the open process and break it; starting PowerPoint in safe mode (hold Ctrl while launching, or run `powerpnt /safe`) bypasses add-ins, and if the file opens in safe mode, an add-in is the culprit — disable them one by one under File > Options > Add-ins. Also worth knowing: PowerPoint historically consults the default printer during open, and a broken printer driver has been known to hang the launch — an odd one, but documented.',
+    },
+  ],
+  howToConfirm: [
+    {
+      method: 'Check for the Windows block (30 seconds)',
+      steps: [
+        'Right-click the presentation file and choose Properties.',
+        'On the General tab, scroll to the bottom and look for a Security section.',
+        'If it says "This file came from another computer and might be blocked to help protect this computer" with an "Unblock" checkbox — that is your cause.',
+        'Check "Unblock," click OK, and reopen the file. If it now opens normally, diagnosis confirmed.',
+      ],
+      whatToLookFor:
+        'The Unblock checkbox is the smoking gun for downloaded files. No Security section at all means the file is not blocked — move to the next check.',
+    },
+    {
+      method: 'The PPTX-is-a-ZIP container test (1 minute)',
+      steps: [
+        'Make a COPY of the presentation (never experiment on the original).',
+        'Rename the copy\'s extension from .pptx to .zip — confirm the change if Windows warns you.',
+        'Double-click the renamed file. If it opens as an archive showing folders like _rels, docProps, and ppt, the ZIP container is intact.',
+        'For extra rigor, check the file\'s first bytes with a magic-byte tool: a genuine PPTX starts with the ZIP signature 50 4B 03 04.',
+        'If the ZIP opens: the damage (if any) is inside the XML parts — Microsoft\'s Open and Repair is worth trying. If the ZIP will not open: the file is truncated or mislabeled; repair tools cannot help.',
+      ],
+      whatToLookFor:
+        'An openable ZIP means structural hope; a non-opening ZIP means the bytes themselves are wrong. This single test separates "repairable" from "hopeless" before you spend any money or time.',
+    },
+    {
+      method: 'Isolate program vs file (2 minutes)',
+      steps: [
+        'Try opening a different, known-good presentation. If it also fails, PowerPoint itself (or an add-in) is the problem, not your file.',
+        'Try opening the problem file in PowerPoint\'s safe mode: close PowerPoint, hold Ctrl while launching it (or run `powerpnt /safe`), then open the file from inside.',
+        'Try the free PowerPoint web app (office.com) or Google Slides with the file — if it opens there, your desktop install or its add-ins are at fault.',
+        'If the file fails everywhere including the web app, the file is the problem — proceed to repair.',
+      ],
+      whatToLookFor:
+        'Failure isolated to one machine or one install points at the program; failure everywhere points at the file. Never pay for repair software before this isolation is done.',
+    },
+  ],
+  osWorkflows: [
+    {
+      os: 'windows',
+      title: 'Windows: unblock, clear Protected View, then Open and Repair',
+      instructions: [
+        'First, rule out the block: right-click the file > Properties > check "Unblock" if present > OK. Reopen — many cases end here.',
+        'If the file opens with a Protected View banner, click "Enable Editing" (only for expected files from trusted senders). To stop the banner for a trusted location instead of per-file, move the file to a folder you designate as trusted via File > Options > Trust Center > Trusted Locations.',
+        'For genuine corruption, use Microsoft\'s built-in repair before anything else: open PowerPoint (not the file), go to File > Open > Browse, navigate to the presentation, select it, then click the small dropdown arrow on the "Open" button and choose "Open and Repair." PowerPoint will attempt to salvage slides, and tell you what it recovered.',
+        'If repair recovers only part of the deck, save the recovered version immediately under a new name, then try opening the original in PowerPoint\'s safe mode (`powerpnt /safe`) to rule out add-in interference before concluding the file is unrecoverable.',
+        'As a last resort for valuable decks, try inserting the slides into a blank presentation: new blank deck > Home > New Slide dropdown > "Reuse Slides" > Browse > select the damaged file. This sometimes pulls slides that direct opening cannot.',
+      ],
+      tips:
+        'The "Reuse Slides" trick works because it reads the file slide-by-slide rather than loading the whole package at once — damage confined to one slide\'s XML does not sink the rest. Also: never run "repair" tools from unknown vendors on a file containing sensitive content; Microsoft\'s built-in repair keeps everything on your machine.',
+    },
+    {
+      os: 'mac',
+      title: 'macOS: PowerPoint for Mac has no Open and Repair — use the workarounds',
+      instructions: [
+        'The bad news first: PowerPoint for Mac does not include the Open and Repair command — that is Windows-only. The good news: the diagnostic steps are the same, and the fixes mostly are too.',
+        'macOS does not use Mark of the Web, so there is no Unblock checkbox — but Gatekeeper quarantines internet downloads, which can produce similar refusals. Right-click the file and choose Open (rather than double-clicking) to get the explicit "are you sure" dialog instead of a silent block.',
+        'Run the PPTX-is-a-ZIP test: copy the file, rename the copy to .zip, and double-click — macOS Archive Utility will tell you quickly whether the container is intact.',
+        'Try opening the file in Keynote (File > Open) or uploading it to the PowerPoint web app or Google Slides. If any of them open it, export/save a fresh copy from there — the re-exported file is usually clean.',
+        'If nothing opens it and the ZIP test failed, the file is truncated or mislabeled — check its real type with a magic-byte tool before spending more time.',
+      ],
+      tips:
+        'Keynote is an underrated diagnostic: it reads PPTX independently of Microsoft\'s code, so a file that opens in Keynote but not PowerPoint points squarely at the PowerPoint install rather than the file.',
+    },
+    {
+      os: 'all',
+      title: 'All platforms: verify the real type and try alternate readers',
+      instructions: [
+        'When a file behaves nothing like a presentation — tiny file size, opens as text, triggers odd prompts — verify its real type first with a magic-byte check. A genuine PPTX starts with the ZIP signature (50 4B 03 04); anything else means the file is mislabeled and "repairing" it is nonsense.',
+        'Upload the file to the PowerPoint web app at office.com: it uses Microsoft\'s own rendering independent of your install, making it the cleanest "is it the file or my computer" test available.',
+        'Google Slides and LibreOffice Impress are independent implementations — a file that opens in either but not PowerPoint exonerates the file.',
+        'If the file is genuinely corrupted and valuable, and built-in repair failed, this is the only point where third-party recovery software enters the picture — research the vendor, prefer tools with free previews of recoverable content, and never pay before seeing what they can actually salvage.',
+      ],
+      tips:
+        'Keep a known-good test presentation handy (even a one-slide blank deck). When a file fails, opening the test file first takes ten seconds and immediately tells you whether to blame the program or the file.',
+    },
+  ],
+  measurableSecurityNotes: {
+    verifiedAspects: [
+      'The Properties > Security > Unblock indicator is authoritative for Mark-of-the-Web blocks — its presence deterministically explains refusals on downloaded files.',
+      'The PPTX-is-a-ZIP test (renamed copy opens as an archive; header starts with 50 4B 03 04) verifies container integrity before any repair is attempted.',
+      'The isolation sequence (known-good file, safe mode, web app) deterministically separates program faults from file faults.',
+    ],
+    antivirusDistinction:
+      'These are diagnostic checks, not malware scans — they distinguish blocked, sandboxed, corrupted, and mislabeled files. A blocked or Protected View file is usually perfectly healthy; do not confuse a security precaution with an infection. Conversely, a file that opens fine can still be malicious (macro-enabled .pptm files can carry VBA) — scan unexpected presentations with current antivirus software regardless of how smoothly they open, and never enable macros or active content from untrusted senders.',
+  },
+  connectedTools: [],
+  relatedExtensions: ['pptx'],
+  relatedGuideIds: [
+    'why-wont-my-file-open',
+  ],
+  faqs: [
+    {
+      question: 'Why does PowerPoint say it "found a problem with content" and offer to repair?',
+      answer:
+        'That message means PowerPoint detected structural damage — usually in the XML parts inside the PPTX package — but believes it can salvage something. Clicking "Repair" lets PowerPoint strip the damaged parts and recover the rest; always save the recovered version under a new name so the original stays untouched for further attempts. If repair recovers nothing, run the PPTX-is-a-ZIP test: a container that will not open as a ZIP either is truncated beyond what repair can fix.',
+    },
+    {
+      question: 'What does the "Unblock" checkbox in file Properties actually do?',
+      answer:
+        'It removes Windows\' Mark-of-the-Web tag — the hidden Zone.Identifier marker Windows attaches to internet downloads. With the tag gone, Office treats the file as local and trusted instead of untrusted, so the block message or Protected View behavior stops. It does not modify the file\'s contents at all; it only changes how Windows vouches for its origin.',
+    },
+    {
+      question: 'Is it safe to click "Enable Editing" on the Protected View banner?',
+      answer:
+        'For files you were expecting from senders you trust, yes — that is exactly what the button is for. For unexpected files, especially with urgent or odd messaging, no: Protected View is containing a file the system already distrusts, and enabling editing is the moment risk begins. When in doubt, verify the sender through a separate channel first.',
+    },
+    {
+      question: 'Can I repair a PowerPoint file on a Mac?',
+      answer:
+        'PowerPoint for Mac has no Open and Repair command, so use the workarounds: the PPTX-is-a-ZIP test to check the container, Keynote or the PowerPoint web app to attempt opening, and re-export from whichever app succeeds. The web app is often the hero here — it runs Microsoft\'s own engine independent of your Mac install.',
+    },
+    {
+      question: 'The file opens but slides are missing or garbled. Is it corrupted?',
+      answer:
+        'Likely partially — damage confined to individual slide XML parts. Try the "Reuse Slides" rescue: new blank presentation > Home > New Slide dropdown > Reuse Slides > Browse to the damaged file. It reads slide-by-slide, so healthy slides import even when the package will not open whole. Save whatever it recovers immediately, then decide whether the missing slides are worth professional recovery.',
+    },
+  ],
+}
 ];
