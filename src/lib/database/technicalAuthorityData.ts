@@ -1,4 +1,5 @@
 import { AUTHOR_AVATARS } from '../content/editorialTeam';
+import { TECHNICAL_AUTHORITY_BATCH_OCT2026 } from './technicalAuthorityBatchOct2026';
 export interface TechnicalAuthorityGuide {
   id: string;
   slug: string;
@@ -88,7 +89,7 @@ export interface TechnicalAuthorityGuide {
   }[];
 }
 
-export const TECHNICAL_AUTHORITY_GUIDES: TechnicalAuthorityGuide[] = [
+const BASE_TECHNICAL_AUTHORITY_GUIDES: TechnicalAuthorityGuide[] = [
   // 1. What Are Magic Bytes?
   {
     id: 'what-are-magic-bytes',
@@ -1977,6 +1978,11 @@ Broad Category                     Exact Format             Encoding / Boundary
       }
     ]
   }
+];
+
+export const TECHNICAL_AUTHORITY_GUIDES: TechnicalAuthorityGuide[] = [
+  ...BASE_TECHNICAL_AUTHORITY_GUIDES,
+  ...TECHNICAL_AUTHORITY_BATCH_OCT2026,
 ];
 
 export function getTechnicalGuide(slugOrId: string): TechnicalAuthorityGuide {
