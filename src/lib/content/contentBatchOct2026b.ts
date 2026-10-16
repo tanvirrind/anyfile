@@ -122,7 +122,7 @@ And keep a clean workflow: archive the original with its metadata intact, and ge
     },
   ],
   schemaType: 'TechArticle',
-  status: 'draft',
+  status: 'published',
   publishedDate: '2026-10-12',
   updatedDate: '2026-10-12',
   createdAt: '2026-10-12',
