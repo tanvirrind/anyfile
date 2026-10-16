@@ -272,8 +272,8 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
   ],
 
   internalLinks: {
-    // NOTE: formatGuideUrl/extensionUrl omitted — neither /format/vcf nor /file-extensions/vcf
-    // exists in the sitemap. All URLs below were verified against sitemap-urls.txt.
+    formatGuideUrl: '/format/vcf',
+    extensionUrl: '/file-extensions/vcf',
     comparisons: [
       {
         slug: 'csv-vs-xlsx',
@@ -1197,6 +1197,7 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
   ],
 
   internalLinks: {
+      formatGuideUrl: '/format/numbers',
     // NOTE: /format/* URLs do not exist in the sitemap (verified) — omitted like file 37.
     // /file-extensions/numbers, /how-to-open/pages, /file-extensions/pages verified in sitemap-urls.txt.
     extensionUrl: '/file-extensions/numbers',
@@ -1511,6 +1512,7 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
   ],
 
   internalLinks: {
+      formatGuideUrl: '/format/key',
     // NOTE: /format/* URLs do not exist in the sitemap (verified) — omitted like file 37.
     // /file-extensions/key, /file-extensions/numbers, /file-extensions/pages verified in sitemap-urls.txt.
     extensionUrl: '/file-extensions/key',
@@ -1821,6 +1823,7 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
   ],
 
   internalLinks: {
+      formatGuideUrl: '/format/odt',
     // NOTE: /format/* URLs do not exist in the sitemap (verified) — omitted like file 37.
     // /file-extensions/odt, /file-extensions/docx, /file-extensions/pdf, /file-extensions/zip verified in sitemap-urls.txt.
     extensionUrl: '/file-extensions/odt',
