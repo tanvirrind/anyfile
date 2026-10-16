@@ -183,7 +183,7 @@ export const TROUBLESHOOTING_BATCH_OCT2026: TroubleshootingGuideItem[] = [
         'Sometimes, but do not count on it. Compression only helps if the file\'s contents are compressible — documents and raw video often shrink a lot, but an already-compressed MP4 or ZIP barely shrinks at all. And even when it works, you are gambling on the exact byte count landing under 4,294,967,295. Splitting with 7-Zip at 3900M volumes is deterministic where compression is a coin flip — use splitting when it has to work the first time.',
     },
   ],
-},,
+},
 {
   id: 'powerpoint-wont-open',
   title: "PowerPoint Presentation Won't Open? Diagnose and Fix It",

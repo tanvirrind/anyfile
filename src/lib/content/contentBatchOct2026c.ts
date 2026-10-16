@@ -132,7 +132,7 @@ The framing that matters: think in terms of files you have the right to move. Yo
   contentType: 'technical-guide',
   clusterId: 'cluster-f-technical',
   primaryTopic: 'How to Play MKV on iPhone',
-  searchIntent: 'troubleshooting',
+  searchIntent: 'informational',
   summary: `iOS has no built-in MKV playback, so the Files app just shrugs at your .mkv files. The fix is a third-party player like VLC for Mobile, or converting the file to MP4 — and knowing which one to pick depends on the codecs inside. This guide covers both paths, the HEVC and surround-sound audio caveats that trip people up, and what to do when a converted file still misbehaves.`,
   contentSections: [
     {

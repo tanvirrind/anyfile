@@ -6,7 +6,7 @@ export const FILE_TYPES_BATCH_OCT2026: FileTypeInfo[] = [
 {
   extension: 'VCF',
   name: 'vCard Contact File',
-  category: 'Contacts',
+  category: 'Email & Comm',
   description:
     'Plain-text vCard contact file — each .vcf holds one or more contact cards with names, phone numbers, emails, and addresses, readable in any text editor.',
   detailedOverview:
@@ -88,11 +88,11 @@ export const FILE_TYPES_BATCH_OCT2026: FileTypeInfo[] = [
     { question: 'Will converting a Pages file to Word keep the formatting?', answer: "Mostly. Text, tables, and images survive, but Apple-only fonts get substituted on Windows and layouts can shift. Convert to PDF instead when exact fidelity matters." },
     { question: 'Can LibreOffice open Pages files?', answer: "Only documents from iWork '09 and older. Modern Pages files (Pages 5.0 onward) fail in LibreOffice — use Pages for iCloud for those." },
   ],
-},,
+},
 {
   extension: 'NUMBERS',
   name: 'Apple Numbers Spreadsheet',
-  category: 'Spreadsheets',
+  category: 'Documents',
   description:
     'Spreadsheet created by Apple Numbers, stored as a ZIP package — the iWork counterpart to Excel workbooks.',
   detailedOverview:
@@ -135,7 +135,7 @@ export const FILE_TYPES_BATCH_OCT2026: FileTypeInfo[] = [
 {
   extension: 'KEY',
   name: 'Apple Keynote Presentation',
-  category: 'Presentations',
+  category: 'Documents',
   description:
     'Presentation created by Apple Keynote, stored as a ZIP package — the iWork counterpart to PowerPoint decks.',
   detailedOverview:
