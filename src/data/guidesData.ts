@@ -406,24 +406,6 @@ A few practical tips make the experience smoother. Convert from the highest-qual
       body: `Most converters upload your file to a server because that's how they were built — not because conversion requires it. WebAssembly lets the whole job run in your browser tab instead, and the airplane-mode test lets you prove it in sixty seconds. Use in-browser conversion for anything you'd rather keep private, and save the upload model for files you genuinely don't mind sharing.`,
     },
   ],
-  faq: [
-    {
-      question: 'Does in-browser conversion work offline?',
-      answer: 'Once the page and its conversion engine have fully loaded, yes — that\'s exactly what the airplane-mode test demonstrates. The page needs the internet exactly once, to download the converter itself. After that, the whole job runs locally on your device.',
-    },
-    {
-      question: 'Is in-browser conversion slower than server conversion?',
-      answer: 'For everyday files — images, documents, audio — you won\'t notice a difference; modern devices chew through these conversions in seconds. Very large files, like long 4K videos, can be slower in a browser than on a powerful server, because the browser is limited to your device\'s memory and processor.',
-    },
-    {
-      question: 'Can a website secretly upload my file even if it claims to convert locally?',
-      answer: 'A malicious page could try, which is why the airplane-mode test is useful: with the network cut, an upload is physically impossible, so a successful conversion proves the file stayed local. For extra assurance, stick to reputable tools and check the page\'s privacy claims against what the test shows.',
-    },
-    {
-      question: 'Which file types can be converted without uploading?',
-      answer: 'Most common ones: images (JPG, PNG, WebP, GIF, HEIC), documents (PDF, DOCX, TXT), audio (MP3, WAV, FLAC), and archives (ZIP). The limitation is whether someone has compiled a conversion engine for that format to run in the browser — the catalog keeps growing as the underlying WebAssembly codecs mature.',
-    },
-  ],
   },
 {
     id: 'are-online-file-converters-safe-guide',
@@ -495,24 +477,6 @@ Then change the workflow going forward, not just the worry. The uncomfortable tr
     {
       heading: 'The one-line takeaway',
       body: `Most converters are legitimate, but the upload model means your file sits on someone else's server — and the FBI has shown that criminals exploit exactly that trust. Match the tool to the file: casual files can go anywhere reputable, sensitive files should never leave your device, and in-browser conversion removes the question entirely.`,
-    },
-  ],
-  faq: [
-    {
-      question: 'Are all free online converters dangerous?',
-      answer: 'No. Plenty of free converters are run by legitimate companies and used safely by millions of people. The danger the FBI warned about comes from malicious lookalike tools designed to steal data or deliver malware — plus the background risks (retention, breaches) that apply to any upload-based service, honest or not.',
-    },
-    {
-      question: 'Does "we delete your files after 1 hour" make a converter safe?',
-      answer: 'Safer, not safe. A short retention window reduces exposure, but the file still sat on a server for that hour, and deletion at the app level doesn\'t guarantee copies are gone from backups, logs, or caches. For truly sensitive files, prefer a method where the file never uploads — then there\'s nothing to delete.',
-    },
-    {
-      question: 'Can a converter steal passwords from my PDF or photos from my files?',
-      answer: 'A malicious one can read anything in the files you upload — the FBI specifically lists passwords, banking details, and crypto seed phrases among what fake converters harvest. Even legitimate services technically receive everything in the file. This is why sensitive documents should be converted locally or in-browser.',
-    },
-    {
-      question: 'Is a desktop app always safer than an online converter?',
-      answer: 'Generally yes for privacy, since the file stays on your machine — but only from reputable vendors. A shady desktop download can carry the same malware the FBI warned about. The safest options, in order: software you already own, reputable desktop tools, then reputable in-browser (zero-upload) converters.',
     },
   ],
   },
@@ -607,24 +571,6 @@ When it's time to actually convert, you don't need to install anything or upload
       body: `JPG for photos everyone must open, PNG for sharp graphics and transparency, WebP for the smallest files on the modern web. Keep a lossless master, export lossy copies from it, and never send WebP where JPG is expected.`,
     },
   ],
-  faq: [
-    {
-      question: 'Is WebP better than JPG?',
-      answer: 'Technically yes for web use: WebP produces smaller files than JPG at equivalent visual quality, and adds transparency and lossless modes that JPG lacks. But "better" depends on context — JPG still wins on universal compatibility outside the browser, so use WebP for web pages and JPG for sharing. The gap matters most where bandwidth costs you something: on a website, smaller images mean faster pages and happier visitors. For sending files to people, though, JPG\'s universality wins outright — nobody has ever failed to open a JPG. Think of it this way: WebP is the better technology, JPG is the better envelope.',
-    },
-    {
-      question: 'Does PNG or JPG have better quality?',
-      answer: 'PNG preserves the image exactly (lossless), so it\'s always at least as faithful as the source. JPG discards detail to shrink the file, so at high quality settings the difference is invisible, but repeated JPG saves degrade the image while PNG never does. For photos at reasonable settings, pick JPG for size; for graphics and text, PNG for sharpness. One more wrinkle: a PNG converted from an already-compressed JPG is no better than the JPG it came from — the damage was done at the first save. So "better quality" really means "PNG never makes things worse," not "PNG fixes things."',
-    },
-    {
-      question: 'Why does Chrome save images as WebP?',
-      answer: 'Because the website served the image as WebP — Chrome saves whatever format the server sent. Sites do this because WebP files are significantly smaller than JPG or PNG, which saves them bandwidth. If you need the image as a JPG or PNG for another app, convert the downloaded WebP file. It\'s a minor annoyance, not a malfunction: the site optimized for the web, and you\'re repurposing the image for somewhere else. Convert once, at the highest quality you need, and move on.',
-    },
-    {
-      question: 'Should I use WebP for print?',
-      answer: 'No. Print workflows expect JPG, PNG, TIFF, or PDF — virtually no print shop accepts WebP, and print needs high resolution more than small file sizes anyway. Keep WebP for screens and export a PNG or high-quality JPG for anything headed to a printer. If all you have is a WebP and you need a print-ready file, convert it to PNG at the largest dimensions available — the conversion won\'t add detail, but it will give the print shop a format it can actually work with.',
-    },
-  ],
   },
 {
     id: 'mp3-vs-wav-vs-flac-guide',
@@ -713,24 +659,6 @@ The pattern underneath all of these: lossless masters live in one safe place, an
     {
       heading: 'The one-line takeaway',
       body: `MP3 for listening and sharing, WAV for creating and mastering, FLAC for collecting and archiving. Keep a lossless master, generate lossy copies from it, and never convert a lossy file "up" to a lossless one — the quality isn't coming back.`,
-    },
-  ],
-  faq: [
-    {
-      question: 'Is FLAC really better than MP3?',
-      answer: 'FLAC preserves the audio perfectly while MP3 permanently discards detail, so technically yes — FLAC is always at least as good as the source. Whether you can hear the difference depends on the MP3\'s quality setting, your equipment, and your ears: at high settings on ordinary gear, most people can\'t. FLAC\'s real advantage is archival — a perfect copy you can convert from forever. There\'s also a practical dimension: FLAC is the better source format. From a FLAC you can make a perfect MP3 or any other format, any time; from an MP3 you can only make worse MP3s. So even if you can\'t hear a difference today, FLAC keeps every future option open.',
-    },
-    {
-      question: 'Can you hear the difference between FLAC and MP3?',
-      answer: 'Usually not, with a well-encoded MP3 at a generous setting played on typical equipment — that\'s exactly what MP3\'s psychoacoustic model is designed to achieve. Differences become audible at low bitrates, on revealing headphones or speakers, or with certain tricky material like cymbals and applause. If you\'re unsure, FLAC removes the question entirely. One honest caveat: plenty of claimed differences vanish in blind listening tests, so treat "night and day" claims about ordinary earbuds with skepticism. FLAC\'s real, no-asterisk advantage is archival permanence, not audibility.',
-    },
-    {
-      question: 'Why are WAV files so big?',
-      answer: 'Because they\'re usually uncompressed: every audio sample is stored in full, typically tens of thousands of samples per second across two channels. That completeness is the point — it\'s what makes WAV ideal for editing and archiving — but it means a single album can run to hundreds of megabytes versus under a hundred as MP3. It\'s also why streaming services and music stores don\'t ship WAV: the size is the price of keeping every sample, worth paying while you\'re creating, pointless once you\'re just listening.',
-    },
-    {
-      question: 'Does converting MP3 to WAV or FLAC improve quality?',
-      answer: 'No. The detail MP3 discarded is gone permanently; converting to a lossless format just stores the degraded audio in a bigger container. It\'s like enlarging a small photo — more pixels, no more detail. Always convert from the best-quality source you have, ideally a lossless master. Worse, the bigger file can mislead you — and your software — into thinking it\'s higher quality than it is, since some players and tools judge by format and bitrate alone. If an MP3 is the only copy you have of something, edit it as little as possible and export once, at the very end.',
     },
   ],
   },
