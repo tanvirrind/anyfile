@@ -8,8 +8,8 @@ import { SpanishFileIdentifierPage } from '@/components/i18n/SpanishPages';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = (await getRequestLocale()) as AppLocale;
-  if (locale === 'nl') return { ...localizedMetadata({ pathname: '/tools/file-identifier', locale, title: 'Onbekend bestand identificeren | AnyFileX', description: 'Identificeer onbekende bestanden met lokale binary- en MIME-analyse in je browser.' }), robots: { index: true, follow: true } };
-  if (locale === 'es') return { ...localizedMetadata({ pathname: '/tools/file-identifier', locale, title: 'Identificar un archivo desconocido | AnyFileX', description: 'Identifica archivos desconocidos con análisis binary y MIME local en tu navegador.' }), robots: { index: true, follow: true } };
+  if (locale === 'nl') return { ...localizedMetadata({ pathname: '/tools/file-identifier', locale, title: 'Onbekend bestand identificeren | AnyFileX', description: 'Identificeer onbekende bestanden met lokale binary- en MIME-analyse in je browser.' }), robots: { index: false, follow: false } };
+  if (locale === 'es') return { ...localizedMetadata({ pathname: '/tools/file-identifier', locale, title: 'Identificar un archivo desconocido | AnyFileX', description: 'Identifica archivos desconocidos con análisis binary y MIME local en tu navegador.' }), robots: { index: false, follow: false } };
   return { ...localizedMetadata({ pathname: '/tools/file-identifier', locale, title: 'File Identifier – Inspect Unknown Files | AnyFileX', description: 'Identify files with client-side binary and MIME analysis.' }), robots: { index: false, follow: false } };
 }
 

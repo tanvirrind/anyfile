@@ -558,7 +558,7 @@ export function getHowToOpenGuide(extInput: string): HowToOpenGuideData {
     troubleshooting,
     conversionWorkflow,
     internalLinks: {
-      formatGuideUrl: `/format/${cleanExt}`,
+      formatGuideUrl: `/file-extensions/${cleanExt}`,
       extensionUrl: `/file-extensions/${cleanExt}`,
       comparisons,
       relatedExtensions: relatedExts,

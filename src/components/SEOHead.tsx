@@ -134,8 +134,8 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       },
       image: `${BASE_URL}/favicon.svg`,
       sameAs: [
-        'https://twitter.com/anyfilex',
-        'https://github.com/anyfilex',
+        'https://github.com/tanvirrind',
+        'https://www.linkedin.com/in/tanvirrind/',
       ],
       contactPoint: {
         '@type': 'ContactPoint',
