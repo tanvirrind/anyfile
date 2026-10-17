@@ -216,4 +216,50 @@ export const FILE_TYPES_BATCH_OCT2026: FileTypeInfo[] = [
     { question: 'What is inside an ODT file?', answer: 'A ZIP archive of XML files — content.xml holds the text, styles.xml the styles, META-INF the metadata. Every genuine ODT starts with the ZIP signature 50 4B 03 04.' },
   ],
 }
+,
+{
+  extension: 'MSG',
+  name: 'Outlook Mail Message',
+  category: 'Email & Comm',
+  description:
+    'Saved email message from Microsoft Outlook bundling the body, sender, date, and attachments into one binary file.',
+  detailedOverview:
+    "MSG is Microsoft Outlook's proprietary binary email format built on the OLE compound document structure. Each .msg file bundles the message body, sender, date, headers, and attachments into a single container that only Outlook — and tools that understand the OLE format — can read properly. Unlike the open EML standard, MSG keeps messages tied to Microsoft's ecosystem unless converted.",
+  mimeType: 'application/vnd.ms-outlook',
+  magicBytesHex: 'D0 CF 11 E0 A1 B1 1A E1',
+  typicalSize: '10 KB – 25 MB',
+  dangerRating: 'Medium Risk',
+  dangerExplanation:
+    'MSG files come from email and can carry phishing lures or malicious attachments. Treat unexpected .msg files like any unexpected attachment: verify the sender and scan with antivirus before opening.',
+  exampleUse: 'Saved Outlook emails, mailbox exports, legal email archives',
+  developer: 'Microsoft',
+  osSupport: { windows: true, mac: true, linux: true, android: true, ios: true },
+  popularApps: [
+    { name: 'Mozilla Thunderbird', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'Mozilla Foundation', slug: 'thunderbird' },
+    { name: 'extract-msg', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'TeamMsgExtractor', link: 'https://github.com/TeamMsgExtractor/msg-extractor', slug: 'extract-msg' },
+    { name: 'msgconvert', os: ['windows', 'mac', 'linux'], isFree: true, developer: 'Email::Outlook::Message Project', link: 'https://metacpan.org/pod/Email::Outlook::Message', slug: 'msgconvert' },
+    { name: 'SeaMonkey', os: ['mac'], isFree: true, developer: 'SeaMonkey Project', slug: 'seamonkey' },
+  ],
+  openingSteps: [
+    { title: 'Quick text peek', desc: 'Copy the file, rename the copy from email.msg to email.txt, and open it in Notepad — headers, sender, subject, and plain-text body appear (no formatting or attachments).' },
+    { title: 'Convert MSG to EML', desc: 'Run extract-msg (pip install extract-msg, then python -m extract_msg email.msg) or msgconvert (msgconvert email.msg) to get an attachment-preserving .eml.' },
+    { title: 'Open in Thunderbird or Apple Mail', desc: "Drag the .eml into Thunderbird's local folders — or open it in Apple Mail — to read the full message with attachments intact." },
+  ],
+  conversions: [
+    { targetExtension: 'EML', description: 'Convert MSG to the open EML email standard for reading in Thunderbird, Apple Mail, and most other clients.', difficulty: 'Easy', onlinePossible: true },
+    { targetExtension: 'PDF', description: 'Turn converted emails into shareable, archivable PDFs.', difficulty: 'Easy', onlinePossible: true, converterSlug: 'eml-to-pdf' },
+  ],
+  repairTips: [
+    'Verify the OLE signature D0 CF 11 E0 A1 B1 1A E1 at byte offset 0 — files missing it are not genuine MSG files.',
+    'If a renamed .msg-to-.eml file renders a broken body, reconvert with msgconvert or extract-msg instead of relying on the rename gamble.',
+    'For batch archives, convert a 3–4 file sample first — very old MSG files occasionally convert with quirks — and spot-check before running the full batch.',
+  ],
+  faqs: [
+    { question: 'Can I open an MSG file without Outlook?', answer: "Yes. For a quick text read, rename a copy of the file to .txt and open it in Notepad. For a clean copy with formatting and attachments, convert it to EML with free tools like msgconvert or extract-msg and open the result in Thunderbird — none of which needs Outlook." },
+    { question: 'Is an MSG file the same as EML?', answer: "No. MSG is Microsoft Outlook's proprietary binary format; EML is the open standard email format most other clients use. That's why conversion between them works — tools translate the Outlook structure into the standard one." },
+    { question: "Why can't I see the attachments?", answer: "Because the method you used only reads the message text. Renaming tricks expose text, not attachments — attachments are stored inside the MSG in a way plain text can't show. Use a converter like msgconvert or extract-msg to get the files out intact." },
+    { question: 'Can I open an MSG file in Gmail?', answer: 'Gmail has no built-in MSG preview. Convert the message to PDF or plain text first (extract-msg can produce readable output), then view or attach that instead.' },
+    { question: 'Can I reply to an MSG file without Outlook?', answer: "Not directly. These methods are for reading. Once you've converted the message to EML, you can import it into Thunderbird and reply from there as a normal email." },
+  ],
+}
 ];

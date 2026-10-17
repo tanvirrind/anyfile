@@ -6,6 +6,7 @@ import { CURATED_COMPARISONS } from '../database/knowledgeGraph';
 import { getAllFileTypeInfos } from '../database/extensionEngine';
 import { getAllTools } from '../tools/toolsRegistry';
 import { HOW_TO_OPEN_BATCH_OCT2026 } from './howToOpenBatchOct2026';
+import { HOW_TO_OPEN_BATCH_OCT2026B } from './howToOpenBatchOct2026b';
 
 export interface StepInstruction {
   stepNumber: number;
@@ -34,7 +35,7 @@ export interface SoftwareRecommendationItem {
   supportedOS: ('windows' | 'mac' | 'linux' | 'android' | 'ios')[];
   priceType: 'Free' | 'Freemium' | 'Paid' | 'Open Source';
   priceText: string;
-  rating: number;
+  rating?: number; // optional: override datasets omit unverified ratings; generated fallback supplies one
   canOpen: boolean;
   canView: boolean;
   canEdit: boolean;
@@ -201,6 +202,7 @@ const FORMAT_SPECIFIC_OVERRIDES: Record<string, Partial<HowToOpenGuideData>> = {
     }
   },
   ...HOW_TO_OPEN_BATCH_OCT2026,
+  ...HOW_TO_OPEN_BATCH_OCT2026B,
 };
 
 /**
@@ -493,6 +495,9 @@ export function getHowToOpenGuide(extInput: string): HowToOpenGuideData {
   ];
 
   // 9. Structured Schema.org HowTo + FAQPage Graph
+  // Merge rich override fields: curated per-format content wins, generated fills the rest.
+  const mergedFaqs = override.faqs ?? faqs;
+  const mergedOsGuides = override.osGuides ?? osGuides;
   const schemaJson = [
     {
       '@context': 'https://schema.org',
@@ -504,19 +509,19 @@ export function getHowToOpenGuide(extInput: string): HowToOpenGuideData {
         {
           '@type': 'HowToStep',
           name: `Open .${upperExt} on Windows`,
-          text: osGuides.windows.steps.map(s => `${s.stepNumber}. ${s.title}: ${s.detail}`).join(' '),
+          text: mergedOsGuides.windows.steps.map(s => `${s.stepNumber}. ${s.title}: ${s.detail}`).join(' '),
           url: `https://anyfilex.com/how-to-open/${cleanExt}#windows`,
         },
         {
           '@type': 'HowToStep',
           name: `Open .${upperExt} on macOS`,
-          text: osGuides.mac.steps.map(s => `${s.stepNumber}. ${s.title}: ${s.detail}`).join(' '),
+          text: mergedOsGuides.mac.steps.map(s => `${s.stepNumber}. ${s.title}: ${s.detail}`).join(' '),
           url: `https://anyfilex.com/how-to-open/${cleanExt}#mac`,
         },
         {
           '@type': 'HowToStep',
           name: `Open .${upperExt} on Linux`,
-          text: osGuides.linux.steps.map(s => `${s.stepNumber}. ${s.title}: ${s.detail}`).join(' '),
+          text: mergedOsGuides.linux.steps.map(s => `${s.stepNumber}. ${s.title}: ${s.detail}`).join(' '),
           url: `https://anyfilex.com/how-to-open/${cleanExt}#linux`,
         },
         {
@@ -530,7 +535,7 @@ export function getHowToOpenGuide(extInput: string): HowToOpenGuideData {
     {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: faqs.map(f => ({
+      mainEntity: mergedFaqs.map(f => ({
         '@type': 'Question',
         name: f.question,
         acceptedAnswer: {
@@ -552,19 +557,20 @@ export function getHowToOpenGuide(extInput: string): HowToOpenGuideData {
     summary: info.description,
     whyItIsHardToOpen: override.whyItIsHardToOpen || `Opening a .${upperExt} file requires software capable of decoding the ${info.name} format. If your operating system lacks a registered viewer or native codec, the file cannot be previewed without additional tools.`,
     inBrowserSupport,
-    osGuides,
-    recommendedSoftware,
+    // Rich override fields win where present; generated fields fill the rest.
+    osGuides: mergedOsGuides,
+    recommendedSoftware: override.recommendedSoftware ?? recommendedSoftware,
     browserOptions,
-    troubleshooting,
+    troubleshooting: override.troubleshooting ?? troubleshooting,
     conversionWorkflow,
     internalLinks: {
-      formatGuideUrl: `/file-extensions/${cleanExt}`,
-      extensionUrl: `/file-extensions/${cleanExt}`,
-      comparisons,
-      relatedExtensions: relatedExts,
-      recommendedTools: tools,
+      formatGuideUrl: override.internalLinks?.formatGuideUrl ?? `/file-extensions/${cleanExt}`,
+      extensionUrl: override.internalLinks?.extensionUrl ?? `/file-extensions/${cleanExt}`,
+      comparisons: override.internalLinks?.comparisons ?? comparisons,
+      relatedExtensions: override.internalLinks?.relatedExtensions ?? relatedExts,
+      recommendedTools: override.internalLinks?.recommendedTools ?? tools,
     },
-    faqs,
+    faqs: mergedFaqs,
     schemaJson,
   };
 }

@@ -40,7 +40,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (locale === 'es' && cleanId === 'pdf-to-word') {
     return localizedMetadata({ pathname: '/converters/pdf-to-word', locale, includeDutch: false, title: 'Convertir PDF a Word', description: 'Convierte archivos PDF en documentos Word editables con un conversor privado en tu navegador.' });
   }
-  const title = `${conv?.name || cleanId.toUpperCase()} – Free In-Browser Converter`;
+  // Guide-only entries (onlineConversionSupported === false) render a "Conversion Guide",
+  // not a working tool — the title must not promise in-browser conversion.
+  const isWorkingTool = conv?.onlineConversionSupported === true;
+  const title = `${conv?.name || cleanId.toUpperCase()} – ${isWorkingTool ? 'Free In-Browser Converter' : 'Conversion Guide'}`;
   const description = conv?.onlineConversionSupported
     ? `${conv.description} 100% private client-side conversion in your browser with zero server uploads.`
     : `${conv?.description || 'File conversion guidance'} Learn which desktop and web applications can safely convert this format.`;
