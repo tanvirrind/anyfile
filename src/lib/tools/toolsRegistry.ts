@@ -680,7 +680,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
     isPopular: true,
     badge: 'Core Intelligence Engine',
     features: [
-      'Multi-stage magic byte signature detection (200+ signatures)',
+      'Multi-stage magic byte signature detection (82 verified signatures)',
       'Extension spoof and mismatch detection',
       'Shannon entropy scoring and macro security auditing',
       'Raw hexadecimal dump inspector with ASCII gutter mapping'
@@ -716,7 +716,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
     isPopular: true,
     badge: 'Core Intelligence Engine',
     features: [
-      'Multi-stage magic byte signature detection (200+ signatures)',
+      'Multi-stage magic byte signature detection (82 verified signatures)',
       'Extension spoof and mismatch detection',
       'Shannon entropy scoring and macro security auditing',
       'Raw hexadecimal dump inspector with ASCII gutter mapping'
