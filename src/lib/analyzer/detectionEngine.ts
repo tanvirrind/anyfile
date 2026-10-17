@@ -7,7 +7,7 @@ import {
   SignatureAnalysis,
   SignaturePattern,
 } from './types';
-import { COMPREHENSIVE_SIGNATURES } from './signatures';
+import { DB_SIGNATURES } from './signatureIndex';
 import { getOrGenerateExtensionInfo } from '../seo/extensionGenerator';
 
 export interface RawDetectionResult {
@@ -160,15 +160,15 @@ export function detectFileFormat(
 
     const contentSubtype = detectZipSubtype(bytes);
     if (contentSubtype) {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === contentSubtype) || null;
+      matchedPattern = DB_SIGNATURES.find((s) => s.id === contentSubtype) || null;
       confidenceScore = 98;
     } else if (['docx', 'xlsx', 'pptx', 'apk', 'epub'].includes(filenameExt)) {
       // No content marker found — fall back to the extension as a weaker signal.
       // (The extension-comparison step below flags the mismatch if content disagrees.)
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === filenameExt) || null;
+      matchedPattern = DB_SIGNATURES.find((s) => s.id === filenameExt) || null;
       confidenceScore = 88;
     } else {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'zip') || null;
+      matchedPattern = DB_SIGNATURES.find((s) => s.id === 'zip') || null;
       confidenceScore = 99;
     }
   }
@@ -180,16 +180,16 @@ export function detectFileFormat(
     const brandSlice = asciiStream.slice(8, 24).toLowerCase();
 
     if (brandSlice.includes('heic') || brandSlice.includes('mif1') || brandSlice.includes('hevc') || filenameExt === 'heic') {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'heic') || null;
+      matchedPattern = DB_SIGNATURES.find((s) => s.id === 'heic') || null;
       confidenceScore = 99;
     } else if (brandSlice.includes('avif') || brandSlice.includes('avis') || filenameExt === 'avif') {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'avif') || null;
+      matchedPattern = DB_SIGNATURES.find((s) => s.id === 'avif') || null;
       confidenceScore = 99;
     } else if (brandSlice.includes('qt') || filenameExt === 'mov') {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'mov') || null;
+      matchedPattern = DB_SIGNATURES.find((s) => s.id === 'mov') || null;
       confidenceScore = 99;
     } else {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'mp4') || null;
+      matchedPattern = DB_SIGNATURES.find((s) => s.id === 'mp4') || null;
       confidenceScore = 99;
     }
   }
@@ -201,17 +201,17 @@ export function detectFileFormat(
     const formType = asciiStream.slice(8, 12);
 
     if (formType === 'WEBP' || filenameExt === 'webp') {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'webp') || null;
+      matchedPattern = DB_SIGNATURES.find((s) => s.id === 'webp') || null;
       confidenceScore = 99;
     } else if (formType === 'WAVE' || filenameExt === 'wav') {
-      matchedPattern = COMPREHENSIVE_SIGNATURES.find((s) => s.id === 'wav') || null;
+      matchedPattern = DB_SIGNATURES.find((s) => s.id === 'wav') || null;
       confidenceScore = 99;
     }
   }
 
   // Scan all other explicit magic byte signatures
   if (!matchedPattern) {
-    for (const sig of COMPREHENSIVE_SIGNATURES) {
+    for (const sig of DB_SIGNATURES) {
       if (matchHexPattern(bytes, sig.magicBytesHex, sig.offset)) {
         if (sig.secondaryCheck) {
           if (sig.secondaryCheck(bytes, asciiStream, filenameExt)) {
