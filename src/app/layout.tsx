@@ -1,10 +1,18 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import React from 'react';
 import '@/index.css';
 import { AppLayoutClient } from '@/components/layout/AppLayoutClient';
+import { PwaRegister } from '@/components/PwaRegister';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
+
+export const viewport: Viewport = {
+  themeColor: '#2563eb',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://anyfilex.com'),
@@ -16,6 +24,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    title: 'AnyFileX',
+    statusBarStyle: 'default',
+  },
   openGraph: {
     siteName: 'AnyFileX',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'AnyFileX - Universal File Format Platform' }],
@@ -26,6 +40,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    apple: [{ url: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
 };
 
@@ -45,6 +60,7 @@ export default async function RootLayout({
         </Script>
       </head>
       <body className="antialiased selection:bg-blue-600 selection:text-white">
+        <PwaRegister />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AppLayoutClient>{children}</AppLayoutClient>
         </NextIntlClientProvider>

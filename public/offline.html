@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offline – AnyFileX</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; margin: 0; min-height: 100vh;
+         display: flex; align-items: center; justify-content: center; background: #ffffff; color: #0f172a; }
+  @media (prefers-color-scheme: dark) { body { background: #020617; color: #e2e8f0; } }
+  .card { text-align: center; padding: 2rem; max-width: 22rem; }
+  .x { font-size: 2.5rem; font-weight: 900; color: #2563eb; }
+  h1 { font-size: 1.25rem; margin: 1rem 0 0.5rem; }
+  p { color: #64748b; line-height: 1.6; }
+  button { margin-top: 1rem; padding: 0.6rem 1.25rem; border: 0; border-radius: 0.5rem;
+           background: #2563eb; color: #fff; font-size: 1rem; cursor: pointer; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="x">X</div>
+    <h1>You are offline</h1>
+    <p>AnyFileX tools run entirely on your device, but this page needs a connection to load first. Reconnect and try again.</p>
+    <button onclick="location.reload()">Retry</button>
+  </div>
+</body>
+</html>
