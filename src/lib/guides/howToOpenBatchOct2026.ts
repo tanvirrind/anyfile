@@ -272,7 +272,7 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
   ],
 
   internalLinks: {
-    formatGuideUrl: '/format/vcf',
+    formatGuideUrl: '/file-extensions/vcf',
     extensionUrl: '/file-extensions/vcf',
     comparisons: [
       {
@@ -590,7 +590,7 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
   ],
 
   internalLinks: {
-    formatGuideUrl: '/format/pages',
+    formatGuideUrl: '/file-extensions/pages',
     extensionUrl: '/file-extensions/pages',
     comparisons: [],
     relatedExtensions: [
@@ -1197,7 +1197,7 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
   ],
 
   internalLinks: {
-      formatGuideUrl: '/format/numbers',
+      formatGuideUrl: '/file-extensions/numbers',
     // NOTE: /format/* URLs do not exist in the sitemap (verified) — omitted like file 37.
     // /file-extensions/numbers, /how-to-open/pages, /file-extensions/pages verified in sitemap-urls.txt.
     extensionUrl: '/file-extensions/numbers',
@@ -1512,7 +1512,7 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
   ],
 
   internalLinks: {
-      formatGuideUrl: '/format/key',
+      formatGuideUrl: '/file-extensions/key',
     // NOTE: /format/* URLs do not exist in the sitemap (verified) — omitted like file 37.
     // /file-extensions/key, /file-extensions/numbers, /file-extensions/pages verified in sitemap-urls.txt.
     extensionUrl: '/file-extensions/key',
@@ -1823,7 +1823,7 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
   ],
 
   internalLinks: {
-      formatGuideUrl: '/format/odt',
+      formatGuideUrl: '/file-extensions/odt',
     // NOTE: /format/* URLs do not exist in the sitemap (verified) — omitted like file 37.
     // /file-extensions/odt, /file-extensions/docx, /file-extensions/pdf, /file-extensions/zip verified in sitemap-urls.txt.
     extensionUrl: '/file-extensions/odt',
