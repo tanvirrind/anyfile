@@ -231,6 +231,44 @@ export function getAllSoftwareRecords(): SoftwareInfo[] {
   return INDEXED_SOFTWARE_LIST;
 }
 
+export type OpenerOS = 'windows' | 'mac' | 'linux' | 'ios' | 'android';
+
+/** Desktop-first display order for OS-grouped openers. */
+export const OPENER_OS_ORDER: OpenerOS[] = ['windows', 'mac', 'linux', 'ios', 'android'];
+
+export const OPENER_OS_LABELS: Record<OpenerOS, string> = {
+  windows: 'Windows',
+  mac: 'macOS',
+  linux: 'Linux',
+  ios: 'iOS',
+  android: 'Android',
+};
+
+/**
+ * Join SoftwareInfo records against a file extension and group the openers
+ * by supported OS. Matching is case-insensitive against
+ * `supportedExtensions`. Only existing catalog records are returned — no
+ * programs or OS support are invented.
+ */
+export function getOpenersByOS(ext: string): Record<OpenerOS, SoftwareInfo[]> {
+  const groups: Record<OpenerOS, SoftwareInfo[]> = {
+    windows: [],
+    mac: [],
+    linux: [],
+    ios: [],
+    android: [],
+  };
+  const clean = ext.trim().replace(/^\./, '').toUpperCase();
+  if (!clean) return groups;
+  for (const app of INDEXED_SOFTWARE_LIST) {
+    if (!app.supportedExtensions.some((e) => e.toUpperCase() === clean)) continue;
+    for (const os of app.supportedOS) {
+      if (groups[os]) groups[os].push(app);
+    }
+  }
+  return groups;
+}
+
 /**
  * Get total count of indexed software pages
  */

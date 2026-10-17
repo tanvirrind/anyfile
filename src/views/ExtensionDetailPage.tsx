@@ -425,6 +425,7 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
             <ExtensionSoftwareGrid
               apps={item.popularApps}
               extensionName={item.extension}
+              extension={item.extension}
               onNavigate={onNavigate}
             />
           </section>
