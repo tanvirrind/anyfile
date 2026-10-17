@@ -504,5 +504,109 @@ A final word on direction: convert toward compatibility, not away from it. MP4 w
   },
   readingTimeMinutes: 11,
   difficulty: 'Beginner',
+},
+{
+  id: 'guide-batch-convert-images',
+  slug: 'batch-convert-images',
+  title: 'How to Batch Convert Images Online (Free, No Upload)',
+  h1: 'How to Batch Convert Images Online (Free, No Upload)',
+  contentType: 'technical-guide',
+  clusterId: 'cluster-f-technical',
+  primaryTopic: 'How to Batch Convert Images Online',
+  searchIntent: 'transactional',
+  summary: `Converting one image at a time is a special kind of tedium: open, convert, download, repeat forty times. AnyFileX's image converters take whole batches — drop dozens of files at once, watch them convert in a live queue, and download everything as one ZIP. All of it happens in your browser, so a folder of personal photos never uploads anywhere.`,
+  contentSections: [
+    {
+      heading: 'What batch conversion actually means (and what it does not)',
+      body: `Batch conversion means converting many files with one conversion in one session: fifty HEIC photos become fifty JPGs, two hundred PNGs become two hundred WebPs. Every file gets the same treatment, and you collect the results together instead of babysitting a download folder one file at a time.\n\nWhat it does not mean: converting one file into many formats at once, or converting a mixed folder where each file goes somewhere different. AnyFileX's converter pages each handle one conversion pair — HEIC to JPG, PNG to WebP, and so on — and a batch is simply "many files through this pair." If your folder contains three formats that each need a different conversion, that's three batches on three converter pages. It's still dramatically faster than one-at-a-time, because the queue does the waiting for you.\n\nThe payoff scales with volume. One file: no difference. Ten files: the batch saves you most of the clicking. A camera roll of two hundred: batch is the difference between a finished job and an abandoned one.`,
+    },
+    {
+      heading: 'How batch conversion works on AnyFileX',
+      body: `Open any working image converter — [WebP to JPG](https://anyfilex.com/converters/webp-to-jpg), [HEIC to JPG](https://anyfilex.com/converters/heic-to-jpg), [PNG to JPG](https://anyfilex.com/converters/png-to-jpg), or any of the others listed below — and instead of picking one file, pick many. Three input methods all work: click to open the file picker and select multiple files at once (Ctrl/Cmd-click or Shift-click), drag and drop a handful of files onto the page, or drop an entire folder (or several subfolders) — the page walks the folder tree and queues every matching file it finds.\n\nEverything you added lands in a conversion queue with two conversion workers running side by side, so while file one is being processed, file two is already starting. Each file gets its own status line: waiting, converting, done, or an honest error if a particular file can't be read (a corrupted download in the middle of a batch doesn't stop the rest — it gets flagged and the queue moves on). When files finish, you can download them one by one or hit **Download ZIP**, which packages every converted file into a single archive with a progress indicator — and tells you if any files were skipped.\n\nThe whole thing runs on your device. There is no upload step, no progress bar that is secretly a network transfer, and no "your files will be deleted in 24 hours" promise — because they were never anywhere but your machine.`,
+    },
+    {
+      heading: 'How converted files are named and organized',
+      body: `When files finish converting, each output keeps its original filename with the new extension: photo-001.heic becomes photo-001.jpg, scan-014.png becomes scan-014.webp. Nothing is renamed, numbered, or shuffled — the batch comes back in the same order and with the same names you dropped in, which makes it trivial to match outputs against your source folder.\n\nThe Download ZIP button preserves those names inside the archive, so unzipping gives you a flat, organized set of results. If you convert several batches in a day, give each ZIP a distinct name as you download it (heic-batch-1.zip, png-batch-2.zip) to avoid the classic "which download was which" confusion. And because the queue shows per-file status, you can spot a failed file before zipping and re-run just that one — no need to redo the whole batch.`,
+    },
+    {
+      heading: 'Which conversions support batch (verified list)',
+      body: `Batch works on every image converter page whose tool actually runs in the browser. As of this writing, that's the full working set — each of these pages takes multi-file input and offers the ZIP download:`,
+      bullets: [
+        `**Phone photos:** [HEIC to JPG](https://anyfilex.com/converters/heic-to-jpg) and [HEIC to PNG](https://anyfilex.com/converters/heic-to-png) — the classic batch case, a whole camera roll at once.`,
+        `**Web images:** [WebP to JPG](https://anyfilex.com/converters/webp-to-jpg), [WebP to PNG](https://anyfilex.com/converters/webp-to-png), [JPG to WebP](https://anyfilex.com/converters/jpg-to-webp), [PNG to WebP](https://anyfilex.com/converters/png-to-webp) — modernizing or universalizing a site's assets in one pass.`,
+        `**Everyday swaps:** [PNG to JPG](https://anyfilex.com/converters/png-to-jpg) and [JPG to PNG](https://anyfilex.com/converters/jpg-to-png).`,
+        `**Graphics:** [SVG to JPG](https://anyfilex.com/converters/svg-to-jpg) and [SVG to PNG](https://anyfilex.com/converters/svg-to-png) — exporting a folder of icons or logos to raster formats.`,
+        `**Documents:** [PDF to JPG](https://anyfilex.com/converters/pdf-to-jpg) and [PDF to PNG](https://anyfilex.com/converters/pdf-to-png) — turning multi-page PDFs into image sets, batched across several PDFs.`,
+      ],
+    },
+    {
+      heading: 'What batch does not cover — stated plainly',
+      body: `Two honest boundaries. First, some converter pages are guides, not tools: MOV to MP4, AVI to MP4, EPUB to PDF, and PNG to SVG have no verified in-browser conversion path, so their pages explain your options instead of offering an upload box — there is nothing to batch there, and the pages say so. Second, batch means many files through one conversion pair; there is no "convert my mixed folder into whatever each file needs" mode, and no video batch conversion of any kind.\n\nOn limits: the code publishes no file-count cap and no per-file size cap — the practical ceiling is your browser's memory and patience. A few hundred ordinary photos are routine; thousands of raw 50-megapixel files will eventually make any tab unhappy. If a batch misbehaves, split it: two batches of one hundred beat one batch that crawls.`,
+    },
+    {
+      heading: 'Why batch is the strongest case for zero-upload conversion',
+      body: `Think about what a batch actually is: your most personal files, in bulk. A wedding photographer's full shoot. Scans of a decade of family documents. A company's entire product catalog. Traditional online converters ask you to upload all of that to a stranger's server — and the bigger the batch, the more you have to lose from one bad actor, one breach, or one "we keep files for 24 hours" policy with an asterisk.\n\nWith in-browser conversion, the privacy math doesn't change with volume: file one and file one-thousand are equally never transmitted. That property is exactly what makes batch practical for sensitive work — client photos under NDA, medical-adjacent imagery, unreleased product shots — where a single-file upload might be a calculated risk but a 500-file upload is a non-starter. If you've ever hesitated to batch-convert precisely because of what the files contain, that hesitation was the feature telling you what it needed to be.\n\nFor the curious, the [file identifier](https://anyfilex.com/tools/file-identifier) can sanity-check a mixed folder before you convert: drop a suspicious file in and it reads the magic bytes to confirm the format is really what the extension claims. And after conversion, the [image compressor](https://anyfilex.com/tools/image-compressor) can shrink the batch further if file size — not format — was the real problem.`,
+    },
+    {
+      heading: 'A practical batch workflow that avoids the usual mistakes',
+      body: `A smooth batch is mostly preparation. Run through this once and the rest is mechanical:`,
+      bullets: [
+        `**Sort first, convert second.** Put the files for one conversion pair in one folder. Mixed formats in one drop mean the page ignores the ones it can't convert — which is fine, but deliberate folders are faster to verify.`,
+        `**Spot-check one file.** Convert a single representative file first and open the result. If the quality, colors, or transparency look right, the other 199 will behave identically — same code path, same settings.`,
+        `**Then drop the batch and let the queue work.** You can switch tabs; the queue keeps going. The per-file status lines are your audit trail — if three files error out, you know exactly which three.`,
+        `**Download the ZIP and verify the count.** The ZIP keeps your original filenames with the new extension. Compare the count against your source folder before you delete anything — "49 files in, 49 files out" is the whole quality check.`,
+        `**Keep originals until you've checked the results.** Conversion is one-way in practice: keep the source folder until you've opened a few outputs and confirmed they're what you wanted. Disk space is cheap; re-shooting a wedding is not.`,
+      ],
+    },
+  ],
+  relatedFormats: ['jpg', 'png', 'webp', 'heic', 'svg', 'pdf'],
+  relatedExtensions: ['JPG', 'PNG', 'WEBP', 'HEIC', 'SVG', 'PDF'],
+  relatedTools: ['image-compressor', 'file-identifier'],
+  relatedSoftware: [],
+  relatedGuides: ['png-vs-jpg-vs-webp', 'what-is-exif-data'],
+  faq: [
+    {
+      question: 'How many images can I convert at once?',
+      answer: `There is no published file-count cap — the practical limit is your browser's memory. Dozens to a few hundred ordinary photos are routine. If a very large batch slows down, split it into smaller batches; the per-file queue makes it easy to see where you left off.`,
+    },
+    {
+      question: 'Do converted files keep their original names?',
+      answer: `Yes. Each output keeps the source filename with the new extension (photo-001.heic becomes photo-001.jpg), and the ZIP download preserves those names too, so the batch stays organized exactly as you dropped it in.`,
+    },
+    {
+      question: 'Can I batch-convert videos, like MOV to MP4?',
+      answer: `No. The video converter pages (MOV to MP4, AVI to MP4) are guides without a verified in-browser conversion path, so there is no batch video conversion on AnyFileX today. Batch works on the image and PDF-image converter pages listed in this guide.`,
+    },
+    {
+      question: 'Is batch conversion really free, with no account?',
+      answer: `Yes — same as single-file conversion. No account, no credits, no watermarks, and because everything runs in your browser, nothing is uploaded, which means there's no file to meter, queue behind a paywall, or delete after 24 hours.`,
+    },
+    {
+      question: 'What happens if one file in the batch is corrupted?',
+      answer: `It gets flagged with an error in its status line and the queue moves on to the next file — one bad file never stops or poisons the batch. The ZIP download also reports skipped files, so you can identify exactly which ones need attention.`,
+    },
+  ],
+  schemaType: 'TechArticle',
+  status: 'published',
+  publishedDate: '2026-10-17',
+  updatedDate: '2026-10-17',
+  createdAt: '2026-10-17',
+  knowledgeGraphVersion: '5.2.0',
+  seoMeta: {
+    title: 'Batch Convert Images Online — Free, No Upload',
+    description: 'Batch convert images in your browser — drop dozens of files, watch the live queue, download one ZIP. HEIC, WebP, PNG, JPG, SVG, PDF. Nothing is uploaded.',
+    canonical: 'https://anyfilex.com/guides/batch-convert-images',
+    robots: 'index, follow',
+    ogTitle: 'Batch Convert Images Online — Free, No Upload',
+    ogDescription: 'Batch convert images in your browser — drop dozens of files, watch the live queue, download one ZIP. HEIC, WebP, PNG, JPG, SVG, PDF. Nothing is uploaded.',
+    keywords: ['batch convert images', 'batch image converter', 'convert multiple images at once', 'bulk image converter online', 'batch heic to jpg', 'download zip converted images'],
+  },
+  author: {
+    name: 'Tanveer Hussain',
+    role: 'Founder, AnyFileX',
+    avatar: '',
+  },
+  readingTimeMinutes: 8,
+  difficulty: 'Beginner',
 }
 ];
