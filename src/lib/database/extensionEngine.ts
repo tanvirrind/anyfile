@@ -12,6 +12,7 @@ import { COMPREHENSIVE_SIGNATURES } from '../analyzer/signatures';
 import { EXPANDED_MIME_DATABASE } from '../../data/expandedMimeDatabase';
 import { FILE_SIGNATURES } from '../../data/fileSignaturesData';
 import { PRIORITY_EXTENSIONS_DATA } from '../../data/priorityExtensionsData';
+import { EXPANSION_EXTENSIONS_DATA } from '../../data/expansionExtensionsData';
 
 export interface ExtensionSchema {
   slug: string;
@@ -176,6 +177,7 @@ function initializeExtensionDatabase() {
     ...DEVELOPER_EXTENSIONS_DATA,
     ...SPECIALIZED_EXTENSIONS_DATA,
     ...PRIORITY_EXTENSIONS_DATA,
+    ...EXPANSION_EXTENSIONS_DATA,
   ];
 
   rawDataset.forEach((item) => {
@@ -490,8 +492,8 @@ function resolveFormatIntelligence(cleanExt: string, category: CategoryType): {
   );
   if (mimeMatch) {
     return {
-      magicBytesHex: mimeMatch.magicBytesHex ?? '',
-      magicBytesAscii: mimeMatch.magicBytesAscii ?? '',
+      magicBytesHex: mimeMatch.magicBytesHex ?? 'N/A',
+      magicBytesAscii: mimeMatch.magicBytesAscii ?? 'Not applicable',
       mimeType: mimeMatch.mimeType,
       typicalSize: category === 'Images' ? '1 MB - 20 MB' : '500 KB - 25 MB',
       detailedOverview: mimeMatch.description,
@@ -511,12 +513,250 @@ function resolveFormatIntelligence(cleanExt: string, category: CategoryType): {
     };
   }
 
+
+  // 3a. Verified signatures for expansion-batch formats (researched 2026-10-17;
+  // each cross-checked on Wikipedia's file-signature list + a second source).
+  if (extUpper === 'MSI') {
+    return {
+      magicBytesHex: 'D0 CF 11 E0 A1 B1 1A E1',
+      magicBytesAscii: 'DOCFILE',
+      mimeType: 'application/x-msi',
+      typicalSize: '1 MB - 500 MB',
+      detailedOverview: 'The .MSI format is a Windows Installer package stored in the Microsoft Compound File Binary container, holding installation files, registry operations, and setup logic.',
+    };
+  }
+  if (extUpper === 'DEB') {
+    return {
+      magicBytesHex: '21 3C 61 72 63 68 3E 0A',
+      magicBytesAscii: '!<arch>.',
+      mimeType: 'application/vnd.debian.binary-package',
+      typicalSize: '100 KB - 200 MB',
+      detailedOverview: 'The .DEB format is a Debian software package built on the Unix ar archive, containing a control section with metadata and a data section with the installable files.',
+    };
+  }
+  if (extUpper === 'RPM') {
+    return {
+      magicBytesHex: 'ED AB EE DB',
+      magicBytesAscii: 'í«îÛ',
+      mimeType: 'application/x-rpm',
+      typicalSize: '100 KB - 200 MB',
+      detailedOverview: 'The .RPM format is the Red Hat Package Manager container, holding installable files together with dependency metadata and pre/post install scriptlets.',
+    };
+  }
+  if (extUpper === 'XAR') {
+    return {
+      magicBytesHex: '78 61 72 21',
+      magicBytesAscii: 'xar!',
+      mimeType: 'application/x-xar',
+      typicalSize: '1 MB - 2 GB',
+      detailedOverview: 'The .XAR format is the eXtensible ARchive, an open archive with an XML table of contents developed for macOS and handled by the bsdtar utility.',
+    };
+  }
+  if (extUpper === 'CPIO') {
+    return {
+      magicBytesHex: '30 37 30 37 30 31',
+      magicBytesAscii: '070701',
+      mimeType: 'application/x-cpio',
+      typicalSize: '10 MB - 4 GB',
+      detailedOverview: 'The .CPIO format is the classic Unix archiver format; new-format archives begin with the 070701 magic string and are widely used for Linux initramfs images.',
+    };
+  }
+  if (extUpper === 'ARJ') {
+    return {
+      magicBytesHex: '60 EA',
+      magicBytesAscii: '`ê',
+      mimeType: 'application/x-arj',
+      typicalSize: '100 KB - 100 MB',
+      detailedOverview: 'The .ARJ format is the compressed archive of Robert K. Jung, popular in the DOS era; modern 7-Zip and PeaZip still extract it.',
+    };
+  }
+  if (extUpper === 'LZH') {
+    return {
+      magicBytesHex: '2D 6C 68',
+      magicBytesAscii: '-lh',
+      mimeType: 'application/x-lzh-compressed',
+      typicalSize: '100 KB - 100 MB',
+      detailedOverview: 'The .LZH format is the LHA compressed archive of Haruyasu Yoshizaki; entries carry -lh- method markers in the header.',
+    };
+  }
+  if (extUpper === 'ZOO') {
+    return {
+      magicBytesHex: '5A 4F 4F',
+      magicBytesAscii: 'ZOO',
+      mimeType: 'application/x-zoo',
+      typicalSize: '100 KB - 100 MB',
+      detailedOverview: 'The .ZOO format is the legacy compressed archive created by Rahul Dhesi in the 1980s, still extractable with 7-Zip.',
+    };
+  }
+  if (extUpper === 'TOAST') {
+    return {
+      magicBytesHex: '45 52 02',
+      magicBytesAscii: 'ER.',
+      mimeType: 'application/x-toast',
+      typicalSize: '500 MB - 8 GB',
+      detailedOverview: 'The .TOAST format is the Roxio Toast CD/DVD disc image, similar to a standard ISO image with Toast-specific formatting information.',
+    };
+  }
+  if (extUpper === 'VHD') {
+    return {
+      magicBytesHex: '63 6F 6E 65 63 74 69 78',
+      magicBytesAscii: 'conectix',
+      mimeType: 'application/x-vhd',
+      typicalSize: '1 GB - 2 TB',
+      detailedOverview: 'The .VHD format is the Microsoft virtual hard disk image for Hyper-V and Virtual PC, beginning with the conectix creator signature and mountable in Windows Disk Management.',
+    };
+  }
+  if (extUpper === 'VMDK') {
+    return {
+      magicBytesHex: '23 20 44 69 73 6B 20 44 65 73 63 72 69 70 74 6F',
+      magicBytesAscii: '# Disk Descripto',
+      mimeType: 'application/x-vmdk',
+      typicalSize: '1 GB - 2 TB',
+      detailedOverview: 'The .VMDK format is the VMware virtual machine disk; sparse variants begin with a # Disk DescriptorFile text header describing the virtual disk geometry.',
+    };
+  }
+  if (extUpper === 'VDI') {
+    return {
+      magicBytesHex: '3C 3C 3C',
+      magicBytesAscii: '<<<',
+      mimeType: 'application/x-virtualbox-vdi',
+      typicalSize: '1 GB - 2 TB',
+      detailedOverview: 'The .VDI format is the Oracle VM VirtualBox virtual disk image, beginning with the <<< Oracle VM VirtualBox Disk Image >>> header.',
+    };
+  }
+  if (extUpper === 'QCOW2') {
+    return {
+      magicBytesHex: '51 46 49',
+      magicBytesAscii: 'QFI',
+      mimeType: 'application/x-qemu-disk',
+      typicalSize: '1 GB - 2 TB',
+      detailedOverview: 'The .QCOW2 format is the QEMU copy-on-write virtual disk image, supporting snapshots, compression, and encryption; the QFI prefix identifies the format family.',
+    };
+  }
+  if (extUpper === 'OTF') {
+    return {
+      magicBytesHex: '4F 54 54 4F',
+      magicBytesAscii: 'OTTO',
+      mimeType: 'font/otf',
+      typicalSize: '50 KB - 5 MB',
+      detailedOverview: 'The .OTF format is the OpenType font of Microsoft and Adobe, beginning with the OTTO magic bytes and supporting advanced typographic features.',
+    };
+  }
+  if (extUpper === 'WOFF') {
+    return {
+      magicBytesHex: '77 4F 46 46',
+      magicBytesAscii: 'wOFF',
+      mimeType: 'font/woff',
+      typicalSize: '20 KB - 2 MB',
+      detailedOverview: 'The .WOFF format is the W3C Web Open Font Format 1.0, a compressed web-font container beginning with the wOFF signature.',
+    };
+  }
+  if (extUpper === 'ICNS') {
+    return {
+      magicBytesHex: '69 63 6E 73',
+      magicBytesAscii: 'icns',
+      mimeType: 'image/icns',
+      typicalSize: '50 KB - 5 MB',
+      detailedOverview: 'The .ICNS format is the Apple icon image resource for macOS applications, holding the icon at multiple resolutions and beginning with the icns signature.',
+    };
+  }
+  if (extUpper === 'JP2') {
+    return {
+      magicBytesHex: '00 00 00 0C 6A 50 20 20',
+      magicBytesAscii: '....jP',
+      mimeType: 'image/jp2',
+      typicalSize: '500 KB - 50 MB',
+      detailedOverview: 'The .JP2 format is the JPEG 2000 image, a wavelet-based successor to JPEG identified by its signature box at the start of the file.',
+    };
+  }
+  if (extUpper === 'CHM') {
+    return {
+      magicBytesHex: '49 54 53 46',
+      magicBytesAscii: 'ITSF',
+      mimeType: 'application/vnd.ms-htmlhelp',
+      typicalSize: '500 KB - 100 MB',
+      detailedOverview: 'The .CHM format is the Microsoft Compiled HTML Help file, a compressed ITSF container of HTML documentation now largely retired.',
+    };
+  }
+  if (extUpper === 'PS') {
+    return {
+      magicBytesHex: '25 21 50 53',
+      magicBytesAscii: '%!PS',
+      mimeType: 'application/postscript',
+      typicalSize: '100 KB - 50 MB',
+      detailedOverview: 'The .PS format is the Adobe PostScript document, the page description language that preceded PDF; files begin with the %!PS header.',
+    };
+  }
+  if (extUpper === 'PST' || extUpper === 'OST') {
+    return {
+      magicBytesHex: '21 42 44 4E',
+      magicBytesAscii: '!BDN',
+      mimeType: 'application/vnd.ms-outlook',
+      typicalSize: '100 MB - 50 GB',
+      detailedOverview: 'The .PST and .OST formats are the Microsoft Outlook personal and offline folder files, identified by the !BDN magic bytes.',
+    };
+  }
+  if (extUpper === 'DBF') {
+    return {
+      magicBytesHex: '03',
+      magicBytesAscii: '.',
+      mimeType: 'application/x-dbase',
+      typicalSize: '10 KB - 500 MB',
+      detailedOverview: 'The .DBF format is the dBASE database table; its first byte is the version identifier (03 for dBASE III), followed by the header and fixed-length records.',
+    };
+  }
+  if (extUpper === 'MPG') {
+    return {
+      magicBytesHex: '00 00 01 BA',
+      magicBytesAscii: '....',
+      mimeType: 'video/mpeg',
+      typicalSize: '10 MB - 4 GB',
+      detailedOverview: 'The .MPG format holds MPEG-1 or MPEG-2 video in a program stream, beginning with the 00 00 01 BA pack header.',
+    };
+  }
+  if (extUpper === 'SWF') {
+    return {
+      magicBytesHex: '46 57 53',
+      magicBytesAscii: 'FWS',
+      mimeType: 'application/x-shockwave-flash',
+      typicalSize: '100 KB - 50 MB',
+      detailedOverview: 'The .SWF format is the compiled Adobe Flash animation, beginning with FWS (uncompressed) or CWS (compressed); Flash reached end of life in 2020.',
+    };
+  }
+  if (extUpper === 'OGV') {
+    return {
+      magicBytesHex: '4F 67 67 53',
+      magicBytesAscii: 'OggS',
+      mimeType: 'video/ogg',
+      typicalSize: '5 MB - 500 MB',
+      detailedOverview: 'The .OGV format is the video profile of the Xiph.Org Ogg container, identified by the OggS page signature and typically carrying Theora video.',
+    };
+  }
+  if (extUpper === 'AMR') {
+    return {
+      magicBytesHex: '23 21 41 4D 52',
+      magicBytesAscii: '#!AMR',
+      mimeType: 'audio/amr',
+      typicalSize: '100 KB - 20 MB',
+      detailedOverview: 'The .AMR format is the 3GPP Adaptive Multi-Rate speech audio, beginning with the #!AMR header and used for GSM voice recordings.',
+    };
+  }
+  if (extUpper === 'RM') {
+    return {
+      magicBytesHex: '2E 52 4D 46',
+      magicBytesAscii: '.RMF',
+      mimeType: 'application/vnd.rn-realmedia',
+      typicalSize: '5 MB - 500 MB',
+      detailedOverview: 'The .RM format is the RealNetworks RealMedia container for streaming audio and video, beginning with the .RMF object header.',
+    };
+  }
+
   // 4. Intelligently synthesize family signature based on category & format architecture
   switch (category) {
     case 'Images':
       return {
-        magicBytesHex: '49 49 2A 00',
-        magicBytesAscii: 'II*.',
+        magicBytesHex: 'N/A',
+        magicBytesAscii: 'Not applicable',
         typicalSize: '1 MB - 25 MB',
         detailedOverview: `The .${extUpper} format is a specialized digital image specification utilizing raster or vector encoding for graphical assets. It maintains structured color palettes, coordinate bounding boxes, and compressed pixel arrays.`,
       };
@@ -546,52 +786,52 @@ function resolveFormatIntelligence(cleanExt: string, category: CategoryType): {
         };
       }
       return {
-        magicBytesHex: '41 43 31 30',
-        magicBytesAscii: 'AC10',
+        magicBytesHex: 'N/A',
+        magicBytesAscii: 'Not applicable',
         typicalSize: '2 MB - 100 MB',
         detailedOverview: `The .${extUpper} file format stores geometric modeling data, parametric primitives, mesh coordinates, and spatial rendering definitions for computer-aided design workflows.`,
       };
     case 'Archives':
       return {
-        magicBytesHex: '50 4B 03 04',
-        magicBytesAscii: 'PK..',
+        magicBytesHex: 'N/A',
+        magicBytesAscii: 'Not applicable',
         typicalSize: '500 KB - 500 MB',
         detailedOverview: `The .${extUpper} format operates as a compressed container archive using structured directory records, CRC-32 integrity checks, and dictionary-based compression algorithms.`,
       };
     case 'Audio & Video':
       return {
-        magicBytesHex: '00 00 00 18 66 74 79 70',
-        magicBytesAscii: '....ftyp',
+        magicBytesHex: 'N/A',
+        magicBytesAscii: 'Not applicable',
         typicalSize: '5 MB - 500 MB',
         detailedOverview: `The .${extUpper} file stores synchronized audiovisual streams packaged within container tracks, defining sample rates, bit depths, and keyframe indexing structures.`,
       };
     case 'Code & Data':
       return {
-        magicBytesHex: 'EF BB BF 7B',
-        magicBytesAscii: '...{',
+        magicBytesHex: 'N/A',
+        magicBytesAscii: 'Not applicable',
         typicalSize: '10 KB - 5 MB',
         detailedOverview: `The .${extUpper} file represents structured program code or hierarchical data serialization formatted in standard UTF-8 or ASCII character encodings.`,
       };
     case 'Databases':
       return {
-        magicBytesHex: '53 51 4C 69 74 65 20 66 6F 72 6D 61 74 20 33 00',
-        magicBytesAscii: 'SQLite format 3.',
+        magicBytesHex: 'N/A',
+        magicBytesAscii: 'Not applicable',
         typicalSize: '100 KB - 1 GB',
         detailedOverview: `The .${extUpper} database file consists of organized relational B-tree pages, schema catalogs, transaction journal locks, and structured query indexes.`,
       };
     case 'System & Executables':
       return {
-        magicBytesHex: '4D 5A 90 00',
-        magicBytesAscii: 'MZ..',
+        magicBytesHex: 'N/A',
+        magicBytesAscii: 'Not applicable',
         typicalSize: '100 KB - 50 MB',
         detailedOverview: `The .${extUpper} binary format contains compiled machine instructions, executable portable executable headers, relocation tables, and dynamic link exports.`,
       };
     default:
       return {
-        magicBytesHex: '50 4B 03 04',
-        magicBytesAscii: 'PK..',
-        typicalSize: '100 KB - 20 MB',
-        detailedOverview: `The .${extUpper} file format is a structured digital document and data container standardized for cross-platform exchange and application interoperability.`,
+        magicBytesHex: 'N/A',
+        magicBytesAscii: 'Not applicable',
+        typicalSize: 'Varies by file and use case',
+        detailedOverview: `The .${extUpper} file format has no single published universal signature. Identify files by their creating application and internal structure rather than trusting the extension alone.`,
       };
   }
 }
@@ -624,17 +864,19 @@ export function getExtensionAsFileTypeInfo(extRaw: string): FileTypeInfo | null 
 
   const listedApps = schema.software.length > 0 ? schema.software.join(' or ') : 'a verified application';
 
+  const hasPublishedSignature = resolved.magicBytesHex !== 'N/A' && resolved.magicBytesHex !== '';
+
   return {
     extension: cleanExt,
     name: `${cleanExt} File Format`,
     category: schema.category,
     description: schema.description,
-    detailedOverview: `${resolved.detailedOverview} Files with the .${cleanExt} extension are categorized under ${schema.category} and are widely utilized in modern computing environments for storing, rendering, and exchanging structured data. By verifying the header signature (${resolved.magicBytesHex}) using forensic byte inspection tools, users can authenticate file integrity and rule out disguised executable payloads.`,
+    detailedOverview: `${resolved.detailedOverview} Files with the .${cleanExt} extension are categorized under ${schema.category} and are widely utilized in modern computing environments for storing, rendering, and exchanging structured data.${hasPublishedSignature ? ` By verifying the header signature (${resolved.magicBytesHex}) using forensic byte inspection tools, users can authenticate file integrity and rule out disguised executable payloads.` : ` Because the .${cleanExt} extension has no single published universal signature, identify files by their creating application and internal structure rather than trusting the extension alone.`}`,
     mimeType: resolved.mimeType || schema.mime,
     magicBytesHex: resolved.magicBytesHex,
     typicalSize: resolved.typicalSize,
     dangerRating: schema.security.dangerRating,
-    dangerExplanation: `${schema.security.tips.join(' ')} Files ending in .${cleanExt} should always be inspected for valid magic bytes to verify they match legitimate ${schema.category} specifications.`,
+    dangerExplanation: `${schema.security.tips.join(' ')}${hasPublishedSignature ? ` Files ending in .${cleanExt} should always be inspected for valid magic bytes to verify they match legitimate ${schema.category} specifications.` : ` Files ending in .${cleanExt} have no universal magic bytes, so inspect the file header and confirm the creating application before opening.`}`,
     exampleUse: schema.keywords.slice(0, 3).join(', '),
     popularityScore: 85,
     developer: schema.developer,
@@ -672,7 +914,7 @@ export function getExtensionAsFileTypeInfo(extRaw: string): FileTypeInfo | null 
       converterSlug: c
     })),
     repairTips: [
-      `Inspect File Header: Use the AnyFileX Magic Byte Detector to verify that the first bytes match ${resolved.magicBytesHex}.`,
+      `${hasPublishedSignature ? `Inspect File Header: Use the AnyFileX Magic Byte Detector to verify that the first bytes match ${resolved.magicBytesHex}.` : `Inspect File Header: This format has no published universal signature; use the AnyFileX Magic Byte Detector to inspect the actual header bytes.`}`,
       `Prevent Extension Spoofing: Ensure "File name extensions" is checked in your OS file manager to detect disguised double extensions (e.g., file.${cleanExt}.exe).`,
       `Verify Checksum Integrity: Calculate SHA-256 or MD5 hashes against source downloads using our online Checksum Verifier.`,
       `Inspect Container Structure: If ${cleanExt} files fail to launch, verify whether the file was truncated during download or corrupted in transit.`
