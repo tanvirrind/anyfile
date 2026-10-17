@@ -14,3 +14,6 @@ blob-report/
 .playwright/
 .next/
 tsconfig.tsbuildinfo
+
+# Generated pdf.js worker (copied by prebuild from the installed pdfjs-dist package)
+public/pdf.worker.min.mjs

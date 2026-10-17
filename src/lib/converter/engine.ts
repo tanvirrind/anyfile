@@ -348,8 +348,8 @@ export async function convertFileInBrowser(
 
       try {
         const arrayBuffer = await file.arrayBuffer();
-        const pdfjsLib = await import('pdfjs-dist');
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version || '3.11.174'}/pdf.worker.min.js`;
+        const { ensurePdfWorkerOptions } = await import('../pdfWorker');
+        const pdfjsLib = await ensurePdfWorkerOptions();
 
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
         const pdfDoc = await loadingTask.promise;

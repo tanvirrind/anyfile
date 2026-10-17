@@ -8,6 +8,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "prebuild": "node scripts/copy-pdf-worker.mjs",
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
@@ -19,6 +20,7 @@
   "dependencies": {
     "@swc/core": "^1.16.2",
     "@types/three": "^0.186.0",
+    "exifreader": "4.50.0",
     "heic2any": "^0.0.4",
     "jspdf": "^4.2.1",
     "jszip": "^3.10.1",

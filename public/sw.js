@@ -18,6 +18,7 @@ const CACHE_VERSION = 'anyfilex-v2';
 const SHARE_CACHE = 'anyfilex-share-v1';
 const PRECACHE = [
   '/offline.html',
+  '/pdf.worker.min.mjs',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
   '/icons/icon-maskable-512.png',
