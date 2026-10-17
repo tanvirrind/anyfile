@@ -22,7 +22,9 @@ import {
   Copy,
   Check
 } from 'lucide-react';
-import { analyzeUploadedFile, AnalysisReport } from '../utils/fileAnalyzer';
+import { AnalysisReport } from '../utils/fileAnalyzer';
+import { analyzeAndSaveReport } from '../lib/analyzer/reportAdapter';
+import { DB_SIGNATURES } from '../lib/analyzer/signatureIndex';
 import { AppRoute } from '../types';
 import { useLocale } from 'next-intl';
 
@@ -105,7 +107,7 @@ export const FileIdentifierUploader: React.FC<FileIdentifierUploaderProps> = ({
   const analysisSteps = [
     'Reading binary offset 0x00000000 header bytes...',
     'Extracting magic byte signature (Hex & ASCII)...',
-    'Matching against file_signatures database rules...',
+    `Matching against ${DB_SIGNATURES.length} verified signature records`,
     'Calculating SHA-256 cryptographic checksum...',
     'Generating threat security & software compatibility matrix...',
   ];
@@ -140,7 +142,11 @@ export const FileIdentifierUploader: React.FC<FileIdentifierUploaderProps> = ({
       }
 
       try {
-        const report = await analyzeUploadedFile(file);
+        // Unified file intelligence engine (DB-sourced signature index,
+        // mismatch detection, security engine) — result is adapted to the
+        // legacy report shape the result page renders, and persisted under
+        // the sessionStorage contract getReportById() reads.
+        const report = await analyzeAndSaveReport(file);
         setUploadState('success');
         if (onAnalysisComplete) {
           onAnalysisComplete(report);
@@ -343,7 +349,7 @@ export const FileIdentifierUploader: React.FC<FileIdentifierUploaderProps> = ({
 
               <div className="space-y-1">
                 <h4 className="font-bold text-slate-900 dark:text-white text-lg">Analyzing Magic Byte Signatures</h4>
-                <p className="text-xs text-slate-500">Comparing byte stream against 26+ specification records</p>
+                <p className="text-xs text-slate-500">Comparing byte stream against {DB_SIGNATURES.length} verified specification records</p>
               </div>
 
               {/* Terminal Log Step Output */}
