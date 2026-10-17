@@ -30,6 +30,7 @@ import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
 import { TOOLS_REGISTRY, getAllTools, ToolDefinition } from '../lib/tools/toolsRegistry';
 import { FORMATS_REGISTRY } from '../lib/converter/registry';
+import { InstallPrompt } from '../components/InstallPrompt';
 
 interface ToolsPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -493,6 +494,9 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
           </span>
         </div>
       </div>
+
+      {/* PWA install nudge — dismissible, once per user */}
+      <InstallPrompt slot="tools-hub" />
 
       {/* Interactive "I have [X] -> I want [Y]" Quick Converter / Tool Matrix */}
       <div className="bg-gradient-to-br from-blue-900 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">

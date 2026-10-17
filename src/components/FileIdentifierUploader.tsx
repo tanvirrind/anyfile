@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Upload,
   FileCode,
@@ -44,6 +44,63 @@ export const FileIdentifierUploader: React.FC<FileIdentifierUploaderProps> = ({
   const [errorMessage, setErrorMessage] = useState('');
   const [copiedSample, setCopiedSample] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  /**
+   * Web Share Target bridge (PWA Phase 2). When the service worker intercepts
+   * a share POST it stashes the file in Cache Storage ('anyfilex-share-v1')
+   * and redirects here with ?share=<id>. On mount, pick the file up, feed it
+   * through the normal analysis pipeline, then delete the cache entry and
+   * strip the query param. Runs only when the param is present; every other
+   * behavior is unchanged.
+   */
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const shareId = params.get('share');
+    if (!shareId) return;
+    let cancelled = false;
+    (async () => {
+      const stripShareParam = () => {
+        try {
+          const url = new URL(window.location.href);
+          url.searchParams.delete('share');
+          window.history.replaceState({}, '', url.toString());
+        } catch {
+          /* URL stays as-is; harmless */
+        }
+      };
+      try {
+        if (!('caches' in window)) return;
+        const cache = await caches.open('anyfilex-share-v1');
+        const key = new Request(`/__share__/${shareId}`);
+        const res = await cache.match(key);
+        if (!res || cancelled) {
+          stripShareParam();
+          return;
+        }
+        const blob = await res.blob();
+        let name = 'shared-file';
+        try {
+          name = decodeURIComponent(res.headers.get('x-share-filename') || name);
+        } catch {
+          /* keep default name */
+        }
+        const type = res.headers.get('x-share-type') || blob.type || 'application/octet-stream';
+        await cache.delete(key);
+        if (cancelled) return;
+        const file = new File([blob], name, { type, lastModified: Date.now() });
+        stripShareParam();
+        handleFileProcess(file);
+      } catch {
+        // Silent — the normal uploader stays available on any failure.
+        stripShareParam();
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // handleFileProcess only touches stable setState functions; mount-once is safe.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const analysisSteps = [
     'Reading binary offset 0x00000000 header bytes...',

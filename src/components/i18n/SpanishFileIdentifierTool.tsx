@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { FileIdentifierUploader } from '@/components/FileIdentifierUploader';
+import { notifyAnalysisComplete } from '@/components/InstallPrompt';
 import { AppRoute } from '@/types';
 import { routeToPath } from '@/utils/router';
 
@@ -20,7 +21,7 @@ export function SpanishFileIdentifierTool() {
       <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">Sube un archivo desconocido para comprobar sus magic bytes, formato probable y firma técnica. El análisis se realiza localmente en tu navegador.</p>
     </section>
     <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
-      <FileIdentifierUploader onNavigate={navigate} />
+      <FileIdentifierUploader onNavigate={navigate} onAnalysisComplete={() => notifyAnalysisComplete()} />
       <div className="mt-10 grid gap-5 md:grid-cols-3">
         {[
           ['Verificación de magic bytes', 'Comprueba la firma hexadecimal del archivo, aunque la extensión sea incorrecta.'],

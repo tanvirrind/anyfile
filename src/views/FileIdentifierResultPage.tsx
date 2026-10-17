@@ -30,6 +30,7 @@ import { SOFTWARE_LIST } from '../data/softwareData';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { TOCSidebar } from '../components/TOCSidebar';
 import { SEOHead } from '../components/SEOHead';
+import { InstallPrompt } from '../components/InstallPrompt';
 
 interface FileIdentifierResultPageProps {
   reportId: string;
@@ -190,6 +191,9 @@ export const FileIdentifierResultPage: React.FC<FileIdentifierResultPageProps> =
         ]}
         onNavigate={onNavigate}
       />
+
+      {/* PWA install nudge — shown once, only after a successful analysis */}
+      <InstallPrompt slot="identifier" />
 
       {/* Hero Header Card */}
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
