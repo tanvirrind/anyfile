@@ -98,7 +98,7 @@ export const ExtensionSecurityCard: React.FC<ExtensionSecurityCardProps> = ({ it
             </li>
             <li className="flex items-start gap-2">
               <span className="font-bold text-amber-600">•</span>
-              <span>Verify magic bytes ({item.magicBytesHex}) to ensure the file isn't a renamed executable.</span>
+              <span>{item.magicBytesHex !== 'N/A' && item.magicBytesHex ? `Verify magic bytes (${item.magicBytesHex}) to ensure the file isn't a renamed executable.` : `Inspect the file header with a magic-byte detector; this format has no single published signature, so confirm the creating application before opening.`}</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="font-bold text-amber-600">•</span>

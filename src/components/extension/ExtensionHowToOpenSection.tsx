@@ -56,7 +56,7 @@ export const ExtensionHowToOpenSection: React.FC<ExtensionHowToOpenSectionProps>
           {
             step: '3',
             title: `Inspect Hex Header / Magic Bytes`,
-            desc: `If Windows displays an "Invalid File Format" error, inspect magic bytes (${item.magicBytesHex}) using AnyFileX's free Header Verifier.`,
+            desc: item.magicBytesHex !== 'N/A' && item.magicBytesHex ? `If Windows displays an "Invalid File Format" error, inspect magic bytes (${item.magicBytesHex}) using AnyFileX's free Header Verifier.` : `If Windows displays an "Invalid File Format" error, inspect the file header using AnyFileX's free Header Verifier; this format has no single published signature.`,
           },
         ];
 

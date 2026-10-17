@@ -21,7 +21,8 @@ export const ExtensionQuickFactsCard: React.FC<ExtensionQuickFactsCardProps> = (
   const devName = specs?.developer || item.developer || 'Open Standard Working Group';
   const releaseYear = specs?.initialRelease || item.firstReleased || 'N/A';
   const licensing = specs?.licensing || (item.developer ? 'Proprietary / Patent Licensed' : 'Open Standard');
-  const structureType = specs?.structureType || (item.magicBytesHex !== 'N/A' ? 'Binary Header Data' : 'Text / XML Data');
+  const hasKnownSignature = item.magicBytesHex !== 'N/A' && item.magicBytesHex;
+  const structureType = specs?.structureType || (hasKnownSignature ? 'Binary Header Data' : 'Text / XML Data');
 
   const facts = [
     {

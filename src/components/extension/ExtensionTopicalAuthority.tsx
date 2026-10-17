@@ -567,6 +567,21 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
       };
     }
 
+    const noUniversalSignature = item.magicBytesHex === 'N/A' || item.magicBytesHex === '';
+    if (noUniversalSignature) {
+      return {
+        hexString: 'Not universal',
+        asciiString: 'Not applicable',
+        offsetLabel: 'Varies by creating application',
+        explanation: `The .${extLower} extension has no single published universal signature across all producing applications. Identify the file by its creating application and internal header structure rather than trusting the extension alone:`,
+        boxes: [
+          { label: 'Signature Status', value: 'Not universal', color: 'text-amber-600 dark:text-amber-400' },
+          { label: 'Best Evidence', value: 'Source app + header inspection', color: 'text-slate-900 dark:text-white' },
+          { label: 'Forensic Domain', value: `${item.category} File Format`, color: 'text-blue-600 dark:text-blue-400' },
+        ],
+      };
+    }
+
     const hex = item.magicBytesHex || sigMatch?.example_header_hex || sigMatch?.signature || '00 00 00 00';
     const ascii = sigMatch?.magicBytesAscii || extUpper;
 
