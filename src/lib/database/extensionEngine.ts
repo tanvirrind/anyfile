@@ -8,7 +8,7 @@ import { DEVELOPER_EXTENSIONS_DATA } from '../../data/developerExtensionsData';
 import { SPECIALIZED_EXTENSIONS_DATA } from '../../data/specializedExtensionsData';
 import { POPULAR_FILE_TYPES } from '../../data/fileTypesData';
 import { SOFTWARE_LIST } from '../../data/softwareData';
-import { COMPREHENSIVE_SIGNATURES } from '../analyzer/signatures';
+import { DB_SIGNATURES } from '../analyzer/signatureIndex';
 import { EXPANDED_MIME_DATABASE } from '../../data/expandedMimeDatabase';
 import { FILE_SIGNATURES } from '../../data/fileSignaturesData';
 import { PRIORITY_EXTENSIONS_DATA } from '../../data/priorityExtensionsData';
@@ -193,7 +193,7 @@ function initializeExtensionDatabase() {
   POPULAR_FILE_TYPES.forEach((f) => {
     if (f.extension) VERIFIED_EXTENSIONS_CATALOG.add(f.extension.toLowerCase());
   });
-  COMPREHENSIVE_SIGNATURES.forEach((s) => {
+  DB_SIGNATURES.forEach((s) => {
     if (s.extension) VERIFIED_EXTENSIONS_CATALOG.add(s.extension.toLowerCase());
   });
   EXPANDED_MIME_DATABASE.forEach((m) => {
@@ -473,7 +473,7 @@ function resolveFormatIntelligence(cleanExt: string, category: CategoryType): {
   }
 
   // 1. Search Comprehensive Signatures
-  const sigMatch = COMPREHENSIVE_SIGNATURES.find(
+  const sigMatch = DB_SIGNATURES.find(
     (s) => s.extension?.toUpperCase() === extUpper || s.id?.toUpperCase() === extUpper
   );
   if (sigMatch) {
