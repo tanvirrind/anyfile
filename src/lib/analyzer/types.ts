@@ -135,6 +135,83 @@ export interface ArchiveMetadataInfo {
   isSolidArchive?: boolean;
 }
 
+// ─── Structure analysis (Batch B) ───────────────────────────────────────────
+// All plain JSON data — no File/Blob/class instances — so the future API can
+// return FileAnalysis verbatim.
+
+export interface ZipEntryInfo {
+  name: string;
+  compressedSize: number;
+  uncompressedSize: number;
+  isDirectory: boolean;
+  modifiedAt?: string;
+}
+
+export type ZipContainerKind =
+  | 'zip'
+  | 'docx' | 'docm'
+  | 'xlsx' | 'xlsm'
+  | 'pptx' | 'pptm'
+  | 'ooxml' | 'ooxml-macro'
+  | 'epub'
+  | 'odf'
+  | 'apk'
+  | 'jar';
+
+export interface ZipStructureInfo {
+  entries: ZipEntryInfo[]; // capped at ZIP_ENTRY_LIST_CAP, see parsers/zipStructure.ts
+  totalEntries: number;
+  truncated: boolean; // true when entries was capped
+  containerKind: ZipContainerKind;
+  hasMacros: boolean; // vbaProject.bin present
+  executableEntries: string[]; // entry names whose headers match MZ/ELF (capped)
+  riskyEntryCount: number; // entries with executable-looking names (sampled subset may differ)
+}
+
+export interface PdfStructureInfo {
+  isEncrypted: boolean;
+  pageCount?: number;
+  pdfVersion?: string;
+  hasJavaScript?: boolean; // heuristic name-object scan, see parsers/pdfStructure.ts
+  producer?: string;
+  creator?: string;
+  author?: string;
+  title?: string;
+  creationDate?: string;
+  modificationDate?: string;
+  embeddedFiles?: number;
+}
+
+export interface MediaTrackInfo {
+  type: 'video' | 'audio' | 'subtitle' | 'other';
+  codec?: string; // sample-entry fourcc, e.g. avc1 / hvc1 / mp4a
+  width?: number;
+  height?: number;
+  language?: string;
+}
+
+export interface MediaStructureInfo {
+  majorBrand?: string;
+  compatibleBrands?: string[];
+  durationSec?: number;
+  timescale?: number;
+  tracks: MediaTrackInfo[];
+  hasAudio?: boolean;
+  moovParsed: boolean; // false when the moov box was outside the sampled chunks
+}
+
+export type StructureFamily = 'zip' | 'pdf' | 'media' | 'archive_limited' | 'unsupported';
+
+export interface StructureReport {
+  family: StructureFamily;
+  available: boolean;
+  reason?: string; // honest explanation when available === false
+  notes: string[]; // caveats, e.g. partial reads
+  zip?: ZipStructureInfo;
+  pdf?: PdfStructureInfo;
+  media?: MediaStructureInfo;
+}
+
 export interface FileMetadataExtraction {
   general: Record<string, string | number | boolean>;
   image?: ImageMetadataInfo;
@@ -211,6 +288,7 @@ export interface FileAnalysis {
   knowledgeNode: FormatKnowledgeNode | null;
   availableTools: AvailableToolAction[];
   diagnostics: DiagnosticsInfo;
+  structure?: StructureReport;
   rawFile?: File;
   error?: {
     code: string;

@@ -296,30 +296,35 @@ async function extractDocumentMetadata(file: File, ext: string): Promise<Documen
     const creatorMatch = text.match(/\/Creator\s*\(([^)]+)\)/i);
     if (creatorMatch) creatorSoftware = creatorMatch[1];
 
+    // Honest document metadata: only values actually parsed from the file are
+    // returned. Fabricated fallbacks (invented authors, random page counts,
+    // fake dates) were removed in Batch B — absent metadata is absent fields.
     return {
-      author: author || 'Sarah Jenkins (Senior Architect)',
-      creatorSoftware: creatorSoftware || 'Microsoft® Word for Office 365',
-      producer: producer || 'Adobe PDF Library 15.0 / macOS Quartz',
-      createdDate: '2026-03-12 09:14:22 UTC',
+      author: author || undefined,
+      creatorSoftware: creatorSoftware || undefined,
+      producer: producer || undefined,
+      createdDate: undefined,
       modifiedDate: new Date(file.lastModified || Date.now()).toISOString().replace('T', ' ').substring(0, 19) + ' UTC',
-      pagesCount: Math.floor(Math.random() * 12) + 3,
-      version: 'PDF 1.7 (Acrobat 8.x)',
-      revisionCount: 4,
-      totalEditTime: '48 minutes'
+      pagesCount: undefined,
+      version: undefined,
+      revisionCount: undefined,
+      totalEditTime: undefined
     };
   }
 
-  // DOCX, XLSX, PPTX
+  // DOCX, XLSX, PPTX — honest path: only the filesystem-provided modified
+  // date is real; document-internal properties need ZIP parsing (covered by
+  // the analyzer's structure parsers, not this heuristic tool).
   return {
-    author: 'Alex Rivera <a.rivera@enterprise.corp>',
-    creatorSoftware: `Microsoft Excel 2021 (${ext})`,
-    createdDate: '2026-05-01 11:30:00 UTC',
+    author: undefined,
+    creatorSoftware: undefined,
+    createdDate: undefined,
     modifiedDate: new Date(file.lastModified || Date.now()).toISOString().replace('T', ' ').substring(0, 19) + ' UTC',
-    pagesCount: ext === 'DOCX' ? 14 : ext === 'XLSX' ? 3 : 28,
-    version: 'Office Open XML (ISO/IEC 29500)',
-    revisionCount: 12,
-    totalEditTime: '2 hours 15 minutes',
-    hasTrackChanges: ext === 'DOCX'
+    pagesCount: undefined,
+    version: undefined,
+    revisionCount: undefined,
+    totalEditTime: undefined,
+    hasTrackChanges: undefined
   };
 }
 

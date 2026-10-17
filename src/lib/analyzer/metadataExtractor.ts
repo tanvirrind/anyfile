@@ -169,6 +169,21 @@ export async function extractFileMetadata(
         { key: 'Color Space', value: imageInfo.colorSpace || 'sRGB', category: 'Image' }
       );
     }
+
+    // Real EXIF extraction (Batch B): dynamically imported so non-image files
+    // pay zero bundle cost. Absent tags are absent fields — never invented.
+    try {
+      const { extractExifDetails } = await import('./parsers/exifDetails');
+      const exif = await extractExifDetails(file);
+      Object.assign(imageInfo, exif.fields);
+      for (const prop of exif.properties) {
+        if (!rawPropertyList.some((p) => p.key === prop.key)) {
+          rawPropertyList.push(prop);
+        }
+      }
+    } catch {
+      // EXIF is optional enrichment; dimensions above stand on their own.
+    }
   }
 
   // 2. AUDIO METADATA

@@ -8,6 +8,8 @@ import { detectFileFormat } from './detectionEngine';
 import { extractFileMetadata } from './metadataExtractor';
 import { evaluateSecurity } from './securityEngine';
 import { resolveAvailableTools } from './toolResolver';
+import { runStructureAnalysis } from './structureRunner';
+import { applyStructureFindings } from './structureSignals';
 import { getFormatKnowledgeNode } from '../database/knowledgeGraph';
 import { formatBytes } from '../../utils/fileAnalyzer';
 import { sha256Hex } from '../../utils/hashUtils';
@@ -104,6 +106,7 @@ export async function analyzeFile(
         general: { 'File Name': file.name, 'File Size': '0 Bytes' },
         rawPropertyList: [{ key: 'File Size', value: '0 Bytes', category: 'General' }],
       },
+      structure: { family: 'unsupported', available: false, notes: [] },
       security: {
         status: 'safe',
         badgeText: 'Empty File',
@@ -166,6 +169,12 @@ export async function analyzeFile(
     file.name
   );
 
+  // 5.5. Map Internal Structure (containers, PDF anatomy, media tracks)
+  // Per-parser isolation: a failing parser yields an honest "unavailable"
+  // report — it never fails the whole analysis.
+  if (onProgress) onProgress('Mapping internal file structure (containers, pages, tracks)...', 94);
+  const structure = await runStructureAnalysis(file, detection.detectedExtension, headerBytes);
+
   // 6. Connect to Knowledge Graph & Tools
   if (onProgress) onProgress('Connecting to AnyFileX Knowledge Graph & software directory...', 98);
   const cleanExt = detection.detectedExtension.toLowerCase();
@@ -195,6 +204,7 @@ export async function analyzeFile(
     extensionComparison: detection.extensionComparison,
     signature: detection.signatureAnalysis,
     metadata,
+    structure,
     security,
     knowledgeNode,
     availableTools,
@@ -211,6 +221,9 @@ export async function analyzeFile(
     },
     rawFile: file,
   };
+
+  // 7. Fold structure findings into security indicators + authoritative metadata
+  applyStructureFindings(analysis);
 
   saveAnalysis(analysis);
   return analysis;
