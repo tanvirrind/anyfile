@@ -1,8 +1,9 @@
-// Batch: 3 how-to-open overrides (2026-10-13). Spread into FORMAT_SPECIFIC_OVERRIDES
-// in howToOpenEngine.ts (keeps the engine diff small).
-// NOTE (engine limitation, per PUBLISHING.md): getHowToOpenGuide() currently only reads
-// override.whyItIsHardToOpen and override.inBrowserSupport; the rich override fields here
-// are data-ready for a future engine merge.
+// Batch: how-to-open rich overrides (vcf, pages, psd, numbers, key, odt + ai, dwg, dat, msg).
+// Spread into FORMAT_SPECIFIC_OVERRIDES in howToOpenEngine.ts (keeps the engine diff small).
+// getHowToOpenGuide() merges rich override fields (osGuides, recommendedSoftware,
+// troubleshooting, faqs, internalLinks subfields) over the generated defaults.
+// recommendedSoftware items omit `rating` — the type keeps it optional; only the
+// generated fallback supplies ratings, and the view never displays them.
 import type { HowToOpenGuideData } from './howToOpenEngine';
 
 export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideData>> = {
@@ -158,7 +159,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
     },
   },
 
-  // NOTE: ratings below are placeholders — verify before publishing
   recommendedSoftware: [
     {
       id: 'google-contacts',
@@ -168,7 +168,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux'],
       priceType: 'Free',
       priceText: 'Free with a Google account',
-      rating: 4.5,
       canOpen: true,
       canView: true,
       canEdit: false,
@@ -184,7 +183,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['mac'],
       priceType: 'Free',
       priceText: 'Built into macOS',
-      rating: 4.4,
       canOpen: true,
       canView: true,
       canEdit: false,
@@ -200,7 +198,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux'],
       priceType: 'Open Source',
       priceText: 'Free & open source',
-      rating: 4.5,
       canOpen: true,
       canView: true,
       canEdit: false,
@@ -483,7 +480,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
     },
   },
 
-  // NOTE: ratings below are placeholders — verify before publishing
   recommendedSoftware: [
     {
       id: 'apple-pages',
@@ -493,7 +489,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
       priceType: 'Free',
       priceText: 'Free; Apple ID required for the iCloud web version',
-      rating: 4.7,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -509,7 +504,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux'],
       priceType: 'Open Source',
       priceText: 'Free & open source',
-      rating: 4.5,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -525,7 +519,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows'],
       priceType: 'Open Source',
       priceText: 'Free & open source',
-      rating: 4.8,
       canOpen: true,
       canView: true,
       canEdit: false,
@@ -770,7 +763,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
     },
   },
 
-  // NOTE: ratings below are placeholders — verify before publishing
   recommendedSoftware: [
     {
       id: 'photopea',
@@ -780,7 +772,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux'],
       priceType: 'Free',
       priceText: 'Free in browser, supported by ads',
-      rating: 4.5,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -796,7 +787,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux'],
       priceType: 'Open Source',
       priceText: 'Free & open source',
-      rating: 4.6,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -812,7 +802,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows'],
       priceType: 'Free',
       priceText: 'Free; PSD support via free third-party plugin',
-      rating: 4.4,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -1089,7 +1078,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
     },
   },
 
-  // NOTE: ratings below are placeholders — verify before publishing
   recommendedSoftware: [
     {
       id: 'apple-numbers',
@@ -1099,7 +1087,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
       priceType: 'Free',
       priceText: 'Free; Apple ID required for the iCloud web version',
-      rating: 4.6,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -1115,7 +1102,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux'],
       priceType: 'Open Source',
       priceText: 'Free & open source',
-      rating: 4.4,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -1131,7 +1117,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
       priceType: 'Free',
       priceText: 'Free with a Google account',
-      rating: 4.6,
       canOpen: false,
       canView: true,
       canEdit: true,
@@ -1404,7 +1389,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
     },
   },
 
-  // NOTE: ratings below are placeholders — verify before publishing
   recommendedSoftware: [
     {
       id: 'apple-keynote',
@@ -1414,7 +1398,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
       priceType: 'Free',
       priceText: 'Free; Apple ID required for the iCloud web version',
-      rating: 4.7,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -1430,7 +1413,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux'],
       priceType: 'Open Source',
       priceText: 'Free & open source',
-      rating: 4.3,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -1446,7 +1428,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
       priceType: 'Free',
       priceText: 'Free with a Google account',
-      rating: 4.5,
       canOpen: false,
       canView: true,
       canEdit: true,
@@ -1715,7 +1696,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
     },
   },
 
-  // NOTE: ratings below are placeholders — verify before publishing
   recommendedSoftware: [
     {
       id: 'libreoffice-writer',
@@ -1725,7 +1705,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux'],
       priceType: 'Open Source',
       priceText: 'Free & open source',
-      rating: 4.6,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -1741,7 +1720,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['windows', 'mac', 'linux', 'ios', 'android'],
       priceType: 'Free',
       priceText: 'Free with a Google account',
-      rating: 4.7,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -1757,7 +1735,6 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
       supportedOS: ['ios', 'android'],
       priceType: 'Open Source',
       priceText: 'Free & open source',
-      rating: 4.3,
       canOpen: true,
       canView: true,
       canEdit: true,
@@ -1870,4 +1847,5 @@ export const HOW_TO_OPEN_BATCH_OCT2026: Record<string, Partial<HowToOpenGuideDat
     },
   ],
 }
+,
 };
