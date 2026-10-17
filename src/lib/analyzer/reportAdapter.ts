@@ -128,8 +128,11 @@ export function mapFileAnalysisToReport(analysis: FileAnalysis, file: File): Ana
  * persists it under the legacy sessionStorage contract getReportById reads.
  */
 export async function analyzeAndSaveReport(file: File): Promise<AnalysisReport> {
-  const { analyzeFile } = await import('./fileAnalyzerService');
+  const { analyzeFile, saveAnalysis } = await import('./fileAnalyzerService');
   const analysis = await analyzeFile(file);
+  // Persist the full FileAnalysis for the result page (Batch C renders it
+  // directly); the legacy AnalysisReport keeps the old sessionStorage contract.
+  saveAnalysis(analysis);
   const report = mapFileAnalysisToReport(analysis, file);
   saveReport(report);
   return report;

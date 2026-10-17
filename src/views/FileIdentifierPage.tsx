@@ -44,8 +44,8 @@ export const FileIdentifierPage: React.FC<FileIdentifierPageProps> = ({ onNaviga
 
   const faqs = [
     {
-      question: 'How does the AnyFileX Magic Byte Identifier engine work?',
-      answer: 'Every file format begins with a unique hexadecimal signature sequence in its header known as magic bytes. AnyFileX reads the first 64 bytes of your uploaded file directly in your browser RAM and checks it against our global database of 26+ binary signatures.'
+      question: 'How does the AnyFileX File Analyzer identify files?',
+      answer: 'Every file format begins with a unique hexadecimal signature sequence in its header known as magic bytes. AnyFileX reads your file directly in your browser RAM and checks it against a database of 82 verified signatures, then inspects the container structure and embedded metadata for a full intelligence report.'
     },
     {
       question: 'Are my private uploaded files sent to an external server?',
@@ -64,10 +64,10 @@ export const FileIdentifierPage: React.FC<FileIdentifierPageProps> = ({ onNaviga
   const schemaJson = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'AnyFileX File Identifier Engine',
+    name: 'AnyFileX File Analyzer',
     applicationCategory: 'UtilityApplication',
     operatingSystem: 'All',
-    description: 'Inspect raw binary file headers and identify unknown file formats using magic byte signature matching directly in your web browser.'
+    description: 'Deep file intelligence in your browser: true-format identification, inside-the-file structure, safety verdicts and privacy exposure — nothing uploaded.'
   };
 
   return (
@@ -91,13 +91,14 @@ export const FileIdentifierPage: React.FC<FileIdentifierPageProps> = ({ onNaviga
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <Badge variant="blue" size="md">
           <Zap className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-          <span>Real-Time Magic Byte Inspector</span>
+          <span>File Intelligence Analyzer</span>
         </Badge>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
-          File Identifier Engine
+          File Analyzer
         </h1>
         <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-          Upload any unknown file to inspect its raw binary signature, detect magic bytes, and determine exact format specification with 99% accuracy.
+          Drop any file for a deep intelligence report: true format identification, inside-the-file
+          structure, safety verdicts, and privacy exposure — computed entirely in your browser.
         </p>
       </div>
 
