@@ -672,7 +672,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
     name: 'File Intelligence Engine & Deep Diagnostic',
     category: 'developer',
     categoryLabel: 'Developer & Security Tools',
-    tagline: 'Inspect binary headers, detect extension mismatches, calculate entropy, and extract deep metadata',
+    tagline: 'Deep file intelligence: true-format identification, inside-the-file structure, safety verdicts and privacy exposure — all in your browser',
     description: 'Advanced file diagnostic tool analyzing magic bytes, true binary signatures, container markers, Shannon entropy, SHA-256 hashes, and embedded metadata in browser memory.',
     processingType: 'local',
     supportedInputFormats: ['*'],
