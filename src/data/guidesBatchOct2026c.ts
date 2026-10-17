@@ -290,5 +290,52 @@ When you need the file itself to change — for a device, an upload form, or som
 A final word on direction: convert toward compatibility, not away from it. MP4 with H.264 video and AAC audio remains the safest target for unknown destinations — it's what the ecosystem standardized on, and it's the combination most likely to play everywhere from a 2012 laptop to a brand-new phone. Keep your high-quality originals archived (MKV is excellent for that), and generate compatible copies for sharing. The container is the envelope; choose the envelope your recipient can open.`
       }
     ]
+  },
+{
+    id: 'batch-convert-images-guide',
+    title: 'How to Batch Convert Images Online (Free, No Upload)',
+    slug: 'batch-convert-images',
+    summary: 'Converting one image at a time is a special kind of tedium. AnyFileX\'s image converters take whole batches — drop dozens of files at once, watch them convert in a live queue, and download everything as one ZIP. All of it happens in your browser, so a folder of personal photos never uploads anywhere.',
+    category: 'Tutorials',
+    readTime: '8 min read',
+    date: 'October 2026',
+    difficulty: 'Beginner',
+    author: {
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
+    },
+    relatedExtensions: [ 'JPG', 'PNG', 'WEBP', 'HEIC', 'SVG', 'PDF' ],
+    contentSections: [
+      {
+        heading: 'Batch means many files, one conversion pair',
+        body: `Batch conversion converts many files with one conversion in one session: fifty HEIC photos become fifty JPGs, two hundred PNGs become two hundred WebPs. Each converter page handles one pair — HEIC to JPG, PNG to WebP, and so on — and a batch is simply "many files through this pair." The payoff scales with volume: at ten files the batch saves most of the clicking; at two hundred it is the difference between a finished job and an abandoned one.`
+      },
+      {
+        heading: 'How it works: multi-select, folders, queue, ZIP',
+        body: `On any working image converter page, click to select multiple files at once, drag and drop a handful of files, or drop an entire folder — the page walks the folder tree and queues every matching file. Two conversion workers run side by side, each file gets its own status line (waiting, converting, done, or an honest error that never stops the rest of the batch), and the Download ZIP button packages every converted file into a single archive with progress and skipped-file reporting.`
+      },
+      {
+        heading: 'Which conversions support batch',
+        body: `Batch works on every image converter whose tool runs in the browser — HEIC to JPG/PNG, WebP to JPG/PNG, PNG to JPG, JPG to PNG, JPG to WebP, PNG to WebP, SVG to JPG/PNG, and PDF to JPG/PNG. The video, EPUB, and PNG-to-SVG converter pages are guides without a verified in-browser path, so there is nothing to batch there — and the pages say so.`,
+        bullets: [
+          `**Phone photos:** HEIC to JPG/PNG converters handle a whole camera roll at once.`,
+          `**Web images:** WebP/JPG/PNG swaps in both directions for modernizing site assets.`,
+          `**Graphics and documents:** SVG exports and multi-page PDF-to-image sets across several PDFs.`
+        ]
+      },
+      {
+        heading: 'Why batch is the strongest case for zero-upload',
+        body: `A batch is your most personal files, in bulk — a photographer's full shoot, scans of a decade of documents. Traditional converters ask you to upload all of that to a stranger's server; the bigger the batch, the more you have to lose. In-browser conversion keeps the privacy math constant: file one and file one-thousand are equally never transmitted. After converting, the image compressor tool can shrink the batch further if file size was the real problem.`
+      },
+      {
+        heading: 'Honest limits',
+        body: `There is no published file-count or size cap — the practical ceiling is your browser's memory. A few hundred ordinary photos are routine; thousands of huge files will eventually strain any tab, so split very large jobs. Batch covers one conversion pair per page (no "mixed folder into whatever each file needs" mode), and there is no video batch conversion of any kind.`
+      },
+      {
+        heading: 'A practical workflow',
+        body: `Sort one conversion pair into one folder first, spot-check a single representative file for quality and colors, then drop the batch and let the queue work — you can switch tabs. Download the ZIP and verify the count before deleting anything: "49 files in, 49 files out" is the whole quality check. Keep originals until you've opened a few outputs and confirmed they're right.`
+      }
+    ]
   }
 ];
