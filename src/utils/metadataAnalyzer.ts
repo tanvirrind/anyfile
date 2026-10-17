@@ -243,37 +243,9 @@ async function extractImageMetadata(file: File, ext: string): Promise<ImageMetad
   const slice = await file.slice(0, 65536).arrayBuffer();
   const bytes = new Uint8Array(slice);
 
-  // Check if sample or standard image
-  const isSampleHEIC = file.name.toLowerCase().includes('heic') || ext === 'HEIC';
-  const isSampleJPG = file.name.toLowerCase().includes('jpg') || file.name.toLowerCase().includes('jpeg') || ext === 'JPG' || ext === 'JPEG';
-
-  if (isSampleHEIC) {
-    return {
-      cameraMake: 'Apple',
-      cameraModel: 'iPhone 15 Pro Max',
-      serialNumber: 'DN6FP92KL012',
-      lensModel: 'iPhone 15 Pro Max back camera 6.86mm f/1.78',
-      focalLength: '24mm (35mm equivalent)',
-      aperture: 'f/1.78',
-      iso: 'ISO 80',
-      shutterSpeed: '1/120 sec',
-      exposureBias: '0 EV',
-      gpsLatitude: 37.774929,
-      gpsLongitude: -122.419416,
-      gpsAltitude: '18.4m',
-      gpsLocationName: 'San Francisco, CA, USA',
-      dateTaken: '2026-06-14 14:22:08 UTC',
-      resolution: '4032 x 3024',
-      width: 4032,
-      height: 3024,
-      megapixels: '12.2 MP',
-      colorSpace: 'Display P3',
-      colorProfile: 'Apple Wide Color Display P3',
-      bitDepth: '10-bit HEVC'
-    };
-  }
-
-  // Attempt EXIF ASCII search in binary buffer
+  // Honest EXIF ASCII search in binary buffer. We report ONLY what the file
+  // actually contains — never a synthetic profile. (A proper EXIF parser is
+  // planned for a later batch; fabricated camera/GPS data was removed.)
   let foundMake = '';
   let foundModel = '';
   let foundDateTime = '';
@@ -288,29 +260,18 @@ async function extractImageMetadata(file: File, ext: string): Promise<ImageMetad
   if (str.includes('EOS')) foundModel = 'Canon EOS R6';
   if (str.includes('Pixel')) foundMake = 'Google';
 
-  // Default synthetic high-fidelity EXIF if no raw ASCII matched
+  // A YYYY:MM:DD HH:MM:SS timestamp is the most common EXIF date marker.
+  const dateMatch = str.match(/(20\d{2}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
+  if (dateMatch) {
+    foundDateTime = `${dateMatch[1]}-${dateMatch[2]}-${dateMatch[3]} ${dateMatch[4]}:${dateMatch[5]}:${dateMatch[6]} UTC`;
+  }
+
+  void ext;
+
   return {
-    cameraMake: foundMake || (ext === 'WEBP' ? 'Google Pixel' : 'Sony'),
-    cameraModel: foundModel || (ext === 'WEBP' ? 'Pixel 8 Pro' : 'Alpha 7 IV'),
-    serialNumber: ext === 'PNG' ? undefined : 'S749204128',
-    lensModel: 'FE 24-70mm F2.8 GM II',
-    focalLength: '35mm',
-    aperture: 'f/2.8',
-    iso: 'ISO 100',
-    shutterSpeed: '1/250 sec',
-    exposureBias: '0 EV',
-    gpsLatitude: ext === 'JPG' || ext === 'JPEG' ? 34.052235 : undefined,
-    gpsLongitude: ext === 'JPG' || ext === 'JPEG' ? -118.243683 : undefined,
-    gpsAltitude: ext === 'JPG' || ext === 'JPEG' ? '71.2m' : undefined,
-    gpsLocationName: ext === 'JPG' || ext === 'JPEG' ? 'Los Angeles, CA, USA' : undefined,
-    dateTaken: new Date(file.lastModified || Date.now() - 86400000).toISOString().replace('T', ' ').substring(0, 19) + ' UTC',
-    resolution: '3840 x 2160',
-    width: 3840,
-    height: 2160,
-    megapixels: '8.3 MP',
-    colorSpace: 'sRGB',
-    colorProfile: 'sRGB IEC61966-2.1',
-    bitDepth: '24-bit RGB'
+    cameraMake: foundMake || undefined,
+    cameraModel: foundModel || undefined,
+    dateTaken: foundDateTime || undefined,
   };
 }
 

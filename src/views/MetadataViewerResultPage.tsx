@@ -49,64 +49,9 @@ export const MetadataViewerResultPage: React.FC<MetadataViewerResultPageProps> =
     if (loaded) {
       setReport(loaded);
     } else {
-      // Fallback synthetic report if direct link or refresh
-      setReport({
-        id: reportId,
-        filename: 'camera_photo_gps.jpg',
-        extension: 'JPG',
-        fileSize: 4210500,
-        formattedSize: '4.21 MB',
-        mimeType: 'image/jpeg',
-        category: 'Image',
-        analyzedAt: new Date().toISOString(),
-        imageMeta: {
-          cameraMake: 'Apple',
-          cameraModel: 'iPhone 15 Pro Max',
-          serialNumber: 'DN6FP92KL012',
-          lensModel: 'iPhone 15 Pro Max back camera 6.86mm f/1.78',
-          focalLength: '24mm (35mm equiv)',
-          aperture: 'f/1.78',
-          iso: 'ISO 80',
-          shutterSpeed: '1/120 sec',
-          exposureBias: '0 EV',
-          gpsLatitude: 37.774929,
-          gpsLongitude: -122.419416,
-          gpsAltitude: '18.4m',
-          gpsLocationName: 'San Francisco, CA, USA',
-          dateTaken: '2026-06-14 14:22:08 UTC',
-          resolution: '4032 x 3024',
-          megapixels: '12.2 MP',
-          colorSpace: 'Display P3',
-          colorProfile: 'Apple Wide Color Display P3',
-          bitDepth: '24-bit RGB'
-        },
-        privacyRiskLevel: 'High',
-        privacyRisks: [
-          {
-            type: 'danger',
-            title: 'Embedded Precise GPS Geolocation',
-            description: 'This photo contains exact latitude (37.7749° N) and longitude (-122.4194° W) coordinates. Anyone with access to this file can pinpoint where the photo was shot.'
-          },
-          {
-            type: 'warning',
-            title: 'Hardware Serial Number Trackable',
-            description: 'Unique camera serial number "DN6FP92KL012" is embedded in EXIF tags.'
-          }
-        ],
-        recommendations: [
-          'Scrub EXIF GPS coordinates before publishing photos online.',
-          'Remove device serial numbers to prevent hardware tracking.',
-          'Use AnyFileX Remove Metadata tool to strip EXIF data.'
-        ],
-        rawKeyValuePairs: [
-          { key: 'Camera Make', value: 'Apple', category: 'Camera' },
-          { key: 'Camera Model', value: 'iPhone 15 Pro Max', category: 'Camera' },
-          { key: 'GPS Latitude', value: '37.774929° N', category: 'Location' },
-          { key: 'GPS Longitude', value: '-122.419416° W', category: 'Location' },
-          { key: 'Date Taken', value: '2026-06-14 14:22:08 UTC', category: 'Time' },
-          { key: 'Resolution', value: '4032 x 3024 (12.2 MP)', category: 'Image' }
-        ]
-      });
+      // No report in session storage (direct link or refresh). Do NOT invent
+      // a synthetic report — send the user back to the tool to analyze a file.
+      onNavigate({ view: 'metadata-viewer' });
     }
   }, [reportId]);
 
