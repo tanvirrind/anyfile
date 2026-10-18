@@ -2,6 +2,8 @@ import React from 'react';
 import { FileCode, ExternalLink } from 'lucide-react';
 import type { AppRoute } from '../../../types';
 import type { FileAnalysis } from '../../../lib/analyzer/types';
+import { SmartLink, DeadLink } from '../../SmartLink';
+import { isValidCatalogExtension } from '../../../lib/routes/routeManifest';
 
 interface WhatIsItSectionProps {
   analysis: FileAnalysis;
@@ -47,13 +49,20 @@ export const WhatIsItSection: React.FC<WhatIsItSectionProps> = ({ analysis, onNa
       </div>
 
       {detectedExt && detectedExt !== 'unknown' && (
-        <button
-          onClick={() => onNavigate({ view: 'extension-detail', ext: detectedExt })}
+        isValidCatalogExtension(detectedExt) ? (
+        <SmartLink
+          route={{ view: 'extension-detail', ext: detectedExt }}
           className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1.5 cursor-pointer"
-        >
-          <span>View the full .{detectedExt.toUpperCase()} format guide</span>
+        >          <span>View the full .{detectedExt.toUpperCase()} format guide</span>
           <ExternalLink className="w-4 h-4" />
-        </button>
+        </SmartLink>
+        ) : (
+        <DeadLink
+          className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1.5 cursor-pointer"
+        >          <span>View the full .{detectedExt.toUpperCase()} format guide</span>
+          <ExternalLink className="w-4 h-4" />
+        </DeadLink>
+        )
       )}
     </section>
   );

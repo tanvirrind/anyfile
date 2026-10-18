@@ -40,6 +40,8 @@ import { OfficeRecoveryWorkspace } from '../components/tools/OfficeRecoveryWorks
 import { ThreeMfPreflightWorkspace } from '../components/tools/ThreeMfPreflightWorkspace';
 import { FileDownloaderWorkspace } from '../components/tools/FileDownloaderWorkspace';
 import { getFormatKnowledgeNode } from '../lib/database/knowledgeGraph';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidCatalogExtension, isValidComparisonSlug } from '../lib/routes/routeManifest';
 
 export interface ToolDetailPageProps {
   toolSlug: string;
@@ -183,13 +185,13 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
                 Inspect binary headers, verify MIME types, detect malware disguises, and examine entropy locally in browser RAM.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate({ view: 'file-identifier' })}
+            <SmartLink
+              route={{view: 'file-identifier'}}
               className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
             >
               <span>Launch Full File Analyzer</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </SmartLink>
           </div>
         ) : toolSlug === 'metadata-viewer' ? (
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
@@ -202,13 +204,13 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
                 Read camera tags, GPS coordinates, author history, and embedded color profiles without uploading files.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate({ view: 'metadata-viewer' })}
+            <SmartLink
+              route={{view: 'metadata-viewer'}}
               className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
             >
               <span>Open Metadata Viewer</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </SmartLink>
           </div>
         ) : toolSlug === 'remove-metadata' ? (
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
@@ -221,13 +223,13 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
                 Strip GPS coordinates, device serial numbers, and author tags from images and documents locally in browser RAM.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate({ view: 'remove-metadata' })}
+            <SmartLink
+              route={{view: 'remove-metadata'}}
               className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
             >
               <span>Launch Metadata Scrubber</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </SmartLink>
           </div>
         ) : toolSlug === 'hash-generator' ? (
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
@@ -240,13 +242,13 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
                 Generate SHA-256, SHA-512, SHA-384, SHA-1, MD5, and CRC-32 checksums locally with the Web Crypto API.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate({ view: 'hash-generator' })}
+            <SmartLink
+              route={{view: 'hash-generator'}}
               className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
             >
               <span>Launch Hash Generator</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </SmartLink>
           </div>
         ) : toolSlug === 'checksum-verifier' ? (
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
@@ -259,13 +261,13 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
                 Compare ISO and software installer checksums against publisher signatures to detect file tampering and corruption.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate({ view: 'checksum-verifier' })}
+            <SmartLink
+              route={{view: 'checksum-verifier'}}
               className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
             >
               <span>Launch Checksum Verifier</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </SmartLink>
           </div>
         ) : toolSlug === 'pdf-preflight' ? (
           <PdfPreflightWorkspace />
@@ -286,13 +288,13 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
                 Detect file spoofing and inspect raw binary hex headers to uncover disguised executables and scripts.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate({ view: 'magic-byte-detector' })}
+            <SmartLink
+              route={{view: 'magic-byte-detector'}}
               className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
             >
               <span>Launch Magic Byte Detector</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </SmartLink>
           </div>
         ) : toolSlug === 'mime-checker' ? (
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
@@ -305,13 +307,13 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
                 Query standard IANA Content-Types, HTTP headers, and MIME mappings for over 500+ file extensions.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate({ view: 'mime-checker' })}
+            <SmartLink
+              route={{view: 'mime-checker'}}
               className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
             >
               <span>Launch MIME Checker</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </SmartLink>
           </div>
         ) : converterPair ? (
           <div className="space-y-6">
@@ -327,13 +329,13 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
               This utility processes files locally inside your browser memory.
             </p>
             {primaryExt && primaryExt !== '*' && (
-              <button
-                onClick={() => onNavigate({ view: 'file-analyzer' })}
+              <SmartLink
+                route={{view: 'file-analyzer'}}
                 className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-all shadow-xs inline-flex items-center gap-2 cursor-pointer"
               >
                 <span>Launch File Intelligence Engine</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </SmartLink>
             )}
           </div>
         )}
@@ -353,13 +355,13 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
               </h3>
             </div>
 
-            <button
-              onClick={() => onNavigate({ view: 'file-analyzer' })}
+            <SmartLink
+              route={{view: 'file-analyzer'}}
               className="px-3.5 py-1.5 bg-blue-600/80 hover:bg-blue-600 text-white font-bold text-xs rounded-xl border border-blue-400/30 transition-all flex items-center gap-1.5 cursor-pointer"
             >
               <Zap className="w-3.5 h-3.5 text-amber-400" />
               <span>Inspect with File Analyzer</span>
-            </button>
+            </SmartLink>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -370,13 +372,22 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {tool.supportedInputFormats.map((ext) => (
-                  <button
-                    key={ext}
-                    onClick={() => ext !== '*' && onNavigate({ view: 'extension-detail', ext: ext.toLowerCase() })}
-                    className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-white/10 hover:bg-blue-600/60 text-blue-200 border border-white/10 transition-colors cursor-pointer"
-                  >
-                    .{ext.toUpperCase()}
-                  </button>
+                  ext !== '*' && isValidCatalogExtension(ext) ? (
+                    <SmartLink
+                      key={ext}
+                      route={{ view: 'extension-detail', ext: ext.toLowerCase() }}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-white/10 hover:bg-blue-600/60 text-blue-200 border border-white/10 transition-colors cursor-pointer"
+                    >
+                      .{ext.toUpperCase()}
+                    </SmartLink>
+                  ) : (
+                    <DeadLink
+                      key={ext}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-white/10 text-blue-200/60 border border-white/10"
+                    >
+                      .{ext.toUpperCase()}
+                    </DeadLink>
+                  )
                 ))}
               </div>
             </div>
@@ -388,13 +399,22 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
               </span>
               <div className="flex flex-wrap gap-1.5">
                 {tool.supportedOutputFormats.map((ext) => (
-                  <button
-                    key={ext}
-                    onClick={() => ext !== '*' && onNavigate({ view: 'extension-detail', ext: ext.toLowerCase() })}
-                    className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-white/10 hover:bg-emerald-600/60 text-emerald-200 border border-white/10 transition-colors cursor-pointer"
-                  >
-                    .{ext.toUpperCase()}
-                  </button>
+                  ext !== '*' && isValidCatalogExtension(ext) ? (
+                    <SmartLink
+                      key={ext}
+                      route={{ view: 'extension-detail', ext: ext.toLowerCase() }}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-white/10 hover:bg-emerald-600/60 text-emerald-200 border border-white/10 transition-colors cursor-pointer"
+                    >
+                      .{ext.toUpperCase()}
+                    </SmartLink>
+                  ) : (
+                    <DeadLink
+                      key={ext}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-white/10 text-emerald-200/60 border border-white/10"
+                    >
+                      .{ext.toUpperCase()}
+                    </DeadLink>
+                  )
                 ))}
               </div>
             </div>
@@ -407,35 +427,55 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
               <div className="space-y-1.5">
                 {tool.comparisonSlugs && tool.comparisonSlugs.length > 0 ? (
                   tool.comparisonSlugs.map((slug) => (
-                    <button
-                      key={slug}
-                      onClick={() => onNavigate({ view: 'comparison-detail', slug })}
-                      className="text-xs font-semibold text-slate-300 hover:text-blue-300 transition-colors flex items-center gap-1 cursor-pointer truncate"
-                    >
-                      <ArrowRight className="w-3 h-3 text-blue-400 shrink-0" />
-                      <span>Compare {slug.replace(/-/g, ' ').toUpperCase()}</span>
-                    </button>
+                    isValidComparisonSlug(slug) ? (
+                      <SmartLink
+                        key={slug}
+                        route={{ view: 'comparison-detail', slug }}
+                        className="text-xs font-semibold text-slate-300 hover:text-blue-300 transition-colors flex items-center gap-1 cursor-pointer truncate"
+                      >
+                        <ArrowRight className="w-3 h-3 text-blue-400 shrink-0" />
+                        <span>Compare {slug.replace(/-/g, ' ').toUpperCase()}</span>
+                      </SmartLink>
+                    ) : (
+                      <DeadLink
+                        key={slug}
+                        className="text-xs font-semibold text-slate-500 flex items-center gap-1 truncate"
+                      >
+                        <ArrowRight className="w-3 h-3 text-slate-600 shrink-0" />
+                        <span>Compare {slug.replace(/-/g, ' ').toUpperCase()}</span>
+                      </DeadLink>
+                    )
                   ))
                 ) : (
-                  <button
-                    onClick={() => onNavigate({ view: 'compare-hub' })}
+                  <SmartLink
+                    route={{view: 'compare-hub'}}
                     className="text-xs font-semibold text-slate-300 hover:text-blue-300 transition-colors flex items-center gap-1 cursor-pointer"
                   >
                     <ArrowRight className="w-3 h-3 text-blue-400" />
                     <span>Explore Format Comparisons</span>
-                  </button>
+                  </SmartLink>
                 )}
 
                 {tool.howToOpenSlugs && tool.howToOpenSlugs.length > 0 && (
                   tool.howToOpenSlugs.map((ext) => (
-                    <button
-                      key={ext}
-                      onClick={() => onNavigate({ view: 'how-to-open', ext })}
-                      className="text-xs font-semibold text-slate-300 hover:text-emerald-300 transition-colors flex items-center gap-1 cursor-pointer truncate"
-                    >
-                      <ArrowRight className="w-3 h-3 text-emerald-400 shrink-0" />
-                      <span>How to Open .{ext.toUpperCase()}</span>
-                    </button>
+                    isValidCatalogExtension(ext) ? (
+                      <SmartLink
+                        key={ext}
+                        route={{ view: 'how-to-open', ext }}
+                        className="text-xs font-semibold text-slate-300 hover:text-emerald-300 transition-colors flex items-center gap-1 cursor-pointer truncate"
+                      >
+                        <ArrowRight className="w-3 h-3 text-emerald-400 shrink-0" />
+                        <span>How to Open .{ext.toUpperCase()}</span>
+                      </SmartLink>
+                    ) : (
+                      <DeadLink
+                        key={ext}
+                        className="text-xs font-semibold text-slate-500 flex items-center gap-1 truncate"
+                      >
+                        <ArrowRight className="w-3 h-3 text-slate-600 shrink-0" />
+                        <span>How to Open .{ext.toUpperCase()}</span>
+                      </DeadLink>
+                    )
                   ))
                 )}
               </div>
@@ -534,20 +574,20 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
             <h2 className="text-xl font-bold text-slate-900 dark:text-white">
               Related File Utilities
             </h2>
-            <button
-              onClick={() => onNavigate({ view: 'tools' })}
+            <SmartLink
+              route={{view: 'tools'}}
               className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
             >
               <span>View All Tools</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </SmartLink>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedTools.map((relTool) => (
-              <div
+              <SmartLink
                 key={relTool.slug}
-                onClick={() => onNavigate({ view: 'tool-detail', slug: relTool.slug } as any)}
+                route={{ view: 'tool-detail', slug: relTool.slug } as any}
                 className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 rounded-3xl p-6 shadow-xs hover:shadow-xl transition-all duration-200 cursor-pointer space-y-4 group flex flex-col justify-between"
               >
                 <div className="space-y-2">
@@ -566,7 +606,7 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
                   <span>Open Tool</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
-              </div>
+              </SmartLink>
             ))}
           </div>
         </div>

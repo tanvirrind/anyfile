@@ -35,6 +35,8 @@ import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { ExtensionLiveViewer } from '../components/extension/ExtensionLiveViewer';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidSoftwareId, isValidConverterId, isValidComparisonSlug, isValidCatalogExtension } from '../lib/routes/routeManifest';
 import { getOrGenerateExtensionInfo } from '../lib/seo/extensionGenerator';
 
 interface HowToOpenPageProps {
@@ -87,21 +89,21 @@ export const HowToOpenPage: React.FC<HowToOpenPageProps> = ({ ext, onNavigate })
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => onNavigate({ view: 'format-guide', format: guide.extension })}
+            <SmartLink
+              route={{view: 'format-guide', format: guide.extension}}
               className="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/80 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-blue-600 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
             >
               <Compass className="w-3.5 h-3.5" />
               <span>What Is a {guide.upperExt} File?</span>
-            </button>
+            </SmartLink>
 
-            <button
-              onClick={() => onNavigate({ view: 'extension-detail', ext: guide.extension })}
+            <SmartLink
+              route={{view: 'extension-detail', ext: guide.extension}}
               className="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/80 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-blue-600 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
             >
               <FileText className="w-3.5 h-3.5" />
               <span>.{guide.upperExt} Specs</span>
-            </button>
+            </SmartLink>
           </div>
         </div>
 
@@ -311,20 +313,21 @@ export const HowToOpenPage: React.FC<HowToOpenPageProps> = ({ ext, onNavigate })
               Applications from the AnyFileX compatibility graph with verified ability to open, view, or edit .${guide.upperExt}.
             </p>
           </div>
-          <button
-            onClick={() => onNavigate({ view: 'software' })}
+          <SmartLink
+            route={{view: 'software'}}
             className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
           >
             <span>All Software</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          </SmartLink>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {guide.recommendedSoftware.map((soft) => (
-            <div
+            isValidSoftwareId(soft.routeId) ? (
+            <SmartLink
               key={soft.id}
-              onClick={() => onNavigate({ view: 'software-detail', id: soft.routeId })}
+              route={{ view: 'software-detail', id: soft.routeId }}
               className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/80 hover:border-blue-400 transition-all cursor-pointer group flex flex-col justify-between"
             >
               <div className="space-y-2.5">
@@ -354,7 +357,25 @@ export const HowToOpenPage: React.FC<HowToOpenPageProps> = ({ ext, onNavigate })
                 {soft.canEdit && <span className="px-2 py-0.5 rounded-md bg-purple-100 dark:bg-purple-900/50 text-[10px] font-bold text-purple-700 dark:text-purple-300">Edits</span>}
                 {soft.canConvert && <span className="px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-900/50 text-[10px] font-bold text-amber-700 dark:text-amber-300">Converts</span>}
               </div>
-            </div>
+            </SmartLink>
+            ) : (
+            <DeadLink
+              key={soft.id}
+              className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/80 group flex flex-col justify-between"
+            >
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-900 dark:text-white text-base">
+                    {soft.name}
+                  </span>
+                  <Badge variant={soft.priceType === 'Free' || soft.priceType === 'Open Source' ? 'emerald' : 'slate'}>
+                    {soft.priceText}
+                  </Badge>
+                </div>
+                <p className="text-xs text-slate-500 line-clamp-2">{soft.developer}</p>
+              </div>
+            </DeadLink>
+            )
           ))}
         </div>
       </section>
@@ -397,14 +418,14 @@ export const HowToOpenPage: React.FC<HowToOpenPageProps> = ({ ext, onNavigate })
               </div>
 
               {mode.toolAction && (
-                <button
-                  onClick={() => onNavigate(mode.toolAction!.route)}
+                                <SmartLink
+                  route={mode.toolAction!.route}
                   className="mt-2 w-full py-2.5 px-4 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/80 border border-slate-200 dark:border-slate-700 text-xs font-bold text-blue-600 dark:text-blue-400 transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                 >
                   <Wrench className="w-3.5 h-3.5" />
                   <span>{mode.toolAction.label}</span>
                   <ArrowRight className="w-3 h-3" />
-                </button>
+                </SmartLink>
               )}
             </div>
           ))}
@@ -440,13 +461,13 @@ export const HowToOpenPage: React.FC<HowToOpenPageProps> = ({ ext, onNavigate })
                 <p className="text-xs text-blue-100 leading-relaxed">{step.description}</p>
               </div>
 
-              <button
-                onClick={() => onNavigate(step.route)}
+                            <SmartLink
+                route={step.route}
                 className="w-full py-2.5 px-4 rounded-xl bg-white text-blue-700 hover:bg-blue-50 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
               >
                 <span>{step.actionText}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              </SmartLink>
             </div>
           ))}
         </div>
@@ -457,15 +478,25 @@ export const HowToOpenPage: React.FC<HowToOpenPageProps> = ({ ext, onNavigate })
             <span className="text-xs text-blue-200 font-medium block">Direct In-Browser Converters:</span>
             <div className="flex flex-wrap gap-2">
               {guide.conversionWorkflow.availableConverters.map((conv) => (
-                <button
+                isValidConverterId(conv.routeId) ? (
+                <SmartLink
                   key={conv.routeId}
-                  onClick={() => onNavigate({ view: 'converter-detail', id: conv.routeId })}
+                  route={{ view: 'converter-detail', id: conv.routeId }}
                   className="px-4 py-2 rounded-xl bg-white/15 hover:bg-white/25 border border-white/20 text-xs font-bold text-white transition-all inline-flex items-center gap-1.5 cursor-pointer"
                 >
                   <RefreshCw className="w-3 h-3" />
                   <span>{conv.label}</span>
                   <ArrowRight className="w-3 h-3" />
-                </button>
+                </SmartLink>
+                ) : (
+                <DeadLink
+                  key={conv.routeId}
+                  className="px-4 py-2 rounded-xl bg-white/15 border border-white/20 text-xs font-bold text-white/70 inline-flex items-center gap-1.5"
+                >
+                  <RefreshCw className="w-3 h-3" />
+                  <span>{conv.label}</span>
+                </DeadLink>
+                )
               ))}
             </div>
           </div>
@@ -480,18 +511,19 @@ export const HowToOpenPage: React.FC<HowToOpenPageProps> = ({ ext, onNavigate })
             <h3 className="text-xl font-bold text-slate-900 dark:text-white">
               Format Comparisons
             </h3>
-            <button
-              onClick={() => onNavigate({ view: 'compare-hub' })}
+            <SmartLink
+              route={{view: 'compare-hub'}}
               className="text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline cursor-pointer"
             >
               All Comparisons &rarr;
-            </button>
+            </SmartLink>
           </div>
           <div className="space-y-2">
             {guide.internalLinks.comparisons.map((comp) => (
-              <div
+              isValidComparisonSlug(comp.slug) ? (
+              <SmartLink
                 key={comp.slug}
-                onClick={() => onNavigate({ view: 'comparison-detail', slug: comp.slug })}
+                route={{ view: 'comparison-detail', slug: comp.slug }}
                 className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 hover:bg-blue-50 dark:hover:bg-blue-950/80 border border-slate-200 dark:border-slate-700/80 transition-all cursor-pointer flex items-center justify-between group"
               >
                 <div>
@@ -501,7 +533,20 @@ export const HowToOpenPage: React.FC<HowToOpenPageProps> = ({ ext, onNavigate })
                   <p className="text-[11px] text-slate-500 line-clamp-1">{comp.highlight}</p>
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-transform" />
-              </div>
+              </SmartLink>
+              ) : (
+              <DeadLink
+                key={comp.slug}
+                className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/80 flex items-center justify-between group"
+              >
+                <div>
+                  <span className="font-bold text-xs sm:text-sm text-slate-500">
+                    {comp.title}
+                  </span>
+                  <p className="text-[11px] text-slate-500 line-clamp-1">{comp.highlight}</p>
+                </div>
+              </DeadLink>
+              )
             ))}
           </div>
         </div>
@@ -512,18 +557,19 @@ export const HowToOpenPage: React.FC<HowToOpenPageProps> = ({ ext, onNavigate })
             <h3 className="text-xl font-bold text-slate-900 dark:text-white">
               Related {guide.category} Formats
             </h3>
-            <button
-              onClick={() => onNavigate({ view: 'extensions' })}
+            <SmartLink
+              route={{view: 'extensions'}}
               className="text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline cursor-pointer"
             >
               Browse All &rarr;
-            </button>
+            </SmartLink>
           </div>
           <div className="grid grid-cols-2 gap-2">
             {guide.internalLinks.relatedExtensions.map((rel) => (
-              <div
+              isValidCatalogExtension(rel.ext) ? (
+              <SmartLink
                 key={rel.ext}
-                onClick={() => onNavigate({ view: 'how-to-open', ext: rel.ext.toLowerCase() })}
+                route={{ view: 'how-to-open', ext: rel.ext.toLowerCase() }}
                 className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 hover:bg-blue-50 dark:hover:bg-blue-950/80 border border-slate-200 dark:border-slate-700/80 transition-all cursor-pointer group"
               >
                 <span className="font-mono font-bold text-xs text-blue-600 dark:text-blue-400 block">
@@ -532,7 +578,20 @@ export const HowToOpenPage: React.FC<HowToOpenPageProps> = ({ ext, onNavigate })
                 <span className="block text-xs font-semibold text-slate-800 dark:text-slate-200 truncate group-hover:text-blue-600">
                   How to Open {rel.name}
                 </span>
-              </div>
+              </SmartLink>
+              ) : (
+              <DeadLink
+                key={rel.ext}
+                className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/80 group"
+              >
+                <span className="font-mono font-bold text-xs text-slate-500 block">
+                  .{rel.ext}
+                </span>
+                <span className="block text-xs font-semibold text-slate-500 truncate">
+                  How to Open {rel.name}
+                </span>
+              </DeadLink>
+              )
             ))}
           </div>
         </div>

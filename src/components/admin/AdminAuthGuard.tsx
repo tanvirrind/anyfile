@@ -4,6 +4,7 @@ import React from 'react';
 import { ArrowLeft, ShieldAlert } from 'lucide-react';
 import { AppRoute } from '../../types';
 import { SEOHead } from '../SEOHead';
+import { SmartLink } from '../SmartLink';
 
 interface AdminAuthGuardProps {
   children: React.ReactNode;
@@ -33,14 +34,12 @@ export const AdminAuthGuard: React.FC<AdminAuthGuardProps> = ({ onNavigate }) =>
         The legacy admin credential has been removed. Administrative access will return
         when a supported authentication provider is configured.
       </p>
-      <button
-        type="button"
-        onClick={() => onNavigate({ view: 'home' })}
+      <SmartLink
+        route={{ view: 'home' }}
         className="mx-auto text-sm text-slate-300 hover:text-white transition-colors flex items-center gap-2"
-      >
-        <ArrowLeft className="w-4 h-4" />
+      >        <ArrowLeft className="w-4 h-4" />
         Return to AnyFileX
-      </button>
+      </SmartLink>
     </div>
   </div>
 );
