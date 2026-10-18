@@ -1730,6 +1730,135 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
     ],
     relatedToolSlugs: ['image-compressor', 'png-to-jpg', 'jpg-to-png'],
     relatedExtensionSlugs: ['png', 'jpg', 'webp', 'ico']
+  },
+
+  'image-resizer': {
+    slug: 'image-resizer',
+    name: 'Image Resizer — Resize Photos by Pixels, Percent, or Preset',
+    category: 'image',
+    categoryLabel: 'Image Tools',
+    tagline: 'Resize PNG, JPG, or WEBP images by exact pixels, percent, or preset sizes',
+    description: 'Shrink or enlarge images with aspect-ratio lock, format conversion, and quality control — all in your browser, never uploaded.',
+    processingType: 'local',
+    supportedInputFormats: ['png', 'jpg', 'jpeg', 'webp'],
+    supportedOutputFormats: ['png', 'jpg', 'webp'],
+    isPopular: true,
+    badge: 'New Resize Tool',
+    features: [
+      'Three modes: exact pixels, percent of original, or one-click presets',
+      'Aspect-ratio lock keeps proportions correct automatically',
+      'Convert format on export (PNG, JPG, WEBP) with quality control',
+      'Before/after dimensions and file size shown for every resize',
+      '100% client-side — your images are never uploaded'
+    ],
+    steps: [
+      { title: 'Drop an Image', desc: 'Select a PNG, JPG, or WEBP image up to 25 MB.' },
+      { title: 'Set New Dimensions', desc: 'Type exact pixels, drag the percent slider, or pick a preset like HD 1080p.' },
+      { title: 'Download', desc: 'Click Resize, check the actual output dimensions and size, then download.' }
+    ],
+    technicalDetails: 'Resizing draws the image to an HTML5 canvas at the target dimensions with high-quality smoothing, then re-encodes it with the browser canvas encoder. JPG and WEBP outputs accept a quality setting; PNG is lossless. Enlarging beyond the original resolution adds no detail — upscaling works best from high-resolution sources.',
+    faqs: [
+      {
+        question: 'How do I keep the aspect ratio correct?',
+        answer: 'Leave the lock icon on — when you type a width, the height is recomputed automatically (and vice versa), so the image never stretches.'
+      },
+      {
+        question: 'Does resizing reduce file size?',
+        answer: 'Usually yes — fewer pixels means less data, especially when you also convert to JPG or WEBP with a quality setting. The result panel shows the actual output size.'
+      },
+      {
+        question: 'Are my images uploaded anywhere?',
+        answer: 'No. Resizing happens entirely in your browser memory — your images never leave your device.'
+      }
+    ],
+    relatedToolSlugs: ['image-cropper', 'image-compressor', 'image-to-ico'],
+    relatedExtensionSlugs: ['png', 'jpg', 'webp']
+  },
+
+  'image-cropper': {
+    slug: 'image-cropper',
+    name: 'Image Cropper — Drag-to-Crop Any Photo',
+    category: 'image',
+    categoryLabel: 'Image Tools',
+    tagline: 'Drag a crop frame over any image and export the region at full resolution',
+    description: 'Free-form or aspect-locked cropping (1:1, 4:3, 3:2, 16:9) with a live preview and full-resolution export — in your browser, never uploaded.',
+    processingType: 'local',
+    supportedInputFormats: ['png', 'jpg', 'jpeg', 'webp'],
+    supportedOutputFormats: ['png', 'jpg', 'webp'],
+    isPopular: true,
+    badge: 'New Crop Tool',
+    features: [
+      'Drag and resize the crop frame directly on your image',
+      'Aspect presets: free, 1:1, 4:3, 3:2, 16:9',
+      'Live preview of the cropped region as you adjust',
+      'Exports at the image\'s full original resolution, not the preview size',
+      '100% client-side — your images are never uploaded'
+    ],
+    steps: [
+      { title: 'Drop an Image', desc: 'Select a PNG, JPG, or WEBP image up to 25 MB.' },
+      { title: 'Frame the Region', desc: 'Drag the frame to move it; drag any handle to resize. Pick an aspect ratio or stay free-form.' },
+      { title: 'Crop & Download', desc: 'Export the exact region at full resolution and download it as PNG, JPG, or WEBP.' }
+    ],
+    technicalDetails: 'The crop frame is drawn in source pixels, so the export renders the selected region from the original decoded image at full resolution — nothing is upscaled from the on-screen preview. JPG and WEBP exports accept a quality setting; PNG is lossless.',
+    faqs: [
+      {
+        question: 'Is the crop exported at full resolution?',
+        answer: 'Yes. The frame is measured in the image\'s own pixels, and the export draws that exact region — not the smaller on-screen preview.'
+      },
+      {
+        question: 'Can I crop to an exact size like 1080×1080?',
+        answer: 'Set the 1:1 aspect preset and drag the frame to cover the area you want. For pixel-exact output dimensions, use the Image Resizer after cropping.'
+      },
+      {
+        question: 'Are my images uploaded anywhere?',
+        answer: 'No. Cropping happens entirely in your browser — your images never leave your device.'
+      }
+    ],
+    relatedToolSlugs: ['image-resizer', 'image-compressor', 'image-to-ico'],
+    relatedExtensionSlugs: ['png', 'jpg', 'webp']
+  },
+
+  'image-to-text': {
+    slug: 'image-to-text',
+    name: 'Image to Text — OCR Text Extractor',
+    category: 'image',
+    categoryLabel: 'Image Tools',
+    tagline: 'Extract printed text from images with in-browser OCR (English)',
+    description: 'Read text out of PNG, JPG, or WEBP images using locally-hosted OCR — no uploads, no signup, editable result with copy and .txt download.',
+    processingType: 'local',
+    supportedInputFormats: ['png', 'jpg', 'jpeg', 'webp'],
+    supportedOutputFormats: ['txt'],
+    isPopular: true,
+    badge: 'New OCR Tool',
+    features: [
+      'True OCR: reads printed text from photos and screenshots',
+      'Tesseract engine runs entirely in your browser — no uploads',
+      'Real-time progress bar with recognition percentage',
+      'Editable result with copy-to-clipboard and .txt download',
+      'Recognition confidence shown with every result'
+    ],
+    steps: [
+      { title: 'Drop an Image', desc: 'Select a PNG, JPG, or WEBP image up to 25 MB. Clear, high-contrast printed text works best.' },
+      { title: 'Extract Text', desc: 'Click Extract Text. The OCR engine loads locally (first run only), then reads the page.' },
+      { title: 'Edit, Copy, Download', desc: 'Fix any misreads in the editable result, copy it, or download as .txt.' }
+    ],
+    technicalDetails: 'Recognition uses the Tesseract OCR engine (LSTM neural network) compiled to WebAssembly, running in a Web Worker in your browser. The worker script, the WASM core, and the English language data are all served from AnyFileX itself — no CDN is involved and nothing leaves your device. Language support is English only at launch; the library loads lazily, only when you start a job.',
+    faqs: [
+      {
+        question: 'Which languages are supported?',
+        answer: 'English only at launch. The page says so plainly because the bundled language data is English — other scripts will not be recognized reliably.'
+      },
+      {
+        question: 'How accurate is the OCR?',
+        answer: 'Very good on clear, high-contrast printed text (documents, receipts, screenshots). Handwriting, heavily stylized fonts, and low-resolution photos produce more errors — always proofread the result, which is why the text is editable.'
+      },
+      {
+        question: 'Is my image uploaded anywhere?',
+        answer: 'No. The OCR engine, the neural-network core, and the language data are all served from AnyFileX and run entirely in your browser. Your image never leaves your device.'
+      }
+    ],
+    relatedToolSlugs: ['pdf-to-text', 'file-identifier', 'image-compressor'],
+    relatedExtensionSlugs: ['png', 'jpg', 'webp', 'txt']
   }
 };
 
