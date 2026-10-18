@@ -25,6 +25,7 @@ import { Badge } from '../components/Badge';
 import { EmptyState } from '../components/EmptyState';
 import { SEOHead } from '../components/SEOHead';
 import { GoogleDocsDetailView, GOOGLE_DOCS_FAQS } from '../components/software/GoogleDocsDetailView';
+import { SmartLink, DeadLink } from '../components/SmartLink';
 
 interface SoftwarePageProps {
   onNavigate: (route: AppRoute) => void;
@@ -157,16 +158,16 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {SOFTWARE_LIST.filter((s) => s.id !== soft.id && s.category === soft.category).slice(0, 3).map((alt) => (
-                <div
+                <SmartLink
+                  route={{ view: 'software-detail', id: alt.id }}
                   key={alt.id}
-                  onClick={() => onNavigate({ view: 'software-detail', id: alt.id })}
                   className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 hover:bg-blue-50 dark:hover:bg-blue-950/40 border border-slate-200 dark:border-slate-700/80 transition-all cursor-pointer group space-y-1"
                 >
                   <span className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600">
                     {alt.name}
                   </span>
                   <p className="text-xs text-slate-500 line-clamp-2">{alt.description}</p>
-                </div>
+                </SmartLink>
               ))}
             </div>
           </div>
@@ -304,20 +305,20 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
                   </div>
 
                   <div className="flex items-center gap-2 pt-2 border-t border-slate-200/60 dark:border-slate-700/60 text-xs">
-                    <button
-                      onClick={() => onNavigate({ view: 'extension-detail', ext: cleanExt })}
+                    <SmartLink
+                      route={{view: 'extension-detail', ext: cleanExt}}
                       className="font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
                     >
                       <span>Format Specs</span>
                       <ArrowRight className="w-3 h-3" />
-                    </button>
+                    </SmartLink>
                     <span className="text-slate-300 dark:text-slate-600">&bull;</span>
-                    <button
-                      onClick={() => onNavigate({ view: 'how-to-open', ext: cleanExt })}
+                    <SmartLink
+                      route={{view: 'how-to-open', ext: cleanExt}}
                       className="font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
                     >
                       <span>How to Open</span>
-                    </button>
+                    </SmartLink>
                   </div>
                 </div>
               );
@@ -332,16 +333,16 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {SOFTWARE_LIST.filter((s) => s.id !== soft.id && s.category === soft.category).slice(0, 3).map((alt) => (
-              <div
+              <SmartLink
+                route={{ view: 'software-detail', id: alt.id }}
                 key={alt.id}
-                onClick={() => onNavigate({ view: 'software-detail', id: alt.id })}
                 className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 border border-slate-200 dark:border-slate-700/80 transition-all cursor-pointer group space-y-1"
               >
                 <span className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600">
                   {alt.name}
                 </span>
                 <p className="text-xs text-slate-500 line-clamp-2">{alt.description}</p>
-              </div>
+              </SmartLink>
             ))}
           </div>
         </div>
@@ -475,9 +476,9 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredSoftware.map((soft) => (
-            <div
+            <SmartLink
+              route={{ view: 'software-detail', id: soft.id }}
               key={soft.id}
-              onClick={() => onNavigate({ view: 'software-detail', id: soft.id })}
               className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-400 hover:shadow-xl transition-all cursor-pointer group space-y-4"
             >
               <div className="flex items-center justify-between">
@@ -517,7 +518,7 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
                   )}
                 </div>
               </div>
-            </div>
+            </SmartLink>
           ))}
         </div>
       </div>

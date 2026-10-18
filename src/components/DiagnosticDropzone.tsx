@@ -25,6 +25,7 @@ import {
   DEMO_DIAGNOSTIC_CASES
 } from '../lib/diagnostics/troubleshootingEngine';
 import { AppRoute } from '../types';
+import { SmartLink } from './SmartLink';
 
 interface DiagnosticDropzoneProps {
   onNavigate: (route: AppRoute) => void;
@@ -364,16 +365,15 @@ export const DiagnosticDropzone: React.FC<DiagnosticDropzoneProps> = ({
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {report.actions.map((act, idx) => (
-                  <button
+                  <SmartLink
+                    route={act.route as any}
                     key={idx}
-                    onClick={() => onNavigate(act.route as any)}
                     className={`p-3.5 rounded-xl text-left border transition-all group flex flex-col justify-between ${
                       act.primary
                         ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-600 shadow-sm'
                         : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600 text-slate-900 dark:text-slate-100'
                     }`}
-                  >
-                    <div>
+                  >                    <div>
                       <div className="font-semibold text-xs sm:text-sm flex items-center justify-between mb-1">
                         <span>{act.label}</span>
                         <ArrowRight className={`w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 ${
@@ -386,7 +386,7 @@ export const DiagnosticDropzone: React.FC<DiagnosticDropzoneProps> = ({
                         {act.description}
                       </p>
                     </div>
-                  </button>
+                  </SmartLink>
                 ))}
               </div>
             </div>

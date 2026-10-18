@@ -4,6 +4,7 @@ import { getStoredAnalysis } from '../lib/analyzer/fileAnalyzerService';
 import type { FileAnalysis } from '../lib/analyzer/types';
 import { AppRoute } from '../types';
 import { FileIntelligenceReport } from '../components/analyzer/report/FileIntelligenceReport';
+import { SmartLink } from '../components/SmartLink';
 
 interface FileIdentifierResultPageProps {
   reportId: string;
@@ -22,12 +23,11 @@ export const AnalysisNotFound: React.FC<{ onNavigate: (route: AppRoute) => void 
       Analysis reports live only in this browser session — if you refreshed the page or opened this
       link elsewhere, the report is gone. Your file was never uploaded anywhere.
     </p>
-    <button
-      onClick={() => onNavigate({ view: 'file-identifier' })}
+    <SmartLink
+      route={{ view: 'file-identifier' }}
       className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-colors cursor-pointer"
-    >
-      Analyze a File
-    </button>
+    >      Analyze a File
+    </SmartLink>
   </div>
 );
 

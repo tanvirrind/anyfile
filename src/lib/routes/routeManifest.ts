@@ -191,6 +191,15 @@ export function isValidConverterId(id: string): boolean {
 }
 
 /**
+ * Validates repair/troubleshooting guide ID against the registry
+ */
+export function isValidRepairId(id: string): boolean {
+  if (!id) return false;
+  const clean = id.trim().toLowerCase();
+  return TROUBLESHOOTING_GUIDES.some((g) => g.id.toLowerCase() === clean);
+}
+
+/**
  * Builds the complete, validated Route Manifest for the application.
  * All entries are verified against real catalog data with no hallucinated formats.
  */

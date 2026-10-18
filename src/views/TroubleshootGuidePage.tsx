@@ -28,6 +28,8 @@ import {
   TroubleshootingGuideItem
 } from '../lib/database/troubleshootingData';
 import { AppRoute } from '../types';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidCatalogExtension } from '../lib/routes/routeManifest';
 
 interface TroubleshootGuidePageProps {
   slug: string;
@@ -81,19 +83,19 @@ export const TroubleshootGuidePage: React.FC<TroubleshootGuidePageProps> = ({
       <div className="max-w-5xl mx-auto space-y-10">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-          <button
-            onClick={() => onNavigate({ view: 'home' })}
+          <SmartLink
+            route={{ view: 'home' }}
             className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
           >
             Home
-          </button>
+          </SmartLink>
           <ChevronRight className="w-3 h-3 text-slate-400" />
-          <button
-            onClick={() => onNavigate({ view: 'repair' })}
+          <SmartLink
+            route={{ view: 'repair' }}
             className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
           >
             Troubleshooting Hub
-          </button>
+          </SmartLink>
           <ChevronRight className="w-3 h-3 text-slate-400" />
           <span className="text-slate-900 dark:text-slate-100 font-medium truncate max-w-[200px] sm:max-w-none">
             {guide.title}
@@ -377,9 +379,9 @@ export const TroubleshootGuidePage: React.FC<TroubleshootGuidePageProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {guide.connectedTools.map((tool, idx) => (
-              <div
+              <SmartLink
+                route={tool.route as any}
                 key={idx}
-                onClick={() => onNavigate(tool.route as any)}
                 className={`p-5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between ${
                   tool.primary
                     ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
@@ -405,7 +407,7 @@ export const TroubleshootGuidePage: React.FC<TroubleshootGuidePageProps> = ({
                 }`}>
                   Launch Tool Now <ExternalLink className="w-3 h-3" />
                 </div>
-              </div>
+              </SmartLink>
             ))}
           </div>
         </section>
@@ -419,13 +421,22 @@ export const TroubleshootGuidePage: React.FC<TroubleshootGuidePageProps> = ({
             </h3>
             <div className="flex flex-wrap gap-2">
               {guide.relatedExtensions.map((ext) => (
-                <button
+                isValidCatalogExtension(ext) ? (
+                <SmartLink
                   key={ext}
-                  onClick={() => onNavigate({ view: 'extension-detail', ext })}
+                  route={{ view: 'extension-detail', ext }}
                   className="px-3 py-1.5 rounded-xl text-xs font-mono uppercase bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   .{ext} Specs
-                </button>
+                </SmartLink>
+                ) : (
+                <DeadLink
+                  key={ext}
+                  className="px-3 py-1.5 rounded-xl text-xs font-mono uppercase bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
+                >
+                  .{ext} Specs
+                </DeadLink>
+                )
               ))}
             </div>
           </div>
@@ -439,14 +450,14 @@ export const TroubleshootGuidePage: React.FC<TroubleshootGuidePageProps> = ({
               {guide.relatedGuideIds.map((relId) => {
                 const relGuide = getTroubleshootingGuide(relId);
                 return (
-                  <div
+                  <SmartLink
+                    route={{ view: 'repair-detail', id: relId }}
                     key={relId}
-                    onClick={() => onNavigate({ view: 'repair-detail', id: relId })}
                     className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-xs font-medium text-slate-800 dark:text-slate-200 flex items-center justify-between cursor-pointer group"
                   >
                     <span className="line-clamp-1">{relGuide.title}</span>
                     <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-colors shrink-0 ml-2" />
-                  </div>
+                  </SmartLink>
                 );
               })}
             </div>
