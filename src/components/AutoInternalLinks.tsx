@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
 import {
   RefreshCw,
   AppWindow,
@@ -23,6 +25,8 @@ import { CONVERTERS_LIST } from '../data/convertersData';
 import { REPAIR_GUIDES } from '../data/repairData';
 import { GUIDES_LIST, BLOG_POSTS } from '../data/guidesData';
 import { CATEGORIES_LIST } from '../data/categoriesData';
+import { isValidComparisonSlug } from '../lib/routes/routeManifest';
+import { routeToPath } from '../utils/router';
 import { AppRoute, FileTypeInfo } from '../types';
 
 interface AutoInternalLinksProps {
@@ -33,6 +37,13 @@ interface AutoInternalLinksProps {
 export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt, onNavigate }) => {
   const ext = currentExt.extension.toLowerCase();
   const extUpper = currentExt.extension.toUpperCase();
+  const locale = useLocale();
+  const localePrefix = locale === 'es' || locale === 'nl' ? `/${locale}` : '';
+  // Real crawlable links. next/link keeps client-side SPA navigation while
+  // emitting <a href> in SSR HTML, so crawlers (and Googlebot) see the
+  // internal link graph that onNavigate buttons hid.
+  const href = (route: AppRoute) => `${localePrefix}${routeToPath(route)}`;
+  void onNavigate;
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(0);
   const [recentlyViewed, setRecentlyViewed] = useState<string[]>([]);
 
@@ -79,14 +90,21 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
       r.category.toLowerCase().includes(currentExt.category.toLowerCase())
   ).slice(0, 4);
 
-  // 5. Relevant Format Comparisons
+  // 5. Relevant Format Comparisons — filtered against the curated slug
+  // registry so synthetic pairs (e.g. exe-vs-jpg) never become dead links,
+  // and deduped so a hardcoded entry can't repeat a dynamic one.
   const comparisons = [
     { slug: `${ext}-vs-jpg`, title: `.${extUpper} vs .JPG` },
     { slug: `${ext}-vs-pdf`, title: `.${extUpper} vs .PDF` },
     { slug: 'heic-vs-jpg', title: '.HEIC vs .JPG' },
     { slug: 'png-vs-webp', title: '.PNG vs .WEBP' },
     { slug: 'dwg-vs-dxf', title: '.DWG vs .DXF' },
-  ].slice(0, 4);
+  ]
+    .filter(
+      (comp, idx, arr) =>
+        arr.findIndex((c) => c.slug === comp.slug) === idx && isValidComparisonSlug(comp.slug)
+    )
+    .slice(0, 4);
 
   // 6. Popular Guides
   const popularGuides = [...GUIDES_LIST, ...BLOG_POSTS].slice(0, 4);
@@ -139,14 +157,14 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
             Explore related information about .{extUpper} files
           </h2>
         </div>
-        <button
-          onClick={() => onNavigate({ view: 'extensions' })}
+        <Link
+          href={href({ view: 'extensions' })}
           className="px-4 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-colors cursor-pointer flex items-center gap-1.5 shrink-0 self-start sm:self-auto"
           id="seo-browse-all-ext-btn"
         >
           <span>Browse 250+ Extensions</span>
           <ArrowRight className="w-3.5 h-3.5" />
-        </button>
+        </Link>
       </div>
 
       {/* Grid Block 1: Main Relationships (4 Columns) */}
@@ -160,14 +178,14 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
           <ul className="space-y-2">
             {relatedExtensions.map((f) => (
               <li key={f.extension}>
-                <button
-                  onClick={() => onNavigate({ view: 'extension-detail', ext: f.extension.toLowerCase() })}
+                <Link
+                  href={href({ view: 'extension-detail', ext: f.extension.toLowerCase() })}
                   className="w-full text-left p-2.5 rounded-xl bg-slate-800/80 hover:bg-violet-900/40 border border-slate-700/80 hover:border-violet-500 text-slate-200 hover:text-violet-300 font-medium transition-all flex items-center justify-between cursor-pointer group"
                 >
                   <span className="font-mono font-bold text-violet-300">.{f.extension}</span>
                   <span className="truncate text-slate-400 text-[11px] ml-1">{f.name}</span>
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-violet-400 group-hover:translate-x-0.5 transition-all shrink-0 ml-auto" />
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
@@ -182,13 +200,13 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
           <ul className="space-y-2">
             {relevantConverters.map((c) => (
               <li key={c.id}>
-                <button
-                  onClick={() => onNavigate({ view: 'converter-detail', id: c.id })}
+                <Link
+                  href={href({ view: 'converter-detail', id: c.id })}
                   className="w-full text-left p-2.5 rounded-xl bg-slate-800/80 hover:bg-blue-900/40 border border-slate-700/80 hover:border-blue-500 text-slate-200 hover:text-blue-300 font-medium transition-all flex items-center justify-between cursor-pointer group"
                 >
                   <span className="truncate">{c.name}</span>
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-400 group-hover:translate-x-0.5 transition-all shrink-0" />
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
@@ -203,13 +221,13 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
           <ul className="space-y-2">
             {relevantSoftware.map((s) => (
               <li key={s.id}>
-                <button
-                  onClick={() => onNavigate({ view: 'software-detail', id: s.id })}
+                <Link
+                  href={href({ view: 'software-detail', id: s.id })}
                   className="w-full text-left p-2.5 rounded-xl bg-slate-800/80 hover:bg-emerald-900/40 border border-slate-700/80 hover:border-emerald-500 text-slate-200 hover:text-emerald-300 font-medium transition-all flex items-center justify-between cursor-pointer group"
                 >
                   <span className="truncate">{s.name}</span>
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all shrink-0" />
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
@@ -224,24 +242,24 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
           <ul className="space-y-2">
             {relevantRepairGuides.map((r) => (
               <li key={r.id}>
-                <button
-                  onClick={() => onNavigate({ view: 'repair-detail', id: r.id })}
+                <Link
+                  href={href({ view: 'repair-detail', id: r.id })}
                   className="w-full text-left p-2.5 rounded-xl bg-slate-800/80 hover:bg-amber-900/40 border border-slate-700/80 hover:border-amber-500 text-slate-200 hover:text-amber-300 font-medium transition-all flex items-center justify-between cursor-pointer group"
                 >
                   <span className="truncate">{r.title}</span>
                   <Wrench className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-400 shrink-0" />
-                </button>
+                </Link>
               </li>
             ))}
             {comparisons.map((comp) => (
               <li key={comp.slug}>
-                <button
-                  onClick={() => onNavigate({ view: 'comparison-detail', slug: comp.slug })}
+                <Link
+                  href={href({ view: 'comparison-detail', slug: comp.slug })}
                   className="w-full text-left p-2.5 rounded-xl bg-slate-800/80 hover:bg-amber-900/40 border border-slate-700/80 hover:border-amber-500 text-slate-200 hover:text-amber-300 font-medium transition-all flex items-center justify-between cursor-pointer group"
                 >
                   <span className="truncate">{comp.title}</span>
                   <GitCompare className="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-400 shrink-0" />
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
@@ -258,9 +276,9 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {popularGuides.map((guide) => (
-              <button
+              <Link
                 key={guide.id}
-                onClick={() => onNavigate({ view: 'blog-detail', id: guide.id })}
+                href={href({ view: 'blog-detail', id: guide.id })}
                 className="p-3 rounded-xl bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 text-left transition-all cursor-pointer group space-y-1"
               >
                 <div className="font-bold text-slate-200 group-hover:text-sky-300 transition-colors line-clamp-1">
@@ -269,7 +287,7 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
                 <p className="text-[11px] text-slate-400 line-clamp-2">
                   {'summary' in guide ? guide.summary : 'Read in-depth troubleshooting and conversion instructions.'}
                 </p>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
@@ -282,14 +300,14 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
           </h3>
           <div className="flex flex-wrap gap-2">
             {categoryPages.map((cat) => (
-              <button
+              <Link
                 key={cat.id}
-                onClick={() => onNavigate({ view: 'extensions' })}
+                href={href({ view: 'extensions' })}
                 className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-cyan-950/80 border border-slate-700 hover:border-cyan-500 text-slate-300 hover:text-cyan-300 font-semibold transition-all cursor-pointer text-[11px] flex items-center gap-1.5"
               >
                 <span>{cat.name}</span>
                 <span className="text-[10px] text-slate-500">({cat.popularExtensions.length})</span>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
@@ -314,7 +332,7 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
                   className="w-full text-left p-3 font-semibold text-slate-200 hover:text-rose-300 flex items-center justify-between cursor-pointer"
                 >
                   <span>{qa.q}</span>
-                  {openFaqIdx === idx ? <ChevronUp className="w-4 h-4 text-rose-400 shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />}
+                  {openFaqIdx === idx ? <ChevronUp className="w-4 h-4 text-rose-400 shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" /> }
                 </button>
                 {openFaqIdx === idx && (
                   <div className="px-3 pb-3 pt-1 text-[11px] text-slate-400 border-t border-slate-700/50 leading-relaxed">
@@ -338,13 +356,13 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
           {recentlyViewed.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {recentlyViewed.map((rExt) => (
-                <button
+                <Link
                   key={rExt}
-                  onClick={() => onNavigate({ view: 'extension-detail', ext: rExt.toLowerCase() })}
+                  href={href({ view: 'extension-detail', ext: rExt.toLowerCase() })}
                   className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-amber-950/80 border border-slate-700 hover:border-amber-500 text-amber-300 font-mono font-bold transition-all cursor-pointer text-xs flex items-center gap-1"
                 >
                   <span>.{rExt}</span>
-                </button>
+                </Link>
               ))}
             </div>
           ) : (
@@ -362,9 +380,9 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {popularDownloads.map((dl) => (
-              <button
+              <Link
                 key={dl.id}
-                onClick={() => onNavigate({ view: 'software-detail', id: dl.id })}
+                href={href({ view: 'software-detail', id: dl.id })}
                 className="p-2.5 rounded-xl bg-slate-800/80 hover:bg-emerald-950/60 border border-slate-700 hover:border-emerald-500 text-left transition-all cursor-pointer group flex items-center justify-between"
               >
                 <div>
@@ -374,7 +392,7 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
                   <span className="text-[10px] text-slate-400">{dl.os} • {dl.ext}</span>
                 </div>
                 <Download className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-400 shrink-0" />
-              </button>
+              </Link>
             ))}
           </div>
         </div>

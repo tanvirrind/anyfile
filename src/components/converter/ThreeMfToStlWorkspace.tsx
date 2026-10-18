@@ -18,6 +18,8 @@ import { parse3mf, convert3mfToStl, ThreeMfPackageInfo, ThreeMfConversionResult 
 import { getSample3mfBuffer } from '../../lib/3d/sampleMesh';
 import { ThreeDViewer } from '../3d/ThreeDViewer';
 import { AppRoute } from '../../types';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidToolSlug, isValidComparisonSlug } from '../../lib/routes/routeManifest';
 
 interface ThreeMfToStlWorkspaceProps {
   onNavigate?: (route: AppRoute) => void;
@@ -346,34 +348,62 @@ export const ThreeMfToStlWorkspace: React.FC<ThreeMfToStlWorkspaceProps> = ({ on
           {/* Quick Actions Footer */}
           <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-500">
             <span>Related 3D Workflows:</span>
-            <button
-              onClick={() => onNavigate?.({ view: 'tool-detail', slug: 'stl-viewer' })}
+            isValidToolSlug('stl-viewer') ? (
+            <SmartLink
+              route={{ view: 'tool-detail', slug: 'stl-viewer' }}
               className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <span>STL Viewer & Dimensions</span>
+            >              <span>STL Viewer & Dimensions</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
-            <button
-              onClick={() => onNavigate?.({ view: 'tool-detail', slug: '3mf-viewer' })}
+            </SmartLink>
+            ) : (
+            <DeadLink
               className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <span>3MF Package Inspector</span>
+            >              <span>STL Viewer & Dimensions</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
-            <button
-              onClick={() => onNavigate?.({ view: 'tool-detail', slug: 'stl-repair' })}
+            </DeadLink>
+            )
+            isValidToolSlug('3mf-viewer') ? (
+            <SmartLink
+              route={{ view: 'tool-detail', slug: '3mf-viewer' }}
               className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <span>Repair STL Mesh</span>
+            >              <span>3MF Package Inspector</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
-            <button
-              onClick={() => onNavigate?.({ view: 'comparison-detail', slug: '3mf-vs-stl' })}
+            </SmartLink>
+            ) : (
+            <DeadLink
               className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <span>3MF vs STL Comparison</span>
+            >              <span>3MF Package Inspector</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
+            </DeadLink>
+            )
+            isValidToolSlug('stl-repair') ? (
+            <SmartLink
+              route={{ view: 'tool-detail', slug: 'stl-repair' }}
+              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+            >              <span>Repair STL Mesh</span>
+              <ExternalLink className="w-3 h-3" />
+            </SmartLink>
+            ) : (
+            <DeadLink
+              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+            >              <span>Repair STL Mesh</span>
+              <ExternalLink className="w-3 h-3" />
+            </DeadLink>
+            )
+            isValidComparisonSlug('3mf-vs-stl') ? (
+            <SmartLink
+              route={{ view: 'comparison-detail', slug: '3mf-vs-stl' }}
+              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+            >              <span>3MF vs STL Comparison</span>
+              <ExternalLink className="w-3 h-3" />
+            </SmartLink>
+            ) : (
+            <DeadLink
+              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+            >              <span>3MF vs STL Comparison</span>
+              <ExternalLink className="w-3 h-3" />
+            </DeadLink>
+            )
           </div>
         </div>
       )}

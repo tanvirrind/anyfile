@@ -25,6 +25,7 @@ import { Badge } from '../components/Badge';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
 import { lookupMimeByInput, MimeRecord } from '../data/expandedMimeDatabase';
+import { SmartLink } from '../components/SmartLink';
 
 interface MimeCheckerPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -382,18 +383,16 @@ export const MimeCheckerPage: React.FC<MimeCheckerPageProps> = ({
                 View dedicated MIME specification page for {currentResult.mimeType}.
               </p>
             </div>
-            <button
-              onClick={() =>
-                onNavigate({
-                  view: 'mime-detail',
-                  mimeSlug: `${currentResult.mimeType.replace('/', '-')}`
-                })
-              }
+            <SmartLink
+              route={{
+                view: 'mime-detail',
+                mimeSlug: `${currentResult.mimeType.replace('/', '-')}`
+              }}
               className="px-4 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-bold text-xs sm:text-sm shrink-0 flex items-center gap-2 transition-colors cursor-pointer"
             >
               <span>View MIME Specification</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </SmartLink>
           </div>
         </div>
       )}
