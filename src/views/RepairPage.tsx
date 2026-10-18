@@ -7,6 +7,7 @@ import { FAQAccordion } from '../components/FAQAccordion';
 import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
 import { generateFAQSchema } from '../lib/seo/faqGenerator';
+import { SmartLink } from '../components/SmartLink';
 
 interface RepairPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -140,11 +141,10 @@ export const RepairPage: React.FC<RepairPageProps> = ({ onNavigate, selectedRepa
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {REPAIR_GUIDES.map((guide) => (
-          <div
+          <SmartLink
+            route={{ view: 'repair-detail', id: guide.id }}
             key={guide.id}
-            onClick={() => onNavigate({ view: 'repair-detail', id: guide.id })}
             className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:-translate-y-1"
-            id={`repair-card-${guide.id}`}
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -168,7 +168,7 @@ export const RepairPage: React.FC<RepairPageProps> = ({ onNavigate, selectedRepa
               <span>View Repair Guide</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
         ))}
       </div>
     </div>

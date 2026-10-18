@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
 import {
   Monitor,
   Laptop,
@@ -12,17 +14,22 @@ import {
   ShieldCheck,
   Download
 } from 'lucide-react';
-import { FileTypeInfo } from '../../types';
+import { AppRoute, FileTypeInfo } from '../../types';
+import { routeToPath } from '../../utils/router';
 
 interface ExtensionHowToOpenSectionProps {
   item: FileTypeInfo;
-  onNavigate: (route: any) => void;
+  onNavigate: (route: AppRoute) => void;
 }
 
 export const ExtensionHowToOpenSection: React.FC<ExtensionHowToOpenSectionProps> = ({
   item,
   onNavigate,
 }) => {
+  void onNavigate; // retained for prop-contract compatibility; navigation now uses real links
+  const locale = useLocale();
+  const localePrefix = locale === 'es' || locale === 'nl' ? `/${locale}` : '';
+  const href = (route: AppRoute) => `${localePrefix}${routeToPath(route)}`;
   const [selectedOS, setSelectedOS] = useState<'windows' | 'mac' | 'linux' | 'android' | 'ios' | 'browser'>('windows');
 
   // osSupport is optional on FileTypeInfo; a missing value means "not supported".
@@ -220,13 +227,13 @@ export const ExtensionHowToOpenSection: React.FC<ExtensionHowToOpenSectionProps>
           </p>
         </div>
 
-        <button
-          onClick={() => onNavigate({ view: 'tools', toolId: 'identifier' })}
+        <Link
+          href={href({ view: 'tools', toolId: 'identifier' })}
           className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs shrink-0"
         >
           <span>Open File Online</span>
           <ChevronRight className="w-4 h-4" />
-        </button>
+        </Link>
       </div>
     </div>
   );

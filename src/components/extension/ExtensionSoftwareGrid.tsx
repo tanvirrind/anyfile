@@ -1,4 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
 import {
   Download,
   Star,
@@ -9,6 +11,8 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { SoftwareApp, AppRoute } from '../../types';
+import { routeToPath } from '../../utils/router';
+import { isValidSoftwareId } from '../../lib/routes/routeManifest';
 import {
   getOpenersByOS,
   OPENER_OS_ORDER,
@@ -37,10 +41,11 @@ const AppCard: React.FC<{
   app: CardApp;
   idx: number;
   extensionName: string;
-  onNavigate: (route: AppRoute) => void;
-}> = ({ app, idx, extensionName, onNavigate }) => {
+  /** Crawlable link to the software detail page, or null when the slug does
+   *  not resolve to a real catalog page (never emit a 404 target). */
+  detailHref: string | null;
+}> = ({ app, idx, extensionName, detailHref }) => {
   const rating = (4.7 + (idx * 0.1) % 0.3).toFixed(1);
-  const slug = app.slug || app.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
 
   return (
     <div
@@ -93,13 +98,20 @@ const AppCard: React.FC<{
           <span>Compatible with .{extensionName}</span>
         </span>
 
-        <button
-          onClick={() => onNavigate({ view: 'software-detail', id: slug })}
-          className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-600 hover:text-white border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer transition-colors"
-        >
-          <span>App Details</span>
-          <ExternalLink className="w-3.5 h-3.5" />
-        </button>
+        {detailHref ? (
+          <Link
+            href={detailHref}
+            className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-600 hover:text-white border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer transition-colors"
+          >
+            <span>App Details</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </Link>
+        ) : (
+          <span className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-400 dark:text-slate-500 flex items-center gap-1.5 cursor-default">
+            <span>App Details</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </span>
+        )}
       </div>
     </div>
   );
@@ -111,6 +123,15 @@ export const ExtensionSoftwareGrid: React.FC<ExtensionSoftwareGridProps> = ({
   extension,
   onNavigate,
 }) => {
+  void onNavigate; // retained for prop-contract compatibility; navigation now uses real links
+  const locale = useLocale();
+  const localePrefix = locale === 'es' || locale === 'nl' ? `/${locale}` : '';
+  const href = (route: AppRoute) => `${localePrefix}${routeToPath(route)}`;
+  // Resolve each app's detail slug against the software catalog. Slugs that
+  // do not correspond to a real page get no link (see AppCard) instead of
+  // emitting a target that 404s.
+  const detailHrefFor = (slug: string): string | null =>
+    isValidSoftwareId(slug) ? href({ view: 'software-detail', id: slug }) : null;
   // OS-grouped openers from the software catalog (only used when the
   // `extension` prop is provided and at least two OS groups are non-empty).
   const grouped = useMemo(
@@ -209,26 +230,30 @@ export const ExtensionSoftwareGrid: React.FC<ExtensionSoftwareGridProps> = ({
                 app={app}
                 idx={idx}
                 extensionName={extensionName}
-                onNavigate={onNavigate}
+                detailHref={detailHrefFor(app.slug)}
               />
             ))}
           </React.Fragment>
         ) : (
-          apps.map((app, idx) => (
-            <AppCard
-              key={app.name}
-              app={{
-                name: app.name,
-                os: app.os,
-                isFree: app.isFree,
-                developer: app.developer,
-                slug: app.slug || '',
-              }}
-              idx={idx}
-              extensionName={extensionName}
-              onNavigate={onNavigate}
-            />
-          ))
+          apps.map((app, idx) => {
+            const slug =
+              app.slug || app.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+            return (
+              <AppCard
+                key={app.name}
+                app={{
+                  name: app.name,
+                  os: app.os,
+                  isFree: app.isFree,
+                  developer: app.developer,
+                  slug,
+                }}
+                idx={idx}
+                extensionName={extensionName}
+                detailHref={detailHrefFor(slug)}
+              />
+            );
+          })
         )}
       </div>
     </div>

@@ -24,6 +24,8 @@ import { SEOHead } from '../components/SEOHead';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { HIGH_VALUE_OPEN_FORMATS } from '../lib/guides/howToOpenEngine';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidCatalogExtension } from '../lib/routes/routeManifest';
 
 interface HowToOpenHubPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -125,9 +127,10 @@ export const HowToOpenHubPage: React.FC<HowToOpenHubPageProps> = ({ onNavigate, 
 
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
           {HIGH_VALUE_OPEN_FORMATS.slice(0, 24).map((ext) => (
-            <button
+            isValidCatalogExtension(ext) ? (
+            <SmartLink
               key={ext}
-              onClick={() => onNavigate({ view: 'how-to-open', ext: ext.toLowerCase() })}
+              route={{ view: 'how-to-open', ext: ext.toLowerCase() }}
               className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 hover:shadow-md transition-all text-center group cursor-pointer"
             >
               <span className="text-base font-mono font-black text-blue-600 dark:text-blue-400 group-hover:scale-105 transition-transform block">
@@ -136,7 +139,17 @@ export const HowToOpenHubPage: React.FC<HowToOpenHubPageProps> = ({ onNavigate, 
               <span className="text-[11px] text-slate-500 truncate block mt-0.5 font-medium">
                 How to Open
               </span>
-            </button>
+            </SmartLink>
+            ) : (
+            <DeadLink
+              key={ext}
+              className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center group"
+            >
+              <span className="text-base font-mono font-black text-slate-500 block">
+                .{ext.toUpperCase()}
+              </span>
+            </DeadLink>
+            )
           ))}
         </div>
       </div>
@@ -157,18 +170,18 @@ export const HowToOpenHubPage: React.FC<HowToOpenHubPageProps> = ({ onNavigate, 
         </div>
 
         <div className="flex flex-wrap gap-3 shrink-0">
-          <button
-            onClick={() => onNavigate({ view: 'magic-byte-detector' })}
+          <SmartLink
+            route={{view: 'magic-byte-detector'}}
             className="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 font-bold text-xs sm:text-sm text-white transition-colors cursor-pointer shadow-sm"
           >
             Detect Magic Bytes
-          </button>
-          <button
-            onClick={() => onNavigate({ view: 'file-analyzer' })}
+          </SmartLink>
+          <SmartLink
+            route={{view: 'file-analyzer'}}
             className="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-xs sm:text-sm text-slate-200 transition-colors cursor-pointer border border-slate-700"
           >
             Inspect File Forensics
-          </button>
+          </SmartLink>
         </div>
       </div>
 
@@ -202,9 +215,9 @@ export const HowToOpenHubPage: React.FC<HowToOpenHubPageProps> = ({ onNavigate, 
         {/* Extensions Directory Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredExtensions.map((e) => (
-            <div
+            <SmartLink
+              route={{ view: 'how-to-open', ext: e.extension.toLowerCase() }}
               key={e.extension}
-              onClick={() => onNavigate({ view: 'how-to-open', ext: e.extension.toLowerCase() })}
               className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
             >
               <div className="space-y-2">
@@ -226,7 +239,7 @@ export const HowToOpenHubPage: React.FC<HowToOpenHubPageProps> = ({ onNavigate, 
                 <span>View Opening Guide</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
-            </div>
+            </SmartLink>
           ))}
         </div>
       </div>

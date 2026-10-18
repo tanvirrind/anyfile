@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { parseMsg, convertToEmlString, ParsedEmail } from '../../lib/email/emailEngine';
 import { AppRoute } from '../../types';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidToolSlug, isValidConverterId } from '../../lib/routes/routeManifest';
 
 interface MsgToEmlWorkspaceProps {
   onNavigate?: (route: AppRoute) => void;
@@ -158,24 +160,38 @@ export const MsgToEmlWorkspace: React.FC<MsgToEmlWorkspaceProps> = ({ onNavigate
                     <span>Download Standard .EML File</span>
                   </a>
                 )}
-                <button
-                  onClick={() => onNavigate?.({ view: 'tool-detail', slug: 'email-viewer' })}
+                isValidToolSlug('email-viewer') ? (
+                <SmartLink
+                  route={{ view: 'tool-detail', slug: 'email-viewer' }}
                   className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
-                >
-                  <Mail className="w-4 h-4" />
+                >                  <Mail className="w-4 h-4" />
                   <span>Inspect in Email Viewer</span>
-                </button>
+                </SmartLink>
+                ) : (
+                <DeadLink
+                  className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
+                >                  <Mail className="w-4 h-4" />
+                  <span>Inspect in Email Viewer</span>
+                </DeadLink>
+                )
               </div>
             </div>
 
             <div className="flex items-center justify-between text-xs">
-              <button
-                onClick={() => onNavigate?.({ view: 'converter-detail', id: 'eml-to-pdf' })}
+              isValidConverterId('eml-to-pdf') ? (
+              <SmartLink
+                route={{ view: 'converter-detail', id: 'eml-to-pdf' }}
                 className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer"
-              >
-                <span>Need to export to PDF instead?</span>
+              >                <span>Need to export to PDF instead?</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              </SmartLink>
+              ) : (
+              <DeadLink
+                className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer"
+              >                <span>Need to export to PDF instead?</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </DeadLink>
+              )
 
               <button
                 onClick={() => {

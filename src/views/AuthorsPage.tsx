@@ -9,6 +9,7 @@ import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
 import { AuthorModal } from '../components/AuthorModal';
+import { SmartLink } from '../components/SmartLink';
 
 interface AuthorsPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -59,13 +60,12 @@ export const AuthorsPage: React.FC<AuthorsPageProps> = ({ onNavigate, selectedAu
             We do not rely on anonymous internet summaries or generic marketing text. Our authors conduct original hex dumps, read official ISO/IETF specifications, and test file associations on active physical operating systems.
           </p>
         </div>
-        <button
-          onClick={() => onNavigate({ view: 'editorial-standards' } as any)}
+        <SmartLink
+          route={{ view: 'editorial-standards' } as any}
           className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shrink-0 shadow-sm flex items-center gap-2"
-        >
-          <span>Read Editorial Standards</span>
+        >          <span>Read Editorial Standards</span>
           <ArrowRight className="w-3.5 h-3.5" />
-        </button>
+        </SmartLink>
       </div>
 
       {/* Featured author profile */}
@@ -83,13 +83,13 @@ export const AuthorsPage: React.FC<AuthorsPageProps> = ({ onNavigate, selectedAu
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Web systems, digital file formats, and practical technical guidance</p>
             </div>
           </div>
-          <Link
-            href="/authors/tanveer-hussain"
+          <SmartLink
+            route={{ view: 'authors', authorId: 'tanveer-hussain' } as any}
             className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-blue-700"
           >
             <span>View author profile</span>
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </SmartLink>
         </div>
       </section>
 

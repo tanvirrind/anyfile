@@ -3,6 +3,8 @@ import { CheckCircle, Copy, Check, ShieldCheck, AlertTriangle, ExternalLink } fr
 import type { AppRoute } from '../../../types';
 import type { FileAnalysis } from '../../../lib/analyzer/types';
 import { Badge } from '../../Badge';
+import { SmartLink, DeadLink } from '../../SmartLink';
+import { isValidCatalogExtension } from '../../../lib/routes/routeManifest';
 
 interface VerdictHeaderProps {
   analysis: FileAnalysis;
@@ -93,13 +95,20 @@ export const VerdictHeader: React.FC<VerdictHeaderProps> = ({ analysis, onNaviga
           </h1>
           <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">
             Identified as:{' '}
-            <button
-              onClick={() => onNavigate({ view: 'extension-detail', ext: shownExt })}
+            isValidCatalogExtension(shownExt) ? (
+            <SmartLink
+              route={{ view: 'extension-detail', ext: shownExt }}
               className="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1 cursor-pointer"
-            >
-              <span>{analysis.detectedFormat}</span>
+            >              <span>{analysis.detectedFormat}</span>
               <ExternalLink className="w-3.5 h-3.5" />
-            </button>
+            </SmartLink>
+            ) : (
+            <DeadLink
+              className="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1 cursor-pointer"
+            >              <span>{analysis.detectedFormat}</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </DeadLink>
+            )
           </p>
         </div>
       </div>
