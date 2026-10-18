@@ -13,9 +13,15 @@
  * the resolved library instance is cached and returned.
  */
 
+export interface PdfPageTextItem {
+  str?: string;
+  hasEOL?: boolean;
+}
+
 export interface PdfPageLike {
   getViewport(options: { scale: number }): { width: number; height: number };
   render(options: { canvasContext: unknown; viewport: unknown }): { promise: Promise<void> };
+  getTextContent(): Promise<{ items: PdfPageTextItem[] }>;
 }
 
 export interface PdfDocumentLike {
