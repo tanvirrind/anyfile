@@ -1446,6 +1446,290 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
     relatedToolSlugs: ['email-viewer', 'eml-viewer', 'eml-to-pdf'],
     relatedExtensionSlugs: ['mbox', 'eml', 'msg'],
     howToOpenSlugs: ['mbox', 'eml']
+  },
+
+  'pdf-merge': {
+    slug: 'pdf-merge',
+    name: 'PDF Merger — Combine PDF Files',
+    category: 'document',
+    categoryLabel: 'Document Tools',
+    tagline: 'Merge multiple PDF files into one document locally in your browser',
+    description: 'Combine several PDF documents into a single PDF with drag-and-drop ordering. 100% client-side — files never leave your device.',
+    processingType: 'local',
+    supportedInputFormats: ['pdf'],
+    supportedOutputFormats: ['pdf'],
+    isPopular: true,
+    badge: 'Popular PDF Tool',
+    features: [
+      'Combine up to 20 PDF files into one document',
+      'Reorder pages sources with up / down controls before merging',
+      'Clear error messages for corrupt or password-protected PDFs',
+      '100% client-side — your documents are never uploaded to any server'
+    ],
+    steps: [
+      { title: 'Add PDF Files', desc: 'Drop or select up to 20 PDF files (100 MB each) in the order you want them merged.' },
+      { title: 'Arrange the Order', desc: 'Use the up and down arrows to arrange the files — the top file becomes the first pages.' },
+      { title: 'Merge & Download', desc: 'Click Merge to produce a single PDF document and download it instantly.' }
+    ],
+    technicalDetails: 'PDF merging runs client-side with the pdf-lib library: each source document is parsed in browser memory, its pages are copied into a new document, and the result is saved as a single PDF file. Original files are discarded from memory when you leave the page.',
+    faqs: [
+      {
+        question: 'Is there a limit to how many PDFs I can merge?',
+        answer: 'You can merge up to 20 PDF files per run, each up to 100 MB. The merge happens entirely in your browser memory, so very large jobs may be limited by your device RAM.'
+      },
+      {
+        question: 'Are my documents uploaded anywhere?',
+        answer: 'No. The merger loads your PDFs into local browser memory and builds the combined document there. Nothing is transmitted to any server.'
+      },
+      {
+        question: 'What happens with password-protected PDFs?',
+        answer: 'Password-protected files cannot be merged — the tool detects them and skips them with a clear message instead of failing silently.'
+      }
+    ],
+    relatedToolSlugs: ['pdf-split', 'pdf-to-jpg', 'pdf-to-png', 'pdf-preflight'],
+    relatedExtensionSlugs: ['pdf']
+  },
+
+  'pdf-split': {
+    slug: 'pdf-split',
+    name: 'PDF Splitter — Extract Page Ranges',
+    category: 'document',
+    categoryLabel: 'Document Tools',
+    tagline: 'Split a PDF by page ranges or extract specific pages in your browser',
+    description: 'Pull pages or page ranges out of a PDF into new documents. One PDF per range (ZIP download) or a single combined PDF — processed locally.',
+    processingType: 'local',
+    supportedInputFormats: ['pdf'],
+    supportedOutputFormats: ['pdf'],
+    features: [
+      'Extract pages with simple ranges like "1-3, 5, 8-10"',
+      'One PDF per range (downloaded as a ZIP) or a single combined PDF',
+      'Automatic page-count detection with range validation',
+      '100% client-side — your documents are never uploaded to any server'
+    ],
+    steps: [
+      { title: 'Drop a PDF', desc: 'Select or drag the PDF you want to split (up to 100 MB).' },
+      { title: 'Enter Page Ranges', desc: 'Type the pages to extract, e.g. "1-3, 5" — pages are numbered from 1.' },
+      { title: 'Split & Download', desc: 'Choose one PDF per range or a single combined file, then download.' }
+    ],
+    technicalDetails: 'Splitting runs client-side with the pdf-lib library: the source PDF is parsed in browser memory, the requested pages are copied into new documents, and multi-file output is packaged with JSZip. Nothing leaves your device.',
+    faqs: [
+      {
+        question: 'How do I write the page ranges?',
+        answer: 'Use single pages ("5") or ranges ("1-3"), separated by commas: "1-3, 5, 8-10". Pages are numbered from 1, and ranges are validated against the real page count before splitting.'
+      },
+      {
+        question: 'Can I split a scanned or password-protected PDF?',
+        answer: 'Scanned PDFs split fine (their pages are extracted as-is). Password-protected PDFs cannot be split and are rejected with a clear message.'
+      },
+      {
+        question: 'Are my documents uploaded anywhere?',
+        answer: 'No. Splitting happens entirely in your browser memory — no file is ever transmitted to a server.'
+      }
+    ],
+    relatedToolSlugs: ['pdf-merge', 'pdf-to-jpg', 'pdf-to-png', 'pdf-preflight'],
+    relatedExtensionSlugs: ['pdf']
+  },
+
+  'text-to-pdf': {
+    slug: 'text-to-pdf',
+    name: 'Text to PDF Converter',
+    category: 'document',
+    categoryLabel: 'Document Tools',
+    tagline: 'Turn pasted text into a paginated PDF document in your browser',
+    description: 'Write or paste plain text and download it as a formatted PDF with title, margins, and page numbers. Free, local, no signup.',
+    processingType: 'local',
+    supportedInputFormats: ['txt'],
+    supportedOutputFormats: ['pdf'],
+    features: [
+      'Paginated PDF with title, margins, and page numbers',
+      'A4 or US Letter page size and adjustable font size',
+      'Paragraphs preserved from your line breaks',
+      '100% client-side — your text is never uploaded to any server'
+    ],
+    steps: [
+      { title: 'Write or Paste Text', desc: 'Type or paste plain text (up to 50,000 characters). Blank lines separate paragraphs.' },
+      { title: 'Set Title & Style', desc: 'Optionally add a document title, pick a font size, and choose A4 or US Letter.' },
+      { title: 'Generate & Download', desc: 'Click Generate to build the PDF in your browser and download it instantly.' }
+    ],
+    technicalDetails: 'The converter uses jsPDF in the browser: text is wrapped to the page width, flowed across pages with margins, and saved as a standard PDF file. Only plain text is written — no rich formatting, images, or fonts are embedded.',
+    faqs: [
+      {
+        question: 'Can I paste formatted text from Word?',
+        answer: 'You can paste the text, but only the plain characters are written — bold, italics, colors, and images are not carried over. This tool writes simple text PDFs.'
+      },
+      {
+        question: 'Is there a length limit?',
+        answer: 'Yes — up to 50,000 characters per document, which is roughly 15–20 PDF pages. This keeps in-browser generation fast and reliable.'
+      },
+      {
+        question: 'Is my text uploaded anywhere?',
+        answer: 'No. The PDF is generated entirely in your browser. Your text never leaves your device.'
+      }
+    ],
+    relatedToolSlugs: ['pdf-merge', 'pdf-to-text', 'pdf-to-jpg'],
+    relatedExtensionSlugs: ['txt', 'pdf']
+  },
+
+  'pdf-to-text': {
+    slug: 'pdf-to-text',
+    name: 'PDF to Text Extractor',
+    category: 'document',
+    categoryLabel: 'Document Tools',
+    tagline: 'Extract plain text from PDF documents locally — no signup',
+    description: 'Pull the text layer out of a PDF into editable plain text with copy and .txt download. Honest text extraction — layout and images are not preserved.',
+    processingType: 'local',
+    supportedInputFormats: ['pdf'],
+    supportedOutputFormats: ['txt'],
+    features: [
+      'Extract the embedded text layer page by page',
+      'Copy to clipboard or download as a .txt file',
+      'Clear notice when a PDF has no extractable text (e.g. scanned pages)',
+      '100% client-side — your documents are never uploaded to any server'
+    ],
+    steps: [
+      { title: 'Drop a PDF', desc: 'Select or drag the PDF you want to extract text from (up to 100 MB).' },
+      { title: 'Read the Text', desc: 'The text layer is extracted in your browser and shown per page.' },
+      { title: 'Copy or Download', desc: 'Copy the result or download it as a plain .txt file.' }
+    ],
+    technicalDetails: 'Extraction uses the pdf.js text layer in the browser (the same locally-bundled PDF engine AnyFileX ships): each page content stream is decoded and its text runs are reassembled. PDFs that are scanned images contain no text layer, so nothing can be extracted without OCR.',
+    faqs: [
+      {
+        question: 'Why did my PDF produce no text?',
+        answer: 'Some PDFs are just photos of pages (scans) with no text layer inside. Text extraction can only read text that is actually embedded in the file — scanned pages need OCR, which this tool does not perform.'
+      },
+      {
+        question: 'Does it preserve the original layout?',
+        answer: 'No. This tool extracts plain text for reading, searching, and editing — columns, tables, and images are not reconstructed.'
+      },
+      {
+        question: 'Is my document uploaded anywhere?',
+        answer: 'No. Extraction runs entirely in your browser memory — your document never leaves your device.'
+      }
+    ],
+    relatedToolSlugs: ['text-to-pdf', 'pdf-merge', 'pdf-split', 'pdf-preflight'],
+    relatedExtensionSlugs: ['pdf', 'txt']
+  },
+
+  'base64-encoder-decoder': {
+    slug: 'base64-encoder-decoder',
+    name: 'Base64 Encoder & Decoder',
+    category: 'developer',
+    categoryLabel: 'Developer & Security Tools',
+    tagline: 'Encode text and files to Base64, or decode Base64 back — in your browser',
+    description: 'Convert text or files to Base64 and back with UTF-8 safe encoding. A natural companion to the hash and hex inspector tools.',
+    processingType: 'local',
+    supportedInputFormats: ['*'],
+    supportedOutputFormats: ['txt'],
+    features: [
+      'Text to Base64 and Base64 to text with UTF-8 safe encoding',
+      'Any file to Base64 (up to 5 MB) with copy output',
+      'Base64 back to a downloadable file with MIME type control',
+      '100% client-side — data never leaves your browser'
+    ],
+    steps: [
+      { title: 'Choose Text or File', desc: 'Work with typed text, or drop any file up to 5 MB.' },
+      { title: 'Encode or Decode', desc: 'Convert text to Base64, decode Base64 to text, or move between files and Base64.' },
+      { title: 'Copy or Download', desc: 'Copy the result, or download the decoded bytes as a file.' }
+    ],
+    technicalDetails: 'Encoding uses the browser TextEncoder (UTF-8) with chunked binary-string conversion so large inputs do not overflow the call stack. Decoding validates the Base64 alphabet and padding before converting back to bytes.',
+    faqs: [
+      {
+        question: 'Why is there a 5 MB file limit?',
+        answer: 'Base64 expands data by about 33%, and very large strings make the browser UI sluggish. 5 MB keeps the tool fast and reliable; larger files belong in a desktop utility.'
+      },
+      {
+        question: 'Is Base64 encryption?',
+        answer: 'No — Base64 is just an encoding that makes binary data text-safe. Anyone can decode it, so never treat it as security.'
+      },
+      {
+        question: 'Is my data uploaded anywhere?',
+        answer: 'No. Everything is encoded and decoded locally in your browser.'
+      }
+    ],
+    relatedToolSlugs: ['hash-generator', 'magic-byte-detector', 'url-encoder-decoder'],
+    relatedExtensionSlugs: ['txt']
+  },
+
+  'url-encoder-decoder': {
+    slug: 'url-encoder-decoder',
+    name: 'URL Encoder & Decoder',
+    category: 'developer',
+    categoryLabel: 'Developer & Security Tools',
+    tagline: 'Percent-encode URLs and query values, or decode them back — instantly',
+    description: 'Encode query parameter values or full URLs for safe use in links and APIs, and decode percent-encoded strings. Runs locally in your browser.',
+    processingType: 'local',
+    supportedInputFormats: ['*'],
+    supportedOutputFormats: ['txt'],
+    features: [
+      'Query Value mode: encodes every reserved character (for use inside ?q=…)',
+      'Full URL mode: keeps :, /, ?, # and & intact',
+      'Decode percent-encoded strings with tolerant parsing',
+      '100% client-side — nothing is uploaded or logged'
+    ],
+    steps: [
+      { title: 'Pick a Scope', desc: 'Choose Query Value for parameter values, or Full URL when the structure must stay readable.' },
+      { title: 'Encode or Decode', desc: 'Convert your input and check the output instantly.' },
+      { title: 'Copy', desc: 'Copy the result straight into your link, code, or API call.' }
+    ],
+    technicalDetails: 'Query Value mode uses encodeURIComponent; Full URL mode uses encodeURI. Decoding prefers decodeURIComponent and falls back to decodeURI for strings that were encoded as full URLs.',
+    faqs: [
+      {
+        question: 'When do I use Query Value vs Full URL mode?',
+        answer: 'Use Query Value mode when you are building a value for a parameter (e.g. the search text in ?q=…) — every reserved character gets encoded. Use Full URL mode when the address itself must stay readable and only illegal characters should be encoded.'
+      },
+      {
+        question: 'Why did decoding fail?',
+        answer: 'A lone "%" that is not part of a valid %XX sequence cannot be decoded. Check for stray percent signs in the input.'
+      },
+      {
+        question: 'Is my input uploaded anywhere?',
+        answer: 'No. Encoding and decoding run entirely in your browser.'
+      }
+    ],
+    relatedToolSlugs: ['base64-encoder-decoder', 'hash-generator'],
+    relatedExtensionSlugs: []
+  },
+
+  'image-to-ico': {
+    slug: 'image-to-ico',
+    name: 'Image to ICO Converter — Favicon Maker',
+    category: 'image',
+    categoryLabel: 'Image Tools',
+    tagline: 'Convert PNG, JPG, or WEBP images into multi-size Windows .ico favicons',
+    description: 'Build a real multi-size .ico icon file (16–256 px) from any PNG, JPG, or WEBP image — perfect for favicons. 100% in-browser.',
+    processingType: 'local',
+    supportedInputFormats: ['png', 'jpg', 'jpeg', 'webp'],
+    supportedOutputFormats: ['ico'],
+    isPopular: true,
+    badge: 'New Favicon Tool',
+    features: [
+      'Real ICO container with PNG-compressed icon entries',
+      'Choose sizes: 16, 32, 48, 64, 128, 256 px in one .ico file',
+      'Automatic square center-crop so icons never stretch',
+      '100% client-side — your images are never uploaded'
+    ],
+    steps: [
+      { title: 'Drop an Image', desc: 'Select a PNG, JPG, or WEBP image up to 25 MB.' },
+      { title: 'Pick Sizes', desc: 'Choose which icon sizes to include — 16, 32, 48, and 256 px are preselected.' },
+      { title: 'Download the .ico', desc: 'One multi-size icon file downloads instantly — ready to use as a favicon.' }
+    ],
+    technicalDetails: 'The tool resizes the image on an HTML5 canvas for each selected size, encodes each as PNG, and writes a standard ICO file: the ICONDIR header plus ICONDIRENTRY records pointing at each PNG payload. Browsers and Windows select the best size automatically.',
+    faqs: [
+      {
+        question: 'What is an ICO file?',
+        answer: 'ICO is the icon format used by Windows and website favicons. One .ico file can hold the same image at multiple sizes, and the system picks the right one.'
+      },
+      {
+        question: 'How do I use the .ico as a website favicon?',
+        answer: 'Upload it to your site root and reference it with <link rel="icon" href="/favicon.ico">. Most browsers detect /favicon.ico automatically.'
+      },
+      {
+        question: 'Are my images uploaded anywhere?',
+        answer: 'No. Conversion happens entirely in your browser — your images never leave your device.'
+      }
+    ],
+    relatedToolSlugs: ['image-compressor', 'png-to-jpg', 'jpg-to-png'],
+    relatedExtensionSlugs: ['png', 'jpg', 'webp', 'ico']
   }
 };
 
