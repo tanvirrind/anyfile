@@ -34,6 +34,8 @@ import { getBestComparisonForExtension } from '../../lib/database/knowledgeGraph
 import { getComparisonGuide } from '../../lib/guides/comparisonGuideEngine';
 import { FILE_SIGNATURES } from '../../data/fileSignaturesData';
 import { CONVERTERS_LIST } from '../../data/convertersData';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidConverterId } from '../../lib/routes/routeManifest';
 
 interface ExtensionTopicalAuthorityProps {
   item: FileTypeInfo;
@@ -684,7 +686,16 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
               How to Open .{extUpper} Files on Windows, Mac & Android
             </h2>
           </div>
-          <span className="text-xs font-mono font-bold text-slate-400">Step-by-Step OS Guide</span>
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-mono font-bold text-slate-400 hidden sm:inline">Step-by-Step OS Guide</span>
+            <SmartLink
+              route={{ view: 'how-to-open', ext: extLower }}
+              className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 shrink-0"
+            >
+              <span>Complete .{extUpper} Opening Guide</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </SmartLink>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -985,19 +996,17 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
                 </p>
               </div>
 
-              <button
-                onClick={() => {
-                  if (card.converterId) {
-                    onNavigate({ view: 'converter-detail', id: card.converterId });
-                  } else {
-                    onNavigate({ view: 'converters' });
-                  }
-                }}
+              <SmartLink
+                route={
+                  card.converterId && isValidConverterId(card.converterId)
+                    ? { view: 'converter-detail', id: card.converterId }
+                    : { view: 'converters' }
+                }
                 className={`w-full py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer ${card.buttonColor}`}
               >
                 <span>{card.buttonText}</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </SmartLink>
             </div>
           ))}
         </div>
@@ -1144,13 +1153,13 @@ AddType ${primaryMime} .${extLower}`}
           </div>
 
           <div className="pt-2 flex justify-end">
-            <button
-              onClick={() => onNavigate({ view: 'tools', toolId: 'magic-bytes' })}
+            <SmartLink
+              route={{view: 'tools', toolId: 'magic-bytes'}}
               className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 cursor-pointer"
             >
               <Zap className="w-3.5 h-3.5 text-blue-500" />
               <span>Inspect Header in Magic Byte Forensics Tool</span>
-            </button>
+            </SmartLink>
           </div>
         </div>
       </section>
@@ -1209,13 +1218,13 @@ AddType ${primaryMime} .${extLower}`}
         </div>
 
         <div className="pt-2 flex justify-end">
-          <button
-            onClick={() => onNavigate({ view: 'comparison-detail', slug: bestComparison.slug })}
+          <SmartLink
+            route={{view: 'comparison-detail', slug: bestComparison.slug}}
             className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-sm"
           >
             <span>Read Full {extUpper} vs {bestComparison.targetExt} In-Depth Analysis</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </SmartLink>
         </div>
       </section>
 

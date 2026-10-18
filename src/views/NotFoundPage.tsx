@@ -18,6 +18,8 @@ import {
 import { AppRoute } from '../types';
 import { SEOHead } from '../components/SEOHead';
 import { POPULAR_FILE_TYPES } from '../data/fileTypesData';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidCatalogExtension } from '../lib/routes/routeManifest';
 
 interface NotFoundPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -114,20 +116,20 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate, requeste
 
           {/* Action Buttons */}
           <div className="flex flex-wrap justify-center gap-3.5 mb-10">
-            <button
-              onClick={() => onNavigate({ view: 'home' })}
+            <SmartLink
+              route={{view: 'home'}}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition-colors shadow-md shadow-blue-500/20"
             >
               <Home className="w-4 h-4" />
               Back to Home
-            </button>
-            <button
-              onClick={() => onNavigate({ view: 'extensions' })}
+            </SmartLink>
+            <SmartLink
+              route={{view: 'extensions'}}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold text-sm transition-colors border border-slate-200 dark:border-slate-700"
             >
               <FileCode2 className="w-4 h-4 text-blue-500" />
               Browse 250+ Extensions
-            </button>
+            </SmartLink>
             <button
               onClick={() => {
                 if (typeof window !== 'undefined' && window.history.length > 1) {
@@ -150,13 +152,22 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate, requeste
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {quickPicks.map((ext) => (
-                <button
+                isValidCatalogExtension(ext) ? (
+                <SmartLink
                   key={ext}
-                  onClick={() => onNavigate({ view: 'extension-detail', ext: ext.toLowerCase() })}
+                  route={{ view: 'extension-detail', ext: ext.toLowerCase() }}
                   className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 dark:bg-slate-800/80 dark:hover:bg-blue-950/40 border border-slate-200 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-700 text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all cursor-pointer"
                 >
                   .{ext}
-                </button>
+                </SmartLink>
+                ) : (
+                <DeadLink
+                  key={ext}
+                  className="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-xs font-mono font-semibold text-slate-500"
+                >
+                  .{ext}
+                </DeadLink>
+                )
               ))}
             </div>
           </div>
@@ -170,8 +181,8 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate, requeste
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div
-            onClick={() => onNavigate({ view: 'file-identifier' })}
+          <SmartLink
+            route={{ view: 'file-identifier' }}
             className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600 transition-all cursor-pointer group shadow-sm hover:shadow-md"
           >
             <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-3 group-hover:scale-105 transition-transform">
@@ -183,10 +194,10 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate, requeste
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Detect unknown file types by inspecting real magic bytes signatures.
             </p>
-          </div>
+          </SmartLink>
 
-          <div
-            onClick={() => onNavigate({ view: 'converters' })}
+          <SmartLink
+            route={{ view: 'converters' }}
             className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600 transition-all cursor-pointer group shadow-sm hover:shadow-md"
           >
             <div className="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-3 group-hover:scale-105 transition-transform">
@@ -198,10 +209,10 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate, requeste
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Convert images, documents, audio, CAD, and vector formats online.
             </p>
-          </div>
+          </SmartLink>
 
-          <div
-            onClick={() => onNavigate({ view: 'metadata-viewer' })}
+          <SmartLink
+            route={{ view: 'metadata-viewer' }}
             className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600 transition-all cursor-pointer group shadow-sm hover:shadow-md"
           >
             <div className="w-10 h-10 rounded-lg bg-teal-50 dark:bg-teal-950/50 border border-teal-200 dark:border-teal-800 flex items-center justify-center text-teal-600 dark:text-teal-400 mb-3 group-hover:scale-105 transition-transform">
@@ -213,10 +224,10 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate, requeste
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Extract embedded headers, camera metadata, and hidden tags.
             </p>
-          </div>
+          </SmartLink>
 
-          <div
-            onClick={() => onNavigate({ view: 'repair' })}
+          <SmartLink
+            route={{ view: 'repair' }}
             className="p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600 transition-all cursor-pointer group shadow-sm hover:shadow-md"
           >
             <div className="w-10 h-10 rounded-lg bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 flex items-center justify-center text-amber-600 dark:text-amber-400 mb-3 group-hover:scale-105 transition-transform">
@@ -228,7 +239,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate, requeste
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Troubleshoot corrupted headers, unreadable archives, and damaged files.
             </p>
-          </div>
+          </SmartLink>
         </div>
       </div>
     </div>
