@@ -21,6 +21,8 @@ import { FAQAccordion } from '../components/FAQAccordion';
 import { ConverterDetailPage } from './ConverterDetailPage';
 import { ConversionHistoryWidget } from '../components/converter/ConversionHistoryWidget';
 import { SEOHead } from '../components/SEOHead';
+import { isValidConverterId } from '../lib/routes/routeManifest';
+import { SmartLink, DeadLink } from '../components/SmartLink';
 
 export interface ConvertersPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -235,11 +237,11 @@ export const ConvertersPage: React.FC<ConvertersPageProps> = ({
       {/* Featured Converter Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredPairs.map((pair) => (
-          <div
+          isValidConverterId(pair.id) ? (
+          <SmartLink
+            route={{ view: 'converter-detail', id: pair.id }}
             key={pair.id}
-            onClick={() => onNavigate({ view: 'converter-detail', id: pair.id })}
             className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 rounded-3xl p-6 hover:shadow-xl transition-all duration-200 cursor-pointer flex flex-col justify-between group space-y-5"
-            id={`converter-pair-card-${pair.id}`}
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -280,7 +282,53 @@ export const ConvertersPage: React.FC<ConvertersPageProps> = ({
               <span>Open Converter</span>
               <ArrowRight className="w-4 h-4" />
             </div>
-          </div>
+          </SmartLink>
+          ) : (
+          <DeadLink
+            key={pair.id}
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 transition-all duration-200 flex flex-col justify-between group space-y-5"
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 font-mono font-extrabold text-xs text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/80 px-3 py-1 rounded-lg border border-blue-100 dark:border-blue-900">
+                  <span>.{pair.fromExt.toUpperCase()}</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-blue-500" />
+                  <span>.{pair.toExt.toUpperCase()}</span>
+                </div>
+                {pair.badge && (
+                  <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    {pair.badge}
+                  </span>
+                )}
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {pair.name}
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
+                  {pair.description}
+                </p>
+              </div>
+
+              {pair.features && pair.features.length > 0 && (
+                <div className="space-y-1 pt-1">
+                  {pair.features.slice(0, 2).map((feat, idx) => (
+                    <div key={idx} className="flex items-center gap-1.5 text-[11px] text-slate-500">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                      <span className="truncate">{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">
+              <span>Open Converter</span>
+              <ArrowRight className="w-4 h-4" />
+            </div>
+          </DeadLink>
+          )
         ))}
       </div>
 

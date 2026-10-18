@@ -24,6 +24,8 @@ import { isValidComparisonPair } from '../lib/guides/comparisonGuideEngine';
 import { SEOHead } from '../components/SEOHead';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
+import { isValidComparisonSlug } from '../lib/routes/routeManifest';
+import { SmartLink, DeadLink } from '../components/SmartLink';
 
 interface CompareHubPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -191,9 +193,10 @@ export const CompareHubPage: React.FC<CompareHubPageProps> = ({ onNavigate, cate
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredShowdowns.map((showdown) => (
-            <div
+            isValidComparisonSlug(showdown.slug) ? (
+            <SmartLink
+              route={{ view: 'comparison-detail', slug: showdown.slug }}
               key={showdown.slug}
-              onClick={() => onNavigate({ view: 'comparison-detail', slug: showdown.slug })}
               className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 hover:shadow-xl transition-all cursor-pointer group space-y-4"
             >
               <div className="flex items-center justify-between">
@@ -218,7 +221,36 @@ export const CompareHubPage: React.FC<CompareHubPageProps> = ({ onNavigate, cate
               <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
                 {showdown.highlight}
               </p>
-            </div>
+            </SmartLink>
+            ) : (
+            <DeadLink
+              key={showdown.slug}
+              className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-all group space-y-4"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl font-mono font-black text-blue-600 dark:text-blue-400">
+                    .{showdown.ext1}
+                  </span>
+                  <span className="font-extrabold text-xs text-slate-400">VS</span>
+                  <span className="text-2xl font-mono font-black text-indigo-600 dark:text-indigo-400">
+                    .{showdown.ext2}
+                  </span>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+
+              <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                {showdown.title}: Comprehensive Benchmark
+              </h3>
+
+              <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                {showdown.highlight}
+              </p>
+            </DeadLink>
+            )
           ))}
         </div>
       </section>
@@ -257,9 +289,10 @@ export const CompareHubPage: React.FC<CompareHubPageProps> = ({ onNavigate, cate
         {/* Curated Comparisons Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredComparisons.map((comp) => (
-            <div
+            isValidComparisonSlug(comp.slug) ? (
+            <SmartLink
+              route={{ view: 'comparison-detail', slug: comp.slug }}
               key={comp.slug}
-              onClick={() => onNavigate({ view: 'comparison-detail', slug: comp.slug })}
               className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 hover:shadow-xl transition-all cursor-pointer group space-y-4"
             >
               <div className="flex items-center justify-between">
@@ -287,7 +320,39 @@ export const CompareHubPage: React.FC<CompareHubPageProps> = ({ onNavigate, cate
               <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
                 {comp.highlight}
               </p>
-            </div>
+            </SmartLink>
+            ) : (
+            <DeadLink
+              key={comp.slug}
+              className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-all group space-y-4"
+            >
+              <div className="flex items-center justify-between">
+                <Badge variant="blue">{comp.category}</Badge>
+                <span className="text-xs font-semibold text-slate-400 flex items-center gap-1 group-hover:text-blue-600 transition-colors">
+                  <span>View comparison</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="text-2xl font-mono font-black text-blue-600 dark:text-blue-400">
+                  .{comp.ext1}
+                </span>
+                <span className="font-extrabold text-xs text-slate-400">VS</span>
+                <span className="text-2xl font-mono font-black text-indigo-600 dark:text-indigo-400">
+                  .{comp.ext2}
+                </span>
+              </div>
+
+              <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                {comp.title}: Differences, Quality & Size
+              </h3>
+
+              <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                {comp.highlight}
+              </p>
+            </DeadLink>
+            )
           ))}
         </div>
       </section>

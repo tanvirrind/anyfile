@@ -8,6 +8,7 @@ import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
 import { AuthorModal } from '../components/AuthorModal';
+import { SmartLink } from '../components/SmartLink';
 
 interface EditorialStandardsPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -179,13 +180,12 @@ export const EditorialStandardsPage: React.FC<EditorialStandardsPageProps> = ({ 
               Click on any engineer to inspect their academic credentials, certifications, and conflict of interest disclosures.
             </p>
           </div>
-          <button
-            onClick={() => onNavigate({ view: 'authors' } as any)}
+          <SmartLink
+            route={{ view: 'authors' } as any}
             className="inline-flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline shrink-0"
-          >
-            <span>View Full Author Directory</span>
+          >            <span>View Full Author Directory</span>
             <ExternalLink className="w-3.5 h-3.5" />
-          </button>
+          </SmartLink>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

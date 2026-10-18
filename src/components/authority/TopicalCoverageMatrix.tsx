@@ -4,6 +4,8 @@ import React, { useState, useMemo } from 'react';
 import { AppRoute } from '../../types';
 import { FormatTopicalCoverage, TopicalPillarKey } from '../../lib/content/types';
 import { computeTopicalCoverage, computeClusterCoverageSummary } from '../../lib/content/topicalCoverageEngine';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidCatalogExtension } from '../../lib/routes/routeManifest';
 import {
   Layers,
   CheckCircle2,
@@ -280,13 +282,20 @@ export const TopicalCoverageMatrix: React.FC<TopicalCoverageMatrixProps> = ({
 
                     {/* Actions */}
                     <td className="py-3 px-4 text-right">
-                      <button
-                        onClick={() => onNavigate({ view: 'format-guide', format: item.extension.toLowerCase() })}
+                      isValidCatalogExtension(item.extension) ? (
+                      <SmartLink
+                        route={{ view: 'format-guide', format: item.extension.toLowerCase() }}
                         className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
-                      >
-                        <span>View Format</span>
+                      >                        <span>View Format</span>
                         <ChevronRight className="w-3.5 h-3.5" />
-                      </button>
+                      </SmartLink>
+                      ) : (
+                      <DeadLink
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                      >                        <span>View Format</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </DeadLink>
+                      )
                     </td>
                   </tr>
                 );

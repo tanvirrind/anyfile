@@ -26,6 +26,7 @@ import {
   TechnicalAuthorityGuide
 } from '../lib/database/technicalAuthorityData';
 import { AppRoute } from '../types';
+import { SmartLink, DeadLink } from '../components/SmartLink';
 
 interface TechnicalHubPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -157,9 +158,9 @@ export const TechnicalHubPage: React.FC<TechnicalHubPageProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredGuides.map((guide) => (
-              <div
+              <SmartLink
+                route={{ view: 'technical-guide', slug: guide.slug }}
                 key={guide.id}
-                onClick={() => onNavigate({ view: 'technical-guide', slug: guide.slug } as any)}
                 className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 hover:border-blue-500/60 dark:hover:border-blue-500/60 shadow-xs hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between"
               >
                 <div className="space-y-3">
@@ -202,7 +203,7 @@ export const TechnicalHubPage: React.FC<TechnicalHubPageProps> = ({
                   <span>Read Complete Technical Guide</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </div>
-              </div>
+              </SmartLink>
             ))}
           </div>
         </section>
@@ -265,8 +266,8 @@ export const TechnicalHubPage: React.FC<TechnicalHubPageProps> = ({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <div
-              onClick={() => onNavigate({ view: 'magic-byte-detector' })}
+            <SmartLink
+              route={{ view: 'magic-byte-detector' }}
               className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-slate-900 dark:text-slate-100 cursor-pointer group flex flex-col justify-between transition-all"
             >
               <div className="space-y-2">
@@ -279,10 +280,10 @@ export const TechnicalHubPage: React.FC<TechnicalHubPageProps> = ({
               <div className="mt-4 text-[11px] font-semibold text-blue-600 dark:text-blue-400 flex items-center gap-1">
                 Open Tool <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </div>
-            </div>
+            </SmartLink>
 
-            <div
-              onClick={() => onNavigate({ view: 'checksum-verifier' })}
+            <SmartLink
+              route={{ view: 'checksum-verifier' }}
               className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-slate-900 dark:text-slate-100 cursor-pointer group flex flex-col justify-between transition-all"
             >
               <div className="space-y-2">
@@ -295,10 +296,10 @@ export const TechnicalHubPage: React.FC<TechnicalHubPageProps> = ({
               <div className="mt-4 text-[11px] font-semibold text-blue-600 dark:text-blue-400 flex items-center gap-1">
                 Open Tool <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </div>
-            </div>
+            </SmartLink>
 
-            <div
-              onClick={() => onNavigate({ view: 'mime-checker' })}
+            <SmartLink
+              route={{ view: 'mime-checker' }}
               className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-slate-900 dark:text-slate-100 cursor-pointer group flex flex-col justify-between transition-all"
             >
               <div className="space-y-2">
@@ -311,10 +312,10 @@ export const TechnicalHubPage: React.FC<TechnicalHubPageProps> = ({
               <div className="mt-4 text-[11px] font-semibold text-blue-600 dark:text-blue-400 flex items-center gap-1">
                 Open Tool <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </div>
-            </div>
+            </SmartLink>
 
-            <div
-              onClick={() => onNavigate({ view: 'file-analyzer' })}
+            <SmartLink
+              route={{ view: 'file-analyzer' }}
               className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 text-slate-900 dark:text-slate-100 cursor-pointer group flex flex-col justify-between transition-all"
             >
               <div className="space-y-2">
@@ -327,7 +328,7 @@ export const TechnicalHubPage: React.FC<TechnicalHubPageProps> = ({
               <div className="mt-4 text-[11px] font-semibold text-blue-600 dark:text-blue-400 flex items-center gap-1">
                 Open Tool <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
               </div>
-            </div>
+            </SmartLink>
           </div>
         </section>
       </div>
