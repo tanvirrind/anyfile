@@ -26,6 +26,8 @@ import { AppRoute } from '../../types';
 import { Badge } from '../Badge';
 import { FAQAccordion } from '../FAQAccordion';
 import { GOOGLE_DOCS_FAQS } from '../../data/googleDocsFaqs';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidCatalogExtension } from '../../lib/routes/routeManifest';
 
 interface GoogleDocsDetailViewProps {
   onNavigate: (route: AppRoute) => void;
@@ -236,13 +238,19 @@ export const GoogleDocsDetailView: React.FC<GoogleDocsDetailViewProps> = ({ onNa
                   <tr key={row.ext} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
                     <td className="py-4 px-4 sm:px-6 whitespace-nowrap">
                       <div className="flex items-center gap-2.5">
-                        <button
-                          onClick={() => onNavigate({ view: 'extension-detail', ext: row.ext })}
+                        {isValidCatalogExtension(row.ext) ? (
+                        <SmartLink
+                          route={{ view: 'extension-detail', ext: row.ext }}
                           className="font-mono font-extrabold text-blue-600 dark:text-blue-400 text-base hover:underline cursor-pointer"
                           title={`View .${row.ext.toUpperCase()} technical format guide`}
                         >
                           .{row.ext.toUpperCase()}
-                        </button>
+                        </SmartLink>
+                        ) : (
+                        <DeadLink className="font-mono font-extrabold text-slate-500 text-base">
+                          .{row.ext.toUpperCase()}
+                        </DeadLink>
+                        )}
                         <div>
                           <div className="font-semibold text-slate-900 dark:text-white text-xs sm:text-sm">{row.name}</div>
                           <div className="text-[11px] text-slate-400 font-mono hidden md:block">{row.mime}</div>
@@ -440,12 +448,12 @@ export const GoogleDocsDetailView: React.FC<GoogleDocsDetailViewProps> = ({ onNa
                 <FileCode className="w-4 h-4 text-blue-600" />
                 <span>Microsoft Word (.docx, .doc, .docm)</span>
               </span>
-              <button
-                onClick={() => onNavigate({ view: 'extension-detail', ext: 'docx' })}
+              <SmartLink
+                route={{view: 'extension-detail', ext: 'docx'}}
                 className="text-xs font-semibold text-blue-600 hover:underline"
               >
                 .DOCX Specs &rarr;
-              </button>
+              </SmartLink>
             </div>
             <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-300 list-disc list-inside leading-relaxed">
               <li>
@@ -470,12 +478,12 @@ export const GoogleDocsDetailView: React.FC<GoogleDocsDetailViewProps> = ({ onNa
                 <FileCode className="w-4 h-4 text-emerald-600" />
                 <span>OpenDocument (.odt)</span>
               </span>
-              <button
-                onClick={() => onNavigate({ view: 'extension-detail', ext: 'odt' })}
+              <SmartLink
+                route={{view: 'extension-detail', ext: 'odt'}}
                 className="text-xs font-semibold text-emerald-600 hover:underline"
               >
                 .ODT Specs &rarr;
-              </button>
+              </SmartLink>
             </div>
             <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-300 list-disc list-inside leading-relaxed">
               <li>
@@ -497,12 +505,12 @@ export const GoogleDocsDetailView: React.FC<GoogleDocsDetailViewProps> = ({ onNa
                 <FileCode className="w-4 h-4 text-rose-600" />
                 <span>Adobe PDF (.pdf) OCR Conversion</span>
               </span>
-              <button
-                onClick={() => onNavigate({ view: 'extension-detail', ext: 'pdf' })}
+              <SmartLink
+                route={{view: 'extension-detail', ext: 'pdf'}}
                 className="text-xs font-semibold text-rose-600 hover:underline"
               >
                 .PDF Specs &rarr;
-              </button>
+              </SmartLink>
             </div>
             <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-300 list-disc list-inside leading-relaxed">
               <li>
@@ -525,19 +533,19 @@ export const GoogleDocsDetailView: React.FC<GoogleDocsDetailViewProps> = ({ onNa
                 <span>Web Pages (.html) & Plain Text (.txt)</span>
               </span>
               <div className="flex gap-2">
-                <button
-                  onClick={() => onNavigate({ view: 'extension-detail', ext: 'html' })}
+                <SmartLink
+                  route={{view: 'extension-detail', ext: 'html'}}
                   className="text-xs font-semibold text-indigo-600 hover:underline"
                 >
                   .HTML
-                </button>
+                </SmartLink>
                 <span>&bull;</span>
-                <button
-                  onClick={() => onNavigate({ view: 'extension-detail', ext: 'txt' })}
+                <SmartLink
+                  route={{view: 'extension-detail', ext: 'txt'}}
                   className="text-xs font-semibold text-indigo-600 hover:underline"
                 >
                   .TXT
-                </button>
+                </SmartLink>
               </div>
             </div>
             <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-300 list-disc list-inside leading-relaxed">
@@ -665,20 +673,20 @@ export const GoogleDocsDetailView: React.FC<GoogleDocsDetailViewProps> = ({ onNa
                 {row.name}
               </p>
               <div className="flex items-center gap-2 pt-2 border-t border-slate-200/60 dark:border-slate-700/60 text-xs">
-                <button
-                  onClick={() => onNavigate({ view: 'extension-detail', ext: row.ext })}
+                <SmartLink
+                  route={{view: 'extension-detail', ext: row.ext}}
                   className="font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <span>Format Specs</span>
                   <ArrowRight className="w-3 h-3" />
-                </button>
+                </SmartLink>
                 <span className="text-slate-300 dark:text-slate-600">&bull;</span>
-                <button
-                  onClick={() => onNavigate({ view: 'how-to-open', ext: row.ext })}
+                <SmartLink
+                  route={{view: 'how-to-open', ext: row.ext}}
                   className="font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <span>How to Open</span>
-                </button>
+                </SmartLink>
               </div>
             </div>
           ))}
