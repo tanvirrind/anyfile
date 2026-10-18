@@ -44,7 +44,7 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
   const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(0);
   const [editorialModalOpen, setEditorialModalOpen] = useState(false);
 
-  const linkingMatrix = computeInternalLinksForEntity(entity);
+  const linkingMatrix = computeInternalLinksForEntity(entity, locale);
 
   const tocItems = entity.contentSections.map((sec, idx) => ({
     id: `art-sec-${idx}`,

@@ -5,6 +5,7 @@ import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { StatsCard } from '../components/StatsCard';
 import { SEOHead } from '../components/SEOHead';
+import { SmartLink } from '../components/SmartLink';
 
 interface AboutPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -197,18 +198,16 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             </h2>
           </div>
           <div className="flex gap-2">
-            <button
-              onClick={() => onNavigate({ view: 'editorial-standards' } as any)}
+            <SmartLink
+              route={{ view: 'editorial-standards' } as any}
               className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors cursor-pointer"
-            >
-              Editorial Standards
-            </button>
-            <button
-              onClick={() => onNavigate({ view: 'authors' } as any)}
+            >              Editorial Standards
+            </SmartLink>
+            <SmartLink
+              route={{ view: 'authors' } as any}
               className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-xs font-semibold text-white transition-colors cursor-pointer"
-            >
-              Author Profiles
-            </button>
+            >              Author Profiles
+            </SmartLink>
           </div>
         </div>
 

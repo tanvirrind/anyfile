@@ -24,6 +24,7 @@ import {
   FileText,
   AlertCircle
 } from 'lucide-react';
+import { SmartLink } from '../components/SmartLink';
 
 interface WorkflowPageProps {
   initialWorkflowId?: string;
@@ -115,13 +116,11 @@ export const WorkflowPage: React.FC<WorkflowPageProps> = ({
           >
             <Clock className="w-3.5 h-3.5 text-blue-500" /> Recent History
           </button>
-          <button
-            type="button"
-            onClick={() => onNavigate({ view: 'file-analyzer' })}
+          <SmartLink
+            route={{ view: 'file-analyzer' }}
             className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all flex items-center gap-1.5"
-          >
-            <FileCheck className="w-3.5 h-3.5 text-emerald-500" /> File Analyzer
-          </button>
+          >            <FileCheck className="w-3.5 h-3.5 text-emerald-500" /> File Analyzer
+          </SmartLink>
         </div>
       </div>
 

@@ -18,6 +18,8 @@ import { parse3mf, ThreeMfPackageInfo, convert3mfToStl } from '../../lib/3d/thre
 import { getSample3mfBuffer } from '../../lib/3d/sampleMesh';
 import { ThreeDViewer } from '../3d/ThreeDViewer';
 import { AppRoute } from '../../types';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidConverterId, isValidToolSlug, isValidComparisonSlug } from '../../lib/routes/routeManifest';
 
 interface ThreeMfViewerWorkspaceProps {
   onNavigate?: (route: AppRoute) => void;
@@ -392,27 +394,48 @@ export const ThreeMfViewerWorkspace: React.FC<ThreeMfViewerWorkspaceProps> = ({ 
           {/* Quick Actions Footer */}
           <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-500">
             <span>Related 3D Tools:</span>
-            <button
-              onClick={() => onNavigate?.({ view: 'converter-detail', id: '3mf-to-stl' })}
+            isValidConverterId('3mf-to-stl') ? (
+            <SmartLink
+              route={{ view: 'converter-detail', id: '3mf-to-stl' }}
               className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <span>Convert 3MF to STL</span>
+            >              <span>Convert 3MF to STL</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
-            <button
-              onClick={() => onNavigate?.({ view: 'tool-detail', slug: 'stl-viewer' })}
+            </SmartLink>
+            ) : (
+            <DeadLink
               className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <span>STL Viewer</span>
+            >              <span>Convert 3MF to STL</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
-            <button
-              onClick={() => onNavigate?.({ view: 'comparison-detail', slug: '3mf-vs-stl' })}
+            </DeadLink>
+            )
+            isValidToolSlug('stl-viewer') ? (
+            <SmartLink
+              route={{ view: 'tool-detail', slug: 'stl-viewer' }}
               className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <span>3MF vs STL Comparison</span>
+            >              <span>STL Viewer</span>
               <ExternalLink className="w-3 h-3" />
-            </button>
+            </SmartLink>
+            ) : (
+            <DeadLink
+              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+            >              <span>STL Viewer</span>
+              <ExternalLink className="w-3 h-3" />
+            </DeadLink>
+            )
+            isValidComparisonSlug('3mf-vs-stl') ? (
+            <SmartLink
+              route={{ view: 'comparison-detail', slug: '3mf-vs-stl' }}
+              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+            >              <span>3MF vs STL Comparison</span>
+              <ExternalLink className="w-3 h-3" />
+            </SmartLink>
+            ) : (
+            <DeadLink
+              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+            >              <span>3MF vs STL Comparison</span>
+              <ExternalLink className="w-3 h-3" />
+            </DeadLink>
+            )
           </div>
         </div>
       )}

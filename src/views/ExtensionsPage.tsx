@@ -10,6 +10,8 @@ import { SEOHead } from '../components/SEOHead';
 import { useLocale } from 'next-intl';
 import { localizedPath } from '../i18n/paths';
 import type { AppLocale } from '../i18n/routing';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidCatalogExtension } from '../lib/routes/routeManifest';
 
 interface ExtensionsPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -244,11 +246,11 @@ export const ExtensionsPage: React.FC<ExtensionsPageProps> = ({ onNavigate, init
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {paginatedItems.map((item) => (
-              <div
+              isValidCatalogExtension(item.extension) ? (
+              <SmartLink
+                route={{ view: 'extension-detail', ext: item.extension }}
                 key={item.extension}
-                onClick={() => onNavigate({ view: 'extension-detail', ext: item.extension })}
                 className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:-translate-y-1"
-                id={`extension-card-${item.extension.toLowerCase()}`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
@@ -280,7 +282,44 @@ export const ExtensionsPage: React.FC<ExtensionsPageProps> = ({ onNavigate, init
                   <span>{spanish ? 'Abrir y convertir' : 'Open & Convert'}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
-              </div>
+              </SmartLink>
+              ) : (
+              <DeadLink
+                key={item.extension}
+                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 transition-all duration-200 flex flex-col justify-between group"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-mono font-extrabold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/80 px-3 py-1 rounded-xl">
+                      .{item.extension}
+                    </span>
+                    <Badge variant={item.dangerRating === 'Low Risk' ? 'emerald' : 'amber'}>
+                      {spanish ? (item.dangerRating === 'Low Risk' ? 'Riesgo bajo' : 'Precaución') : item.dangerRating}
+                    </Badge>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {spanish ? (SPANISH_EXTENSION_COPY[item.extension.toUpperCase()]?.name || `Formato de archivo .${item.extension.toUpperCase()}`) : item.name}
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                      {spanish ? (SPANISH_EXTENSION_COPY[item.extension.toUpperCase()]?.description || `Formato de archivo .${item.extension.toUpperCase()}. Consulta software compatible, especificaciones y guías para abrirlo.`) : item.description}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-2 text-[11px] font-mono text-slate-400">
+                    <span className="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">{item.mimeType}</span>
+                    <span>•</span>
+                    <span>{spanish ? (categories.find(([value]) => value === item.category)?.[1] || localizedCategory(item.category)) : item.category}</span>
+                  </div>
+                </div>
+
+                <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-blue-600 dark:text-blue-400">
+                  <span>{spanish ? 'Abrir y convertir' : 'Open & Convert'}</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </DeadLink>
+              )
             ))}
           </div>
 
