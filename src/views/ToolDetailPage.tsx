@@ -39,6 +39,13 @@ import { PdfPreflightWorkspace } from '../components/tools/PdfPreflightWorkspace
 import { OfficeRecoveryWorkspace } from '../components/tools/OfficeRecoveryWorkspace';
 import { ThreeMfPreflightWorkspace } from '../components/tools/ThreeMfPreflightWorkspace';
 import { FileDownloaderWorkspace } from '../components/tools/FileDownloaderWorkspace';
+import { PdfMergeWorkspace } from '../components/tools/PdfMergeWorkspace';
+import { PdfSplitWorkspace } from '../components/tools/PdfSplitWorkspace';
+import { TextToPdfWorkspace } from '../components/tools/TextToPdfWorkspace';
+import { PdfToTextWorkspace } from '../components/tools/PdfToTextWorkspace';
+import { Base64Workspace } from '../components/tools/Base64Workspace';
+import { UrlCodecWorkspace } from '../components/tools/UrlCodecWorkspace';
+import { ImageToIcoWorkspace } from '../components/tools/ImageToIcoWorkspace';
 import { getFormatKnowledgeNode } from '../lib/database/knowledgeGraph';
 import { SmartLink, DeadLink } from '../components/SmartLink';
 import { isValidCatalogExtension, isValidComparisonSlug } from '../lib/routes/routeManifest';
@@ -277,6 +284,20 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
           <ThreeMfPreflightWorkspace />
         ) : toolSlug === 'file-downloader' ? (
           <FileDownloaderWorkspace />
+        ) : toolSlug === 'pdf-merge' ? (
+          <PdfMergeWorkspace />
+        ) : toolSlug === 'pdf-split' ? (
+          <PdfSplitWorkspace />
+        ) : toolSlug === 'text-to-pdf' ? (
+          <TextToPdfWorkspace />
+        ) : toolSlug === 'pdf-to-text' ? (
+          <PdfToTextWorkspace />
+        ) : toolSlug === 'base64-encoder-decoder' ? (
+          <Base64Workspace />
+        ) : toolSlug === 'url-encoder-decoder' ? (
+          <UrlCodecWorkspace />
+        ) : toolSlug === 'image-to-ico' ? (
+          <ImageToIcoWorkspace />
         ) : toolSlug === 'magic-byte-detector' ? (
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
             <FileCode className="w-12 h-12 text-blue-600 mx-auto" />

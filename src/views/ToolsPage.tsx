@@ -22,7 +22,11 @@ import {
   ShieldCheck,
   Mail,
   Box,
-  Download
+  Download,
+  Files,
+  Scissors,
+  Type,
+  Link2
 } from 'lucide-react';
 import { AppRoute, ToolTab } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
@@ -146,6 +150,18 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       tags: ['Vector Rasterizer', 'High DPI', 'Transparent PNG'],
       processingType: 'local'
     },
+    {
+      id: 'image-to-ico',
+      name: 'Image to ICO Converter — Favicon Maker',
+      category: 'Images',
+      desc: 'Convert PNG, JPG, or WEBP images into multi-size Windows .ico favicons (16–256 px) entirely in your browser.',
+      route: { view: 'tool-detail', slug: 'image-to-ico' } as any,
+      icon: ImageIcon,
+      tags: ['Favicon Maker', 'Multi-Size ICO', 'Real ICO Container', 'Zero Upload'],
+      badge: 'New Favicon Tool',
+      processingType: 'local',
+      isPopular: true
+    },
 
     // Document Tools
     {
@@ -188,6 +204,48 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       route: { view: 'tool-detail', slug: 'pptx-to-pdf' } as any,
       icon: FileText,
       tags: ['PowerPoint Slides', 'Landscape PDF', 'Client-Side'],
+      processingType: 'local'
+    },
+    {
+      id: 'pdf-merge',
+      name: 'PDF Merger — Combine PDF Files',
+      category: 'Documents',
+      desc: 'Merge up to 20 PDF files into one document with drag-and-drop ordering. 100% in-browser, no uploads.',
+      route: { view: 'tool-detail', slug: 'pdf-merge' } as any,
+      icon: Files,
+      tags: ['Combine PDFs', 'Reorder Pages', '20 Files', 'RAM Only'],
+      badge: 'Popular PDF Tool',
+      processingType: 'local',
+      isPopular: true
+    },
+    {
+      id: 'pdf-split',
+      name: 'PDF Splitter — Extract Page Ranges',
+      category: 'Documents',
+      desc: 'Split a PDF by page ranges like "1-3, 5" — one PDF per range (ZIP) or a single combined PDF, all local.',
+      route: { view: 'tool-detail', slug: 'pdf-split' } as any,
+      icon: Scissors,
+      tags: ['Page Ranges', 'Extract Pages', 'ZIP Output', 'Client-Side'],
+      processingType: 'local'
+    },
+    {
+      id: 'text-to-pdf',
+      name: 'Text to PDF Converter',
+      category: 'Documents',
+      desc: 'Turn pasted plain text into a paginated PDF with title, margins, and page numbers — free, local, no signup.',
+      route: { view: 'tool-detail', slug: 'text-to-pdf' } as any,
+      icon: Type,
+      tags: ['Plain Text', 'Paginated PDF', 'A4 / Letter', 'RAM Only'],
+      processingType: 'local'
+    },
+    {
+      id: 'pdf-to-text',
+      name: 'PDF to Text Extractor',
+      category: 'Documents',
+      desc: 'Extract the text layer from PDFs into editable plain text with copy and .txt download. Runs in your browser.',
+      route: { view: 'tool-detail', slug: 'pdf-to-text' } as any,
+      icon: FileText,
+      tags: ['Text Extraction', 'Copy & Download', 'Scanned-Page Detection', 'Local'],
       processingType: 'local'
     },
 
@@ -256,6 +314,26 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       route: { view: 'hash-generator' },
       icon: Hash,
       tags: ['SHA-256', 'MD5', 'SHA-512', 'Web Crypto'],
+      processingType: 'local'
+    },
+    {
+      id: 'base64-encoder-decoder',
+      name: 'Base64 Encoder & Decoder',
+      category: 'Developer & Security',
+      desc: 'Encode text and files to Base64, or decode Base64 back to text and files — UTF-8 safe, in your browser.',
+      route: { view: 'tool-detail', slug: 'base64-encoder-decoder' } as any,
+      icon: Binary,
+      tags: ['UTF-8 Safe', 'File ⇄ Base64', 'Data URIs', 'RAM Only'],
+      processingType: 'local'
+    },
+    {
+      id: 'url-encoder-decoder',
+      name: 'URL Encoder & Decoder',
+      category: 'Developer & Security',
+      desc: 'Percent-encode query values or full URLs for safe use in links and APIs, and decode them back — instantly.',
+      route: { view: 'tool-detail', slug: 'url-encoder-decoder' } as any,
+      icon: Link2,
+      tags: ['Percent-Encoding', 'Query Values', 'Full URLs', 'Local'],
       processingType: 'local'
     },
     {
