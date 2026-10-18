@@ -31,6 +31,8 @@ import {
 } from 'lucide-react';
 import { AppRoute } from '../types';
 import { getComparisonGuide, ComparisonGuideData } from '../lib/guides/comparisonGuideEngine';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidConverterId, isValidCatalogExtension, isValidComparisonSlug } from '../lib/routes/routeManifest';
 import { SEOHead } from '../components/SEOHead';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { FAQAccordion } from '../components/FAQAccordion';
@@ -87,6 +89,11 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
     schemaData,
   } = guide;
 
+  // The quick-launch converter id can be synthetic (ext1-to-ext2); only link
+  // it when the id resolves to a real converter page.
+  const quickConverterId = converterSlug || `${ext1Lower}-to-${ext2Lower}`;
+  const quickConverterValid = isValidConverterId(quickConverterId);
+
   if (!isValidComparison) {
     return (
       <div className="py-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-200">
@@ -117,24 +124,24 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
           </div>
 
           <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-            <button
-              onClick={() => onNavigate({ view: 'compare-hub' })}
+            <SmartLink
+              route={{view: 'compare-hub'}}
               className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition-all cursor-pointer"
             >
               Browse Valid Comparisons
-            </button>
-            <button
-              onClick={() => onNavigate({ view: 'extension-detail', ext: ext1Lower })}
+            </SmartLink>
+            <SmartLink
+              route={{view: 'extension-detail', ext: ext1Lower}}
               className="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-sm transition-all cursor-pointer"
             >
               View .{ext1} Specs
-            </button>
-            <button
-              onClick={() => onNavigate({ view: 'extension-detail', ext: ext2Lower })}
+            </SmartLink>
+            <SmartLink
+              route={{view: 'extension-detail', ext: ext2Lower}}
               className="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-sm transition-all cursor-pointer"
             >
               View .{ext2} Specs
-            </button>
+            </SmartLink>
           </div>
         </div>
       </div>
@@ -188,14 +195,21 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
 
           {/* Direct Converter Quick Launch */}
           {hasDirectConverter && (
-            <button
-              onClick={() => onNavigate({ view: 'converter-detail', id: converterSlug || `${ext1Lower}-to-${ext2Lower}` })}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs shadow-md shadow-blue-500/20 transition-all cursor-pointer"
-            >
-              <RefreshCw className="w-3.5 h-3.5 animate-spin-reverse" />
-              <span>Convert .{ext1} to .{ext2}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            quickConverterValid ? (
+              <SmartLink
+                route={{ view: 'converter-detail', id: quickConverterId }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs shadow-md shadow-blue-500/20 transition-all cursor-pointer"
+              >
+                <RefreshCw className="w-3.5 h-3.5 animate-spin-reverse" />
+                <span>Convert .{ext1} to .{ext2}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </SmartLink>
+            ) : (
+              <DeadLink className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-600 text-white font-bold text-xs shadow-md">
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Convert .{ext1} to .{ext2}</span>
+              </DeadLink>
+            )
           )}
         </div>
 
@@ -222,13 +236,13 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
                 </span>
                 <Badge variant="blue">{ext1Info.category}</Badge>
               </div>
-              <button
-                onClick={() => onNavigate({ view: 'extension-detail', ext: ext1Lower })}
+              <SmartLink
+                route={{view: 'extension-detail', ext: ext1Lower}}
                 className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
               >
                 <span>Full Specs</span>
                 <ArrowRight className="w-3 h-3" />
-              </button>
+              </SmartLink>
             </div>
             <div>
               <h3 className="font-bold text-base text-slate-900 dark:text-white">{ext1Info.name}</h3>
@@ -255,13 +269,13 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
                 </span>
                 <Badge variant="violet">{ext2Info.category}</Badge>
               </div>
-              <button
-                onClick={() => onNavigate({ view: 'extension-detail', ext: ext2Lower })}
+              <SmartLink
+                route={{view: 'extension-detail', ext: ext2Lower}}
                 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 cursor-pointer"
               >
                 <span>Full Specs</span>
                 <ArrowRight className="w-3 h-3" />
-              </button>
+              </SmartLink>
             </div>
             <div>
               <h3 className="font-bold text-base text-slate-900 dark:text-white">{ext2Info.name}</h3>
@@ -546,8 +560,9 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Converter Tool */}
-          <div
-            onClick={() => onNavigate({ view: 'converter-detail', id: converterSlug || `${ext1Lower}-to-${ext2Lower}` })}
+          {quickConverterValid ? (
+          <SmartLink
+            route={{ view: 'converter-detail', id: quickConverterId }}
             className="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/40 dark:from-blue-950/30 dark:to-indigo-950/20 border border-blue-200 dark:border-blue-800 hover:border-blue-400 transition-all cursor-pointer group space-y-3"
           >
             <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md">
@@ -565,11 +580,29 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
               <span>Launch Converter</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
+          ) : (
+          <DeadLink className="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/40 dark:from-blue-950/30 dark:to-indigo-950/20 border border-blue-200 dark:border-blue-800 group space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md">
+              <RefreshCw className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="font-bold text-sm text-slate-900 dark:text-white">
+                Instant File Converter
+              </h4>
+              <p className="text-xs text-slate-500 mt-1">
+                Convert .{ext1} &harr; .{ext2} in your browser with zero upload.
+              </p>
+            </div>
+            <div className="text-xs font-bold text-slate-400 flex items-center gap-1">
+              <span>Converter unavailable for this pair</span>
+            </div>
+          </DeadLink>
+          )}
 
           {/* File Analyzer */}
-          <div
-            onClick={() => onNavigate({ view: 'file-analyzer' })}
+          <SmartLink
+            route={{ view: 'file-analyzer' }}
             className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 hover:border-blue-400 transition-all cursor-pointer group space-y-3"
           >
             <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 flex items-center justify-center">
@@ -587,11 +620,11 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
               <span>Inspect Binary Structure</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
 
           {/* Metadata Viewer */}
-          <div
-            onClick={() => onNavigate({ view: 'metadata-viewer' })}
+          <SmartLink
+            route={{ view: 'metadata-viewer' }}
             className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 hover:border-blue-400 transition-all cursor-pointer group space-y-3"
           >
             <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 flex items-center justify-center">
@@ -609,11 +642,12 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
               <span>View Metadata</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
 
           {/* How to Open Guides */}
-          <div
-            onClick={() => onNavigate({ view: 'how-to-open', ext: ext1Lower })}
+          {isValidCatalogExtension(ext1Lower) ? (
+          <SmartLink
+            route={{ view: 'how-to-open', ext: ext1Lower }}
             className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 hover:border-blue-400 transition-all cursor-pointer group space-y-3"
           >
             <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 flex items-center justify-center">
@@ -631,7 +665,22 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
               <span>Read Opening Guides</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
+          ) : (
+          <DeadLink className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 group space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 flex items-center justify-center">
+              <BookOpen className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="font-bold text-sm text-slate-900 dark:text-white">
+                How to Open Guides
+              </h4>
+              <p className="text-xs text-slate-500 mt-1">
+                Step-by-step instructions for Windows, Mac, iOS & Android.
+              </p>
+            </div>
+          </DeadLink>
+          )}
         </div>
       </section>
 
@@ -647,20 +696,21 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
                 Explore more format face-offs in this category.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate({ view: 'compare-hub', categoryFilter: category })}
+            <SmartLink
+              route={{view: 'compare-hub', categoryFilter: category}}
               className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
             >
               <span>View All</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </SmartLink>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {relatedComparisons.map((rel) => (
-              <div
+              isValidComparisonSlug(rel.slug) ? (
+              <SmartLink
                 key={rel.slug}
-                onClick={() => onNavigate({ view: 'comparison-detail', slug: rel.slug })}
+                route={{ view: 'comparison-detail', slug: rel.slug }}
                 className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/80 hover:border-blue-400 transition-all cursor-pointer group space-y-2.5"
               >
                 <div className="flex items-center gap-2">
@@ -678,7 +728,26 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
                 <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
                   {rel.highlight}
                 </p>
-              </div>
+              </SmartLink>
+              ) : (
+              <DeadLink
+                key={rel.slug}
+                className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-700/80 group space-y-2.5"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="font-mono font-bold text-sm text-slate-500">
+                    .{rel.ext1}
+                  </span>
+                  <span className="text-xs text-slate-400 font-bold">vs</span>
+                  <span className="font-mono font-bold text-sm text-slate-500">
+                    .{rel.ext2}
+                  </span>
+                </div>
+                <h4 className="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">
+                  {rel.title}
+                </h4>
+              </DeadLink>
+              )
             ))}
           </div>
         </section>

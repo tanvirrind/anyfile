@@ -47,6 +47,8 @@ import { ConversionHistoryWidget } from '../components/converter/ConversionHisto
 import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
 import { CONVERTERS_LIST } from '../data/convertersData';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidConverterId } from '../lib/routes/routeManifest';
 
 interface ConverterDetailPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -198,12 +200,12 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
         <p className="text-slate-600 dark:text-slate-400 max-w-md mx-auto">
           AnyFileX only publishes guides and tools for verified, fully functional in-browser transformations.
         </p>
-        <button
-          onClick={() => onNavigate({ view: 'converters' })}
+        <SmartLink
+          route={{view: 'converters'}}
           className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors inline-flex items-center gap-2"
         >
           <ArrowRight className="w-4 h-4" /> Browse Supported Converters
-        </button>
+        </SmartLink>
       </div>
     );
   }
@@ -425,12 +427,12 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
               </div>
             </div>
             <div className="pt-1">
-              <button
-                onClick={() => onNavigate(guide.internalLinks.sourceFormatRoute)}
+                            <SmartLink
+                route={guide.internalLinks.sourceFormatRoute}
                 className="text-xs font-bold text-blue-600 hover:text-blue-700 dark:text-blue-400 inline-flex items-center gap-1 cursor-pointer"
               >
                 <BookOpen className="w-3.5 h-3.5" /> Read Full .{fromUpper} Specification Guide
-              </button>
+              </SmartLink>
             </div>
           </div>
 
@@ -787,12 +789,12 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
                 .{fromUpper} vs .{toUpper}: Technical Comparison
               </h2>
             </div>
-            <button
-              onClick={() => onNavigate(guide.internalLinks.comparisonRoute)}
+                        <SmartLink
+              route={guide.internalLinks.comparisonRoute}
               className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950 text-xs font-bold text-blue-600 dark:text-blue-300 hover:bg-blue-100 transition-colors"
             >
               Full Comparison <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </SmartLink>
           </div>
 
           <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
@@ -858,13 +860,13 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
                 </div>
                 {t.toolAction && (
                   <div className="pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
-                    <button
-                      onClick={() => onNavigate(t.toolAction!.route)}
+                                        <SmartLink
+                      route={t.toolAction!.route}
                       className="px-3.5 py-1.5 rounded-xl bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:border-blue-500 text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-blue-600 transition-colors inline-flex items-center gap-1.5 cursor-pointer shadow-2xs"
                     >
                       <Wrench className="w-3.5 h-3.5 text-blue-600" />
                       {t.toolAction.label}
-                    </button>
+                    </SmartLink>
                   </div>
                 )}
               </div>
@@ -904,8 +906,8 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
             {/* Source Guide Link */}
-            <div
-              onClick={() => onNavigate(guide.internalLinks.sourceFormatRoute)}
+            <SmartLink
+              route={guide.internalLinks.sourceFormatRoute}
               className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-colors cursor-pointer group shadow-2xs space-y-1"
             >
               <div className="flex items-center justify-between">
@@ -916,11 +918,11 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
                 What is .{fromUpper}?
               </h4>
               <p className="text-xs text-slate-500">Read complete specifications, MIME & history.</p>
-            </div>
+            </SmartLink>
 
             {/* How to Open Source */}
-            <div
-              onClick={() => onNavigate(guide.internalLinks.sourceHowToOpenRoute)}
+            <SmartLink
+              route={guide.internalLinks.sourceHowToOpenRoute}
               className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-colors cursor-pointer group shadow-2xs space-y-1"
             >
               <div className="flex items-center justify-between">
@@ -931,11 +933,11 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
                 How to Open .{fromUpper}
               </h4>
               <p className="text-xs text-slate-500">Step-by-step opening on Windows, Mac, iOS & Android.</p>
-            </div>
+            </SmartLink>
 
             {/* Comparison Link */}
-            <div
-              onClick={() => onNavigate(guide.internalLinks.comparisonRoute)}
+            <SmartLink
+              route={guide.internalLinks.comparisonRoute}
               className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-colors cursor-pointer group shadow-2xs space-y-1"
             >
               <div className="flex items-center justify-between">
@@ -946,11 +948,11 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
                 .{fromUpper} vs .{toUpper}
               </h4>
               <p className="text-xs text-slate-500">Side-by-side benchmark & compression face-off.</p>
-            </div>
+            </SmartLink>
 
             {/* Magic Byte Inspector */}
-            <div
-              onClick={() => onNavigate(guide.internalLinks.magicByteRoute)}
+            <SmartLink
+              route={guide.internalLinks.magicByteRoute}
               className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-colors cursor-pointer group shadow-2xs space-y-1"
             >
               <div className="flex items-center justify-between">
@@ -961,11 +963,11 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
                 Magic Byte Detector
               </h4>
               <p className="text-xs text-slate-500">Inspect raw binary header & verify file integrity.</p>
-            </div>
+            </SmartLink>
 
             {/* Target Format Guide */}
-            <div
-              onClick={() => onNavigate(guide.internalLinks.targetFormatRoute)}
+            <SmartLink
+              route={guide.internalLinks.targetFormatRoute}
               className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-colors cursor-pointer group shadow-2xs space-y-1"
             >
               <div className="flex items-center justify-between">
@@ -976,11 +978,11 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
                 What is .{toUpper}?
               </h4>
               <p className="text-xs text-slate-500">Learn about target container features.</p>
-            </div>
+            </SmartLink>
 
             {/* File Analyzer */}
-            <div
-              onClick={() => onNavigate(guide.internalLinks.analyzerRoute)}
+            <SmartLink
+              route={guide.internalLinks.analyzerRoute}
               className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-colors cursor-pointer group shadow-2xs space-y-1"
             >
               <div className="flex items-center justify-between">
@@ -991,7 +993,7 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
                 File Analyzer & EXIF
               </h4>
               <p className="text-xs text-slate-500">Inspect metadata, dimensions, and color profiles.</p>
-            </div>
+            </SmartLink>
           </div>
 
           {/* Related Conversion Cluster Cards */}
@@ -1002,9 +1004,10 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 {guide.internalLinks.relatedConversions.map((rel) => (
-                  <div
+                  isValidConverterId(rel.slug) ? (
+                  <SmartLink
                     key={rel.slug}
-                    onClick={() => onNavigate({ view: 'converter-detail', id: rel.slug })}
+                    route={{ view: 'converter-detail', id: rel.slug }}
                     className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-colors cursor-pointer flex items-center justify-between group"
                   >
                     <div>
@@ -1016,7 +1019,22 @@ export const ConverterDetailPage: React.FC<ConverterDetailPageProps> = ({
                       </span>
                     </div>
                     <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all shrink-0" />
-                  </div>
+                  </SmartLink>
+                  ) : (
+                  <DeadLink
+                    key={rel.slug}
+                    className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 flex items-center justify-between group"
+                  >
+                    <div>
+                      <span className="text-[11px] font-mono font-bold text-slate-500 block">
+                        {rel.badge}
+                      </span>
+                      <span className="text-xs font-bold text-slate-500">
+                        {rel.name}
+                      </span>
+                    </div>
+                  </DeadLink>
+                  )
                 ))}
               </div>
             </div>

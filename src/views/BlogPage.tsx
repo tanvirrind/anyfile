@@ -5,6 +5,7 @@ import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
+import { SmartLink } from '../components/SmartLink';
 
 interface BlogPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -90,11 +91,10 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onNavigate, selectedPostId }
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {BLOG_POSTS.map((item) => (
-          <div
+          <SmartLink
+            route={{ view: 'blog-post', id: item.id }}
             key={item.id}
-            onClick={() => onNavigate({ view: 'blog-post', id: item.id })}
             className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:-translate-y-1"
-            id={`blog-card-${item.id}`}
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -124,7 +124,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onNavigate, selectedPostId }
               <span>Read Article</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
         ))}
       </div>
     </div>
