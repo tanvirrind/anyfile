@@ -29,6 +29,8 @@ import {
 import { FileTypeInfo, CategoryType, AppRoute } from '../types';
 import { fileFormatDB, CMSAuditLog, CMSAnalytics } from '../lib/database/fileFormatDatabase';
 import { SEOHead } from '../components/SEOHead';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidCatalogExtension } from '../lib/routes/routeManifest';
 
 interface AdminCMSPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -286,12 +288,18 @@ export const AdminCMSPage: React.FC<AdminCMSPageProps> = ({ onNavigate }) => {
                         </span>
                       </td>
                       <td className="p-3.5 pr-5 text-right space-x-2">
-                        <button
-                          onClick={() => onNavigate({ view: 'extension-detail', ext: ext.extension.toLowerCase() })}
+                        isValidCatalogExtension(ext.extension) ? (
+                        <SmartLink
+                          route={{ view: 'extension-detail', ext: ext.extension.toLowerCase() }}
                           className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-600 hover:text-white text-slate-700 dark:text-slate-300 font-bold text-[11px] cursor-pointer transition-colors"
-                        >
-                          View
-                        </button>
+                        >                          View
+                        </SmartLink>
+                        ) : (
+                        <DeadLink
+                          className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-600 hover:text-white text-slate-700 dark:text-slate-300 font-bold text-[11px] cursor-pointer transition-colors"
+                        >                          View
+                        </DeadLink>
+                        )
                         <button
                           onClick={() => handleStatusChange(ext.extension, ext.approvalStatus === 'approved' ? 'rejected' : 'approved')}
                           className="px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-800 dark:text-slate-200 font-bold text-[11px] cursor-pointer"

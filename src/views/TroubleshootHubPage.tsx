@@ -23,6 +23,7 @@ import {
   TroubleshootingGuideItem
 } from '../lib/database/troubleshootingData';
 import { AppRoute } from '../types';
+import { SmartLink, DeadLink } from '../components/SmartLink';
 
 interface TroubleshootHubPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -147,9 +148,9 @@ export const TroubleshootHubPage: React.FC<TroubleshootHubPageProps> = ({
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {COMMON_ERROR_DECODER.map((item, idx) => (
-              <div
+              <SmartLink
+                route={{ view: 'repair-detail', id: item.solutionGuideId }}
                 key={idx}
-                onClick={() => onNavigate({ view: 'repair-detail', id: item.solutionGuideId })}
                 className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50/30 dark:hover:bg-blue-950/20 transition-all cursor-pointer group flex flex-col justify-between"
               >
                 <div>
@@ -165,7 +166,7 @@ export const TroubleshootHubPage: React.FC<TroubleshootHubPageProps> = ({
                   <span>View Diagnostic Resolution</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
-              </div>
+              </SmartLink>
             ))}
           </div>
         </section>
@@ -215,9 +216,9 @@ export const TroubleshootHubPage: React.FC<TroubleshootHubPageProps> = ({
           {/* Guides Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredGuides.map((guide) => (
-              <div
+              <SmartLink
+                route={{ view: 'repair-detail', id: guide.id }}
                 key={guide.id}
-                onClick={() => onNavigate({ view: 'repair-detail', id: guide.id })}
                 className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-blue-400 dark:hover:border-blue-600 transition-all cursor-pointer group flex flex-col justify-between"
               >
                 <div className="space-y-4">
@@ -255,7 +256,7 @@ export const TroubleshootHubPage: React.FC<TroubleshootHubPageProps> = ({
                   <span>{guide.commonErrorMessages.length} common errors</span>
                   <span>{guide.osWorkflows.length} OS workflows</span>
                 </div>
-              </div>
+              </SmartLink>
             ))}
           </div>
 
@@ -298,18 +299,18 @@ export const TroubleshootHubPage: React.FC<TroubleshootHubPageProps> = ({
             </div>
 
             <div className="shrink-0 flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={() => onNavigate({ view: 'file-analyzer' })}
+              <SmartLink
+                route={{view: 'file-analyzer'}}
                 className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors shadow-sm text-center"
               >
                 Launch File Analyzer
-              </button>
-              <button
-                onClick={() => onNavigate({ view: 'checksum-verifier' })}
+              </SmartLink>
+              <SmartLink
+                route={{view: 'checksum-verifier'}}
                 className="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors border border-slate-700 text-center"
               >
                 Verify Hash Checksum
-              </button>
+              </SmartLink>
             </div>
           </div>
         </section>

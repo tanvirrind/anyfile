@@ -43,6 +43,8 @@ import { getOrGenerateExtensionInfo, ExtensionInfoResult } from '../lib/seo/exte
 import { generateExtensionSchema, generateExtensionFAQs } from '../lib/seo/faqGenerator';
 import { POPULAR_FILE_TYPES } from '../data/fileTypesData';
 import { getBestComparisonForExtension } from '../lib/database/knowledgeGraph';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidCatalogExtension, isValidComparisonSlug } from '../lib/routes/routeManifest';
 
 interface ExtensionDetailPageProps {
   ext: string;
@@ -231,18 +233,18 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
             The extension <strong>.{item.extension}</strong> is not listed in our verified format database. It may be mistyped, proprietary, or not a standardized format.
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-2">
-            <button
-              onClick={() => onNavigate({ view: 'extensions' })}
+            <SmartLink
+              route={{view: 'extensions'}}
               className="px-5 py-2.5 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 transition"
             >
               Browse Verified Formats
-            </button>
-            <button
-              onClick={() => onNavigate({ view: 'file-identifier' })}
+            </SmartLink>
+            <SmartLink
+              route={{view: 'file-identifier'}}
               className="px-5 py-2.5 bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-xl font-semibold text-sm hover:bg-slate-300 dark:hover:bg-slate-700 transition"
             >
               Inspect Raw File (Magic Bytes)
-            </button>
+            </SmartLink>
           </div>
         </div>
       )}
@@ -355,14 +357,14 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
             <span>How to Open (OS Guide)</span>
           </button>
 
-          <button
-            onClick={() => onNavigate({ view: 'format-guide', format: item.extension.toLowerCase() })}
+          <SmartLink
+            route={{ view: 'format-guide', format: item.extension.toLowerCase() }}
             className="px-5 py-3 rounded-2xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/50 dark:bg-blue-950/40 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-700 dark:text-blue-300 font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-2"
             id="primary-action-format-guide-btn"
           >
             <BookOpen className="w-4 h-4 text-blue-500" />
             <span>What Is .{item.extension}? Guide</span>
-          </button>
+          </SmartLink>
 
           <button
             onClick={() => handleTocSelect('conversions-hub')}
@@ -496,9 +498,10 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {relatedExts.map((rel) => (
-                <button
+                isValidCatalogExtension(rel.extension) ? (
+                <SmartLink
                   key={rel.extension}
-                  onClick={() => onNavigate({ view: 'extension-detail', ext: rel.extension.toLowerCase() })}
+                  route={{ view: 'extension-detail', ext: rel.extension.toLowerCase() }}
                   className="p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 bg-slate-50/50 dark:bg-slate-800/30 text-left transition-all cursor-pointer group space-y-1"
                 >
                   <div className="font-mono font-bold text-xs text-blue-600 dark:text-blue-400 group-hover:translate-x-0.5 transition-transform flex items-center justify-between">
@@ -506,7 +509,18 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
                     <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <p className="text-[11px] text-slate-500 line-clamp-1">{rel.name}</p>
-                </button>
+                </SmartLink>
+                ) : (
+                <DeadLink
+                  key={rel.extension}
+                  className="p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 text-left group space-y-1"
+                >
+                  <div className="font-mono font-bold text-xs text-slate-500 flex items-center justify-between">
+                    <span>.{rel.extension}</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500 line-clamp-1">{rel.name}</p>
+                </DeadLink>
+                )
               ))}
             </div>
           </section>
@@ -526,8 +540,9 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div
-                onClick={() => onNavigate({ view: 'comparison-detail', slug: bestComparison.slug })}
+              {isValidComparisonSlug(bestComparison.slug) ? (
+              <SmartLink
+                route={{ view: 'comparison-detail', slug: bestComparison.slug }}
                 className="p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 hover:border-blue-400 bg-slate-50/50 dark:bg-slate-800/30 transition-all cursor-pointer group space-y-2"
               >
                 <div className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
@@ -536,10 +551,20 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
                 <p className="text-xs text-slate-500 leading-relaxed">
                   {bestComparison.highlight}
                 </p>
-              </div>
+              </SmartLink>
+              ) : (
+              <DeadLink className="p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 group space-y-2">
+                <div className="font-bold text-sm text-slate-500">
+                  .{item.extension} vs .{bestComparison.targetExt} Comparison
+                </div>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  {bestComparison.highlight}
+                </p>
+              </DeadLink>
+              )}
 
-              <div
-                onClick={() => onNavigate({ view: 'blog-detail', id: 'how-to-open-unknown-files' })}
+              <SmartLink
+                route={{ view: 'blog-detail', id: 'how-to-open-unknown-files' }}
                 className="p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 hover:border-blue-400 bg-slate-50/50 dark:bg-slate-800/30 transition-all cursor-pointer group space-y-2"
               >
                 <div className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
@@ -548,7 +573,7 @@ export const ExtensionDetailPage: React.FC<ExtensionDetailPageProps> = ({ ext, o
                 <p className="text-xs text-slate-500 leading-relaxed">
                   Step-by-step security guide on magic byte analysis, sandboxed file viewing, and resolving unknown extension errors.
                 </p>
-              </div>
+              </SmartLink>
             </div>
           </section>
 

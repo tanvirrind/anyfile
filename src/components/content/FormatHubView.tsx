@@ -26,6 +26,8 @@ import {
   Clock,
   Sparkles
 } from 'lucide-react';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidConverterId, isValidComparisonSlug, isValidRepairId } from '../../lib/routes/routeManifest';
 
 interface FormatHubViewProps {
   topic: string; // e.g. 'heic', 'webp', 'png', 'jpg', 'pdf'
@@ -166,8 +168,8 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div
-            onClick={() => onNavigate({ view: 'file-analyzer' })}
+          <SmartLink
+            route={{ view: 'file-analyzer' }}
             className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 shadow-xs hover:shadow-md transition-all cursor-pointer group"
           >
             <div className="flex items-center gap-3 mb-2">
@@ -184,10 +186,10 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
             <p className="text-xs text-slate-600 dark:text-slate-400">
               Inspect {extUpper} hexadecimal signatures, container geometry, and detect extension spoofs.
             </p>
-          </div>
+          </SmartLink>
 
-          <div
-            onClick={() => onNavigate({ view: 'workflows' })}
+          <SmartLink
+            route={{ view: 'workflows' }}
             className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 shadow-xs hover:shadow-md transition-all cursor-pointer group"
           >
             <div className="flex items-center gap-3 mb-2">
@@ -204,10 +206,10 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
             <p className="text-xs text-slate-600 dark:text-slate-400">
               Chain multi-step actions: Convert {extUpper} → Resize → Compress → Strip EXIF → Package ZIP.
             </p>
-          </div>
+          </SmartLink>
 
-          <div
-            onClick={() => onNavigate({ view: 'tool-detail', slug: 'image-compressor' } as any)}
+          <SmartLink
+            route={{ view: 'tool-detail', slug: 'image-compressor' }}
             className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 shadow-xs hover:shadow-md transition-all cursor-pointer group"
           >
             <div className="flex items-center gap-3 mb-2">
@@ -224,7 +226,7 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
             <p className="text-xs text-slate-600 dark:text-slate-400">
               Reduce payload size with real-time visual side-by-side comparison and instant download.
             </p>
-          </div>
+          </SmartLink>
         </div>
       </div>
 
@@ -236,11 +238,8 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* 1. What is format guide */}
-          <div
-            onClick={() => {
-              if (formatGuide) onNavigate({ view: 'guide-detail', id: formatGuide.slug });
-              else onNavigate({ view: 'extension-detail', ext: extLower });
-            }}
+                    <SmartLink
+            route={formatGuide ? { view: 'guide-detail', id: formatGuide.slug } : { view: 'extension-detail', ext: extLower }}
             className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
           >
             <div className="space-y-3">
@@ -261,14 +260,11 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
               <span>Read Format Guide</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
 
           {/* 2. How to open */}
-          <div
-            onClick={() => {
-              if (howToGuide) onNavigate({ view: 'guide-detail', id: howToGuide.slug });
-              else onNavigate({ view: 'how-to-open', ext: extLower } as any);
-            }}
+                    <SmartLink
+            route={howToGuide ? { view: 'guide-detail', id: howToGuide.slug } : { view: 'how-to-open', ext: extLower }}
             className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
           >
             <div className="space-y-3">
@@ -289,14 +285,12 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
               <span>View OS Instructions</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
 
           {/* 3. Conversion Guide */}
-          <div
-            onClick={() => {
-              if (conversionGuide) onNavigate({ view: 'guide-detail', id: conversionGuide.slug });
-              else onNavigate({ view: 'converter-detail', id: `${extLower}-to-jpg` });
-            }}
+          conversionGuide || isValidConverterId(`${extLower}-to-jpg`) ? (
+          <SmartLink
+            route={conversionGuide ? { view: 'guide-detail', id: conversionGuide.slug } : { view: 'converter-detail', id: `${extLower}-to-jpg` }}
             className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
           >
             <div className="space-y-3">
@@ -317,14 +311,36 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
               <span>Read Conversion Steps</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
+          ) : (
+          <DeadLink
+            className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-all group flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="p-2 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600">
+                  <RefreshCw className="w-5 h-5" />
+                </span>
+                <Badge variant="violet">Conversion</Badge>
+              </div>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-purple-600 transition-colors">
+                {conversionGuide?.title || `How to Convert ${extUpper} to JPG / PNG`}
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                {conversionGuide?.summary || `Transform ${extUpper} to universal image formats in your browser without cloud uploads.`}
+              </p>
+            </div>
+            <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-purple-600">
+              <span>Read Conversion Steps</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </DeadLink>
+          )
 
           {/* 4. Format Comparisons */}
-          <div
-            onClick={() => {
-              if (comparisonGuide) onNavigate({ view: 'guide-detail', id: comparisonGuide.slug });
-              else onNavigate({ view: 'compare-detail' as any, id: `${extLower}-vs-jpg` });
-            }}
+          comparisonGuide || isValidComparisonSlug(`${extLower}-vs-jpg`) ? (
+          <SmartLink
+            route={comparisonGuide ? { view: 'guide-detail', id: comparisonGuide.slug } : { view: 'comparison-detail', slug: `${extLower}-vs-jpg` }}
             className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
           >
             <div className="space-y-3">
@@ -345,14 +361,36 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
               <span>View Benchmark Matrix</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
+          ) : (
+          <DeadLink
+            className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-all group flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600">
+                  <GitCompare className="w-5 h-5" />
+                </span>
+                <Badge variant="blue">Comparison</Badge>
+              </div>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-indigo-600 transition-colors">
+                {comparisonGuide?.title || `${extUpper} vs JPG: Compression & Specs Compared`}
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                {comparisonGuide?.summary || `Benchmark compression ratios, color bit-depth, transparency, and compatibility side-by-side.`}
+              </p>
+            </div>
+            <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-indigo-600">
+              <span>View Benchmark Matrix</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </DeadLink>
+          )
 
           {/* 5. Troubleshooting & Repair */}
-          <div
-            onClick={() => {
-              if (troubleshootingGuide) onNavigate({ view: 'guide-detail', id: troubleshootingGuide.slug });
-              else onNavigate({ view: 'repair-detail', id: `${extLower}-repair` });
-            }}
+          troubleshootingGuide || isValidRepairId(`${extLower}-repair`) ? (
+          <SmartLink
+            route={troubleshootingGuide ? { view: 'guide-detail', id: troubleshootingGuide.slug } : { view: 'repair-detail', id: `${extLower}-repair` }}
             className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
           >
             <div className="space-y-3">
@@ -373,14 +411,35 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
               <span>Troubleshoot Errors</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
+          ) : (
+          <DeadLink
+            className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 transition-all group flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600">
+                  <AlertTriangle className="w-5 h-5" />
+                </span>
+                <Badge variant="amber">Troubleshooting</Badge>
+              </div>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-amber-600 transition-colors">
+                {troubleshootingGuide?.title || `Why Won't My ${extUpper} File Open? Fix Errors`}
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                {troubleshootingGuide?.summary || `Diagnose truncated streams, black screen errors, and missing codec problems.`}
+              </p>
+            </div>
+            <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-amber-600">
+              <span>Troubleshoot Errors</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </DeadLink>
+          )
 
           {/* 6. Software Compatibility */}
-          <div
-            onClick={() => {
-              if (softwareGuide) onNavigate({ view: 'guide-detail', id: softwareGuide.slug });
-              else onNavigate({ view: 'software' });
-            }}
+                    <SmartLink
+            route={softwareGuide ? { view: 'guide-detail', id: softwareGuide.slug } : { view: 'software' }}
             className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:shadow-lg transition-all cursor-pointer group flex flex-col justify-between"
           >
             <div className="space-y-3">
@@ -401,7 +460,7 @@ export const FormatHubView: React.FC<FormatHubViewProps> = ({ topic, onNavigate 
               <span>View Compatible Apps</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
-          </div>
+          </SmartLink>
         </div>
       </div>
 
