@@ -9,6 +9,8 @@ import { FAQAccordion } from '../components/FAQAccordion';
 import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
 import { generateFAQSchema } from '../lib/seo/faqGenerator';
+import { isValidCatalogExtension, isValidSoftwareId } from '../lib/routes/routeManifest';
+import { SmartLink, DeadLink } from '../components/SmartLink';
 
 interface CategoryPageProps {
   categoryId: string;
@@ -91,9 +93,10 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onNaviga
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {matchingExts.map((item) => (
-            <div
+            isValidCatalogExtension(item.extension) ? (
+            <SmartLink
+              route={{ view: 'extension-detail', ext: item.extension }}
               key={item.extension}
-              onClick={() => onNavigate({ view: 'extension-detail', ext: item.extension })}
               className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:-translate-y-1"
             >
               <div className="space-y-3">
@@ -118,7 +121,36 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onNaviga
                 <span>View Details</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
-            </div>
+            </SmartLink>
+            ) : (
+            <DeadLink
+              key={item.extension}
+              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 transition-all duration-200 flex flex-col justify-between group"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-mono font-extrabold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/80 px-3 py-1 rounded-xl">
+                    .{item.extension}
+                  </span>
+                  <Badge variant="slate">{item.category}</Badge>
+                </div>
+
+                <div>
+                  <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                    {item.name}
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-blue-600">
+                <span>View Details</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </DeadLink>
+            )
           ))}
         </div>
       </div>
@@ -133,9 +165,10 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onNaviga
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {matchingSoftware.map((item) => (
-              <div
+              isValidSoftwareId(item.id) ? (
+              <SmartLink
+                route={{ view: 'software-detail', id: item.id }}
                 key={item.id}
-                onClick={() => onNavigate({ view: 'software-detail', id: item.id })}
                 className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:-translate-y-1"
               >
                 <div>
@@ -150,7 +183,26 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onNaviga
                   <span>View Software</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
-              </div>
+              </SmartLink>
+              ) : (
+              <DeadLink
+                key={item.id}
+                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 transition-all duration-200 flex flex-col justify-between group"
+              >
+                <div>
+                  <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">
+                    {item.name}
+                  </h3>
+                  <div className="text-xs text-slate-400">{item.developer} • {item.priceText}</div>
+                  <p className="text-xs text-slate-500 mt-2 line-clamp-2">{item.description}</p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-emerald-600">
+                  <span>View Software</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </DeadLink>
+              )
             ))}
           </div>
         </div>
@@ -167,9 +219,9 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onNaviga
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 text-xs">
           {CATEGORIES_LIST.map((cat) => (
-            <button
+            <SmartLink
               key={cat.id}
-              onClick={() => onNavigate({ view: 'category-detail', id: cat.id })}
+              route={{ view: 'category-detail', id: cat.id }}
               className={`p-3 rounded-2xl border text-left font-semibold transition-all flex items-center justify-between cursor-pointer ${
                 cat.id === category.id
                   ? 'bg-blue-600 border-blue-500 text-white'
@@ -178,7 +230,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onNaviga
             >
               <span className="truncate">{cat.name}</span>
               <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-            </button>
+            </SmartLink>
           ))}
         </div>
       </div>

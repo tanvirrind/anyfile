@@ -22,6 +22,8 @@ import { notifyAnalysisComplete } from '../components/InstallPrompt';
 import { FILE_SIGNATURES } from '../data/fileSignaturesData';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
+import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isValidCatalogExtension } from '../lib/routes/routeManifest';
 
 interface FileIdentifierPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -185,9 +187,10 @@ export const FileIdentifierPage: React.FC<FileIdentifierPageProps> = ({ onNaviga
         {/* Database Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-mono text-xs">
           {filteredSignatures.map((sig) => (
-            <div
+            isValidCatalogExtension(sig.extension) ? (
+            <SmartLink
+              route={{ view: 'extension-detail', ext: sig.extension.toLowerCase() }}
               key={sig.id}
-              onClick={() => onNavigate({ view: 'extension-detail', ext: sig.extension.toLowerCase() })}
               className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 transition-all cursor-pointer space-y-2 group"
             >
               <div className="flex items-center justify-between font-sans">
@@ -213,7 +216,37 @@ export const FileIdentifierPage: React.FC<FileIdentifierPageProps> = ({ onNaviga
               <p className="font-sans text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
                 {sig.description}
               </p>
-            </div>
+            </SmartLink>
+            ) : (
+            <DeadLink
+              key={sig.id}
+              className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 transition-all space-y-2 group"
+            >
+              <div className="flex items-center justify-between font-sans">
+                <span className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-1.5 group-hover:text-blue-600">
+                  <span className="px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/80 text-blue-700 dark:text-blue-300 font-mono text-xs">
+                    .{sig.extension}
+                  </span>
+                  <span className="line-clamp-1">{sig.name}</span>
+                </span>
+                <span className="text-[10px] text-slate-400 font-semibold">{sig.category}</span>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 space-y-1">
+                <div className="text-slate-400 text-[10px] flex items-center justify-between">
+                  <span>Magic Bytes (Hex):</span>
+                  <span>Offset: 0x{sig.offset.toString(16).padStart(2, '0')}</span>
+                </div>
+                <div className="font-bold text-emerald-600 dark:text-emerald-400 truncate">
+                  {sig.signature}
+                </div>
+              </div>
+
+              <p className="font-sans text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                {sig.description}
+              </p>
+            </DeadLink>
+            )
           ))}
         </div>
       </div>

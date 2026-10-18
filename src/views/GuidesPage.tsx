@@ -26,6 +26,7 @@ import { getAllContentEntities, getContentEntityBySlug } from '../lib/content/co
 import { CONTENT_CLUSTERS, getClusterById } from '../lib/content/contentClusters';
 import { ContentArticleView } from '../components/content/ContentArticleView';
 import { ContentEntity } from '../lib/content/types';
+import { SmartLink, DeadLink } from '../components/SmartLink';
 
 interface GuidesPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -140,13 +141,13 @@ export const GuidesPage: React.FC<GuidesPageProps> = ({ onNavigate, selectedGuid
         <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
           <span className="text-xs font-bold text-slate-400">Popular Hubs:</span>
           {['HEIC', 'WEBP', 'AVIF', 'DOCX', 'ZIP', 'PDF', 'PNG', 'JPG'].map(ext => (
-            <button
+                        <SmartLink
+              route={{ view: 'content-hub' as any, topic: ext.toLowerCase() }}
               key={ext}
-              onClick={() => onNavigate({ view: 'content-hub' as any, topic: ext.toLowerCase() })}
               className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-950/60 dark:hover:text-blue-400 text-xs font-mono font-bold text-slate-700 dark:text-slate-300 transition-all"
             >
               .{ext} Hub
-            </button>
+            </SmartLink>
           ))}
         </div>
       </div>
@@ -219,11 +220,10 @@ export const GuidesPage: React.FC<GuidesPageProps> = ({ onNavigate, selectedGuid
         {filteredEntities.map(item => {
           const cluster = getClusterById(item.clusterId);
           return (
-            <div
+            <SmartLink
+              route={{ view: 'guide-detail', id: item.slug }}
               key={item.id}
-              onClick={() => onNavigate({ view: 'guide-detail', id: item.slug })}
               className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:-translate-y-1"
-              id={`guide-card-${item.id}`}
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -260,7 +260,7 @@ export const GuidesPage: React.FC<GuidesPageProps> = ({ onNavigate, selectedGuid
                 <span>Read Full Guide</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
-            </div>
+            </SmartLink>
           );
         })}
       </div>

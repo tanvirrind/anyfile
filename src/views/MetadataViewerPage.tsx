@@ -20,6 +20,7 @@ import { Badge } from '../components/Badge';
 import { MetadataUploader } from '../components/MetadataUploader';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
+import { SmartLink } from '../components/SmartLink';
 
 interface MetadataViewerPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -186,13 +187,12 @@ export const MetadataViewerPage: React.FC<MetadataViewerPageProps> = ({ onNaviga
               Learn how to clean EXIF and document properties or use our browser scrubber.
             </p>
           </div>
-          <button
-            onClick={() => onNavigate({ view: 'remove-metadata' })}
+          <SmartLink
+            route={{ view: 'remove-metadata' }}
             className="px-5 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs sm:text-sm shrink-0 flex items-center gap-2 transition-colors cursor-pointer"
-          >
-            <span>Remove Metadata Guide</span>
+          >            <span>Remove Metadata Guide</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </SmartLink>
         </div>
       </div>
 

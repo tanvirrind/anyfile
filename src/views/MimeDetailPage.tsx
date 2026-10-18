@@ -22,6 +22,7 @@ import { Badge } from '../components/Badge';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
 import { parseMimeSlug } from '../data/expandedMimeDatabase';
+import { SmartLink, DeadLink } from '../components/SmartLink';
 
 interface MimeDetailPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -248,13 +249,13 @@ def download():
               Run binary magic byte inspection in Magic Byte Detector.
             </p>
           </div>
-          <button
-            onClick={() => onNavigate({ view: 'magic-byte-detector' })}
+          <SmartLink
+            route={{view: 'magic-byte-detector'}}
             className="px-5 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-bold text-xs sm:text-sm shrink-0 flex items-center gap-2 transition-colors cursor-pointer"
           >
             <span>Open Magic Byte Detector</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </SmartLink>
         </div>
       </div>
 

@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { parseTnef, EmailAttachment, ParsedEmail } from '../../lib/email/emailEngine';
 import { AppRoute } from '../../types';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidToolSlug } from '../../lib/routes/routeManifest';
 
 interface WinmailExtractorWorkspaceProps {
   onNavigate?: (route: AppRoute) => void;
@@ -230,13 +232,20 @@ export const WinmailExtractorWorkspace: React.FC<WinmailExtractorWorkspaceProps>
             </div>
 
             <div className="flex items-center justify-between">
-              <button
-                onClick={() => onNavigate?.({ view: 'tool-detail', slug: 'email-viewer' })}
+              isValidToolSlug('email-viewer') ? (
+              <SmartLink
+                route={{ view: 'tool-detail', slug: 'email-viewer' }}
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer"
-              >
-                <span>Need to view full EML or MSG emails?</span>
+              >                <span>Need to view full EML or MSG emails?</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              </SmartLink>
+              ) : (
+              <DeadLink
+                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer"
+              >                <span>Need to view full EML or MSG emails?</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </DeadLink>
+              )
 
               <button
                 onClick={() => setResult(null)}

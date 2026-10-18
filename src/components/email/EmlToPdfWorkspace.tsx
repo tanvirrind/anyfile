@@ -25,6 +25,8 @@ import {
   ParsedEmail,
 } from '../../lib/email/emailEngine';
 import { AppRoute } from '../../types';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidToolSlug } from '../../lib/routes/routeManifest';
 
 interface EmlToPdfWorkspaceProps {
   onNavigate?: (route: AppRoute) => void;
@@ -236,13 +238,20 @@ export const EmlToPdfWorkspace: React.FC<EmlToPdfWorkspaceProps> = ({ onNavigate
                     <span>Download PDF Document</span>
                   </a>
                 )}
-                <button
-                  onClick={() => onNavigate?.({ view: 'tool-detail', slug: 'email-viewer' })}
+                isValidToolSlug('email-viewer') ? (
+                <SmartLink
+                  route={{ view: 'tool-detail', slug: 'email-viewer' }}
                   className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
-                >
-                  <Mail className="w-4 h-4" />
+                >                  <Mail className="w-4 h-4" />
                   <span>Open in Interactive Email Viewer</span>
-                </button>
+                </SmartLink>
+                ) : (
+                <DeadLink
+                  className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
+                >                  <Mail className="w-4 h-4" />
+                  <span>Open in Interactive Email Viewer</span>
+                </DeadLink>
+                )
               </div>
             </div>
 

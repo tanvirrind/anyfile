@@ -26,6 +26,7 @@ import {
   Zap,
   Sliders
 } from 'lucide-react';
+import { SmartLink } from '../components/SmartLink';
 
 interface FileAnalyzerPageProps {
   initialReportId?: string;
@@ -123,13 +124,11 @@ export const FileAnalyzerPage: React.FC<FileAnalyzerPageProps> = ({
           >
             <Clock className="w-3.5 h-3.5 text-blue-500" /> Workflow History
           </button>
-          <button
-            type="button"
-            onClick={() => onNavigate({ view: 'workflows' })}
+          <SmartLink
+            route={{ view: 'workflows' }}
             className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
-          >
-            <Zap className="w-3.5 h-3.5" /> Pipeline Builder
-          </button>
+          >            <Zap className="w-3.5 h-3.5" /> Pipeline Builder
+          </SmartLink>
         </div>
       </div>
 
