@@ -40,6 +40,8 @@ import {
   createEmailSandboxDocument,
 } from '../../lib/email/emailEngine';
 import { AppRoute } from '../../types';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidConverterId, isValidToolSlug } from '../../lib/routes/routeManifest';
 
 interface EmailViewerWorkspaceProps {
   initialFile?: File;
@@ -740,27 +742,48 @@ export const EmailViewerWorkspace: React.FC<EmailViewerWorkspaceProps> = ({ init
           <div className="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-semibold text-slate-500">Related Email Tools:</span>
-              <button
-                onClick={() => onNavigate?.({ view: 'converter-detail', id: 'eml-to-pdf' })}
+              isValidConverterId('eml-to-pdf') ? (
+              <SmartLink
+                route={{ view: 'converter-detail', id: 'eml-to-pdf' }}
                 className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer font-semibold"
-              >
-                <span>EML to PDF Converter</span>
+              >                <span>EML to PDF Converter</span>
                 <ArrowRight className="w-3 h-3" />
-              </button>
-              <button
-                onClick={() => onNavigate?.({ view: 'tool-detail', slug: 'winmail-extractor' })}
+              </SmartLink>
+              ) : (
+              <DeadLink
                 className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer font-semibold"
-              >
-                <span>Winmail.dat Extractor</span>
+              >                <span>EML to PDF Converter</span>
                 <ArrowRight className="w-3 h-3" />
-              </button>
-              <button
-                onClick={() => onNavigate?.({ view: 'tool-detail', slug: 'msg-to-eml' })}
+              </DeadLink>
+              )
+              isValidToolSlug('winmail-extractor') ? (
+              <SmartLink
+                route={{ view: 'tool-detail', slug: 'winmail-extractor' }}
                 className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer font-semibold"
-              >
-                <span>Outlook MSG to EML</span>
+              >                <span>Winmail.dat Extractor</span>
                 <ArrowRight className="w-3 h-3" />
-              </button>
+              </SmartLink>
+              ) : (
+              <DeadLink
+                className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer font-semibold"
+              >                <span>Winmail.dat Extractor</span>
+                <ArrowRight className="w-3 h-3" />
+              </DeadLink>
+              )
+              isValidToolSlug('msg-to-eml') ? (
+              <SmartLink
+                route={{ view: 'tool-detail', slug: 'msg-to-eml' }}
+                className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer font-semibold"
+              >                <span>Outlook MSG to EML</span>
+                <ArrowRight className="w-3 h-3" />
+              </SmartLink>
+              ) : (
+              <DeadLink
+                className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer font-semibold"
+              >                <span>Outlook MSG to EML</span>
+                <ArrowRight className="w-3 h-3" />
+              </DeadLink>
+              )
             </div>
 
             <button

@@ -41,6 +41,8 @@ import {
   Clock,
   X
 } from 'lucide-react';
+import { SmartLink, DeadLink } from '../SmartLink';
+import { isValidCatalogExtension, isValidSoftwareId } from '../../lib/routes/routeManifest';
 
 interface FileAnalysisResultViewProps {
   analysis: FileAnalysis;
@@ -149,20 +151,23 @@ export const FileAnalysisResultView: React.FC<FileAnalysisResultViewProps> = ({
 
           {/* Quick Primary Actions */}
           <div className="flex flex-wrap items-center gap-2.5">
-            <button
-              type="button"
-              onClick={() => onNavigate({ view: 'how-to-open', ext: analysis.detectedExtension.toLowerCase() })}
+            isValidCatalogExtension(analysis.detectedExtension) ? (
+            <SmartLink
+              route={{ view: 'how-to-open', ext: analysis.detectedExtension.toLowerCase() }}
               className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition-all flex items-center gap-2"
-            >
-              <HelpCircle className="w-4 h-4" /> How to Open
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigate({ view: 'converters' })}
+            >              <HelpCircle className="w-4 h-4" /> How to Open
+            </SmartLink>
+            ) : (
+            <DeadLink
+              className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold shadow-sm transition-all flex items-center gap-2"
+            >              <HelpCircle className="w-4 h-4" /> How to Open
+            </DeadLink>
+            )
+            <SmartLink
+              route={{ view: 'converters' }}
               className="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-sm font-semibold transition-all flex items-center gap-2"
-            >
-              <RefreshCw className="w-4 h-4 text-blue-500" /> Convert File
-            </button>
+            >              <RefreshCw className="w-4 h-4 text-blue-500" /> Convert File
+            </SmartLink>
             <button
               type="button"
               onClick={onAnalyzeAnother}
@@ -906,13 +911,18 @@ export const FileAnalysisResultView: React.FC<FileAnalysisResultViewProps> = ({
                             </span>
                           ))}
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => onNavigate({ view: 'software-detail', id: software.id })}
+                        isValidSoftwareId(software.id) ? (
+                        <SmartLink
+                          route={{ view: 'software-detail', id: software.id }}
                           className="text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 flex items-center gap-1"
-                        >
-                          Details <ArrowRight className="w-3 h-3" />
-                        </button>
+                        >                          Details <ArrowRight className="w-3 h-3" />
+                        </SmartLink>
+                        ) : (
+                        <DeadLink
+                          className="text-xs font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 flex items-center gap-1"
+                        >                          Details <ArrowRight className="w-3 h-3" />
+                        </DeadLink>
+                        )
                       </div>
                     </div>
                   ))}
@@ -926,13 +936,18 @@ export const FileAnalysisResultView: React.FC<FileAnalysisResultViewProps> = ({
 
             {/* Direct How-to-open Link */}
             <div className="pt-2">
-              <button
-                type="button"
-                onClick={() => onNavigate({ view: 'how-to-open', ext: analysis.detectedExtension.toLowerCase() })}
+              isValidCatalogExtension(analysis.detectedExtension) ? (
+              <SmartLink
+                route={{ view: 'how-to-open', ext: analysis.detectedExtension.toLowerCase() }}
                 className="w-full py-3 rounded-2xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 hover:bg-blue-100 font-bold text-sm transition-all flex items-center justify-center gap-2"
-              >
-                View Detailed How-to-Open Guide for .{analysis.detectedExtension.toUpperCase()} <ChevronRight className="w-4 h-4" />
-              </button>
+              >                View Detailed How-to-Open Guide for .{analysis.detectedExtension.toUpperCase()} <ChevronRight className="w-4 h-4" />
+              </SmartLink>
+              ) : (
+              <DeadLink
+                className="w-full py-3 rounded-2xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 hover:bg-blue-100 font-bold text-sm transition-all flex items-center justify-center gap-2"
+              >                View Detailed How-to-Open Guide for .{analysis.detectedExtension.toUpperCase()} <ChevronRight className="w-4 h-4" />
+              </DeadLink>
+              )
             </div>
           </div>
         </div>
@@ -948,13 +963,11 @@ export const FileAnalysisResultView: React.FC<FileAnalysisResultViewProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {analysis.availableTools.map((tool) => (
-                <button
+                <SmartLink
+                  route={tool.route}
                   key={tool.id}
-                  type="button"
-                  onClick={() => onNavigate(tool.route)}
                   className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 bg-white dark:bg-slate-800/40 hover:shadow-md transition-all text-left group space-y-2"
-                >
-                  <div className="flex items-center justify-between">
+                >                  <div className="flex items-center justify-between">
                     <span className="px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-semibold">
                       {tool.badge || 'Tool'}
                     </span>
@@ -966,7 +979,7 @@ export const FileAnalysisResultView: React.FC<FileAnalysisResultViewProps> = ({
                   <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                     {tool.description}
                   </p>
-                </button>
+                </SmartLink>
               ))}
             </div>
 
@@ -978,14 +991,20 @@ export const FileAnalysisResultView: React.FC<FileAnalysisResultViewProps> = ({
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {analysis.knowledgeNode.relatedExtensions.map((relExt) => (
-                    <button
+                    isValidCatalogExtension(relExt.ext) ? (
+                    <SmartLink
+                      route={{ view: 'extension-detail', ext: relExt.ext.toLowerCase() }}
                       key={relExt.ext}
-                      type="button"
-                      onClick={() => onNavigate({ view: 'extension-detail', ext: relExt.ext.toLowerCase() })}
                       className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-700 text-xs font-mono font-bold text-slate-700 dark:text-slate-300 transition-colors"
-                    >
-                      .{relExt.ext.toUpperCase()}
-                    </button>
+                    >                      .{relExt.ext.toUpperCase()}
+                    </SmartLink>
+                    ) : (
+                    <DeadLink
+                      key={relExt.ext}
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-slate-700 text-xs font-mono font-bold text-slate-700 dark:text-slate-300 transition-colors"
+                    >                      .{relExt.ext.toUpperCase()}
+                    </DeadLink>
+                    )
                   ))}
                 </div>
               </div>
