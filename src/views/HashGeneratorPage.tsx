@@ -22,6 +22,7 @@ import {
   Layers,
   ShieldAlert
 } from 'lucide-react';
+import { SmartLink } from '../components/SmartLink';
 import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
@@ -522,13 +523,12 @@ Zero file payload transmitted to external servers.
                 Use our dedicated Checksum Verifier tool to paste original vendor checksums.
               </p>
             </div>
-            <button
-              onClick={() => onNavigate({ view: 'checksum-verifier' })}
+            <SmartLink
+              route={{ view: 'checksum-verifier' }}
               className="px-5 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs sm:text-sm shrink-0 flex items-center gap-2 transition-colors cursor-pointer"
-            >
-              <span>Open Checksum Verifier</span>
+            >              <span>Open Checksum Verifier</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </SmartLink>
           </div>
         </div>
       )}

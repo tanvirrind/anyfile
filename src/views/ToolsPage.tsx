@@ -31,6 +31,7 @@ import { SEOHead } from '../components/SEOHead';
 import { TOOLS_REGISTRY, getAllTools, ToolDefinition } from '../lib/tools/toolsRegistry';
 import { FORMATS_REGISTRY } from '../lib/converter/registry';
 import { InstallPrompt } from '../components/InstallPrompt';
+import { SmartLink } from '../components/SmartLink';
 
 interface ToolsPageProps {
   onNavigate: (route: AppRoute) => void;
@@ -610,11 +611,10 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
         {filteredTools.map((tool) => {
           const Icon = tool.icon;
           return (
-            <div
+            <SmartLink
+              route={tool.route}
               key={tool.id}
-              onClick={() => onNavigate(tool.route)}
               className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 rounded-3xl p-6 shadow-xs hover:shadow-xl transition-all duration-200 flex flex-col justify-between space-y-5 cursor-pointer relative"
-              id={`tool-card-${tool.id}`}
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between gap-2">
@@ -661,7 +661,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </div>
-            </div>
+            </SmartLink>
           );
         })}
       </div>

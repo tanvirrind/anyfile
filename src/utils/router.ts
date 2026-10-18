@@ -68,8 +68,11 @@ export function routeToPath(route: AppRoute): string {
         return `/tools/${encodeURIComponent(route.categoryFilter.toLowerCase())}`;
       }
       return route.toolId ? `/tools/${encodeURIComponent(route.toolId)}` : '/tools';
-    case 'tool-detail':
-      return `/tools/${encodeURIComponent(route.slug.toLowerCase())}`;
+    case 'tool-detail': {
+      // 'file-analyzer' is a legacy slug that 307-redirects; always emit the canonical.
+      const slug = route.slug.toLowerCase() === 'file-analyzer' ? 'file-identifier' : route.slug.toLowerCase();
+      return `/tools/${encodeURIComponent(slug)}`;
+    }
     case 'file-analyzer':
       return route.id ? `/tools/file-identifier/result/${encodeURIComponent(route.id)}` : '/tools/file-identifier';
     case 'file-identifier':

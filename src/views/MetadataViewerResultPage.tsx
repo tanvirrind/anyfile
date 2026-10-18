@@ -30,6 +30,7 @@ import { Badge } from '../components/Badge';
 import { TOCSidebar } from '../components/TOCSidebar';
 import { FAQAccordion } from '../components/FAQAccordion';
 import { SEOHead } from '../components/SEOHead';
+import { SmartLink } from '../components/SmartLink';
 
 interface MetadataViewerResultPageProps {
   reportId: string;
@@ -139,12 +140,11 @@ export const MetadataViewerResultPage: React.FC<MetadataViewerResultPageProps> =
           <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
           <span className="font-bold">Metadata can contain personal information.</span>
         </div>
-        <button
-          onClick={() => onNavigate({ view: 'remove-metadata' })}
+        <SmartLink
+          route={{ view: 'remove-metadata' }}
           className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shrink-0 transition-colors cursor-pointer"
-        >
-          Strip Metadata Now
-        </button>
+        >          Strip Metadata Now
+        </SmartLink>
       </div>
 
       {/* Hero Card Header */}
@@ -177,13 +177,12 @@ export const MetadataViewerResultPage: React.FC<MetadataViewerResultPageProps> =
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <button
-              onClick={() => onNavigate({ view: 'metadata-viewer' })}
+            <SmartLink
+              route={{ view: 'metadata-viewer' }}
               className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
-            >
-              <ArrowLeft className="w-4 h-4" />
+            >              <ArrowLeft className="w-4 h-4" />
               <span>Inspect Another File</span>
-            </button>
+            </SmartLink>
           </div>
         </div>
 
@@ -483,13 +482,12 @@ export const MetadataViewerResultPage: React.FC<MetadataViewerResultPageProps> =
             </div>
 
             <div className="pt-2 flex flex-wrap gap-3">
-              <button
-                onClick={() => onNavigate({ view: 'remove-metadata' })}
+              <SmartLink
+                route={{ view: 'remove-metadata' }}
                 className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm flex items-center gap-2 transition-colors cursor-pointer shadow-md"
-              >
-                <Trash2 className="w-4 h-4" />
+              >                <Trash2 className="w-4 h-4" />
                 <span>Scrub & Remove Metadata Now</span>
-              </button>
+              </SmartLink>
             </div>
           </section>
 
