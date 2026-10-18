@@ -26,7 +26,10 @@ import {
   Files,
   Scissors,
   Type,
-  Link2
+  Link2,
+  Maximize2,
+  Crop as CropIcon,
+  ScanText
 } from 'lucide-react';
 import { AppRoute, ToolTab } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
@@ -159,6 +162,42 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       icon: ImageIcon,
       tags: ['Favicon Maker', 'Multi-Size ICO', 'Real ICO Container', 'Zero Upload'],
       badge: 'New Favicon Tool',
+      processingType: 'local',
+      isPopular: true
+    },
+    {
+      id: 'image-resizer',
+      name: 'Image Resizer — Resize by Pixels, Percent, or Preset',
+      category: 'Images',
+      desc: 'Resize PNG, JPG, or WEBP with aspect-ratio lock, format conversion, and quality control — before/after dimensions and size shown.',
+      route: { view: 'tool-detail', slug: 'image-resizer' } as any,
+      icon: Maximize2,
+      tags: ['Exact Pixels', 'Percent & Presets', 'Aspect Lock', 'Zero Upload'],
+      badge: 'New Resize Tool',
+      processingType: 'local',
+      isPopular: true
+    },
+    {
+      id: 'image-cropper',
+      name: 'Image Cropper — Drag-to-Crop Any Photo',
+      category: 'Images',
+      desc: 'Drag a crop frame over any image (free-form or 1:1, 4:3, 3:2, 16:9) with live preview and full-resolution export.',
+      route: { view: 'tool-detail', slug: 'image-cropper' } as any,
+      icon: CropIcon,
+      tags: ['Drag Frame', 'Aspect Presets', 'Live Preview', 'Full Resolution'],
+      badge: 'New Crop Tool',
+      processingType: 'local',
+      isPopular: true
+    },
+    {
+      id: 'image-to-text',
+      name: 'Image to Text — OCR Text Extractor',
+      category: 'Images',
+      desc: 'Extract printed text from images with in-browser OCR (English) — real progress, editable result, copy and .txt download.',
+      route: { view: 'tool-detail', slug: 'image-to-text' } as any,
+      icon: ScanText,
+      tags: ['Tesseract OCR', 'English', 'Editable Result', 'Zero Upload'],
+      badge: 'New OCR Tool',
       processingType: 'local',
       isPopular: true
     },

@@ -46,6 +46,9 @@ import { PdfToTextWorkspace } from '../components/tools/PdfToTextWorkspace';
 import { Base64Workspace } from '../components/tools/Base64Workspace';
 import { UrlCodecWorkspace } from '../components/tools/UrlCodecWorkspace';
 import { ImageToIcoWorkspace } from '../components/tools/ImageToIcoWorkspace';
+import { ImageResizerWorkspace } from '../components/tools/ImageResizerWorkspace';
+import { ImageCropperWorkspace } from '../components/tools/ImageCropperWorkspace';
+import { OcrWorkspace } from '../components/tools/OcrWorkspace';
 import { getFormatKnowledgeNode } from '../lib/database/knowledgeGraph';
 import { SmartLink, DeadLink } from '../components/SmartLink';
 import { isValidCatalogExtension, isValidComparisonSlug } from '../lib/routes/routeManifest';
@@ -298,6 +301,12 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
           <UrlCodecWorkspace />
         ) : toolSlug === 'image-to-ico' ? (
           <ImageToIcoWorkspace />
+        ) : toolSlug === 'image-resizer' ? (
+          <ImageResizerWorkspace />
+        ) : toolSlug === 'image-cropper' ? (
+          <ImageCropperWorkspace />
+        ) : toolSlug === 'image-to-text' ? (
+          <OcrWorkspace />
         ) : toolSlug === 'magic-byte-detector' ? (
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 text-center space-y-5">
             <FileCode className="w-12 h-12 text-blue-600 mx-auto" />
