@@ -79,6 +79,7 @@ The framing that matters: think in terms of files you have the right to move. Yo
   relatedTools: ['file-identifier'],
   relatedSoftware: [],
   relatedGuides: ['what-are-magic-bytes'],
+  relatedConverters: ['epub-to-pdf'],
   faq: [
     {
       question: 'Can I read EPUB books directly on my Kindle without converting?',
@@ -196,6 +197,7 @@ And a final privacy-flavored note, since these files often arrive from other peo
   relatedTools: ['file-identifier'],
   relatedSoftware: [],
   relatedGuides: ['what-are-magic-bytes', 'what-is-a-video-container-format'],
+  relatedConverters: ['mov-to-mp4', 'avi-to-mp4'],
   faq: [
     {
       question: 'Why can\u2019t the iPhone Files app play MKV files?',
@@ -460,6 +462,7 @@ A final word on direction: convert toward compatibility, not away from it. MP4 w
   relatedTools: ['file-identifier'],
   relatedSoftware: [],
   relatedGuides: ['what-are-magic-bytes', 'what-is-a-file-extension'],
+  relatedConverters: ['mov-to-mp4', 'avi-to-mp4'],
   faq: [
     {
       question: 'Is MP4 a codec or a container?',
@@ -564,6 +567,7 @@ A final word on direction: convert toward compatibility, not away from it. MP4 w
   relatedTools: ['image-compressor', 'file-identifier'],
   relatedSoftware: [],
   relatedGuides: ['png-vs-jpg-vs-webp', 'what-is-exif-data'],
+  relatedConverters: ['webp-to-jpg', 'heic-to-jpg', 'png-to-jpg'],
   faq: [
     {
       question: 'How many images can I convert at once?',

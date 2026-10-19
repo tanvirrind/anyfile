@@ -411,7 +411,7 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
                 </Link>
               )}
 
-              {linkingMatrix.guideLinks.slice(0, 3).map((g, idx) => (
+              {linkingMatrix.guideLinks.slice(0, 4).map((g, idx) => (
                 <Link
                   key={idx}
                   href={g.targetUrl}
@@ -422,6 +422,20 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
                     {g.targetTitle}
                   </div>
                   <span className="text-xs text-slate-500 block mt-1">{g.anchorText}</span>
+                </Link>
+              ))}
+
+              {linkingMatrix.converterLinks.slice(0, 3).map((c, idx) => (
+                <Link
+                  key={idx}
+                  href={c.targetUrl}
+                  className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 transition-all cursor-pointer group"
+                >
+                  <span className="text-[11px] font-bold text-violet-600 block uppercase">{c.contextHint}</span>
+                  <div className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors truncate">
+                    {c.targetTitle}
+                  </div>
+                  <span className="text-xs text-slate-500 block mt-1">{c.anchorText}</span>
                 </Link>
               ))}
             </div>
