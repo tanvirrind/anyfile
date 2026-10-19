@@ -380,7 +380,7 @@ class SearchEngine {
             id: hubId,
             slug: `file-extensions/${ext}`,
             url: `https://anyfilex.com/file-extensions/${ext}`,
-            route: { view: 'content-hub' as any, topic: ext },
+            route: { view: 'extension-detail', ext },
             title: `${ext.toUpperCase()} Topic Authority Hub`,
             description: `Complete technical hub for ${ext.toUpperCase()} files: tools, conversion guides, magic bytes, and OS instructions.`,
             type: 'guide',
@@ -392,7 +392,7 @@ class SearchEngine {
             searchWeight: 90,
             lastUpdated: new Date().toISOString(),
             quickActions: [
-              { label: 'Explore Format Hub', action: 'navigate', route: { view: 'content-hub' as any, topic: ext } }
+              { label: 'Explore Format Hub', action: 'navigate', route: { view: 'extension-detail', ext } }
             ]
           });
         }

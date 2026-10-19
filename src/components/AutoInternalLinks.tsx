@@ -68,13 +68,26 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
     (f) => f.category === currentExt.category && f.extension.toLowerCase() !== ext
   ).slice(0, 8);
 
-  // 2. Converters for this format or category
+  // 2. Converters for this format or category. Exact from/to matches rank
+  // first: without the sort, broad category matches (e.g. every "Images"
+  // converter) can crowd the 6-slot cap and hide the exact converter for
+  // this format (seen: psd-to-jpg and png-to-svg missing from their own
+  // extension pages).
   const relevantConverters = CONVERTERS_LIST.filter(
     (c) =>
       c.fromExt.toLowerCase() === ext ||
       c.toExt.toLowerCase() === ext ||
       c.category.toLowerCase().includes(currentExt.category.toLowerCase())
-  ).slice(0, 6);
+  )
+    .sort((a, b) => {
+      const rank = (c: (typeof CONVERTERS_LIST)[number]) => {
+        if (c.fromExt.toLowerCase() === ext) return 0;
+        if (c.toExt.toLowerCase() === ext) return c.isInteractiveToolAvailable === true ? 1 : 2;
+        return 3;
+      };
+      return rank(a) - rank(b);
+    })
+    .slice(0, 6);
 
   // 3. Software supporting this format or category
   const relevantSoftware = SOFTWARE_LIST.filter(
@@ -278,7 +291,12 @@ export const AutoInternalLinks: React.FC<AutoInternalLinksProps> = ({ currentExt
             {popularGuides.map((guide) => (
               <Link
                 key={guide.id}
-                href={href({ view: 'blog-detail', id: guide.id })}
+                href={href({
+                  // GUIDES_LIST entries are guides (/guides/<id>); only
+                  // BLOG_POSTS live under /blog/<id>. Mixing them 404d.
+                  view: BLOG_POSTS.some((p) => p.id === guide.id) ? 'blog-detail' : 'guide-detail',
+                  id: guide.id,
+                })}
                 className="p-3 rounded-xl bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 text-left transition-all cursor-pointer group space-y-1"
               >
                 <div className="font-bold text-slate-200 group-hover:text-sky-300 transition-colors line-clamp-1">

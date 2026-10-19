@@ -130,18 +130,30 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
             >
               Browse Valid Comparisons
             </SmartLink>
+            {isValidCatalogExtension(ext1Lower) ? (
             <SmartLink
               route={{view: 'extension-detail', ext: ext1Lower}}
               className="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-sm transition-all cursor-pointer"
             >
               View .{ext1} Specs
             </SmartLink>
+            ) : (
+            <span className="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 font-bold text-sm">
+              View .{ext1} Specs
+            </span>
+            )}
+            {isValidCatalogExtension(ext2Lower) ? (
             <SmartLink
               route={{view: 'extension-detail', ext: ext2Lower}}
               className="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-sm transition-all cursor-pointer"
             >
               View .{ext2} Specs
             </SmartLink>
+            ) : (
+            <span className="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 font-bold text-sm">
+              View .{ext2} Specs
+            </span>
+            )}
           </div>
         </div>
       </div>
@@ -236,6 +248,7 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
                 </span>
                 <Badge variant="blue">{ext1Info.category}</Badge>
               </div>
+              {isValidCatalogExtension(ext1Lower) ? (
               <SmartLink
                 route={{view: 'extension-detail', ext: ext1Lower}}
                 className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
@@ -243,6 +256,12 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
                 <span>Full Specs</span>
                 <ArrowRight className="w-3 h-3" />
               </SmartLink>
+              ) : (
+              <span className="text-xs font-bold text-slate-400 flex items-center gap-1">
+                <span>Full Specs</span>
+                <ArrowRight className="w-3 h-3" />
+              </span>
+              )}
             </div>
             <div>
               <h3 className="font-bold text-base text-slate-900 dark:text-white">{ext1Info.name}</h3>
@@ -269,6 +288,7 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
                 </span>
                 <Badge variant="violet">{ext2Info.category}</Badge>
               </div>
+              {isValidCatalogExtension(ext2Lower) ? (
               <SmartLink
                 route={{view: 'extension-detail', ext: ext2Lower}}
                 className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 cursor-pointer"
@@ -276,6 +296,12 @@ export const ComparisonPage: React.FC<ComparisonPageProps> = ({ slug, onNavigate
                 <span>Full Specs</span>
                 <ArrowRight className="w-3 h-3" />
               </SmartLink>
+              ) : (
+              <span className="text-xs font-bold text-slate-400 flex items-center gap-1">
+                <span>Full Specs</span>
+                <ArrowRight className="w-3 h-3" />
+              </span>
+              )}
             </div>
             <div>
               <h3 className="font-bold text-base text-slate-900 dark:text-white">{ext2Info.name}</h3>
