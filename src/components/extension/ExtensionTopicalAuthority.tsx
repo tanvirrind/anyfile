@@ -35,7 +35,7 @@ import { getComparisonGuide } from '../../lib/guides/comparisonGuideEngine';
 import { FILE_SIGNATURES } from '../../data/fileSignaturesData';
 import { CONVERTERS_LIST } from '../../data/convertersData';
 import { SmartLink, DeadLink } from '../SmartLink';
-import { isValidConverterId } from '../../lib/routes/routeManifest';
+import { isValidConverterId, isValidComparisonSlug } from '../../lib/routes/routeManifest';
 
 interface ExtensionTopicalAuthorityProps {
   item: FileTypeInfo;
@@ -59,6 +59,11 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
   const formatGuide = getOrGenerateFormatGuide(extUpper);
   const bestComparison = getBestComparisonForExtension(item.extension, item.category);
   const comparisonGuide = getComparisonGuide(bestComparison.slug);
+  // The engine synthesizes a comparison slug for extensions without a curated
+  // comparison page (e.g. 3ds-vs-dwg). Linking it would 404, so the CTA only
+  // renders when a real comparison page exists. The on-page table is kept as
+  // pre-existing content.
+  const hasComparisonPage = isValidComparisonSlug(bestComparison.slug);
   const sigMatch = FILE_SIGNATURES.find((s) => s.extension.toLowerCase() === extLower);
 
   const handleCopyText = (text: string, type: 'mime' | 'magic') => {
@@ -1154,7 +1159,7 @@ AddType ${primaryMime} .${extLower}`}
 
           <div className="pt-2 flex justify-end">
             <SmartLink
-              route={{view: 'tools', toolId: 'magic-bytes'}}
+              route={{view: 'tool-detail', slug: 'magic-byte-detector'}}
               className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 cursor-pointer"
             >
               <Zap className="w-3.5 h-3.5 text-blue-500" />
@@ -1217,6 +1222,7 @@ AddType ${primaryMime} .${extLower}`}
           </table>
         </div>
 
+        {hasComparisonPage && (
         <div className="pt-2 flex justify-end">
           <SmartLink
             route={{view: 'comparison-detail', slug: bestComparison.slug}}
@@ -1226,6 +1232,7 @@ AddType ${primaryMime} .${extLower}`}
             <ArrowRight className="w-4 h-4" />
           </SmartLink>
         </div>
+        )}
       </section>
 
       {/* ========================================================================= */}

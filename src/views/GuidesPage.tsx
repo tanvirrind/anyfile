@@ -142,7 +142,7 @@ export const GuidesPage: React.FC<GuidesPageProps> = ({ onNavigate, selectedGuid
           <span className="text-xs font-bold text-slate-400">Popular Hubs:</span>
           {['HEIC', 'WEBP', 'AVIF', 'DOCX', 'ZIP', 'PDF', 'PNG', 'JPG'].map(ext => (
                         <SmartLink
-              route={{ view: 'content-hub' as any, topic: ext.toLowerCase() }}
+              route={{ view: 'extension-detail', ext: ext.toLowerCase() }}
               key={ext}
               className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-950/60 dark:hover:text-blue-400 text-xs font-mono font-bold text-slate-700 dark:text-slate-300 transition-all"
             >
