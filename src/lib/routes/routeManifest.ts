@@ -40,6 +40,12 @@ export const SPANISH_CONVERSION_SLUGS = [
 export const BASE_URL = 'https://anyfilex.com';
 export const PLATFORM_RELEASE_DATE = '2026-09-18';
 
+// /tools/ slugs whose canonical surface is /converters/ (identical workspace
+// rendered on both sides; the /tools/ URL 301s via next.config.mjs). Used by
+// the route manifest (sitemap exclusion) and the internal-linking engine
+// (link the canonical directly, never the redirect).
+export const redirectOnlyToolSlugs = new Set(['zip-creator', 'zip-extractor', 'rar-extractor', '3mf-to-stl', 'docx-to-pdf', 'eml-to-pdf', 'heic-to-jpg', 'heic-to-png', 'jpg-to-png', 'jpg-to-webp', 'pdf-to-jpg', 'pdf-to-png', 'png-to-jpg', 'png-to-webp', 'pptx-to-pdf', 'svg-to-jpg', 'svg-to-png', 'webp-to-jpg', 'webp-to-png']);
+
 export function getMimeRouteSlug(mimeType: string): string {
   return mimeType.replace('/', '-').replace(/\+/g, '-plus-').toLowerCase();
 }
@@ -650,8 +656,9 @@ export function buildRouteManifest(): RouteManifestEntry[] {
     });
   }
 
-  // 10. Tools (excluding user result pages and legacy redirect-only slugs)
-  const redirectOnlyToolSlugs = new Set(['zip-creator', 'zip-extractor', 'rar-extractor', '3mf-to-stl']);
+  // 10. Tools (excluding user result pages and legacy redirect-only slugs).
+  // The 15 converter twins render the identical ConverterUploadBox as their
+  // /converters/ canonicals — retired 2026-10-19 (301 via next.config.mjs).
   for (const [slug, tool] of Object.entries(TOOLS_REGISTRY)) {
     if (redirectOnlyToolSlugs.has(slug)) continue;
     add({
