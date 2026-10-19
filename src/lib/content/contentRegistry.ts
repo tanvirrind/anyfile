@@ -498,7 +498,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     relatedExtensions: ['HEIC', 'JPG', 'WEBP', 'AVIF'],
     relatedTools: ['heic-to-jpg', 'image-compressor', 'file-analyzer'],
     relatedSoftware: ['apple-photos', 'copytrans', 'adobe-photoshop', 'gimp'],
-    relatedGuides: ['what-is-a-heic-file', 'how-to-open-a-heic-file', 'how-to-convert-heic-to-jpg'],
+    relatedGuides: ['what-is-a-heic-file', 'how-to-open-a-heic-file', 'how-to-convert-heic-to-jpg', 'batch-convert-images'],
     relatedComparisons: ['webp-vs-png', 'avif-vs-webp'],
     faq: [
       {
@@ -887,7 +887,7 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     relatedExtensions: ['HEIC', 'JPG', 'PNG'],
     relatedTools: ['heic-to-jpg', 'image-compressor', 'file-analyzer'],
     relatedSoftware: ['copytrans', 'irfanview', 'gimp', 'apple-photos', 'adobe-photoshop', 'google-photos'],
-    relatedGuides: ['what-is-a-heic-file', 'how-to-open-a-heic-file', 'how-to-convert-heic-to-jpg'],
+    relatedGuides: ['what-is-a-heic-file', 'how-to-open-a-heic-file', 'how-to-convert-heic-to-jpg', 'batch-convert-images'],
     faq: [
       {
         question: 'Is CopyTrans HEIC for Windows completely safe and free?',

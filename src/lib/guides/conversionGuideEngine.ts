@@ -1,5 +1,7 @@
 import { AppRoute } from '../../types';
 import { resolveConverterPair, FORMATS_REGISTRY, POPULAR_CONVERTER_PAIRS } from '../converter/registry';
+import { CONVERTERS_LIST } from '../../data/convertersData';
+import { CURATED_COMPARISONS } from '../database/knowledgeGraph';
 import { getOrGenerateExtensionInfo } from '../seo/extensionGenerator';
 
 export interface BenchmarkRow {
@@ -191,6 +193,20 @@ const SUPPORTED_CONVERSION_MAP: Record<string, string[]> = {
   files: ['zip'],
   '3mf': ['stl'],
 };
+
+/**
+ * Returns true when a converter id resolves to a real /converters/[id] page —
+ * the same inventory the route's generateStaticParams + notFound() guard use.
+ * Use before emitting any generated converter link (e.g. `${from}-to-png`).
+ */
+export function converterPageExists(id: string): boolean {
+  if (!id || typeof id !== 'string') return false;
+  const clean = id.trim().toLowerCase();
+  return (
+    CONVERTERS_LIST.some((c) => c.id.toLowerCase() === clean) ||
+    getAllSupportedConversionSlugs().some((s) => s.toLowerCase() === clean)
+  );
+}
 
 /**
  * Validates if a conversion is genuinely supported in AnyFileX
@@ -681,6 +697,22 @@ export function getConversionAuthorityGuide(slugOrFrom: string, optionalTo?: str
   ];
 
   // Troubleshooting scenarios
+  // Tool actions must link to real converter pages only. Generated ids like
+  // `${fromExt}-to-png` can name pairs with no page (e.g. 3mf-to-png), which
+  // would 404 — so the route is validated against the same inventory the
+  // /converters/[id] route renders, and omitted when invalid.
+  const pngToolAction: TroubleshootingCase['toolAction'] = converterPageExists(`${fromExt}-to-png`)
+    ? {
+        label: `Convert ${fromUpper} to PNG (Lossless Alpha)`,
+        route: { view: 'converter-detail', id: `${fromExt}-to-png` } as AppRoute,
+      }
+    : undefined;
+  const webpToolAction: TroubleshootingCase['toolAction'] = converterPageExists(`${fromExt}-to-webp`)
+    ? {
+        label: `Convert ${fromUpper} to WebP (Maximum Compression)`,
+        route: { view: 'converter-detail', id: `${fromExt}-to-webp` } as AppRoute,
+      }
+    : undefined;
   const troubleshooting: TroubleshootingCase[] = [
     {
       id: 'color-shift',
@@ -699,10 +731,7 @@ export function getConversionAuthorityGuide(slugOrFrom: string, optionalTo?: str
       symptom: 'Logos or cutouts with transparent backgrounds have a solid white or black box around them.',
       cause: `${toUpper} does not support alpha channel transparency, so transparent pixels are composited onto a solid background color.`,
       solution: toExt === 'jpg' ? `Use the background fill color picker in AnyFileX to match your target website color, or convert to PNG / WebP instead.` : `Ensure target format is set to PNG or WebP.`,
-      toolAction: {
-        label: `Convert ${fromUpper} to PNG (Lossless Alpha)`,
-        route: { view: 'converter-detail', id: `${fromExt}-to-png` }
-      }
+      toolAction: pngToolAction
     },
     {
       id: 'file-size-jump',
@@ -710,10 +739,7 @@ export function getConversionAuthorityGuide(slugOrFrom: string, optionalTo?: str
       symptom: `The output .${toUpper} file has a bigger megabyte size than the original .${fromUpper}.`,
       cause: `${fromUpper} uses high-efficiency modern compression codecs (like HEVC or VP8), while older formats require more bytes to store identical resolution.`,
       solution: `To minimize file size, adjust the quality slider down to 80%-85%, or convert to modern WebP format.`,
-      toolAction: {
-        label: `Convert ${fromUpper} to WebP (Maximum Compression)`,
-        route: { view: 'converter-detail', id: `${fromExt}-to-webp` }
-      }
+      toolAction: webpToolAction
     },
     {
       id: 'corrupted-signature',
@@ -825,7 +851,21 @@ export function getConversionAuthorityGuide(slugOrFrom: string, optionalTo?: str
       sourceFormatRoute: { view: 'format-guide', format: fromExt },
       targetFormatRoute: { view: 'format-guide', format: toExt },
       sourceHowToOpenRoute: { view: 'how-to-open', ext: fromExt },
-      comparisonRoute: { view: 'comparison-detail', slug: `${fromExt}-vs-${toExt}` },
+      // Comparison links must use a real curated slug. Curated slugs use a
+      // canonical ordering (e.g. pdf-vs-docx), so try both orders; when no
+      // curated pair exists, fall back to the compare hub instead of 404ing.
+      comparisonRoute: (() => {
+        const fwd = `${fromExt}-vs-${toExt}`;
+        const rev = `${toExt}-vs-${fromExt}`;
+        const curated = CURATED_COMPARISONS.some((c) => c.slug === fwd)
+          ? fwd
+          : CURATED_COMPARISONS.some((c) => c.slug === rev)
+            ? rev
+            : null;
+        return curated
+          ? ({ view: 'comparison-detail', slug: curated } as AppRoute)
+          : ({ view: 'compare-hub' } as AppRoute);
+      })(),
       converterRoute: { view: 'converter-detail', id: slug },
       analyzerRoute: { view: 'file-analyzer' },
       magicByteRoute: { view: 'magic-byte-detector' },
