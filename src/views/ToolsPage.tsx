@@ -204,6 +204,30 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
 
     // Document Tools
     {
+      id: 'office-recovery',
+      name: 'Corrupted Office File Diagnostic & Recovery Inspector',
+      category: 'Documents',
+      desc: 'Inspect damaged DOCX, XLSX, and PPTX packages to find readable content and recoverable parts — locally, without changing the original file.',
+      route: { view: 'tool-detail', slug: 'office-recovery' } as any,
+      icon: FileText,
+      tags: ['DOCX/XLSX/PPTX', 'Corruption Diagnosis', 'Recovery', '100% Private'],
+      badge: 'Recovery Utility',
+      processingType: 'local',
+      isPopular: false
+    },
+    {
+      id: 'pdf-preflight',
+      name: 'PDF Preflight & Print Readiness Checker',
+      category: 'Documents',
+      desc: 'Inspect PDF structure, fonts, print boxes, embedded content, and risky actions before you share or print — entirely in your browser.',
+      route: { view: 'tool-detail', slug: 'pdf-preflight' } as any,
+      icon: FileText,
+      tags: ['Print Readiness', 'Font Check', 'Embedded Files', '100% Private'],
+      badge: 'Publishing Utility',
+      processingType: 'local',
+      isPopular: false
+    },
+    {
       id: 'pdf-to-jpg',
       name: 'PDF to JPG Page Converter',
       category: 'Documents',
@@ -458,6 +482,18 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       isPopular: true
     },
     {
+      id: 'mbox-viewer',
+      name: 'MBOX Mailbox Archive Inspector',
+      category: 'Email & Mail',
+      desc: 'Browse messages inside large Unix MBOX archives from Google Takeout, Thunderbird, or Apple Mail — search senders and extract attachments.',
+      route: { view: 'tool-detail', slug: 'mbox-viewer' } as any,
+      icon: Mail,
+      tags: ['MBOX Archives', 'Google Takeout', 'Attachment Extraction', '100% Private'],
+      badge: 'Mailbox Explorer',
+      processingType: 'local',
+      isPopular: false
+    },
+    {
       id: 'eml-to-pdf',
       name: 'EML to PDF Email Archiver',
       category: 'Email & Mail',
@@ -533,10 +569,15 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
 
   const converterToolIds = new Set([
     'heic-to-jpg',
+    'heic-to-png',
     'png-to-webp',
     'webp-to-jpg',
+    'webp-to-png',
     'jpg-to-png',
+    'jpg-to-webp',
+    'png-to-jpg',
     'svg-to-png',
+    'svg-to-jpg',
     'pdf-to-jpg',
     'pdf-to-png',
     'docx-to-pdf',

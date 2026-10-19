@@ -7,6 +7,7 @@ import { getAllFileTypeInfos } from '../database/extensionEngine';
 import { getAllTools } from '../tools/toolsRegistry';
 import { HOW_TO_OPEN_BATCH_OCT2026 } from './howToOpenBatchOct2026';
 import { HOW_TO_OPEN_BATCH_OCT2026B } from './howToOpenBatchOct2026b';
+import { converterPageExists } from './conversionGuideEngine';
 
 export interface StepInstruction {
   stepNumber: number;
@@ -395,26 +396,32 @@ export function getHowToOpenGuide(extInput: string): HowToOpenGuideData {
   const matchedConverters = CONVERTERS_LIST.filter(
     (c) => c.fromExt.toLowerCase() === cleanExt || c.id.startsWith(`${cleanExt}-to-`)
   );
-  const availableConverters = matchedConverters.map((c) => ({
+  // Only emit converter links that resolve to a real /converters/[id] page.
+  // Synthesized `${ext}-to-*` ids (e.g. jpeg-to-jpg, xlsx-to-pdf) name pairs
+  // with no page and would 404 — drop them so the view falls back to the
+  // converters hub.
+  const candidates = matchedConverters.map((c) => ({
     targetExt: c.toExt.toUpperCase(),
     label: `${upperExt} to ${c.toExt.toUpperCase()}`,
     routeId: c.id,
   }));
 
-  if (availableConverters.length === 0) {
+  if (candidates.length === 0) {
     if (info.category === 'Images') {
-      availableConverters.push(
+      candidates.push(
         { targetExt: 'JPG', label: `${upperExt} to JPG`, routeId: `${cleanExt}-to-jpg` },
         { targetExt: 'PNG', label: `${upperExt} to PNG`, routeId: `${cleanExt}-to-png` },
         { targetExt: 'PDF', label: `${upperExt} to PDF`, routeId: `${cleanExt}-to-pdf` }
       );
     } else if (info.category === 'Documents') {
-      availableConverters.push(
+      candidates.push(
         { targetExt: 'PDF', label: `${upperExt} to PDF`, routeId: `${cleanExt}-to-pdf` },
         { targetExt: 'TXT', label: `${upperExt} to TXT`, routeId: `${cleanExt}-to-txt` }
       );
     }
   }
+
+  const availableConverters = candidates.filter((c) => converterPageExists(c.routeId));
 
   const primaryConverter = availableConverters[0];
 

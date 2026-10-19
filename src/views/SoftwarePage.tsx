@@ -26,6 +26,8 @@ import { EmptyState } from '../components/EmptyState';
 import { SEOHead } from '../components/SEOHead';
 import { GoogleDocsDetailView, GOOGLE_DOCS_FAQS } from '../components/software/GoogleDocsDetailView';
 import { SmartLink, DeadLink } from '../components/SmartLink';
+import { isVerifiedExtension } from '../lib/database/extensionEngine';
+import { isValidHowToOpenSlug } from '../lib/routes/routeManifest';
 
 interface SoftwarePageProps {
   onNavigate: (route: AppRoute) => void;
@@ -290,6 +292,11 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {soft.supportedExtensions.map((ext) => {
               const cleanExt = ext.toLowerCase();
+              // Only link extensions that actually have pages. Software data
+              // contains wildcards ('*') and formats with no extension page
+              // (e.g. 3b, 3dm); linking those 404s.
+              const hasSpecsPage = isVerifiedExtension(cleanExt);
+              const hasHowToPage = isValidHowToOpenSlug(cleanExt);
               return (
                 <div
                   key={ext}
@@ -305,6 +312,7 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
                   </div>
 
                   <div className="flex items-center gap-2 pt-2 border-t border-slate-200/60 dark:border-slate-700/60 text-xs">
+                    {hasSpecsPage ? (
                     <SmartLink
                       route={{view: 'extension-detail', ext: cleanExt}}
                       className="font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
@@ -312,13 +320,20 @@ export const SoftwarePage: React.FC<SoftwarePageProps> = ({ onNavigate, selected
                       <span>Format Specs</span>
                       <ArrowRight className="w-3 h-3" />
                     </SmartLink>
+                    ) : (
+                    <span className="font-semibold text-slate-400">Format Specs</span>
+                    )}
                     <span className="text-slate-300 dark:text-slate-600">&bull;</span>
+                    {hasHowToPage ? (
                     <SmartLink
                       route={{view: 'how-to-open', ext: cleanExt}}
                       className="font-semibold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
                     >
                       <span>How to Open</span>
                     </SmartLink>
+                    ) : (
+                    <span className="font-semibold text-slate-400">How to Open</span>
+                    )}
                   </div>
                 </div>
               );
