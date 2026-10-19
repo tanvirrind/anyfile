@@ -5,12 +5,15 @@ import { getAllTools, getToolBySlug } from '../tools/toolsRegistry';
 import { SOFTWARE_LIST } from '../../data/softwareData';
 import { isVerifiedExtension } from '../database/extensionEngine';
 import { isValidComparisonPair } from '../guides/comparisonGuideEngine';
+import { isValidComparisonSlug } from '../routes/routeManifest';
+import { CONVERTERS_LIST } from '../../data/convertersData';
 
 export interface EntityLinkingMatrix {
   parentHub?: InternalLinkItem;
   formatLinks: InternalLinkItem[];
   extensionLinks: InternalLinkItem[];
   toolLinks: InternalLinkItem[];
+  converterLinks: InternalLinkItem[];
   guideLinks: InternalLinkItem[];
   softwareLinks: InternalLinkItem[];
   comparisonLinks: InternalLinkItem[];
@@ -113,23 +116,56 @@ export function computeInternalLinksForEntity(
     route: { view: 'workflows' }
   });
 
-  // 4. Related Content Guides
+  // 3b. Converter page links (data-driven via entity.relatedConverters).
+  // Only curated CONVERTERS_LIST ids become links, so typos can never emit
+  // 404 targets. Copy stays honest about capability: interactive tools get
+  // the in-browser CTA; guide-only converter pages get "conversion guide".
+  const converterLinks: InternalLinkItem[] = [];
+  if (entity.relatedConverters && entity.relatedConverters.length > 0) {
+    for (const convId of entity.relatedConverters.slice(0, 3)) {
+      const conv = CONVERTERS_LIST.find((c) => c.id === convId);
+      if (!conv) continue;
+      const isTool = conv.isInteractiveToolAvailable === true;
+      converterLinks.push({
+        targetTitle: conv.name,
+        targetUrl: url(`/converters/${conv.id}`),
+        targetType: 'converter',
+        anchorText: isTool
+          ? `convert ${conv.fromExt} to ${conv.toExt} in your browser — free, no upload`
+          : `read the ${conv.fromExt}-to-${conv.toExt} conversion guide`,
+        contextHint: isTool ? 'In-browser converter' : 'Conversion guide',
+        route: { view: 'converter-detail', id: conv.id }
+      });
+    }
+  }
+
+  // 4. Related Content Guides — curated first, heuristics second.
+  // Explicit relatedGuides always win a slot (in declared order) so data
+  // wiring is deterministic; extension-overlap discovery only fills the
+  // remainder. Previously a single capped pass let auto-discovered guides
+  // crowd out curated ones depending on registry iteration order.
   const guideLinks: InternalLinkItem[] = [];
-  const relatedSlugs = new Set(entity.relatedGuides || []);
-  
+  const seenGuideSlugs = new Set<string>();
+  const pushGuide = (g: ContentEntity) => {
+    if (guideLinks.length >= 4 || seenGuideSlugs.has(g.slug)) return;
+    seenGuideSlugs.add(g.slug);
+    guideLinks.push({
+      targetTitle: g.title,
+      targetUrl: url(`/guides/${g.slug}`),
+      targetType: 'guide',
+      anchorText: `read our comprehensive guide on ${g.primaryTopic}`,
+      contextHint: g.contentType.replace('-', ' '),
+      route: { view: 'guide-detail', id: g.slug }
+    });
+  };
+  for (const slug of entity.relatedGuides || []) {
+    const g = allGuides.find((x) => x.id !== entity.id && (x.slug === slug || x.id === slug));
+    if (g) pushGuide(g);
+  }
   // Also find guides sharing the same extension
   allGuides.forEach(g => {
-    if (g.id !== entity.id && (relatedSlugs.has(g.slug) || relatedSlugs.has(g.id) || g.relatedExtensions.some(e => entity.relatedExtensions.includes(e)))) {
-      if (guideLinks.length < 4) {
-        guideLinks.push({
-          targetTitle: g.title,
-          targetUrl: url(`/guides/${g.slug}`),
-          targetType: 'guide',
-          anchorText: `read our comprehensive guide on ${g.primaryTopic}`,
-          contextHint: g.contentType.replace('-', ' '),
-          route: { view: 'guide-detail', id: g.slug }
-        });
-      }
+    if (g.id !== entity.id && g.relatedExtensions.some(e => entity.relatedExtensions.includes(e))) {
+      pushGuide(g);
     }
   });
 
@@ -151,13 +187,16 @@ export function computeInternalLinksForEntity(
     }
   }
 
-  // 6. Comparison Links — only for pairs the comparison engine accepts, so
-  // cross-category nonsense never becomes a link target.
+  // 6. Comparison Links — only for pairs that BOTH make topical sense AND have
+  // a real comparison page. isValidComparisonPair alone is insufficient: it
+  // approves any same-category pair, but /compare/[slug] only renders curated
+  // slugs (generateStaticParams), so anything else 404s.
   const comparisonLinks: InternalLinkItem[] = [];
   if (entity.relatedComparisons) {
     for (const compSlug of entity.relatedComparisons.slice(0, 2)) {
       const parts = compSlug.split('-vs-');
-      if (parts.length === 2 && isValidComparisonPair(parts[0], parts[1]).isValid) {
+      const pageSlug = parts.length === 2 ? `${parts[0]}-vs-${parts[1]}` : '';
+      if (parts.length === 2 && isValidComparisonPair(parts[0], parts[1]).isValid && isValidComparisonSlug(pageSlug)) {
         comparisonLinks.push({
           targetTitle: `${parts[0].toUpperCase()} vs ${parts[1].toUpperCase()} Comparison`,
           targetUrl: url(`/compare/${parts[0]}-vs-${parts[1]}`),
@@ -175,6 +214,7 @@ export function computeInternalLinksForEntity(
     formatLinks: extensionLinks,
     extensionLinks,
     toolLinks,
+    converterLinks,
     guideLinks,
     softwareLinks,
     comparisonLinks,

@@ -143,6 +143,22 @@ export function isValidCatalogExtension(ext: string): boolean {
 }
 
 /**
+ * Validates a how-to-open slug against the prioritized format list that
+ * generates /how-to-open/* pages. Prevents links to 404s for extensions
+ * (or wildcards like '*') that have no how-to-open guide.
+ */
+const howToOpenSlugSet = new Set<string>();
+export function isValidHowToOpenSlug(ext: string): boolean {
+  if (!ext || typeof ext !== 'string') return false;
+  const clean = ext.trim().toLowerCase().replace(/^\./, '');
+  if (!clean) return false;
+  if (howToOpenSlugSet.size === 0) {
+    for (const f of getPrioritizedFormatList()) howToOpenSlugSet.add(f.toLowerCase());
+  }
+  return howToOpenSlugSet.has(clean);
+}
+
+/**
  * Validates software slug against catalog
  */
 export function isValidSoftwareId(id: string): boolean {
@@ -520,13 +536,15 @@ export function buildRouteManifest(): RouteManifestEntry[] {
   // PDF to Word is implemented by the converter route but is not part of the
   // legacy converter catalog. Keep it in the shared manifest so localized
   // pages and sitemap validation use the same public route inventory.
+  // Honest framing: no working in-browser PDF-to-Word tool exists — the page
+  // is a conversion guide, so the manifest must not advertise a converter.
   if (!CONVERTERS_LIST.some((conv) => conv.id === 'pdf-to-word')) {
     add({
       path: '/converters/pdf-to-word',
       canonicalUrl: `${BASE_URL}/converters/pdf-to-word`,
       type: 'converter-detail',
-      title: 'PDF to Word – Free In-Browser Converter | AnyFileX',
-      description: 'Convert PDF files to editable Word documents privately in your browser with zero server uploads.',
+      title: 'PDF to Word – Conversion Guide | AnyFileX',
+      description: 'Learn which desktop and web applications can safely convert PDF files to editable Word documents.',
       priority: 0.85,
       changefreq: 'weekly',
       sitemapSegment: 'converters',

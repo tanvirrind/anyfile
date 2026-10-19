@@ -101,6 +101,128 @@ const nextConfig = {
         destination: '/guides/:path*',
         permanent: true,
       },
+      // --- Duplicate guide consolidation (2026-10-18): retired -guide
+      // variants 301 to their canonical bare-slug twins (EN + ES). ---
+      {
+        source: '/guides/are-online-file-converters-safe-guide',
+        destination: '/guides/are-online-file-converters-safe',
+        permanent: true,
+      },
+      {
+        source: '/guides/batch-convert-images-guide',
+        destination: '/guides/batch-convert-images',
+        permanent: true,
+      },
+      {
+        source: '/guides/convert-files-without-uploading-guide',
+        destination: '/guides/convert-files-without-uploading',
+        permanent: true,
+      },
+      {
+        source: '/guides/fat32-vs-exfat-vs-ntfs-guide',
+        destination: '/guides/fat32-vs-exfat-vs-ntfs',
+        permanent: true,
+      },
+      {
+        source: '/guides/mp3-vs-wav-vs-flac-guide',
+        destination: '/guides/mp3-vs-wav-vs-flac',
+        permanent: true,
+      },
+      {
+        source: '/guides/open-file-no-extension-guide',
+        destination: '/guides/open-file-no-extension',
+        permanent: true,
+      },
+      {
+        source: '/guides/play-mkv-on-iphone-guide',
+        destination: '/guides/play-mkv-on-iphone',
+        permanent: true,
+      },
+      {
+        source: '/guides/png-vs-jpg-vs-webp-guide',
+        destination: '/guides/png-vs-jpg-vs-webp',
+        permanent: true,
+      },
+      {
+        source: '/guides/read-epub-on-kindle-guide',
+        destination: '/guides/read-epub-on-kindle',
+        permanent: true,
+      },
+      {
+        source: '/guides/what-is-a-file-extension-guide',
+        destination: '/guides/what-is-a-file-extension',
+        permanent: true,
+      },
+      {
+        source: '/guides/what-is-a-video-container-format-guide',
+        destination: '/guides/what-is-a-video-container-format',
+        permanent: true,
+      },
+      {
+        source: '/guides/what-is-exif-data-guide',
+        destination: '/guides/what-is-exif-data',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/are-online-file-converters-safe-guide',
+        destination: '/es/guides/are-online-file-converters-safe',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/batch-convert-images-guide',
+        destination: '/es/guides/batch-convert-images',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/convert-files-without-uploading-guide',
+        destination: '/es/guides/convert-files-without-uploading',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/fat32-vs-exfat-vs-ntfs-guide',
+        destination: '/es/guides/fat32-vs-exfat-vs-ntfs',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/mp3-vs-wav-vs-flac-guide',
+        destination: '/es/guides/mp3-vs-wav-vs-flac',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/open-file-no-extension-guide',
+        destination: '/es/guides/open-file-no-extension',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/play-mkv-on-iphone-guide',
+        destination: '/es/guides/play-mkv-on-iphone',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/png-vs-jpg-vs-webp-guide',
+        destination: '/es/guides/png-vs-jpg-vs-webp',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/read-epub-on-kindle-guide',
+        destination: '/es/guides/read-epub-on-kindle',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/what-is-a-file-extension-guide',
+        destination: '/es/guides/what-is-a-file-extension',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/what-is-a-video-container-format-guide',
+        destination: '/es/guides/what-is-a-video-container-format',
+        permanent: true,
+      },
+      {
+        source: '/es/guides/what-is-exif-data-guide',
+        destination: '/es/guides/what-is-exif-data',
+        permanent: true,
+      },
       {
         source: '/format/:path*',
         destination: '/file-extensions/:path*',

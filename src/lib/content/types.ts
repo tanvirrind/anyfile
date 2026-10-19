@@ -49,7 +49,7 @@ export interface ContentAuthor {
 export interface InternalLinkItem {
   targetTitle: string;
   targetUrl: string;
-  targetType: 'guide' | 'format' | 'tool' | 'comparison' | 'software' | 'analyzer' | 'hub';
+  targetType: 'guide' | 'format' | 'tool' | 'comparison' | 'software' | 'analyzer' | 'hub' | 'converter';
   anchorText: string;
   contextHint: string;
   route?: AppRoute;
@@ -74,6 +74,7 @@ export interface ContentEntity {
   relatedSoftware: string[]; // e.g. ['apple-photos', 'copytrans', 'adobe-photoshop']
   relatedGuides: string[]; // slugs or IDs of connected content entities
   relatedComparisons?: string[]; // e.g. ['heic-vs-jpg']
+  relatedConverters?: string[]; // e.g. ['webp-to-jpg'] — curated converter page ids from CONVERTERS_LIST
 
   // Rich metadata & FAQs
   faq: Array<{ question: string; answer: string }>;

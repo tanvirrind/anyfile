@@ -99,6 +99,7 @@ And keep a clean workflow: archive the original with its metadata intact, and ge
   relatedTools: ['metadata-viewer', 'remove-metadata'],
   relatedSoftware: [],
   relatedGuides: ['what-are-magic-bytes', 'how-to-detect-a-file-extension-spoof'],
+  relatedConverters: ['webp-to-jpg', 'png-to-svg'],
   faq: [
     {
       question: 'Does removing EXIF data change the photo itself?',
