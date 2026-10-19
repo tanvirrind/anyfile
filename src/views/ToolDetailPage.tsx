@@ -51,7 +51,7 @@ import { ImageCropperWorkspace } from '../components/tools/ImageCropperWorkspace
 import { OcrWorkspace } from '../components/tools/OcrWorkspace';
 import { getFormatKnowledgeNode } from '../lib/database/knowledgeGraph';
 import { SmartLink, DeadLink } from '../components/SmartLink';
-import { isValidCatalogExtension, isValidComparisonSlug } from '../lib/routes/routeManifest';
+import { isValidCatalogExtension, isValidComparisonSlug, redirectOnlyToolSlugs } from '../lib/routes/routeManifest';
 
 export interface ToolDetailPageProps {
   toolSlug: string;
@@ -617,7 +617,11 @@ export const ToolDetailPage: React.FC<ToolDetailPageProps> = ({ toolSlug, onNavi
             {relatedTools.map((relTool) => (
               <SmartLink
                 key={relTool.slug}
-                route={{ view: 'tool-detail', slug: relTool.slug } as any}
+                // Retired /tools/ converter twins (2026-10-19): canonical is
+                // /converters/ — never emit a link that 301s.
+                route={(redirectOnlyToolSlugs.has(relTool.slug)
+                  ? { view: 'converter-detail', id: relTool.slug }
+                  : { view: 'tool-detail', slug: relTool.slug }) as any}
                 className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 rounded-3xl p-6 shadow-xs hover:shadow-xl transition-all duration-200 cursor-pointer space-y-4 group flex flex-col justify-between"
               >
                 <div className="space-y-2">

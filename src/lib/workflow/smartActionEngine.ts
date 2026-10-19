@@ -335,7 +335,7 @@ export function generateSmartActions(analysis: FileAnalysis): SmartActionsResult
       description: 'Generate publication-ready PDF document with metadata cards and attachment manifest.',
       badge: 'Legal Archive',
       iconName: 'Printer',
-      route: { view: 'tool-detail', slug: 'eml-to-pdf' }
+      route: { view: 'converter-detail', id: 'eml-to-pdf' }
     });
   }
 

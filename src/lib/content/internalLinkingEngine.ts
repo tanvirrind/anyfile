@@ -5,7 +5,7 @@ import { getAllTools, getToolBySlug } from '../tools/toolsRegistry';
 import { SOFTWARE_LIST } from '../../data/softwareData';
 import { isVerifiedExtension } from '../database/extensionEngine';
 import { isValidComparisonPair } from '../guides/comparisonGuideEngine';
-import { isValidComparisonSlug } from '../routes/routeManifest';
+import { isValidComparisonSlug, redirectOnlyToolSlugs } from '../routes/routeManifest';
 import { CONVERTERS_LIST } from '../../data/convertersData';
 
 export interface EntityLinkingMatrix {
@@ -93,14 +93,19 @@ export function computeInternalLinksForEntity(
       const matched = getToolBySlug(toolId);
       if (matched) {
         // 'file-analyzer' is a legacy slug that 307s; link the canonical directly.
+        // Retired /tools/ converter twins (2026-10-19): the canonical surface
+        // is /converters/ — never link a twin that 301s.
+        const isRetiredTwin = redirectOnlyToolSlugs.has(matched.slug);
         const canonicalSlug = matched.slug === 'file-analyzer' ? 'file-identifier' : matched.slug;
         toolLinks.push({
           targetTitle: matched.name,
-          targetUrl: url(`/tools/${canonicalSlug}`),
+          targetUrl: isRetiredTwin ? url(`/converters/${canonicalSlug}`) : url(`/tools/${canonicalSlug}`),
           targetType: 'tool',
           anchorText: `launch ${matched.name.toLowerCase()} in browser RAM`,
           contextHint: matched.tagline || 'In-browser tool',
-          route: { view: 'tool-detail', slug: matched.slug }
+          route: isRetiredTwin
+            ? { view: 'converter-detail', id: canonicalSlug }
+            : { view: 'tool-detail', slug: matched.slug }
         });
       }
     }
