@@ -11,7 +11,7 @@ import { EXPANDED_MIME_DATABASE } from '../../data/expandedMimeDatabase';
 import { TOOLS_REGISTRY } from '../tools/toolsRegistry';
 import { getPrioritizedFormatList } from '../guides/formatGuideEngine';
 import { getAllSupportedConversionSlugs } from '../guides/conversionGuideEngine';
-import { isExcludedFromSitemap } from '../routes/routeManifest';
+import { isExcludedFromSitemap, redirectOnlyToolSlugs } from '../routes/routeManifest';
 
 const BASE_URL = 'https://anyfilex.com';
 
@@ -403,7 +403,8 @@ function buildSegmentedSitemapXml(segment: string): string {
       break;
 
     case 'tools': {
-      const toolSlugs = Object.keys(TOOLS_REGISTRY).filter((slug) => slug !== 'file-analyzer');
+      // Retired converter twins 301 elsewhere; never list their /tools/ URL.
+      const toolSlugs = Object.keys(TOOLS_REGISTRY).filter((slug) => slug !== 'file-analyzer' && !redirectOnlyToolSlugs.has(slug));
       items = [
         {
           url: `${BASE_URL}/tools`,

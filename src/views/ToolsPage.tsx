@@ -104,7 +104,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       name: 'HEIC to JPG Converter',
       category: 'Images',
       desc: 'Convert Apple iPhone HEIC/HEIF photos to universal JPG format with zero cloud uploads and instant batch download.',
-      route: { view: 'tool-detail', slug: 'heic-to-jpg' } as any,
+      route: { view: 'converter-detail', id: 'heic-to-jpg' } as any,
       icon: ImageIcon,
       tags: ['iPhone Photos', 'Wasm Engine', 'Batch Queue', 'Zero Upload'],
       badge: 'Popular Converter',
@@ -116,7 +116,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       name: 'PNG to WEBP Converter',
       category: 'Images',
       desc: 'Optimize heavy PNG graphics into lightweight WebP format for fast web pages with alpha transparency preserved.',
-      route: { view: 'tool-detail', slug: 'png-to-webp' } as any,
+      route: { view: 'converter-detail', id: 'png-to-webp' } as any,
       icon: RefreshCw,
       tags: ['Web Optimizer', 'Alpha Transparency', 'Fast Web', 'RAM Only'],
       badge: 'Web Optimizer',
@@ -128,7 +128,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       name: 'WEBP to JPG Converter',
       category: 'Images',
       desc: 'Convert modern WebP images into universally compatible standard JPG format for Photoshop and desktop viewers.',
-      route: { view: 'tool-detail', slug: 'webp-to-jpg' } as any,
+      route: { view: 'converter-detail', id: 'webp-to-jpg' } as any,
       icon: ImageIcon,
       tags: ['Universal Format', 'Photoshop Ready', 'Local Decode'],
       processingType: 'local'
@@ -138,7 +138,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       name: 'JPG to PNG Converter',
       category: 'Images',
       desc: 'Convert compressed JPG pictures into lossless PNG format with zero re-compression degradation.',
-      route: { view: 'tool-detail', slug: 'jpg-to-png' } as any,
+      route: { view: 'converter-detail', id: 'jpg-to-png' } as any,
       icon: ImageIcon,
       tags: ['Lossless Container', 'Universal Design', 'RAM Only'],
       processingType: 'local'
@@ -148,7 +148,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       name: 'SVG to PNG Converter',
       category: 'Images',
       desc: 'Rasterize XML vector SVG graphics into high-resolution transparent PNG bitmap images.',
-      route: { view: 'tool-detail', slug: 'svg-to-png' } as any,
+      route: { view: 'converter-detail', id: 'svg-to-png' } as any,
       icon: Code2,
       tags: ['Vector Rasterizer', 'High DPI', 'Transparent PNG'],
       processingType: 'local'
@@ -232,7 +232,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       name: 'PDF to JPG Page Converter',
       category: 'Documents',
       desc: 'Extract and render PDF document pages into high-resolution JPG images with PDF.js high DPI canvas rendering.',
-      route: { view: 'tool-detail', slug: 'pdf-to-jpg' } as any,
+      route: { view: 'converter-detail', id: 'pdf-to-jpg' } as any,
       icon: FileText,
       tags: ['PDF Pages', 'High DPI', 'Multi-Page ZIP', 'Confidential Safe'],
       badge: 'Document Utility',
@@ -244,7 +244,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       name: 'PDF to PNG Page Converter',
       category: 'Documents',
       desc: 'Convert PDF document pages into lossless PNG graphics with crisp typography and diagrams.',
-      route: { view: 'tool-detail', slug: 'pdf-to-png' } as any,
+      route: { view: 'converter-detail', id: 'pdf-to-png' } as any,
       icon: FileText,
       tags: ['Lossless Pages', 'High Resolution', 'RAM Only'],
       processingType: 'local'
@@ -254,7 +254,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       name: 'DOCX to PDF Converter',
       category: 'Documents',
       desc: 'Convert Microsoft Word .docx documents to universal PDF format directly in browser memory.',
-      route: { view: 'tool-detail', slug: 'docx-to-pdf' } as any,
+      route: { view: 'converter-detail', id: 'docx-to-pdf' } as any,
       icon: FileText,
       tags: ['Word to PDF', 'OpenXML', 'Resume Safe', 'Zero Upload'],
       processingType: 'local'
@@ -264,7 +264,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       name: 'PPTX to PDF Converter',
       category: 'Documents',
       desc: 'Convert Microsoft PowerPoint presentations (.pptx) into portable PDF slide decks in your browser.',
-      route: { view: 'tool-detail', slug: 'pptx-to-pdf' } as any,
+      route: { view: 'converter-detail', id: 'pptx-to-pdf' } as any,
       icon: FileText,
       tags: ['PowerPoint Slides', 'Landscape PDF', 'Client-Side'],
       processingType: 'local'
@@ -498,7 +498,7 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
       name: 'EML to PDF Email Archiver',
       category: 'Email & Mail',
       desc: 'Convert RFC 822 and Outlook emails into publication-ready PDF documents with audit summaries and attachment manifests.',
-      route: { view: 'tool-detail', slug: 'eml-to-pdf' } as any,
+      route: { view: 'converter-detail', id: 'eml-to-pdf' } as any,
       icon: FileText,
       tags: ['PDF Archive', 'Legal Discovery', 'Forensic Headers', 'Print Ready'],
       badge: 'Legal Archive',
@@ -603,7 +603,11 @@ export const ToolsPage: React.FC<ToolsPageProps> = ({
 
   const handleLaunchQuickMatcher = () => {
     const slug = `${sourceFormat.toLowerCase()}-to-${targetFormat.toLowerCase()}`;
-    if (TOOLS_REGISTRY[slug]) {
+    // Retired /tools/ converter twins (2026-10-19): canonical is /converters/.
+    // Check these before the registry so tool twins route to their canonical.
+    if (converterToolIds.has(slug) && slug !== 'msg-to-eml' && slug !== '3mf-to-stl') {
+      onNavigate({ view: 'converter-detail', id: slug } as any);
+    } else if (TOOLS_REGISTRY[slug]) {
       onNavigate({ view: 'tool-detail', slug } as any);
     } else {
       onNavigate({ view: 'converter-detail', id: slug });

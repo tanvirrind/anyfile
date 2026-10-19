@@ -498,35 +498,35 @@ class SearchEngine {
         id: 'heic-to-jpg',
         title: 'HEIC to JPG Converter',
         desc: 'Convert Apple iPhone HEIC photos to universal JPG format with zero cloud uploads',
-        route: { view: 'tool-detail', slug: 'heic-to-jpg' } as any,
+        route: { view: 'converter-detail', id: 'heic-to-jpg' } as any,
         keywords: ['heic to jpg', 'convert heic', 'iphone photo to jpg', 'heif to jpg', 'apple photo converter']
       },
       {
         id: 'png-to-webp',
         title: 'PNG to WEBP Converter',
         desc: 'Convert PNG graphics to lightweight WebP format for fast web pages with alpha transparency preserved',
-        route: { view: 'tool-detail', slug: 'png-to-webp' } as any,
+        route: { view: 'converter-detail', id: 'png-to-webp' } as any,
         keywords: ['png to webp', 'convert png to webp', 'webp converter', 'optimize webp', 'transparent webp']
       },
       {
         id: 'webp-to-jpg',
         title: 'WEBP to JPG Converter',
         desc: 'Convert modern WebP images to universally compatible standard JPG format',
-        route: { view: 'tool-detail', slug: 'webp-to-jpg' } as any,
+        route: { view: 'converter-detail', id: 'webp-to-jpg' } as any,
         keywords: ['webp to jpg', 'convert webp to jpg', 'webp to jpeg', 'save webp as jpg']
       },
       {
         id: 'jpg-to-png',
         title: 'JPG to PNG Converter',
         desc: 'Convert compressed JPG pictures into lossless PNG format with zero re-compression artifacts',
-        route: { view: 'tool-detail', slug: 'jpg-to-png' } as any,
+        route: { view: 'converter-detail', id: 'jpg-to-png' } as any,
         keywords: ['jpg to png', 'convert jpg to png', 'jpeg to png', 'lossless png']
       },
       {
         id: 'pdf-to-jpg',
         title: 'PDF to JPG Converter',
         desc: 'Extract and render PDF document pages into high-resolution JPG images with zero server uploads',
-        route: { view: 'tool-detail', slug: 'pdf-to-jpg' } as any,
+        route: { view: 'converter-detail', id: 'pdf-to-jpg' } as any,
         keywords: ['pdf to jpg', 'convert pdf to jpg', 'pdf to image', 'pdf page extractor', 'pdf to jpeg']
       },
       {
