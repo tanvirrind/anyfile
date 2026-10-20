@@ -142,7 +142,7 @@ export const ExtensionsPage: React.FC<ExtensionsPageProps> = ({ onNavigate, init
           {spanish ? 'Explora extensiones de archivos digitales' : 'Browse Digital File Extensions'}
         </h1>
         <p className="text-base text-slate-600 dark:text-slate-300">
-          {spanish ? 'Busca entre más de 250 extensiones, firmas mágicas, software compatible, instrucciones para abrir archivos y herramientas de conversión.' : 'Search over 250+ file extensions, magic bytes, software compatibility, opening instructions, and conversion tools.'}
+          {spanish ? 'Busca entre 354 extensiones, firmas mágicas, software compatible, instrucciones para abrir archivos y herramientas de conversión.' : 'Search 354 file extensions, magic bytes, software compatibility, opening instructions, and conversion tools.'}
         </p>
       </div>
 

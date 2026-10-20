@@ -76,7 +76,7 @@ export function runComprehensiveSeoAudit(): SeoAuditReport {
     totalSoftware: SOFTWARE_LIST.length,
     totalRepairGuides: REPAIR_GUIDES.length,
     totalCategoryPages: CATEGORIES_LIST.length,
-    estimatedPagesCount: Math.max(50000, totalPages * 1250),
+    estimatedPagesCount: totalPages,
     healthScore: 99.4,
     metrics: {
       duplicateMetadataCount: duplicateMetaCount,

@@ -152,7 +152,7 @@ export const TechnicalHubPage: React.FC<TechnicalHubPageProps> = ({
               Authoritative Technical Reference Guides ({filteredGuides.length})
             </h2>
             <span className="text-xs text-slate-400 font-mono">
-              Peer-Reviewed Architecture Articles
+              Technical Architecture Articles
             </span>
           </div>
 

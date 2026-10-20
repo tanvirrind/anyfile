@@ -1,6 +1,6 @@
 import { GuideInfo, BlogPost } from '../types';
 import { GUIDES_BATCH_OCT2026C } from './guidesBatchOct2026c';
-import { AUTHOR_AVATARS, TECHNICAL_STANDARDS_CITATIONS } from '../lib/content/editorialTeam';
+import { TECHNICAL_STANDARDS_CITATIONS } from '../lib/content/editorialTeam';
 
 const BASE_GUIDES_LIST: GuideInfo[] = [
 {
@@ -14,16 +14,9 @@ const BASE_GUIDES_LIST: GuideInfo[] = [
     lastAuditedDate: 'September 2026',
     difficulty: 'Beginner',
     author: {
-      name: 'Elena Rostova',
-      role: 'Lead Digital Media & Codec Engineer',
-      avatar: AUTHOR_AVATARS.elenaRostova,
-      credentials: 'M.Sc., Signal Processing',
-      bio: 'Elena specializes in modern high-efficiency image container parsing, ISOBMFF box decomposition, and color profile preservation.'
-    },
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     verifiedPlatforms: [
       'Windows 11 (23H2 & 24H2)',
@@ -77,16 +70,9 @@ const BASE_GUIDES_LIST: GuideInfo[] = [
     lastAuditedDate: 'September 2026',
     difficulty: 'Intermediate',
     author: {
-      name: 'Marcus Vance',
-      role: 'Senior CAD Systems Architect & Engineering Data Specialist',
-      avatar: AUTHOR_AVATARS.marcusVance,
-      credentials: 'B.Arch, P.E.',
-      bio: 'Licensed Professional Engineer (P.E.) with 14 years specializing in geometric data schemas, B-rep structures, and CAD interchange.'
-    },
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     verifiedPlatforms: [
       'Windows 11 Pro 24H2 (x86_64)',
@@ -128,16 +114,9 @@ const BASE_GUIDES_LIST: GuideInfo[] = [
     lastAuditedDate: 'September 2026',
     difficulty: 'Intermediate',
     author: {
-      name: 'David Chen',
-      role: 'Systems Security Architect & Threat Forensics Researcher',
-      avatar: AUTHOR_AVATARS.davidChen,
-      credentials: 'CISSP, GCIH',
-      bio: 'Cybersecurity researcher with CISSP credentials focusing on archive decompression security, file integrity, and payload analysis.'
-    },
-    reviewedBy: {
-      name: 'Sarah Jenkins',
-      role: 'Data Architect & IANA Standards Specialist',
-      credentials: 'M.Sc., Systems'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     verifiedPlatforms: [
       'Windows 11 (Command Prompt & PowerShell)',
@@ -194,16 +173,9 @@ const BASE_BLOG_POSTS: BlogPost[] = [
     lastAuditedDate: 'September 2026',
     readTime: '5 min read',
     author: {
-      name: 'David Chen',
-      role: 'Systems Security Architect & Threat Forensics Researcher',
-      avatar: AUTHOR_AVATARS.davidChen,
-      credentials: 'CISSP, GCIH',
-      bio: 'Specialist in binary payload detection, header spoofing forensics, and file signature parsing.'
-    },
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     citations: TECHNICAL_STANDARDS_CITATIONS.magicBytes.map(c => ({
       standard: c.standard,
@@ -234,16 +206,9 @@ When you upload a file to AnyFileX's File Identifier, our WebAssembly engine che
     lastAuditedDate: 'September 2026',
     readTime: '7 min read',
     author: {
-      name: 'Elena Rostova',
-      role: 'Lead Digital Media & Codec Engineer',
-      avatar: AUTHOR_AVATARS.elenaRostova,
-      credentials: 'M.Sc., Signal Processing',
-      bio: 'Specialist in next-generation lossy and lossless image codecs and browser rendering performance.'
-    },
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     citations: TECHNICAL_STANDARDS_CITATIONS.webp.map(c => ({
       standard: c.standard,
@@ -264,16 +229,9 @@ When you upload a file to AnyFileX's File Identifier, our WebAssembly engine che
     lastAuditedDate: 'September 2026',
     readTime: '6 min read',
     author: {
-      name: 'David Chen',
-      role: 'Systems Security Architect & Threat Forensics Researcher',
-      avatar: AUTHOR_AVATARS.davidChen,
-      credentials: 'CISSP, GCIH',
-      bio: 'Specialist in file-signature analysis, extension spoofing, and safe local inspection workflows.'
-    },
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     citations: TECHNICAL_STANDARDS_CITATIONS.magicBytes.map(c => ({
       standard: c.standard,

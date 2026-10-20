@@ -128,7 +128,7 @@ export function generateSyntheticExtension(extRaw: string): FileTypeInfo {
     },
     approvalStatus: 'approved',
     versionHistory: [
-      { version: 1, updatedAt: new Date().toISOString().split('T')[0], updatedBy: 'System Indexer', notes: 'Automated 50K catalog entry generation.' }
+      { version: 1, updatedAt: new Date().toISOString().split('T')[0], updatedBy: 'System Indexer', notes: 'Automated catalog entry generation.' }
     ]
   };
 }
@@ -136,7 +136,6 @@ export function generateSyntheticExtension(extRaw: string): FileTypeInfo {
 class FileFormatDatabaseStore {
   private customExtensions: Map<string, FileTypeInfo> = new Map();
   private auditLogs: CMSAuditLog[] = [];
-  private totalIndexedCount: number = 10480; // 10,000+ extensions scale representation
 
   constructor() {
     this.loadFromStorage();
@@ -160,9 +159,9 @@ class FileFormatDatabaseStore {
             id: 'log_01',
             timestamp: new Date().toISOString(),
             action: 'IMPORT',
-            extension: 'SYSTEM_BULK_10K',
-            author: 'Principal Data Engineer',
-            details: 'Initial indexing of 10,000+ searchable file extensions completed successfully.'
+            extension: 'SYSTEM_SEED',
+            author: 'System',
+            details: 'Initial file format catalog loaded.'
           }
         ];
       }
@@ -468,16 +467,25 @@ class FileFormatDatabaseStore {
       }
     });
 
+    // All figures below are counted from the records this store actually holds
+    // (the built-in catalog plus any CMS-added custom extensions).
+    const allRecords: FileTypeInfo[] = [...POPULAR_FILE_TYPES, ...this.customExtensions.values()];
+    const distinctCategories = new Set(allRecords.map((item) => item.category));
+    const distinctMimeTypes = new Set(allRecords.map((item) => item.mimeType).filter(Boolean));
+    const distinctSoftwareApps = new Set<string>();
+    allRecords.forEach((item) => (item.popularApps || []).forEach((app) => distinctSoftwareApps.add(app.name)));
+
     return {
-      totalExtensions: this.totalIndexedCount + this.customExtensions.size,
-      approvedCount: approvedCount + this.totalIndexedCount,
+      totalExtensions: POPULAR_FILE_TYPES.length + this.customExtensions.size,
+      approvedCount,
       pendingCount,
       rejectedCount,
       moderationFlagsCount,
-      totalCategories: 10,
-      totalMimeTypes: 4890,
-      totalSoftwareApps: 1240,
-      searchQueriesCount: 184520
+      totalCategories: distinctCategories.size,
+      totalMimeTypes: distinctMimeTypes.size,
+      totalSoftwareApps: distinctSoftwareApps.size,
+      // This store keeps no search-query log, so there is no real count to report.
+      searchQueriesCount: 0
     };
   }
 }
