@@ -1036,7 +1036,7 @@ export const TOOLS_REGISTRY: Record<string, ToolDefinition> = {
     isPopular: false,
     badge: 'Web Standard',
     features: [
-      'Search 500+ official IANA MIME types and RFC definitions',
+      'Search official IANA MIME types and RFC definitions',
       'HTTP Content-Type and Content-Disposition headers guide',
       'Extension to MIME mapping database',
       'Instant search and filter'
