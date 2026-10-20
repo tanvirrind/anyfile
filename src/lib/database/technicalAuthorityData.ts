@@ -1,4 +1,3 @@
-import { AUTHOR_AVATARS } from '../content/editorialTeam';
 import { TECHNICAL_AUTHORITY_BATCH_OCT2026 } from './technicalAuthorityBatchOct2026';
 export interface TechnicalAuthorityGuide {
   id: string;
@@ -102,17 +101,10 @@ const BASE_TECHNICAL_AUTHORITY_GUIDES: TechnicalAuthorityGuide[] = [
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'David Chen',
-      role: 'Systems Security Architect',
-      credentials: 'CISSP, GCIH'
-    },
     author: {
-      id: 'dr-alistair-vance',
-      name: 'Dr. Alistair Vance',
-      role: 'Principal File Systems Architect & Format Standards Committee Member',
-      credentials: 'Ph.D., CompEng',
-      avatar: AUTHOR_AVATARS.alistairVance
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'POSIX.1-2017', title: 'Standard File Format Specification and Magic Utility Syntax' },
@@ -337,17 +329,10 @@ const BASE_TECHNICAL_AUTHORITY_GUIDES: TechnicalAuthorityGuide[] = [
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     author: {
-      id: 'elena-rostova',
-      name: 'Elena Rostova',
-      role: 'Lead Digital Media Engineer & Forensic Integrity Lead',
-      credentials: 'M.Sc., Signal Processing',
-      avatar: AUTHOR_AVATARS.elenaRostova
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'ISO/IEC 23000', title: 'Information Technology — Multimedia Application Format' },
@@ -517,17 +502,10 @@ const BASE_TECHNICAL_AUTHORITY_GUIDES: TechnicalAuthorityGuide[] = [
     lastUpdated: 'August 2024',
     difficulty: 'Beginner',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     author: {
-      id: 'marcus-vance',
-      name: 'Marcus Vance',
-      role: 'Senior Web Protocols Architect',
-      credentials: 'B.Arch, P.E.',
-      avatar: AUTHOR_AVATARS.marcusVance
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'RFC 2045 & RFC 2046', title: 'Multipurpose Internet Mail Extensions (MIME) Format & Media Types' },
@@ -690,17 +668,10 @@ Broad Category                     Exact Format             Encoding / Boundary
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     author: {
-      id: 'marcus-vance',
-      name: 'Marcus Vance',
-      role: 'Senior Web Protocols Architect',
-      credentials: 'B.Arch, P.E.',
-      avatar: AUTHOR_AVATARS.marcusVance
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'WHATWG MIME Sniffing Standard', title: 'Algorithm for Determining Computed MIME Types' },
@@ -827,17 +798,10 @@ Broad Category                     Exact Format             Encoding / Boundary
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     author: {
-      id: 'david-chen',
-      name: 'David Chen',
-      role: 'Principal Systems Security Architect',
-      credentials: 'CISSP, GCIH',
-      avatar: AUTHOR_AVATARS.davidChen
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'POSIX libmagic Specification', title: 'File Architecture Recognition Heuristics' },
@@ -856,7 +820,7 @@ Broad Category                     Exact Format             Encoding / Boundary
                                    │
                                    ▼
                    [ Stage 2: Magic Byte Matching ]
-                   Checks Offset 0x00 (and secondary offsets) against 500+ rules
+                   Checks Offset 0x00 (and secondary offsets) against 82 verified signatures
                                    │
                     ┌──────────────┴──────────────┐
                     ▼                             ▼
@@ -973,17 +937,10 @@ Broad Category                     Exact Format             Encoding / Boundary
     lastUpdated: 'August 2024',
     difficulty: 'Advanced',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'David Chen',
-      role: 'Systems Security Architect',
-      credentials: 'CISSP, GCIH'
-    },
     author: {
-      id: 'dr-alistair-vance',
-      name: 'Dr. Alistair Vance',
-      role: 'Principal File Systems Architect',
-      credentials: 'Ph.D., CompEng',
-      avatar: AUTHOR_AVATARS.alistairVance
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'Shannon (1948)', title: 'A Mathematical Theory of Communication (Bell System Technical Journal)' },
@@ -1145,17 +1102,10 @@ Broad Category                     Exact Format             Encoding / Boundary
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     author: {
-      id: 'david-chen',
-      name: 'David Chen',
-      role: 'Principal Systems Security Architect',
-      credentials: 'CISSP, GCIH',
-      avatar: AUTHOR_AVATARS.davidChen
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'NIST FIPS 180-4', title: 'Secure Hash Standard (SHS) — Specifications for SHA-1, SHA-2, SHA-3' },
@@ -1293,17 +1243,10 @@ Broad Category                     Exact Format             Encoding / Boundary
     lastUpdated: 'August 2024',
     difficulty: 'Beginner',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     author: {
-      id: 'david-chen',
-      name: 'David Chen',
-      role: 'Principal Systems Security Architect',
-      credentials: 'CISSP, GCIH',
-      avatar: AUTHOR_AVATARS.davidChen
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'NIST FIPS 180-4', title: 'Cryptographic Checksum Verification Standards' },
@@ -1431,17 +1374,10 @@ Broad Category                     Exact Format             Encoding / Boundary
     lastUpdated: 'August 2024',
     difficulty: 'Advanced',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     author: {
-      id: 'david-chen',
-      name: 'David Chen',
-      role: 'Principal Systems Security Architect',
-      credentials: 'CISSP, GCIH',
-      avatar: AUTHOR_AVATARS.davidChen
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'PKWARE APPNOTE', title: '.ZIP File Format Specification — Deflate and Directory Layout' },
@@ -1574,17 +1510,10 @@ Broad Category                     Exact Format             Encoding / Boundary
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     author: {
-      id: 'elena-rostova',
-      name: 'Elena Rostova',
-      role: 'Forensic Integrity Lead',
-      credentials: 'M.Sc., Signal Processing',
-      avatar: AUTHOR_AVATARS.elenaRostova
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'WinZip AES Specification', title: 'AE-1 and AE-2 Encryption Specification for ZIP' },
@@ -1710,17 +1639,10 @@ Broad Category                     Exact Format             Encoding / Boundary
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     author: {
-      id: 'david-chen',
-      name: 'David Chen',
-      role: 'Principal Systems Security Architect',
-      credentials: 'CISSP, GCIH',
-      avatar: AUTHOR_AVATARS.davidChen
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'ISO/IEC 29500', title: 'Information Technology — Document Description and Processing Languages (Office Open XML)' },
@@ -1851,17 +1773,10 @@ Broad Category                     Exact Format             Encoding / Boundary
     lastUpdated: 'August 2024',
     difficulty: 'Intermediate',
     lastAuditedDate: 'September 2026',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     author: {
-      id: 'david-chen',
-      name: 'David Chen',
-      role: 'Principal Systems Security Architect',
-      credentials: 'CISSP, GCIH',
-      avatar: AUTHOR_AVATARS.davidChen
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     standardsAndRFCs: [
       { standard: 'Unicode Standard Annex #9', title: 'The Unicode Bidirectional Algorithm (UBA) & RTLO Character U+202E' },
