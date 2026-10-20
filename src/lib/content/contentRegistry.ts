@@ -2,7 +2,7 @@ import { ContentEntity } from './types';
 import { BATCH_OCT2026_ENTITIES } from './contentBatchOct2026';
 import { BATCH_OCT2026B_ENTITIES } from './contentBatchOct2026b';
 import { BATCH_OCT2026C_ENTITIES } from './contentBatchOct2026c';
-import { AUTHOR_AVATARS, TECHNICAL_STANDARDS_CITATIONS } from './editorialTeam';
+import { TECHNICAL_STANDARDS_CITATIONS } from './editorialTeam';
 
 const STORAGE_KEY = 'anyfilex_content_entities_v6';
 
@@ -82,11 +82,6 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     lastAuditedDate: 'September 2026',
     createdAt: '2024-05-10',
     knowledgeGraphVersion: '5.2.0',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     verifiedPlatforms: [
       'Windows 11 (23H2 & 24H2)',
       'macOS Sonoma (14.6) & Sequoia (15.0)',
@@ -110,12 +105,9 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       keywords: ['what is a heic file', 'heic format', 'heif vs heic', 'heic compression', 'apple heic']
     },
     author: {
-      id: 'elena-rostova',
-      name: 'Elena Rostova',
-      role: 'Lead Digital Media & Codec Engineer',
-      credentials: 'M.Sc., Signal Processing',
-      avatar: AUTHOR_AVATARS.elenaRostova,
-      bio: 'Specialist in modern image compression algorithms, ISO/IEC 23008-12 container formats, and browser codec implementations.'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     readingTimeMinutes: 5,
     difficulty: 'Beginner',
@@ -182,11 +174,6 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     lastAuditedDate: 'September 2026',
     createdAt: '2024-04-18',
     knowledgeGraphVersion: '5.2.0',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     verifiedPlatforms: [
       'Google Chrome 128+',
       'Apple Safari 18+ (macOS & iOS)',
@@ -207,12 +194,9 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       keywords: ['what is a webp file', 'webp format', 'webp vs png', 'webp compression']
     },
     author: {
-      id: 'elena-rostova',
-      name: 'Elena Rostova',
-      role: 'Lead Digital Media & Codec Engineer',
-      credentials: 'M.Sc., Signal Processing',
-      avatar: AUTHOR_AVATARS.elenaRostova,
-      bio: 'Specialist in modern image compression algorithms, ISO/IEC 23008-12 container formats, and browser codec implementations.'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     readingTimeMinutes: 4,
     difficulty: 'Beginner',
@@ -334,11 +318,9 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       keywords: ['how to open heic file', 'open heic windows 11', 'heic viewer', 'view heic on pc']
     },
     author: {
-      id: 'technical-editorial-board',
-      name: 'AnyFileX Technical Editorial Team',
-      role: 'Technical Editorial Team',
-      avatar: AUTHOR_AVATARS.technicalBoard,
-      bio: 'Editorial team responsible for maintaining platform compatibility notes and standards-based file format guidance.'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     readingTimeMinutes: 7,
     difficulty: 'Beginner',
@@ -412,11 +394,6 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     lastAuditedDate: 'September 2026',
     createdAt: '2024-05-20',
     knowledgeGraphVersion: '5.2.0',
-    reviewedBy: {
-      name: 'Sarah Jenkins',
-      role: 'Data Architect & IANA Standards Specialist',
-      credentials: 'M.Sc., Systems'
-    },
     verifiedPlatforms: [
       'Client-Side WebAssembly (libheif-js)',
       'Windows 11 (24H2)',
@@ -437,12 +414,9 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       keywords: ['convert heic to jpg', 'heic to jpg online', 'iphone photo to jpg', 'batch heic converter']
     },
     author: {
-      id: 'elena-rostova',
-      name: 'Elena Rostova',
-      role: 'Lead Digital Media & Codec Engineer',
-      credentials: 'M.Sc., Signal Processing',
-      avatar: AUTHOR_AVATARS.elenaRostova,
-      bio: 'Specialist in modern image compression algorithms, ISO/IEC 23008-12 container formats, and browser codec implementations.'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     readingTimeMinutes: 4,
     difficulty: 'Beginner',
@@ -517,11 +491,6 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     lastAuditedDate: 'September 2026',
     createdAt: '2024-06-01',
     knowledgeGraphVersion: '5.2.0',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     verifiedPlatforms: [
       'Adobe Photoshop 2025',
       'Apple Photos 10 (macOS 15)',
@@ -542,12 +511,9 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       keywords: ['heic vs jpg', 'heic vs jpeg', 'is heic better than jpg', 'heic quality compared to jpg']
     },
     author: {
-      id: 'elena-rostova',
-      name: 'Elena Rostova',
-      role: 'Lead Digital Media & Codec Engineer',
-      credentials: 'M.Sc., Signal Processing',
-      avatar: AUTHOR_AVATARS.elenaRostova,
-      bio: 'Specialist in modern image compression algorithms, ISO/IEC 23008-12 container formats, and browser codec implementations.'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     readingTimeMinutes: 6,
     difficulty: 'Intermediate',
@@ -611,11 +577,6 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     lastAuditedDate: 'September 2026',
     createdAt: '2024-06-12',
     knowledgeGraphVersion: '5.2.0',
-    reviewedBy: {
-      name: 'David Chen',
-      role: 'Systems Security Architect & Threat Forensics Researcher',
-      credentials: 'CISSP, GCIH'
-    },
     verifiedPlatforms: [
       'Windows 11 File Explorer',
       'macOS Sonoma/Sequoia Preview',
@@ -636,12 +597,9 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       keywords: ['why wont my jpg open', 'jpg file not opening', 'fix corrupted jpg', 'invalid image marker jpg']
     },
     author: {
-      id: 'marcus-vance',
-      name: 'Marcus Vance',
-      role: 'Senior CAD Systems Architect & Engineering Data Specialist',
-      credentials: 'B.Arch, P.E.',
-      avatar: AUTHOR_AVATARS.marcusVance,
-      bio: 'Licensed Professional Engineer (P.E.) specializing in cross-platform desktop binary file association, container rendering, and CAD workflows.'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     readingTimeMinutes: 5,
     difficulty: 'Intermediate',
@@ -712,11 +670,6 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     lastAuditedDate: 'September 2026',
     createdAt: '2024-06-25',
     knowledgeGraphVersion: '5.2.0',
-    reviewedBy: {
-      name: 'David Chen',
-      role: 'Systems Security Architect & Threat Forensics Researcher',
-      credentials: 'CISSP, GCIH'
-    },
     verifiedPlatforms: [
       'POSIX file(1) Utility Spec',
       'Linux libmagic (v5.45)',
@@ -737,12 +690,9 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       keywords: ['what are magic bytes', 'file signature', 'magic numbers file format', 'hex file headers', 'file type detection']
     },
     author: {
-      id: 'dr-alistair-vance',
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect & Technical Review Lead',
-      credentials: 'Ph.D., CompEng',
-      avatar: AUTHOR_AVATARS.alistairVance,
-      bio: 'Ph.D. in Computer Engineering specializing in low-level binary layout, operating system loaders, and binary structure verification algorithms.'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     readingTimeMinutes: 5,
     difficulty: 'Advanced',
@@ -808,11 +758,6 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     lastAuditedDate: 'September 2026',
     createdAt: '2024-07-02',
     knowledgeGraphVersion: '5.2.0',
-    reviewedBy: {
-      name: 'Dr. Alistair Vance',
-      role: 'Principal Systems Architect',
-      credentials: 'Ph.D., CompEng'
-    },
     verifiedPlatforms: [
       'Windows 11 Explorer Extension Rules',
       'NIST Special Publication 800-83',
@@ -832,12 +777,9 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       keywords: ['file extension spoofing', 'fake pdf exe', 'detect disguised file', 'right to left override file', 'file security header']
     },
     author: {
-      id: 'david-chen',
-      name: 'David Chen',
-      role: 'Systems Security Architect & Threat Forensics Researcher',
-      credentials: 'CISSP, GCIH',
-      avatar: AUTHOR_AVATARS.davidChen,
-      bio: 'Cybersecurity architect specializing in file header verification, malware evasion heuristics, and digital forensics.'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     readingTimeMinutes: 5,
     difficulty: 'Intermediate',
@@ -901,11 +843,6 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
     lastAuditedDate: 'September 2026',
     createdAt: '2024-07-15',
     knowledgeGraphVersion: '5.2.0',
-    reviewedBy: {
-      name: 'Elena Rostova',
-      role: 'Lead Digital Media & Codec Engineer',
-      credentials: 'M.Sc., Signal Processing'
-    },
     verifiedPlatforms: [
       'CopyTrans HEIC v2.0 (Windows 11)',
       'Apple Preview (macOS Sonoma / Sequoia)',
@@ -926,12 +863,9 @@ export const INITIAL_CONTENT_ENTITIES: ContentEntity[] = [
       keywords: ['what programs open heic files', 'heic viewer windows', 'free heic software', 'open heic on pc program']
     },
     author: {
-      id: 'sarah-jenkins',
-      name: 'Sarah Jenkins',
-      role: 'Data Architect & IANA Standards Specialist',
-      credentials: 'M.Sc., Systems',
-      avatar: AUTHOR_AVATARS.sarahJenkins,
-      bio: 'Enterprise data architect specializing in MIME registrations, file system associations, and software compatibility matrixes.'
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     readingTimeMinutes: 4,
     difficulty: 'Beginner',

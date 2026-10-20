@@ -602,14 +602,14 @@ class SearchEngine {
       {
         id: 'all-tools',
         title: 'All File Utilities Hub',
-        desc: 'Complete directory of 35+ free browser-based file analysis and conversion utilities',
+        desc: 'Complete directory of 48 free browser-based file analysis and conversion utilities',
         route: { view: 'tools' },
         keywords: ['file utilities', 'all tools', 'online file tools', 'anyfilex tools']
       },
       {
         id: 'seo-audit',
         title: 'SEO Audit & XML Sitemaps Hub',
-        desc: 'Diagnostic verification and segmented XML sitemaps for 250+ file extensions',
+        desc: 'Diagnostic verification and segmented XML sitemaps for 354 file extensions',
         route: { view: 'seo-audit' },
         keywords: ['seo audit', 'sitemap generator', 'xml sitemaps', 'schema markup', 'core web vitals']
       }

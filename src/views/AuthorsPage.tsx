@@ -1,14 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { ShieldCheck, Award, GraduationCap, BookOpen, CheckCircle2, FileText, ArrowRight, ExternalLink } from 'lucide-react';
-import { EDITORIAL_TEAM, AuthorQualification } from '../lib/content/editorialTeam';
+import React from 'react';
+import { ShieldCheck, ArrowRight } from 'lucide-react';
 import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
-import { AuthorModal } from '../components/AuthorModal';
 import { SmartLink } from '../components/SmartLink';
 
 interface AuthorsPageProps {
@@ -16,33 +13,30 @@ interface AuthorsPageProps {
   selectedAuthorId?: string;
 }
 
-export const AuthorsPage: React.FC<AuthorsPageProps> = ({ onNavigate, selectedAuthorId }) => {
-  const initialAuthor = selectedAuthorId ? EDITORIAL_TEAM.find(a => a.id === selectedAuthorId) || null : null;
-  const [selectedAuthor, setSelectedAuthor] = useState<AuthorQualification | null>(initialAuthor);
-
+export const AuthorsPage: React.FC<AuthorsPageProps> = ({ onNavigate }) => {
   return (
     <div className="py-8 md:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 animate-in fade-in duration-200">
       <SEOHead
-        title="Technical Review Board & Author Qualifications – AnyFileX"
-        description="Meet the systems architects, digital media codec engineers, and certified security researchers authoring and peer-reviewing AnyFileX technical format guides."
+        title="Author – AnyFileX"
+        description="AnyFileX is written and maintained by Tanveer Hussain. Format guides are researched from official specifications, standards documents, and vendor documentation."
         canonicalPath="/authors"
       />
       <Breadcrumb
         items={[
           { label: 'About', route: { view: 'about' } },
-          { label: 'Technical Authors & Review Board' }
+          { label: 'Author' }
         ]}
         onNavigate={onNavigate}
       />
 
       {/* Hero Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
-        <Badge variant="blue" size="md">Editorial Governance & Technical Authority</Badge>
+        <Badge variant="blue" size="md">About the Author</Badge>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight font-heading">
-          AnyFileX Technical Review Board
+          Written by Tanveer Hussain
         </h1>
         <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-          Every file format breakdown, binary header diagram, and diagnostic tutorial on AnyFileX is created and peer-reviewed by credentialed engineers with verified academic and industry certifications.
+          Every file format breakdown, binary header diagram, and diagnostic tutorial on AnyFileX is written and maintained by one person, researched from official format specifications, standards documents, and vendor documentation.
         </p>
       </div>
 
@@ -54,10 +48,10 @@ export const AuthorsPage: React.FC<AuthorsPageProps> = ({ onNavigate, selectedAu
             <span>The AnyFileX Quality & Independence Pledge</span>
           </div>
           <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-            Dual Peer-Reviewed • No Ghostwriters • No Sponsored Placements
+            Researched from Official Sources • No Sponsored Placements
           </h3>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            We do not rely on anonymous internet summaries or generic marketing text. Our authors conduct original hex dumps, read official ISO/IETF specifications, and test file associations on active physical operating systems.
+            We do not rely on anonymous internet summaries or generic marketing text. Guides are based on official ISO/IETF specifications, IANA registries, and vendor documentation, and the numbers published on this site are counted from its own registries.
           </p>
         </div>
         <SmartLink
@@ -92,122 +86,6 @@ export const AuthorsPage: React.FC<AuthorsPageProps> = ({ onNavigate, selectedAu
           </SmartLink>
         </div>
       </section>
-
-      {/* Author Directory Grid */}
-      <div className="space-y-8">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
-          <h2 className="text-2xl font-bold font-heading text-slate-900 dark:text-white">
-            Contributing Systems Engineers & Specialists
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Browse full qualifications, degrees, professional certifications, and format areas of expertise.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {EDITORIAL_TEAM.map((member) => (
-            <div
-              key={member.id}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-blue-500 dark:hover:border-blue-500 transition-all group"
-            >
-              <div className="space-y-5">
-                {/* Header */}
-                <div className="flex items-start gap-4">
-                  <img
-                    src={member.avatar}
-                    alt={member.name}
-                    className="w-16 h-16 rounded-2xl object-cover border border-slate-200 dark:border-slate-700 shadow-2xs group-hover:scale-105 transition-transform shrink-0"
-                  />
-                  <div className="space-y-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
-                        {member.name}
-                      </h3>
-                      <span className="px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-bold border border-blue-200 dark:border-blue-800">
-                        {member.credentials}
-                      </span>
-                    </div>
-                    <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
-                      {member.role}
-                    </div>
-                    <div className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-medium">
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                      <span>{member.editorialRole}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Biography */}
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {member.bio}
-                </p>
-
-                {/* Education */}
-                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 text-xs space-y-1">
-                  <div className="font-bold text-slate-900 dark:text-slate-200 flex items-center gap-1.5">
-                    <GraduationCap className="w-3.5 h-3.5 text-blue-500" />
-                    <span>Education:</span>
-                  </div>
-                  <div className="text-slate-600 dark:text-slate-400">
-                    {member.education}
-                  </div>
-                </div>
-
-                {/* Certifications & Bodies */}
-                <div className="space-y-1.5">
-                  <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                    <Award className="w-3.5 h-3.5 text-blue-500" />
-                    <span>Key Certifications & Standards:</span>
-                  </div>
-                  <ul className="space-y-1">
-                    {member.certifications.slice(0, 2).map((cert, idx) => (
-                      <li key={idx} className="flex items-start gap-1.5 text-xs text-slate-600 dark:text-slate-300">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                        <span>{cert}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Specializations Tags */}
-                <div className="space-y-1.5">
-                  <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                    Core Technical Domains:
-                  </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {member.areasOfExpertise.map((area, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] font-medium"
-                      >
-                        {area}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                <button
-                  onClick={() => setSelectedAuthor(member)}
-                  className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
-                >
-                  <span>View Full Profile & Independence Disclosure</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <AuthorModal
-        author={selectedAuthor}
-        isOpen={Boolean(selectedAuthor)}
-        onClose={() => setSelectedAuthor(null)}
-        onNavigate={onNavigate}
-      />
     </div>
   );
 };
