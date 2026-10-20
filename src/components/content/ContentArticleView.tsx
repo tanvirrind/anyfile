@@ -173,15 +173,6 @@ export const ContentArticleView: React.FC<ContentArticleViewProps> = ({ entity, 
               size="md"
             />
 
-            {entity.reviewedBy && (
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/60 text-xs text-emerald-800 dark:text-emerald-300">
-                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>
-                  Peer-Reviewed by <strong className="font-semibold">{entity.reviewedBy.name}</strong>
-                  {entity.reviewedBy.credentials && ` (${entity.reviewedBy.credentials})`}
-                </span>
-              </div>
-            )}
           </div>
 
           <div className="flex items-center gap-2">

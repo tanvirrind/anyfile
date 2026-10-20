@@ -3,9 +3,25 @@
 import React, { useState } from 'react';
 import { ArrowRight, Layers, ShieldCheck, Sparkles, Filter, ExternalLink } from 'lucide-react';
 import { FileTypeInfo } from '../types';
-import { POPULAR_FILE_TYPES } from '../data/fileTypesData';
+import { getAllFileTypeInfos } from '../lib/database/extensionEngine';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
+
+// The homepage "Popular File Extensions" grid is a curated set of genuinely
+// popular formats, in display order. (The full POPULAR_FILE_TYPES catalog also
+// contains niche formats such as AWBS, CAMREC, and ELG, which do not belong in
+// a popular grid; JPG, PNG, and MP3 come from the extension engine index.)
+const HOMEPAGE_POPULAR_ORDER = [
+  'HEIC', 'PDF', 'ZIP', 'PNG', 'JPG', 'MP4', 'DOCX', 'WEBP', 'MP3', 'SVG',
+  'PSD', 'XLSX', 'EPUB', 'MOV', 'RAR', 'JSON', 'CSV', 'TIFF', 'DWG', 'STL',
+];
+
+const HOMEPAGE_POPULAR_ITEMS: FileTypeInfo[] = (() => {
+  const byExtension = new Map(getAllFileTypeInfos().map((item) => [item.extension.toUpperCase(), item]));
+  return HOMEPAGE_POPULAR_ORDER
+    .map((ext) => byExtension.get(ext))
+    .filter((item): item is FileTypeInfo => Boolean(item));
+})();
 
 interface PopularFileTypesGridProps {
   onSelectExtension: (ext: string) => void;
@@ -29,9 +45,10 @@ const SPANISH_FILE_TYPE_COPY: Record<string, { name: string; category: string; d
   ZIP: { name: 'Archivo comprimido ZIP', category: 'Archivos', description: 'Formato universal de compresión sin pérdida y contenedor de archivos.' },
   RAR: { name: 'Archivo comprimido Roshal', category: 'Archivos', description: 'Formato propietario de archivos comprimidos creado por Eugene Roshal.' },
   '7Z': { name: 'Archivo comprimido 7-Zip', category: 'Archivos', description: 'Formato de código abierto con compresión LZMA y LZMA2 de alta eficiencia.' },
-  AWBS: { name: 'Archivo de datos del sistema AWBS', category: 'Bases de datos', description: 'Archivo especializado para datos de peso, equilibrio y carga de aeronaves.' },
-  CAMREC: { name: 'Grabación de pantalla de Camtasia', category: 'Audio y vídeo', description: 'Contenedor de grabación de pantalla utilizado por versiones antiguas de Camtasia.' },
   MOV: { name: 'Película QuickTime', category: 'Audio y vídeo', description: 'Contenedor multimedia de Apple para vídeo, audio, subtítulos y metadatos.' },
+  PNG: { name: 'Gráficos de red portátiles', category: 'Imágenes', description: 'Formato de imagen rasterizada sin pérdida con canal alfa, muy usado en la web.' },
+  JPG: { name: 'Imagen JPEG', category: 'Imágenes', description: 'Formato de imagen con compresión con pérdida, estándar para fotografías digitales.' },
+  MP3: { name: 'Audio MPEG capa III', category: 'Audio y vídeo', description: 'Formato de audio digital con compresión con pérdida, estándar para música y podcasts.' },
 };
 
 export const PopularFileTypesGrid: React.FC<PopularFileTypesGridProps> = ({ onSelectExtension }) => {
@@ -44,8 +61,8 @@ export const PopularFileTypesGrid: React.FC<PopularFileTypesGridProps> = ({ onSe
 
   const activeCategoryKey = categoryKeys[categories.indexOf(activeCategory)] ?? 'All';
   const filteredItems = activeCategoryKey === 'All'
-    ? POPULAR_FILE_TYPES
-    : POPULAR_FILE_TYPES.filter((item) => item.category === activeCategoryKey);
+    ? HOMEPAGE_POPULAR_ITEMS
+    : HOMEPAGE_POPULAR_ITEMS.filter((item) => item.category === activeCategoryKey);
 
   return (
     <section className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-200/60 dark:border-slate-800/60" id="popular-extensions">
