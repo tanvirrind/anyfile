@@ -922,7 +922,7 @@ export const TROUBLESHOOTING_GUIDES: TroubleshootingGuideItem[] = [
     connectedTools: [
       {
         name: 'MIME Type Lookup & Validator',
-        description: 'Explore the full database of 500+ MIME types with header samples.',
+        description: 'Explore the MIME type database with header samples.',
         route: { view: 'mime-checker' },
         iconType: 'signature',
         primary: true
