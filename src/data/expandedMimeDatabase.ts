@@ -1,4 +1,4 @@
-// Comprehensive MIME Type & Magic Byte Database (500+ Formats)
+// Comprehensive MIME Type & Magic Byte Database
 // AnyFileX Engine
 
 export interface MimeRecord {
@@ -734,7 +734,7 @@ export const EXPANDED_MIME_DATABASE: MimeRecord[] = [
   }
 ];
 
-// Fallback & Dynamic Generator for 500+ Extension Mappings
+// Fallback & Dynamic Generator for Extension Mappings
 // Automatically expands categories if specific extensions are queried
 const CATEGORY_MAP: Record<string, { category: string; defaultApp: string; mimePrefix: string }> = {
   // Programming & Dev
@@ -820,7 +820,7 @@ export function lookupMimeByInput(input: string): MimeRecord {
   );
   if (directMatch) return directMatch;
 
-  // 2. Dynamic lookup fallback for 500+ extension types
+  // 2. Dynamic lookup fallback for extension types
   const mapped = CATEGORY_MAP[targetExt];
   if (mapped) {
     return {

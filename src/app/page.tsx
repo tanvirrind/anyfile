@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
     ? localizedMetadata({ pathname: '/', locale, title: 'AnyFileX – Bestandsinformatie en hulpmiddelen', description: 'Identificeer bestandsformaten, bekijk technische details en gebruik privacyvriendelijke hulpmiddelen in je browser.' })
     : locale === 'es'
       ? localizedMetadata({ pathname: '/', locale, title: 'AnyFileX – Información y herramientas de archivos', description: 'Identifica formatos, consulta detalles técnicos y usa herramientas privadas directamente en tu navegador.' })
-    : localizedMetadata({ pathname: '/', locale, title: 'AnyFileX – Universal File Format Intelligence & Tools', description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 250+ file extensions.' });
+    : localizedMetadata({ pathname: '/', locale, title: 'AnyFileX – Universal File Format Intelligence & Tools', description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 354 file extensions.' });
 }
 
 function getHomeJsonLd(locale: AppLocale) {
@@ -19,7 +19,7 @@ function getHomeJsonLd(locale: AppLocale) {
     ? { description: 'Identificeer bestandsformaten, bekijk technische details en gebruik privacyvriendelijke hulpmiddelen in je browser.', url: 'https://anyfilex.com/nl/', language: 'nl' }
     : locale === 'es'
       ? { description: 'Identifica formatos, consulta detalles técnicos y usa herramientas privadas directamente en tu navegador.', url: 'https://anyfilex.com/es/', language: 'es' }
-      : { description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 250+ file extensions.', url: 'https://anyfilex.com/', language: 'en' };
+      : { description: 'Inspect file formats, verify magic byte signatures, convert files in-browser, and view opening guides for 354 file extensions.', url: 'https://anyfilex.com/', language: 'en' };
 
   return {
   '@context': 'https://schema.org',

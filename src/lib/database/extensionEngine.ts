@@ -209,7 +209,7 @@ initializeExtensionDatabase();
 
 /**
  * Automatic Dynamic Extension Generator
- * Generates structured ExtensionSchema for ANY extension out of 10,000+ candidates dynamically
+ * Generates structured ExtensionSchema for an extension dynamically
  */
 export function generateDynamicExtensionSchema(extRaw: string): ExtensionSchema {
   initializeExtensionDatabase();
@@ -945,7 +945,7 @@ export function getExtensionAsFileTypeInfo(extRaw: string): FileTypeInfo | null 
  */
 export function getTotalIndexedExtensionsCount(): number {
   initializeExtensionDatabase();
-  return Math.max(50000, EXTENSION_INDEX.size * 1250);
+  return EXTENSION_INDEX.size;
 }
 
 /**
