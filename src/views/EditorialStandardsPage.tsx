@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ShieldCheck, CheckCircle2, Server, Scale, Clock, AlertCircle, Mail, BookOpen, ExternalLink, Award, FileCode } from 'lucide-react';
-import { EDITORIAL_PRINCIPLES, EDITORIAL_TEAM, AuthorQualification } from '../lib/content/editorialTeam';
+import React from 'react';
+import { ShieldCheck, Server, Mail, ExternalLink, Award } from 'lucide-react';
+import { EDITORIAL_PRINCIPLES } from '../lib/content/editorialTeam';
 import { AppRoute } from '../types';
 import { Breadcrumb } from '../components/Breadcrumb';
 import { Badge } from '../components/Badge';
 import { SEOHead } from '../components/SEOHead';
-import { AuthorModal } from '../components/AuthorModal';
 import { SmartLink } from '../components/SmartLink';
 
 interface EditorialStandardsPageProps {
@@ -15,13 +14,12 @@ interface EditorialStandardsPageProps {
 }
 
 export const EditorialStandardsPage: React.FC<EditorialStandardsPageProps> = ({ onNavigate }) => {
-  const [selectedAuthor, setSelectedAuthor] = useState<AuthorQualification | null>(null);
 
   return (
     <div className="py-8 md:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 animate-in fade-in duration-200">
       <SEOHead
         title="Editorial Standards & Verification Protocols – AnyFileX"
-        description="Review AnyFileX editorial principles, multi-OS virtualized testbed specifications, peer-review gates, and our zero-payola software recommendation policy."
+        description="Review AnyFileX editorial principles, the official sources guides are researched from, and our zero-payola software recommendation policy."
         canonicalPath="/editorial-standards"
       />
       <Breadcrumb
@@ -39,7 +37,7 @@ export const EditorialStandardsPage: React.FC<EditorialStandardsPageProps> = ({ 
           Engineered for Absolute Technical Accuracy
         </h1>
         <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-          How AnyFileX researches, verifies on live testbeds, peer-reviews, and maintains our universal database of 250+ digital file format guides.
+          How AnyFileX researches and maintains its database of 354 digital file format guides — and the sources every guide is checked against.
         </p>
       </div>
 
@@ -59,9 +57,9 @@ export const EditorialStandardsPage: React.FC<EditorialStandardsPageProps> = ({ 
           <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
             <Server className="w-5 h-5" />
           </div>
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white">Multi-OS Laboratory Testbeds</h3>
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white">Researched from Official Sources</h3>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            Every step-by-step tutorial is validated across current production versions of Windows 11, macOS Sonoma/Sequoia, Ubuntu 24.04 LTS, iOS 18, and Android 15 before publication.
+            Format facts, magic byte signatures, and MIME types are taken from official specifications, standards documents (ISO/IEC, IETF RFC, IANA), and vendor documentation — and cited on the guide where applicable.
           </p>
         </div>
 
@@ -69,9 +67,9 @@ export const EditorialStandardsPage: React.FC<EditorialStandardsPageProps> = ({ 
           <div className="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold">
             <Award className="w-5 h-5" />
           </div>
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white">Credentialed Authors & Reviewers</h3>
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white">One Named Author</h3>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            Content is researched and drafted by engineers holding Ph.D., P.E., CISSP, or M.Sc. qualifications, followed by mandatory secondary peer review by our Technical Review Board.
+            AnyFileX is written and maintained by Tanveer Hussain. There is no review board and no credential theater — just sources you can check yourself, cited on the page.
           </p>
         </div>
       </div>
@@ -83,7 +81,7 @@ export const EditorialStandardsPage: React.FC<EditorialStandardsPageProps> = ({ 
             The 5 Pillars of AnyFileX Editorial Policy
           </h2>
           <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-            Our systematic framework ensuring E-E-A-T (Experience, Expertise, Authoritativeness, and Trustworthiness).
+            Our framework for keeping guides accurate, sourced, and honest.
           </p>
         </div>
 
@@ -118,116 +116,22 @@ export const EditorialStandardsPage: React.FC<EditorialStandardsPageProps> = ({ 
         </div>
       </div>
 
-      {/* Laboratory Testbeds Specifications */}
-      <div className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-10 space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold">
-            <Server className="w-5 h-5" />
-          </div>
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold font-heading text-slate-900 dark:text-white">
-              AnyFileX Virtualized & Physical Laboratory Testbeds
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-              Operating environments actively used to verify shell commands, registry scripts, software behavior, and codec support.
-            </p>
-          </div>
+      {/* About the Author */}
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-bold font-heading text-slate-900 dark:text-white">
+            Written & Maintained by Tanveer Hussain
+          </h2>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            AnyFileX has a single named author. Read more about who writes the guides and how the site is run.
+          </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 space-y-2">
-            <div className="text-xs font-bold uppercase text-blue-600 dark:text-blue-400">Microsoft Windows</div>
-            <div className="text-sm font-bold text-slate-900 dark:text-white">Windows 11 Enterprise</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              Builds 23H2 & 24H2. Tested on x86-64 and Qualcomm Snapdragon X Elite (ARM64) architectures.
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 space-y-2">
-            <div className="text-xs font-bold uppercase text-emerald-600 dark:text-emerald-400">Apple macOS</div>
-            <div className="text-sm font-bold text-slate-900 dark:text-white">macOS Sonoma & Sequoia</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              macOS 14.6 & macOS 15.0 on M1/M2/M3 Apple Silicon hardware testbeds.
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 space-y-2">
-            <div className="text-xs font-bold uppercase text-purple-600 dark:text-purple-400">GNU / Linux</div>
-            <div className="text-sm font-bold text-slate-900 dark:text-white">Ubuntu 24.04 LTS & Fedora 40</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              Kernel 6.8+ testing POSIX `file`, `hexdump`, `exiftool`, and FFmpeg multimedia demuxers.
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 space-y-2">
-            <div className="text-xs font-bold uppercase text-amber-600 dark:text-amber-400">Mobile Ecosystems</div>
-            <div className="text-sm font-bold text-slate-900 dark:text-white">iOS 18 & Android 15</div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              Mobile camera container capture, cloud sync behavior, and native viewer compatibility.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Review Board Directory Preview */}
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold font-heading text-slate-900 dark:text-white">
-              Contributing Systems Architects & Specialists
-            </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
-              Click on any engineer to inspect their academic credentials, certifications, and conflict of interest disclosures.
-            </p>
-          </div>
-          <SmartLink
-            route={{ view: 'authors' } as any}
-            className="inline-flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline shrink-0"
-          >            <span>View Full Author Directory</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </SmartLink>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {EDITORIAL_TEAM.map((member) => (
-            <div
-              key={member.id}
-              onClick={() => setSelectedAuthor(member)}
-              className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-500 rounded-3xl p-6 transition-all duration-200 flex flex-col justify-between cursor-pointer group shadow-xs hover:-translate-y-1 hover:shadow-lg"
-            >
-              <div className="space-y-4">
-                <div className="flex items-start justify-between gap-3">
-                  <img
-                    src={member.avatar}
-                    alt={member.name}
-                    className="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-slate-700 shadow-2xs group-hover:scale-105 transition-transform"
-                  />
-                  <span className="px-2.5 py-1 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-bold border border-blue-200 dark:border-blue-800">
-                    {member.credentials}
-                  </span>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-base text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
-                    {member.name}
-                  </h3>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                    {member.role}
-                  </div>
-                </div>
-
-                <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
-                  {member.bio}
-                </p>
-              </div>
-
-              <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-blue-600 dark:text-blue-400 font-bold">
-                <span>View Full Qualifications</span>
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </div>
-            </div>
-          ))}
-        </div>
+        <SmartLink
+          route={{ view: 'authors' } as any}
+          className="inline-flex items-center gap-2 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline shrink-0"
+        >            <span>About the Author</span>
+          <ExternalLink className="w-3.5 h-3.5" />
+        </SmartLink>
       </div>
 
       {/* Errata & Feedback Policy */}
@@ -251,17 +155,11 @@ export const EditorialStandardsPage: React.FC<EditorialStandardsPageProps> = ({ 
             <span>Email Errata: editorial@anyfilex.com</span>
           </a>
           <span className="text-xs text-slate-400">
-            Guaranteed technical review and response within 48 business hours.
+            Every report is checked against the source documentation, and confirmed errors are corrected.
           </span>
         </div>
       </div>
 
-      <AuthorModal
-        author={selectedAuthor}
-        isOpen={Boolean(selectedAuthor)}
-        onClose={() => setSelectedAuthor(null)}
-        onNavigate={onNavigate}
-      />
     </div>
   );
 };

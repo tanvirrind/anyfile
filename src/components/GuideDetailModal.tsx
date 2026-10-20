@@ -40,7 +40,7 @@ export const GuideDetailModal: React.FC<GuideDetailModalProps> = ({ guide, onClo
               {guide.title}
             </h1>
 
-            {/* Author Attribution & Peer Review Info */}
+            {/* Author Attribution */}
             <div className="mt-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <img src={guide.author.avatar} alt={guide.author.name} className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0" />
@@ -58,12 +58,6 @@ export const GuideDetailModal: React.FC<GuideDetailModalProps> = ({ guide, onClo
               </div>
 
               <div className="flex flex-col sm:items-end text-xs text-slate-500 dark:text-slate-400 gap-1 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200 dark:border-slate-700">
-                {guide.reviewedBy && (
-                  <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>Peer-Reviewed by {guide.reviewedBy.name}</span>
-                  </div>
-                )}
                 <div className="flex items-center gap-2 text-[11px]">
                   <span>Updated {guide.date}</span>
                   {guide.lastAuditedDate && <span>• Audited {guide.lastAuditedDate}</span>}

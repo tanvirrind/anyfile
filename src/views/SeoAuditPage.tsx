@@ -102,7 +102,7 @@ export const SeoAuditPage: React.FC<SeoAuditPageProps> = ({ onNavigate }) => {
                 Extension Library SEO Audit & Segmented Sitemaps
               </h1>
               <p className="text-slate-400 text-sm mt-2 max-w-3xl leading-relaxed">
-                Complete diagnostic verification of canonical URLs, Schema.org JSON-LD structured data, broken link detection, Core Web Vitals performance, and XML sitemaps segmented by domain categories to support 10,000+ file extension pages.
+                Complete diagnostic verification of canonical URLs, Schema.org JSON-LD structured data, broken link detection, Core Web Vitals performance, and XML sitemaps segmented by domain categories for the file extension catalog.
               </p>
             </div>
 
@@ -230,7 +230,7 @@ export const SeoAuditPage: React.FC<SeoAuditPageProps> = ({ onNavigate }) => {
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 space-y-4">
             <div className="flex items-center gap-2 font-bold text-lg text-white">
               <Cpu className="w-5 h-5 text-blue-400" />
-              <span>10,000+ Scale Architecture</span>
+              <span>Site Architecture</span>
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed">

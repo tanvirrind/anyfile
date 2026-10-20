@@ -2,7 +2,6 @@ import { ContentBrief, ContentEntity, ContentType, SchemaType, InternalLinkItem 
 import { POPULAR_FILE_TYPES } from '../../data/fileTypesData';
 import { getAllTools } from '../tools/toolsRegistry';
 import { SOFTWARE_LIST } from '../../data/softwareData';
-import { AUTHOR_AVATARS } from './editorialTeam';
 
 export interface FormatEntityInput {
   extension: string;
@@ -302,10 +301,9 @@ export function createDraftEntityFromBrief(brief: ContentBrief): ContentEntity {
       keywords: [brief.primaryTopic.toLowerCase(), `${brief.targetExtension?.toLowerCase()} file`, `how to open ${brief.targetExtension?.toLowerCase()}`]
     },
     author: {
-      name: 'AnyFileX Technical Review Board',
-      role: 'Peer-Reviewed Technical Architecture Team',
-      credentials: 'ISO & IETF Standards Working Group',
-      avatar: AUTHOR_AVATARS.editorialBoard
+      name: 'Tanveer Hussain',
+      role: 'Founder, AnyFileX',
+      avatar: ''
     },
     readingTimeMinutes: 5,
     difficulty: 'Beginner',

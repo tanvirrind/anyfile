@@ -112,7 +112,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. Sarah Jenkins"
+                  placeholder="Your full name"
                   className="w-full h-11 px-4 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                   id="contact-form-name"
                 />

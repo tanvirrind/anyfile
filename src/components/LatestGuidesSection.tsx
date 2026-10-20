@@ -19,7 +19,7 @@ const SPANISH_GUIDE_COPY: Record<string, { title: string; summary: string; categ
 
 export const LatestGuidesSection: React.FC<LatestGuidesSectionProps> = ({ onSelectGuide }) => {
   const locale = useLocale();
-  const copy = locale === 'nl' ? { label: 'Kennisbank en handleidingen', title: 'Nieuwste technische handleidingen', description: 'Uitgebreide stapsgewijze uitleg, beoordeeld op technische nauwkeurigheid.', read: 'Handleiding lezen' } : locale === 'es' ? { label: 'Base de conocimiento y tutoriales', title: 'Últimas guías técnicas', description: 'Guías paso a paso, revisadas para garantizar su precisión técnica.', read: 'Leer guía' } : { label: 'Knowledge Base & Tutorials', title: 'Latest Technical Guides', description: 'Comprehensive step-by-step walkthroughs authored by credentialed systems architects and digital media engineers, peer-reviewed for technical accuracy.', read: 'Read Guide' };
+  const copy = locale === 'nl' ? { label: 'Kennisbank en handleidingen', title: 'Nieuwste technische handleidingen', description: 'Uitgebreide stapsgewijze uitleg op basis van officiële formaatdocumentatie.', read: 'Handleiding lezen' } : locale === 'es' ? { label: 'Base de conocimiento y tutoriales', title: 'Últimas guías técnicas', description: 'Guías paso a paso basadas en la documentación oficial de formatos y estándares.', read: 'Leer guía' } : { label: 'Knowledge Base & Tutorials', title: 'Latest Technical Guides', description: 'Comprehensive step-by-step walkthroughs researched from official format documentation and standards.', read: 'Read Guide' };
   const formatReadTime = (value: string) => locale === 'nl'
     ? value.replace(/\s*min\s*read/i, ' min lezen')
     : locale === 'es'

@@ -40,16 +40,18 @@ export const AuthorModal: React.FC<AuthorModalProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-xl sm:text-2xl font-bold font-heading">{author.name}</h3>
-                <span className="px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-bold border border-blue-200 dark:border-blue-800">
-                  {author.credentials}
-                </span>
+                {author.credentials && (
+                  <span className="px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 text-xs font-bold border border-blue-200 dark:border-blue-800">
+                    {author.credentials}
+                  </span>
+                )}
               </div>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-0.5">
                 {author.role}
               </p>
               <div className="flex items-center gap-2 mt-1.5 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
                 <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Verified Editorial Board Contributor • {author.yearsExperience} Years Experience</span>
+                <span>{author.editorialRole}</span>
               </div>
             </div>
           </div>
@@ -76,38 +78,42 @@ export const AuthorModal: React.FC<AuthorModalProps> = ({
             </p>
           </div>
 
-          {/* Education & Academic Qualifications */}
-          <div className="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <GraduationCap className="w-3.5 h-3.5 text-blue-500" />
-              Education & Academic Degree
-            </h4>
-            <p className="text-xs sm:text-sm font-medium text-slate-900 dark:text-slate-200">
-              {author.education}
-            </p>
-          </div>
+          {/* Education & Academic Qualifications (only when the author states one) */}
+          {author.education && (
+            <div className="space-y-2 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <GraduationCap className="w-3.5 h-3.5 text-blue-500" />
+                Education & Academic Degree
+              </h4>
+              <p className="text-xs sm:text-sm font-medium text-slate-900 dark:text-slate-200">
+                {author.education}
+              </p>
+            </div>
+          )}
 
-          {/* Professional Certifications & Standards Working Groups */}
-          <div className="space-y-2">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <Award className="w-3.5 h-3.5 text-blue-500" />
-              Verified Industry Certifications & Standards Bodies
-            </h4>
-            <ul className="space-y-2">
-              {author.certifications.map((cert, i) => (
-                <li key={i} className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                  <span>{cert}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Professional Certifications (only when the author holds any) */}
+          {author.certifications.length > 0 && (
+            <div className="space-y-2">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Award className="w-3.5 h-3.5 text-blue-500" />
+                Industry Certifications & Standards Bodies
+              </h4>
+              <ul className="space-y-2">
+                {author.certifications.map((cert, i) => (
+                  <li key={i} className="flex items-start gap-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                    <span>{cert}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Areas of Core Expertise */}
           <div className="space-y-2">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
               <BookOpen className="w-3.5 h-3.5 text-blue-500" />
-              Primary Format & Forensic Specializations
+              Primary Format Specializations
             </h4>
             <div className="flex flex-wrap gap-2">
               {author.areasOfExpertise.map((spec, i) => (
@@ -143,7 +149,7 @@ export const AuthorModal: React.FC<AuthorModalProps> = ({
               }}
               className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
             >
-              <span>View Editorial Standards & Testing Methodology</span>
+              <span>View Editorial Standards</span>
               <ExternalLink className="w-3 h-3" />
             </button>
           ) : (
