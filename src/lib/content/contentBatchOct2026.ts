@@ -78,7 +78,7 @@ export const BATCH_OCT2026_ENTITIES: ContentEntity[] = [
           '**Turn on extension visibility** using the steps above, and leave it on. It costs nothing and removes an entire category of nasty surprises.',
           "**When a file won't open, check the extension first.** If the extension looks wrong or is missing, don't keep double-clicking — identify the file's real type with [AnyFileX's file identifier](https://anyfilex.com/tools/file-identifier), then open it with the right program.",
           '**Treat unexpected executables as guilty until proven innocent.** A \'.exe\' you weren\'t expecting — especially one wearing a double extension like \'.pdf.exe\' — deserves suspicion, not a double-click.',
-          '**Bookmark the extension hub.** AnyFileX maintains in-depth guides for 250+ extensions at our [file extensions directory](https://anyfilex.com/file-extensions) — what each format is, which programs open it, and how to convert it. The next time an unfamiliar suffix lands in your inbox, you\'ll know exactly where to look.',
+          '**Bookmark the extension hub.** AnyFileX maintains in-depth guides for 354 extensions at our [file extensions directory](https://anyfilex.com/file-extensions) — what each format is, which programs open it, and how to convert it. The next time an unfamiliar suffix lands in your inbox, you\'ll know exactly where to look.',
         ],
       },
     ],
