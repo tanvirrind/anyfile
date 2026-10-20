@@ -914,7 +914,7 @@ const BASE_POPULAR_FILE_TYPES: FileTypeInfo[] = [
     description: 'Generic data file container holding raw text, binary configuration data, or Winmail attachments.',
     detailedOverview: 'DAT is a generic file extension assigned to files that store arbitrary data created by a specific application. It can contain plain text, binary database records, video streams, or Microsoft Outlook winmail.dat attachments.',
     mimeType: 'application/octet-stream',
-    magicBytesHex: 'Varies by application signature',
+    magicBytesHex: 'N/A',
     typicalSize: '1 KB – 50 MB',
     dangerRating: 'Medium Risk',
     dangerExplanation: 'Varies widely depending on source application. Inspect magic bytes before executing.',
