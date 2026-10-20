@@ -579,7 +579,7 @@ export const ExtensionTopicalAuthority: React.FC<ExtensionTopicalAuthorityProps>
       return {
         hexString: 'Not universal',
         asciiString: 'Not applicable',
-        offsetLabel: 'Varies by creating application',
+        offsetLabel: 'Not applicable',
         explanation: `The .${extLower} extension has no single published universal signature across all producing applications. Identify the file by its creating application and internal header structure rather than trusting the extension alone:`,
         boxes: [
           { label: 'Signature Status', value: 'Not universal', color: 'text-amber-600 dark:text-amber-400' },
