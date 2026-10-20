@@ -82,8 +82,8 @@ export const AdminCMSPage: React.FC<AdminCMSPageProps> = ({ onNavigate }) => {
   const adminSchema = {
     '@context': 'https://schema.org',
     '@type': 'DataCatalog',
-    'name': "AnyFileX 10,000+ File Format Database Admin CMS",
-    'description': "Administrative interface for managing, indexing, and validating over 10,000 searchable file format specifications.",
+    'name': "AnyFileX File Format Database Admin CMS",
+    'description': "Administrative interface for managing, indexing, and validating searchable file format specifications.",
     'publisher': {
       '@type': 'Organization',
       'name': 'AnyFileX'
@@ -94,7 +94,7 @@ export const AdminCMSPage: React.FC<AdminCMSPageProps> = ({ onNavigate }) => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <SEOHead
         title="File Format Database Admin CMS & Catalog Engine"
-        description="Administrative control center for managing the 10,000+ file extensions catalog, review pipelines, audit trails, and security moderation."
+        description="Administrative control center for managing the file extensions catalog, review pipelines, audit trails, and security moderation."
         canonicalPath="/admin"
         robots="noindex, nofollow, noarchive, nosnippet"
       />
@@ -107,7 +107,7 @@ export const AdminCMSPage: React.FC<AdminCMSPageProps> = ({ onNavigate }) => {
         <div className="relative z-10 space-y-4 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-300 text-xs font-bold uppercase tracking-wider">
             <Activity className="w-3.5 h-3.5 text-blue-400" />
-            <span>Database CMS Engine • 10,000+ Extension Index</span>
+            <span>Database CMS Engine • Extension Index</span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
@@ -143,7 +143,7 @@ export const AdminCMSPage: React.FC<AdminCMSPageProps> = ({ onNavigate }) => {
       {/* Navigation Tabs */}
       <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2 text-xs font-bold">
         {[
-          { id: 'catalog', label: 'Extension Catalog (50K+)', icon: Database },
+          { id: 'catalog', label: 'Extension Catalog', icon: Database },
           { id: 'approvals', label: `Pending Approvals (${analytics.pendingCount})`, icon: Clock },
           { id: 'import', label: 'Bulk CSV / JSON Import', icon: Upload },
           { id: 'audit', label: 'Audit Log & History', icon: History },
@@ -179,7 +179,7 @@ export const AdminCMSPage: React.FC<AdminCMSPageProps> = ({ onNavigate }) => {
                 <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                 <input
                   type="text"
-                  placeholder="Search 10,000+ extensions, MIME types, or keywords..."
+                  placeholder="Search extensions, MIME types, or keywords..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2 text-xs font-semibold text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-blue-500"
