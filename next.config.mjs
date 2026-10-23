@@ -4,6 +4,12 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Hostinger's builder exposes many CPUs but enforces a low thread/process
+  // limit: the default worker count (62) died with EAGAIN during
+  // "Collecting page data" (build 01a15319, 2026-10-23). Cap build workers.
+  experimental: {
+    cpus: 4,
+  },
   async headers() {
     return [
       {
