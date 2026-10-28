@@ -68,21 +68,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
   const title = `.${cleanExt.toUpperCase()} File Extension: What It Is & How to Open It`;
   const description = `Complete guide to .${cleanExt.toUpperCase()} (${fileType.name}): MIME types, header magic bytes, compatible software, and conversion options.`;
-  const canonicalUrl = `${BASE_URL}/file-extensions/${cleanExt}`;
 
   return {
-    title,
-    description,
-    alternates: {
-      canonical: canonicalUrl,
-    },
-    openGraph: {
+    ...localizedMetadata({
+      pathname: `/file-extensions/${cleanExt}`,
+      locale,
       title,
       description,
-      url: canonicalUrl,
-      type: 'article',
-      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: title }],
-    },
+    }),
     robots: {
       index: true,
       follow: true,
