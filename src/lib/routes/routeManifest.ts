@@ -523,19 +523,39 @@ export function buildRouteManifest(): RouteManifestEntry[] {
     });
   }
 
-  // 5. Converters
-  for (const conv of CONVERTERS_LIST) {
+  // 5. Converters. The route inventory is the union of the catalog and the
+  // supported conversion map: /converters/[id] pre-renders every slug in
+  // both (generateStaticParams), so map-only slugs such as jpg-to-pdf or
+  // png-to-pdf are real indexable pages and belong in the manifest/sitemap.
+  const converterIds = new Set<string>();
+  for (const conv of CONVERTERS_LIST) converterIds.add(conv.id.toLowerCase());
+  for (const slug of getAllSupportedConversionSlugs()) converterIds.add(slug.toLowerCase());
+  converterIds.add('pdf-to-word');
+  for (const id of converterIds) {
+    const conv = CONVERTERS_LIST.find((c) => c.id.toLowerCase() === id);
+    // Mirror the page's honest framing: catalog tools with
+    // onlineConversionSupported render a converter; everything else renders
+    // a "Conversion Guide" and must not promise in-browser conversion.
+    const isWorkingTool = conv?.onlineConversionSupported === true;
     add({
-      path: `/converters/${conv.id}`,
-      canonicalUrl: `${BASE_URL}/converters/${conv.id}`,
+      path: `/converters/${id}`,
+      canonicalUrl: `${BASE_URL}/converters/${id}`,
       type: 'converter-detail',
-      title: `${conv.name} – Free In-Browser Converter | AnyFileX`,
-      description: `${conv.description} 100% private client-side conversion in your browser with zero server uploads.`,
+      title: `${conv?.name ?? id.toUpperCase()} – ${
+        isWorkingTool ? 'Free In-Browser Converter' : 'Conversion Guide'
+      } | AnyFileX`,
+      description: conv?.description
+        ? `${conv.description} 100% private client-side conversion in your browser with zero server uploads.`
+        : (() => {
+            const [from, to] = id.split('-to-');
+            const pair = `${(from ?? id).toUpperCase()} to ${(to ?? '').toUpperCase()}`.trim();
+            return `${pair} conversion guidance. Learn which desktop and web applications can safely convert this format.`;
+          })(),
       priority: 0.85,
       changefreq: 'weekly',
       sitemapSegment: 'converters',
       isIndexable: true,
-      params: { id: conv.id },
+      params: { id },
     });
   }
 
@@ -544,20 +564,8 @@ export function buildRouteManifest(): RouteManifestEntry[] {
   // pages and sitemap validation use the same public route inventory.
   // Honest framing: no working in-browser PDF-to-Word tool exists — the page
   // is a conversion guide, so the manifest must not advertise a converter.
-  if (!CONVERTERS_LIST.some((conv) => conv.id === 'pdf-to-word')) {
-    add({
-      path: '/converters/pdf-to-word',
-      canonicalUrl: `${BASE_URL}/converters/pdf-to-word`,
-      type: 'converter-detail',
-      title: 'PDF to Word – Conversion Guide | AnyFileX',
-      description: 'Learn which desktop and web applications can safely convert PDF files to editable Word documents.',
-      priority: 0.85,
-      changefreq: 'weekly',
-      sitemapSegment: 'converters',
-      isIndexable: true,
-      params: { id: 'pdf-to-word' },
-    });
-  }
+  // (Handled above via the converterIds union; this comment is retained for
+  // the B-16 owner decision trail.)
 
   for (const slug of SPANISH_CONVERSION_SLUGS) {
     add({
@@ -585,6 +593,30 @@ export function buildRouteManifest(): RouteManifestEntry[] {
       type: 'how-to-open-detail',
       title: `How to Open .${format.toUpperCase()} Files on Windows, Mac, and Mobile`,
       description: `Step-by-step instructions for opening and viewing .${format.toUpperCase()} files without paid software.`,
+      priority: 0.8,
+      changefreq: 'weekly',
+      sitemapSegment: 'how-to-open',
+      isIndexable: true,
+      params: { ext },
+    });
+  }
+
+  // Curated deep how-to-open overrides (Oct 2026 content batches) render live
+  // indexable pages for slugs outside the prioritized list (verified 200
+  // EN+ES), but the prioritized list above misses them — so they had no
+  // manifest entry and no sitemap discovery. add() dedups against the loop
+  // above, so overlap is safe.
+  const HOW_TO_OPEN_DEEP_OVERRIDE_SLUGS = [
+    'ai', 'dwg', 'dat', 'msg', 'psd', 'vcf', 'pages', 'numbers', 'key', 'odt',
+  ];
+  for (const ext of HOW_TO_OPEN_DEEP_OVERRIDE_SLUGS) {
+    if (!isValidCatalogExtension(ext)) continue;
+    add({
+      path: `/how-to-open/${ext}`,
+      canonicalUrl: `${BASE_URL}/how-to-open/${ext}`,
+      type: 'how-to-open-detail',
+      title: `How to Open .${ext.toUpperCase()} Files on Windows, Mac, and Mobile`,
+      description: `Step-by-step instructions for opening and viewing .${ext.toUpperCase()} files without paid software.`,
       priority: 0.8,
       changefreq: 'weekly',
       sitemapSegment: 'how-to-open',
