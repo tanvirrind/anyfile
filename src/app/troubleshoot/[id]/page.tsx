@@ -31,9 +31,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = guide
     ? `${guide.title} – Troubleshooting Guide`
     : `${repairGuide!.title} – File Repair Guide`;
-  const description = guide
+  // B-07: problemSummary is long-form page content (pdf-wont-open is 992
+  // chars) and doubles as the meta description. Truncate ONLY the metadata
+  // copy at a word boundary so SERP snippets stay within ~155 chars; the
+  // full summary still renders on the page body unchanged.
+  const rawDescription = guide
     ? guide.problemSummary
     : `Step-by-step guidance for repairing damaged .${repairGuide!.extension} files.`;
+  const description =
+    rawDescription.length > 155
+      ? `${rawDescription.slice(0, 152).replace(/\s+\S*$/, '')}…`
+      : rawDescription;
   const canonicalUrl = `${BASE_URL}/troubleshoot/${cleanId}`;
 
   return {
