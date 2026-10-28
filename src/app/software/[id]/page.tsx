@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const title = isGoogleDocs
     ? 'Google Docs File Types: What Files Can Google Docs Open?'
-    : `${soft.name} – Supported Formats & Review | AnyFileX`;
+    : `${soft.name} – Supported Formats & Review`;
 
   const description = isGoogleDocs
     ? 'Discover what files Google Docs can open and export. Complete guide to supported formats, DOCX, ODT, PDF, EPUB, RTF, TXT, HTML compatibility and limitations.'
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: canonicalUrl,
     },
     openGraph: {
-      title,
+      title: `${title} | AnyFileX`,
       description,
       url: canonicalUrl,
       type: 'article',

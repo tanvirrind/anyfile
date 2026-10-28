@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const guide = getComparisonGuide(cleanSlug);
-  const title = `${guide.title} – Detailed Technical Comparison | AnyFileX`;
+  const title = `${guide.title} – Detailed Technical Comparison`;
   const description = `Comprehensive comparison of ${guide.ext1.toUpperCase()} vs ${guide.ext2.toUpperCase()}: compression efficiency, fidelity, and application compatibility.`;
   const canonicalUrl = `${BASE_URL}/compare/${cleanSlug}`;
 
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: { canonical: canonicalUrl },
-    openGraph: { title, description, url: canonicalUrl, type: 'article', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: title }] },
+    openGraph: { title: `${title} | AnyFileX`, description, url: canonicalUrl, type: 'article', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: title }] },
   };
 }
 

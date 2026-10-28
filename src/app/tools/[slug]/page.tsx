@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const tool = TOOLS_REGISTRY[canonicalSlug];
-  const title = `${tool.name} – Free Browser Utility | AnyFileX`;
+  const title = `${tool.name} – Free Browser Utility`;
   const description = tool.description;
   const canonicalUrl = `${BASE_URL}/tools/${canonicalSlug}`;
 
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: { canonical: canonicalUrl },
-    openGraph: { title, description, url: canonicalUrl, type: 'website', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: title }] },
+    openGraph: { title: `${title} | AnyFileX`, description, url: canonicalUrl, type: 'website', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: title }] },
   };
 }
 

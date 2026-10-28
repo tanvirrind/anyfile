@@ -3,7 +3,7 @@ import React from 'react';
 import { ToolsHubClient } from '@/components/routes/RouteClients';
 
 export const metadata: Metadata = {
-  title: 'Universal Client-Side File Forensics & Utilities – AnyFileX',
+  title: 'Universal Client-Side File Forensics & Utilities',
   description: 'Free client-side file inspection utilities: magic byte detector, hash generator, EXIF viewer, and MIME validator.',
   alternates: {
     canonical: 'https://anyfilex.com/tools',

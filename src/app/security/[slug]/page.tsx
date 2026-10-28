@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const title = `${guide.title} – Security & Forensics Authority | AnyFileX`;
+  const title = `${guide.title} – Security & Forensics Authority`;
   const description = guide.executiveSummary;
   const canonicalUrl = `${BASE_URL}/security/${cleanSlug}`;
 
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     alternates: { canonical: canonicalUrl },
-    openGraph: { title, description, url: canonicalUrl, type: 'article', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: title }] },
+    openGraph: { title: `${title} | AnyFileX`, description, url: canonicalUrl, type: 'article', images: [{ url: '/og-image.png', width: 1200, height: 630, alt: title }] },
   };
 }
 
